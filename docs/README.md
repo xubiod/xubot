@@ -1,2 +1,1 @@
-# xubot
-### a discord bot created by xubiod
+nothing here oops
