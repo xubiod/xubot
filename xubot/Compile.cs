@@ -106,7 +106,7 @@ namespace xubot
                             new EmbedFieldBuilder
                             {
                                 Name = "Input",
-                                Value = "```\n" + _eval + "```",
+                                Value = "```powershell\n" + _eval + "```",
                                 IsInline = false
                             },
                             new EmbedFieldBuilder
