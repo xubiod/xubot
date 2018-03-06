@@ -22,13 +22,15 @@ namespace xubot
         public static string _result = "";
         public static string _result_input = "";
 
-        public static Embed LuaBuild()
-        {
+        /// @param engine interp engine
+        /// @param description erm...
+        /// @param highlight_js_lang lang code for hilighting
+        public static Embed CompEmbed(string engine, string description, string highlight_js_lang) {
             EmbedBuilder embedd = new EmbedBuilder
             {
-                Title = "**Interperter:** `Lua`",
+                Title = "**Interperter/Language:** `" + engine + "`",
                 Color = Discord.Color.Orange,
-                Description = "Using NLua",
+                Description = description,
 
                 Footer = new EmbedFooterBuilder
                 {
@@ -40,7 +42,7 @@ namespace xubot
                             new EmbedFieldBuilder
                             {
                                 Name = "Input",
-                                Value = "```lua\n" + _eval + "```",
+                                Value = "```" + highlight_js_lang + "\n" + _eval + "```",
                                 IsInline = false
                             },
                             new EmbedFieldBuilder
@@ -55,72 +57,7 @@ namespace xubot
             return embedd;
             //await ReplyAsync("", false, embedd);
         }
-        public static Embed jsBuild()
-        {
-            EmbedBuilder embedd = new EmbedBuilder
-            {
-                Title = "**Interperter:** `JS`",
-                Color = Discord.Color.Orange,
-                Description = "Using Jurassic",
-
-                Footer = new EmbedFooterBuilder
-                {
-                    Text = "xubot :p"
-                },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Input",
-                                Value = "```js\n" + _eval + "```",
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Result",
-                                Value = "```\n" + _result + "```",
-                                IsInline = false
-                            }
-                        }
-            };
-
-            return embedd;
-            //await ReplyAsync("", false, embedd);
-        }
-        public static Embed PowershellBuild()
-        {
-            EmbedBuilder embedd = new EmbedBuilder
-            {
-                Title = "**Interperter:** `Powershell`",
-                Color = Discord.Color.Orange,
-                Description = "Using Direct Execution",
-
-                Footer = new EmbedFooterBuilder
-                {
-                    Text = "xubot :p"
-                },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Input",
-                                Value = "```\n" + _eval + "```",
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Result",
-                                Value = "```\n" + _result + "```",
-                                IsInline = false
-                            }
-                        }
-            };
-
-            return embedd;
-            //await ReplyAsync("", false, embedd);
-        }
+       
 
         private static string TableToString(LuaTable t)
         {
@@ -160,7 +97,7 @@ namespace xubot
                     {
                         code_handler.Kill();
                         _result = _timeout + " seconds past w/o result.";
-                        await ReplyAsync("", false, jsBuild());
+                        await ReplyAsync("", false, CompEmbed("Jurassic/Javascript","using Jurassic","js"));
                     }
                     else
                     {
@@ -169,12 +106,12 @@ namespace xubot
                             _result = File.ReadAllText(uri);
                             File.Delete(uri);
 
-                            await ReplyAsync("", false, jsBuild());
+                            await ReplyAsync("", false, CompEmbed("Jurassic/Javascript","using Jurassic","js"));
                         }
                         else
                         {
                             _result = "Result was not stored.";
-                            await ReplyAsync("", false, jsBuild());
+                            await ReplyAsync("", false, CompEmbed("Jurassic/Javascript","using Jurassic","js"));
                         }
                     }
                 });
@@ -198,7 +135,7 @@ namespace xubot
                     {
                         code_handler.Kill();
                         _result = _timeout + " seconds past w/o result.";
-                        await ReplyAsync("", false, LuaBuild());
+                        await ReplyAsync("", false, CompEmbed("NLua/Lua","using NLUA","lua"));
                     }
                     else
                     {
@@ -207,12 +144,12 @@ namespace xubot
                             _result = File.ReadAllText(uri);
                             File.Delete(uri);
 
-                            await ReplyAsync("", false, LuaBuild());
+                            await ReplyAsync("", false, CompEmbed("NLua/Lua","using NLUA","lua"));
                         }
                         else
                         {
                             _result = "Result was not stored.";
-                            await ReplyAsync("", false, LuaBuild());
+                            await ReplyAsync("", false, CompEmbed("NLua/Lua","using NLUA","lua"));
                         }
                     }
                 });
@@ -244,18 +181,18 @@ namespace xubot
                         {
                             psproc.Kill();
                             _result = _timeout + " seconds past w/o result.";
-                            await ReplyAsync("", false, LuaBuild());
+                            await ReplyAsync("", false, CompEmbed("Powershell","Powershell","powershell"));
                         }
                         else
                         {
                             _result = psout;
-                            await ReplyAsync("", false, PowershellBuild());
+                            await ReplyAsync("", false, CompEmbed("Powershell","Powershell","powershell"));
                         }
                     }
                     else
                     {
                         _result = CompileTools.PowershellDangerous(eval);
-                        await ReplyAsync("", false, PowershellBuild());
+                        await ReplyAsync("", false, CompEmbed("Powershell","Powershell","powershell"));
                     }
                 });
             }
