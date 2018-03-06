@@ -15,4 +15,4 @@ The binary also depends on certain files within its directory. These include Api
 When forking for your own bot, ***follow the license.***
 
 ## License
-The license used is the **MIT License**. More details [here.](../blob/master/LICENSE)
+The license used is the **MIT License**. More details [here.](/blob/master/LICENSE)
