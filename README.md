@@ -13,3 +13,6 @@ The application needs to read inputs, specifically language and code to use. A p
 The binary also depends on certain files within its directory. These include Api.json (used for about credits, and version handling), Keys.json (API keys), and Opinions.xml (used for the opinions command)
 
 When forking for your own bot, ***follow the license.***
+
+## License
+The license used is the **MIT License***. More details [here.](../blob/master/LICENSE).
