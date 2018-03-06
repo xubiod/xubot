@@ -42,7 +42,9 @@ namespace xubot
                             new EmbedFieldBuilder
                             {
                                 Name = "Input",
-                                Value = "```" + highlight_js_lang + "\n" + _eval + "```",
+
+                                Value = "```" + highlight_js_lang + "\n" + _eval + "```";
+
                                 IsInline = false
                             },
                             new EmbedFieldBuilder
