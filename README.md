@@ -14,5 +14,8 @@ The binary also depends on certain files within its directory. These include Api
 
 When forking for your own bot, ***follow the license.***
 
+## Contributing
+I rather add code myself, but some pull requests on readability or more efficient code will be accepted. New commands via pull request will more than likely be declined.
+
 ## License
 The license used is the **MIT License**. More details [here.](LICENSE)
