@@ -89,7 +89,7 @@ namespace xubot
                     _eval = eval;
                     int _timeout = 15;
 
-                    Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-handler.exe", "js " + _eval);
+                    Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-compiler.exe", "js " + _eval);
 
                     string uri = Path.GetTempPath() + "InterpResult.xubot";
 
@@ -127,7 +127,7 @@ namespace xubot
                     _eval = eval;
                     int _timeout = 15;
 
-                    Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-handler.exe", "lua " + _eval);
+                    Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-compiler.exe", "lua " + _eval);
 
                     string uri = Path.GetTempPath() + "InterpResult.xubot";
 
