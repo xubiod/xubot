@@ -236,5 +236,4 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 
-Keys.json
 _xubot-code-handler/
