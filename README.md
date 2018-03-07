@@ -1,5 +1,4 @@
-# xubot
-a discord bot that is very badly made
+![logo](https://raw.githubusercontent.com/xubiod/xubot/master/docs/xubiod%20github%20logo.png "")
 
 ## ***DO NOT EXPECT THIS CODE TO BE COMPLETELY UP TO DATE! I'M EXTREMELY LAZY ON UPDATING REPOS***
 
