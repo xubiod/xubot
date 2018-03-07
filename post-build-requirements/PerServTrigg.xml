@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xubotPerServ>
+<!--- these elements are added automagically --->
+  <server id="[id]" onwake="" nsfwoverride="" />
+</xubotPerServ>
