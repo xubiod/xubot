@@ -25,10 +25,10 @@ namespace xubot
         /// @param engine interp engine
         /// @param description erm...
         /// @param highlight_js_lang lang code for hilighting
-        public static Embed CompEmbed(string engine, string description, string highlight_js_lang) {
+        public static Embed CompEmbed(string lang, string description, string highlight_js_lang) {
             EmbedBuilder embedd = new EmbedBuilder
             {
-                Title = "**Interperter/Language:** `" + engine + "`",
+                Title = "**Language:** `" + lang + "`",
                 Color = Discord.Color.Orange,
                 Description = description,
 
@@ -71,7 +71,7 @@ namespace xubot
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < keys.Count(); i++)
             {
-                builder.AppendLine($"{keys[i]} = {values[i]}");
+                builder.AppendLine($"{keys[i]} = {values[i]} ");
             }
 
             return builder.ToString();
@@ -89,7 +89,7 @@ namespace xubot
                     _eval = eval;
                     int _timeout = 15;
 
-                    Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-handler.exe", "js " + _eval + "");
+                    Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-handler.exe", "js " + _eval);
 
                     string uri = Path.GetTempPath() + "InterpResult.xubot";
 
@@ -99,7 +99,7 @@ namespace xubot
                     {
                         code_handler.Kill();
                         _result = _timeout + " seconds past w/o result.";
-                        await ReplyAsync("", false, CompEmbed("Jurassic/Javascript","using Jurassic","js"));
+                        await ReplyAsync("", false, CompEmbed("Javascript","using Jurassic","js"));
                     }
                     else
                     {
@@ -108,12 +108,12 @@ namespace xubot
                             _result = File.ReadAllText(uri);
                             File.Delete(uri);
 
-                            await ReplyAsync("", false, CompEmbed("Jurassic/Javascript","using Jurassic","js"));
+                            await ReplyAsync("", false, CompEmbed("Javascript","using Jurassic","js"));
                         }
                         else
                         {
                             _result = "Result was not stored.";
-                            await ReplyAsync("", false, CompEmbed("Jurassic/Javascript","using Jurassic","js"));
+                            await ReplyAsync("", false, CompEmbed("Javascript","using Jurassic","js"));
                         }
                     }
                 });
@@ -127,7 +127,7 @@ namespace xubot
                     _eval = eval;
                     int _timeout = 15;
 
-                    Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-handler.exe", "lua " + _eval + "");
+                    Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-handler.exe", "lua " + _eval);
 
                     string uri = Path.GetTempPath() + "InterpResult.xubot";
 
@@ -137,7 +137,7 @@ namespace xubot
                     {
                         code_handler.Kill();
                         _result = _timeout + " seconds past w/o result.";
-                        await ReplyAsync("", false, CompEmbed("NLua/Lua","using NLUA","lua"));
+                        await ReplyAsync("", false, CompEmbed("Lua","using NLua","lua"));
                     }
                     else
                     {
@@ -146,12 +146,12 @@ namespace xubot
                             _result = File.ReadAllText(uri);
                             File.Delete(uri);
 
-                            await ReplyAsync("", false, CompEmbed("NLua/Lua","using NLUA","lua"));
+                            await ReplyAsync("", false, CompEmbed("Lua", "using NLua", "lua"));
                         }
                         else
                         {
                             _result = "Result was not stored.";
-                            await ReplyAsync("", false, CompEmbed("NLua/Lua","using NLUA","lua"));
+                            await ReplyAsync("", false, CompEmbed("Lua", "using NLua", "lua"));
                         }
                     }
                 });
@@ -183,18 +183,18 @@ namespace xubot
                         {
                             psproc.Kill();
                             _result = _timeout + " seconds past w/o result.";
-                            await ReplyAsync("", false, CompEmbed("Powershell","Powershell","powershell"));
+                            await ReplyAsync("", false, CompEmbed("Powershell","Using Direct Execution","powershell"));
                         }
                         else
                         {
                             _result = psout;
-                            await ReplyAsync("", false, CompEmbed("Powershell","Powershell","powershell"));
+                            await ReplyAsync("", false, CompEmbed("Powershell", "Using Direct Execution", "powershell"));
                         }
                     }
                     else
                     {
                         _result = CompileTools.PowershellDangerous(eval);
-                        await ReplyAsync("", false, CompEmbed("Powershell","Powershell","powershell"));
+                        await ReplyAsync("", false, CompEmbed("Powershell", "Using Direct Execution", "powershell"));
                     }
                 });
             }
@@ -213,19 +213,19 @@ namespace xubot
             {
                 return "Interacting with my API keys is disallowed.";
             }
-            else if (input.ToLower().Contains("delete") || input.ToLower().Contains("remove-item"))
+            else if (input.ToLower().Contains("delete ") || input.ToLower().Contains("remove-item "))
             {
                 return "Deleting/removing anything is disallowed.";
             }
-            else if (input.ToLower().Contains("rename-item") || input.ToLower().Contains("cpi") || input.ToLower().Contains("ren"))
+            else if (input.ToLower().Contains("rename-item ") || input.ToLower().Contains("cpi ") || input.ToLower().Contains("ren "))
             {
                 return "Renaming files are disallowed.";
             }
-            else if (input.ToLower().Contains("move-item") || input.ToLower().Contains("mi") || input.ToLower().Contains("mv") || input.ToLower().Contains("move"))
+            else if (input.ToLower().Contains("move-item ") || input.ToLower().Contains("mi ") || input.ToLower().Contains("mv ") || input.ToLower().Contains("move "))
             {
                 return "Moving files are disallowed.";
             }
-            else if (input.ToLower().Contains("copy-item") || input.ToLower().Contains("cpi") || input.ToLower().Contains("cp") || input.ToLower().Contains("copy"))
+            else if (input.ToLower().Contains("copy-item ") || input.ToLower().Contains("cpi ") || input.ToLower().Contains("cp ") || input.ToLower().Contains("copy "))
             {
                 return "Copying files are disallowed.";
             }
@@ -233,11 +233,11 @@ namespace xubot
             {
                 return "DA FUCK YOU DOING MATE (╯°□°）╯︵ ┻━┻";
             }
-            else if (input.ToLower().Contains("set-date"))
+            else if (input.ToLower().Contains("set-date "))
             {
                 return "Changing my computer's date is not nice. So stop it.";
             }
-            else if (input.ToLower().Contains("get-item") || input.ToLower().Contains("gu"))
+            else if (input.ToLower().Contains("get-item ") || input.ToLower().Contains("gu "))
             {
                 return "Changing my computer's date is not nice. So stop it.";
             }
