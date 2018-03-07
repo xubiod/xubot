@@ -10,7 +10,7 @@ Xubot uses WebSocket4Net to use connectivity on Windows 7, where the bot has bee
 
 The application needs to read inputs, specifically language and code to use. A pre-made application (the one the code references) will be provided in the future.
 
-The binary also depends on certain files within its directory. These can be found in the [post-build-requirements.](post-build-requirements)
+The binary also depends on certain files within its directory. These can be found in the [post build requirements](post-build-requirements) folder.
 
 When forking for your own bot, ***follow the license.***
 
