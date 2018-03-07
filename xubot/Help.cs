@@ -665,7 +665,8 @@ namespace xubot
                                 Name = "Commands",
                                 Value = "**Interp command help**\n\n" +
                                 "`[>interp js [CODE]` - Takes code and interprets it as JavaScript.\n" +
-                                "`[>interp lua [CODE]` - Takes code and interprets it as Lua. *(IO and OS functions are nullified)*\n",
+                                "`[>interp lua [CODE]` - Takes code and interprets it as Lua. *(IO and OS functions are nullified)*\n" +
+                                "`[>interp powershell [CODE]` - Takes code and runs it in Powershell. *(Some cmdlets are blocked)*\n",
                                 IsInline = false
                             }
                         }
