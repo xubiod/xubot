@@ -1,5 +1,3 @@
-![logo](https://raw.githubusercontent.com/xubiod/xubot/master/docs/xubiod%20github%20logo.png "")
-
 welcome to xubot's github page
 
 # repo stuff ([link](#repo-stuff))
