@@ -630,9 +630,6 @@ namespace xubot
                                 Value = "**Image/File command help**\n\n" +
                                 "`[>pic ocr [IMAGE ATTACHMENT]` - Attempts to read the image attached to the command.\n" +
                                 "`[>pic ocr [LINK]` - Attempts to read the image linked to the command.\n" +
-                                "`[>pic break [IMAGE ATTACHMENT]` - Takes an image that is attached and changes random pixels to random colors.\n" +
-                                "`[>pic break [LINK]` - Takes an image as a link and changes random pixels to random colors.\n" +
-                                "`[>pic break_self [LINK]` - Takes an image as a link and changes random pixels to random colors from the image.\n" +
                                 "`[>file sendback [LINK]` - Downloads a file and reattaches it (LEGACY - TO BE REMOVED).\n" +
                                 "`[>file corrupt [LINK]` - Downloads a file and changes random bytes.\n",
                                 IsInline = false
