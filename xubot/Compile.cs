@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using System.Threading;
 using System.Diagnostics;
 using System.IO;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace xubot
 {
@@ -60,7 +62,6 @@ namespace xubot
             //await ReplyAsync("", false, embedd);
         }
        
-
         private static string TableToString(LuaTable t)
         {
             object[] keys = new object[t.Keys.Count];
@@ -99,7 +100,7 @@ namespace xubot
                     {
                         code_handler.Kill();
                         _result = _timeout + " seconds past w/o result.";
-                        await ReplyAsync("", false, CompEmbed("Javascript","using Jurassic","js"));
+                        await ReplyAsync("", false, CompEmbed("Javascript", "using Jurassic", "js"));
                     }
                     else
                     {
@@ -108,12 +109,12 @@ namespace xubot
                             _result = File.ReadAllText(uri);
                             File.Delete(uri);
 
-                            await ReplyAsync("", false, CompEmbed("Javascript","using Jurassic","js"));
+                            await ReplyAsync("", false, CompEmbed("Javascript", "using Jurassic", "js"));
                         }
                         else
                         {
                             _result = "Result was not stored.";
-                            await ReplyAsync("", false, CompEmbed("Javascript","using Jurassic","js"));
+                            await ReplyAsync("", false, CompEmbed("Javascript", "using Jurassic", "js"));
                         }
                     }
                 });
@@ -137,7 +138,7 @@ namespace xubot
                     {
                         code_handler.Kill();
                         _result = _timeout + " seconds past w/o result.";
-                        await ReplyAsync("", false, CompEmbed("Lua","using NLua","lua"));
+                        await ReplyAsync("", false, CompEmbed("Lua", "using NLua", "lua"));
                     }
                     else
                     {
@@ -183,7 +184,7 @@ namespace xubot
                         {
                             psproc.Kill();
                             _result = _timeout + " seconds past w/o result.";
-                            await ReplyAsync("", false, CompEmbed("Powershell","Using Direct Execution","powershell"));
+                            await ReplyAsync("", false, CompEmbed("Powershell", "Using Direct Execution", "powershell"));
                         }
                         else
                         {
@@ -198,6 +199,70 @@ namespace xubot
                     }
                 });
             }
+
+            [Command("powershell-sudo")]
+            public async Task ps_sudo(string eval)
+            {
+                Task.Run(async () =>
+                {
+                    XmlReaderSettings settings = new XmlReaderSettings();
+                    settings.Async = true;
+
+                    bool trusted = false;
+
+                    var xdoc = XDocument.Load("Trusted.xml");
+
+                    var items = from i in xdoc.Descendants("trust")
+                                select new
+                                {
+                                    user = (string)i.Attribute("id")
+                                };
+
+                    foreach (var item in items)
+                    {
+                        if (item.user == Context.Message.Author.Id.ToString())
+                        {
+                            trusted = true;
+                        }
+                    }
+
+                    if (trusted)
+                    {
+                        if (CompileTools.PowershellSudoDangerous(eval) == "")
+                        {
+                            _eval = eval;
+
+                            int _timeout = 5;
+
+                            Process psproc = new Process();
+
+                            psproc.StartInfo.UseShellExecute = false;
+                            psproc.StartInfo.RedirectStandardOutput = true;
+                            psproc.StartInfo.FileName = "powershell.exe";
+                            psproc.StartInfo.Arguments = "-Command " + eval;
+                            psproc.Start();
+
+                            string psout = psproc.StandardOutput.ReadToEnd();
+                            psproc.WaitForExit(_timeout * 1000);
+
+                            if (!psproc.HasExited)
+                            {
+                                psproc.Kill();
+                                _result = _timeout + " seconds past w/o result.";
+                                await ReplyAsync("", false, CompEmbed("Powershell", "Using Direct Execution", "powershell"));
+                            }
+                            else
+                            {
+                                _result = psout;
+                                await ReplyAsync("", false, CompEmbed("Powershell", "Using Direct Execution", "powershell"));
+                            }
+                        }
+                    } else
+                    {
+                        await ReplyAsync("You are not a trusted user. Stop trying to do this.");
+                    }
+                });
+            }
         }
     }
 
@@ -205,8 +270,8 @@ namespace xubot
     {
         public static string PowershellDangerous(string input)
         {
-            if (input.ToLower().Contains("start-process") || input.ToLower().Contains("invoke-item") || 
-                input.ToLower().Contains("ii ") || input.ToLower().Contains("system.diagnostics.process") || 
+            if (input.ToLower().Contains("start-process") || input.ToLower().Contains("invoke-item") ||
+                input.ToLower().Contains("ii ") || input.ToLower().Contains("system.diagnostics.process") ||
                 input.ToLower().Contains("stop-service") || input.ToLower().Contains("spsv ") ||
                 input.ToLower().Contains("start-service") || input.ToLower().Contains("sasv ") ||
                 input.ToLower().Contains("restart-service") ||
@@ -224,17 +289,17 @@ namespace xubot
             {
                 return "Deleting/removing anything is disallowed.";
             }
-            else if (input.ToLower().Contains("rename-item") || input.ToLower().Contains("cpi ") || 
+            else if (input.ToLower().Contains("rename-item") || input.ToLower().Contains("cpi ") ||
                 input.ToLower().Contains("ren "))
             {
                 return "Renaming files are disallowed.";
             }
-            else if (input.ToLower().Contains("move-item") || input.ToLower().Contains("mi ") || 
+            else if (input.ToLower().Contains("move-item") || input.ToLower().Contains("mi ") ||
                 input.ToLower().Contains("mv ") || input.ToLower().Contains("move "))
             {
                 return "Moving files are disallowed.";
             }
-            else if (input.ToLower().Contains("copy-item") || input.ToLower().Contains("cpi ") || 
+            else if (input.ToLower().Contains("copy-item") || input.ToLower().Contains("cpi ") ||
                 input.ToLower().Contains("cp ") || input.ToLower().Contains("copy "))
             {
                 return "Copying files are disallowed.";
@@ -247,7 +312,7 @@ namespace xubot
             {
                 return "Changing my computer's date is not nice. So stop it.";
             }
-            else if (input.ToLower().Contains("get-item") || input.ToLower().Contains("gu ") || 
+            else if (input.ToLower().Contains("get-item") || input.ToLower().Contains("gu ") ||
                 input.ToLower().Contains("set-executionpolicy") ||
                 input.ToLower().Contains("new-alias") || input.ToLower().Contains("nal ") ||
                 input.ToLower().Contains("import-alias") || input.ToLower().Contains("ipal ") ||
@@ -264,6 +329,17 @@ namespace xubot
             else if (input.ToLower().Contains("new-item") || input.ToLower().Contains("ni "))
             {
                 return "Creating things is disallowed.";
+            }
+            else
+            {
+                return "";
+            }
+        }
+        public static string PowershellSudoDangerous(string input)
+        {
+            if (input.ToLower().Contains("keys.json"))
+            {
+                return "Interacting with my API keys is disallowed (even in sudo command).";
             }
             else
             {
