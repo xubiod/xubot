@@ -41,6 +41,8 @@ namespace xubot
         public static dynamic perserv_parsed;
         public static bool enableNSFW = false;
 
+        public static bool first = true;
+
         public async Task Start()
         {
             Console.SetWindowSize(80, 25);
@@ -131,7 +133,7 @@ namespace xubot
             Console.Write("                                    ready!!!                                    ");
             Console.Write("                                                                                ");
 
-            await xuClient.SetGameAsync("xubot is alive!");
+            //await xuClient.SetGameAsync("xubot is alive!");
             Console.Beep();
 
             RefreshPerServ();
@@ -234,9 +236,7 @@ namespace xubot
             Console.BackgroundColor = ConsoleColor.Gray;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.WriteLine();
-
-
-
+            
             return Task.CompletedTask;
         }
 
@@ -270,26 +270,31 @@ namespace xubot
 
         public async Task XuClient_GuildAvailableAsync(Discord.WebSocket.SocketGuild arg)
         {
-            Console.WriteLine("guild list: " + arg.Name);
-
-            var xdoc = XDocument.Load("PerServTrigg.xml");
-
-            var items = from i in xdoc.Descendants("server")
-                        select new
-                        {
-                            guildid = i.Attribute("id"),
-                            onwake = i.Attribute("onwake")
-                        };
-
-            foreach (var item in items)
+            if (first)
             {
-                if (item.guildid.Value == arg.Id.ToString())
+                Console.WriteLine("guild list: " + arg.Name);
+
+                var xdoc = XDocument.Load("PerServTrigg.xml");
+
+                var items = from i in xdoc.Descendants("server")
+                            select new
+                            {
+                                guildid = i.Attribute("id"),
+                                onwake = i.Attribute("onwake")
+                            };
+
+                foreach (var item in items)
                 {
-                    if (item.onwake.Value != "")
+                    if (item.guildid.Value == arg.Id.ToString())
                     {
-                        await arg.DefaultChannel.SendMessageAsync(item.onwake.Value);
+                        if (item.onwake.Value != "")
+                        {
+                            await arg.DefaultChannel.SendMessageAsync(item.onwake.Value);
+                        }
                     }
                 }
+
+                first = false;
             }
 
         }
