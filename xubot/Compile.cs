@@ -14,6 +14,8 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 
+#pragma warning disable CS4014 
+
 namespace xubot
 {
     public class Compile : ModuleBase
