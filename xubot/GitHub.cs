@@ -16,10 +16,11 @@ namespace xubot
         public static GitRepository xuRepo;
         public static GitRepository xuRepo_Comm;
         public static GitCommit xuCommit_Comm;
+        public static GitCommit[] xuCommitArr_Comm;
 
         public async void GetGitHubUpdatesAsync()
         {
-            xuRepo = await xuGitClient.GetRepositoryAsync("xubiod", "xubot");
+            xuRepo = await xuGitClient.GetRepositoryAsync("xubot-team", "xubot");
         }
 
         [Group("github")]
@@ -72,7 +73,7 @@ namespace xubot
 
                 await ReplyAsync("", false, embedd);
             }
-
+            
             [Command("commit")]
             public async Task commitInfo(string user, string repo, string sha)
             {
@@ -119,6 +120,41 @@ namespace xubot
                             {
                                 Name = "SHA",
                                 Value = "**" + xuCommit_Comm.Sha + "**\n",
+                                IsInline = false
+                            }
+                        }
+                };
+
+                await ReplyAsync("", false, embedd);
+            }
+
+            [Command("repo-commits")]
+            public async Task repoCommInfo(string user, string repo)
+            {
+                xuCommitArr_Comm = await xuGitClient.GetRepositoryCommitsAsync(user, repo);
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Information about: " + user + "/" + repo,
+                    Color = Discord.Color.Red,
+                    Description = "GitHub repo commit details",
+                    ThumbnailUrl = Context.Guild.IconUrl,
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Amount of Commits",
+                                Value = xuCommitArr_Comm.Length + " commits\n",
+                                IsInline = false
+                            },new EmbedFieldBuilder
+                            {
+                                Name = "Last Commit SHA",
+                                Value = xuCommitArr_Comm.First<GitCommit>().Sha + "\n",
                                 IsInline = false
                             }
                         }
