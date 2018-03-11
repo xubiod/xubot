@@ -1,10 +1,5 @@
 ![logo](https://raw.githubusercontent.com/xubiod/xubot/master/docs/xubiod%20github%20logo.png "")
 
-## Build status
-[![Build status](https://ci.appveyor.com/api/projects/status/4i73p8e66t6ik6d3?svg=true)](https://ci.appveyor.com/project/ir0nlake/xubot)
-
-
-
 ## Building
 When building xubot, you need to have a code handler! The official build uses an application I've made.
 
