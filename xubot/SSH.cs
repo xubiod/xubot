@@ -8,8 +8,9 @@ using SuperSocket;
 using Renci.SshNet;
 using System.IO;
 using System.Threading;
+using System.Xml.Linq;
 
-#pragma warning disable CS4014 
+#pragma warning disable CS4014
 
 namespace xubot
 {
@@ -35,10 +36,31 @@ namespace xubot
             [Command("quick-con"), Alias("qc")]
             public async Task quick(string hostnick)
             {
-                switch (hostnick)
+                string reply = "That quick connection doesn't exist.";
+                bool exists = false;
+
+                var xdoc = XDocument.Load("SSHQuickConnect.xml");
+
+                var items = from i in xdoc.Descendants("connection")
+                            select new
+                            {
+                                nick = (string)i.Attribute("nick"),
+                                host = (string)i.Attribute("host"),
+                                port = (int)i.Attribute("port"),
+                                user = (string)i.Attribute("user"),
+                                password = (string)i.Attribute("password")
+                            };
+
+                foreach (var item in items)
                 {
-                    case "ironlake": await connectSSH("ironlake.online", 22, "xubot", "gaygaygay"); break;
+                    if (item.nick.ToLower() == hostnick.ToLower())
+                    {
+                        exists = true;
+                        connectSSH(item.host, item.port, item.user, item.password);
+                    }
                 }
+
+                if (!exists) { await ReplyAsync(reply); }
             }
 
             [Command("send")]
