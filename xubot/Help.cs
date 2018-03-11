@@ -200,6 +200,7 @@ namespace xubot
                                     {
                                         Name = "Commands",
                                         Value = "**Actual usable stuff** Page " + page + "/8\n\n" +
+                                        "`[>github [COMM]` - Gets information based on parameters and the command." +
                                         "`[>servertriggers add <JOIN MSG> <NSFW OVERRIDE>` - Adds the current server into the per-server triggers.\n" +
                                         "`[>servertriggers edit [KEY] [NEW VALUE]` - Edits this per-server trigger to the new value.\n" +
                                         "**Next page is NSFW commands.**",
@@ -672,6 +673,35 @@ namespace xubot
                 await ReplyAsync("", false, embedd);
             }
 
+            [Command("github")]
+            public async Task githibhelp()
+            {
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "List of Commands: GitHub",
+                    Color = Discord.Color.Orange,
+                    Description = "For extended help on one command, use `[>help [COMM]`.",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Commands",
+                                Value = "**GitHub command help**\n\n" +
+                                "`[>github repo [USER] [REPO]` - Gets information about a GitHub repository.\n" +
+                                "`[>github commit [USER] [REPO] [COMMIT]` - Gets information about a GitHub commit on a repo.\n",
+                                IsInline = false
+                            }
+                        }
+                };
+
+                await ReplyAsync("", false, embedd);
+            }
         }
     }
 }
