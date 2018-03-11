@@ -27,7 +27,7 @@ namespace xubot
         /// @param engine interp engine
         /// @param description erm...
         /// @param highlight_js_lang lang code for hilighting
-        public static Embed CompEmbed(string lang, string description, string highlight_js_lang) {
+        public static Embed BuildEmbed(string lang, string description, string highlight_js_lang) {
             EmbedBuilder embedd = new EmbedBuilder
             {
                 Title = "**Language:** `" + lang + "`",
@@ -100,7 +100,7 @@ namespace xubot
                     {
                         code_handler.Kill();
                         _result = _timeout + " seconds past w/o result.";
-                        await ReplyAsync("", false, CompEmbed("Javascript", "using Jurassic", "js"));
+                        await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js"));
                     }
                     else
                     {
@@ -109,12 +109,12 @@ namespace xubot
                             _result = File.ReadAllText(uri);
                             File.Delete(uri);
 
-                            await ReplyAsync("", false, CompEmbed("Javascript", "using Jurassic", "js"));
+                            await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js"));
                         }
                         else
                         {
                             _result = "Result was not stored.";
-                            await ReplyAsync("", false, CompEmbed("Javascript", "using Jurassic", "js"));
+                            await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js"));
                         }
                     }
                 });
@@ -138,7 +138,7 @@ namespace xubot
                     {
                         code_handler.Kill();
                         _result = _timeout + " seconds past w/o result.";
-                        await ReplyAsync("", false, CompEmbed("Lua", "using NLua", "lua"));
+                        await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua"));
                     }
                     else
                     {
@@ -147,12 +147,12 @@ namespace xubot
                             _result = File.ReadAllText(uri);
                             File.Delete(uri);
 
-                            await ReplyAsync("", false, CompEmbed("Lua", "using NLua", "lua"));
+                            await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua"));
                         }
                         else
                         {
                             _result = "Result was not stored.";
-                            await ReplyAsync("", false, CompEmbed("Lua", "using NLua", "lua"));
+                            await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua"));
                         }
                     }
                 });
@@ -184,18 +184,18 @@ namespace xubot
                         {
                             psproc.Kill();
                             _result = _timeout + " seconds past w/o result.";
-                            await ReplyAsync("", false, CompEmbed("Powershell", "Using Direct Execution", "powershell"));
+                            await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
                         }
                         else
                         {
                             _result = psout;
-                            await ReplyAsync("", false, CompEmbed("Powershell", "Using Direct Execution", "powershell"));
+                            await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
                         }
                     }
                     else
                     {
                         _result = CompileTools.PowershellDangerous(eval);
-                        await ReplyAsync("", false, CompEmbed("Powershell", "Using Direct Execution", "powershell"));
+                        await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
                     }
                 });
             }
@@ -249,12 +249,12 @@ namespace xubot
                             {
                                 psproc.Kill();
                                 _result = _timeout + " seconds past w/o result.";
-                                await ReplyAsync("", false, CompEmbed("Powershell", "Using Direct Execution", "powershell"));
+                                await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
                             }
                             else
                             {
                                 _result = psout;
-                                await ReplyAsync("", false, CompEmbed("Powershell", "Using Direct Execution", "powershell"));
+                                await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
                             }
                         }
                     } else
