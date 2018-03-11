@@ -15,6 +15,7 @@ using System.Net.Http;
 using RedditSharp;
 using System.Xml.Linq;
 using System.Linq;
+using Tweetinvi.Models;
 
 namespace xubot
 {
@@ -520,8 +521,9 @@ namespace xubot
                 Program.subreddit = Program.reddit.GetSubreddit("/r/xubot_subreddit");
 
                 string result_ = content;
-                await Program.subreddit.SubmitTextPostAsync(title, Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + " on the Discord server " + Context.Guild.Name + " posted:\n\n" + result_);
-                await ReplyAsync("Your post has been submitted to reddit. Go to https://www.reddit.com/r/xubot_subreddit/new/ and find it!");
+                var redditPost = await Program.subreddit.SubmitTextPostAsync(title, Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + " on the Discord server " + Context.Guild.Name + " posted:\n\n" + result_);
+                await ReplyAsync("<" + redditPost.Url.AbsoluteUri.ToString() + ">");
+                //await ReplyAsync("Your post has been submitted to reddit. Go to https://www.reddit.com/r/xubot_subreddit/new/ and find it!");
             }
 
             [Command("twitter"), Alias("t", "twit"), Summary("attempts to post a thing to twitter")]
@@ -533,9 +535,10 @@ namespace xubot
 
                 if ((Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + ": " + result_).Length < 280)
                 {
-                    Tweet.PublishTweet(Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + ": " + result_);
+                    ITweet twt = Tweet.PublishTweet(Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + ": " + result_);
 
-                    await ReplyAsync("Your post has been submitted to twitter. Go to https://twitter.com/xubot_bot to find it!");
+                    await ReplyAsync(twt.Url);
+                    //await ReplyAsync("Your post has been submitted to twitter. Go to https://twitter.com/xubot_bot to find it!");
                 }
                 else
                 {
