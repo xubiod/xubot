@@ -157,6 +157,7 @@ namespace xubot
             else if (o == 2) { await ReplyAsync($"I shall not."); }
             else if (o == 3) { await ReplyAsync($"I will not talk to the hand."); }
             else if (o == 4) { await ReplyAsync($"..."); }
+            MoodTools.AdjustMood(Context.Message.Author, -0.01);
         }
     }
 
