@@ -224,6 +224,7 @@
     <Compile Include="Commands.cs" />
     <Compile Include="Compile.cs" />
     <Compile Include="CompletelyRandom.cs" />
+    <Compile Include="GitHub.cs" />
     <Compile Include="Help.cs" />
     <Compile Include="Mood.cs" />
     <Compile Include="NSFW.cs" />
