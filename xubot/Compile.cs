@@ -348,5 +348,41 @@ namespace xubot
                 return "";
             }
         }
+
+        public static Embed BuildEmbed(string lang, string description, string highlight_js_lang, string _eval, string _result)
+        {
+            EmbedBuilder embedd = new EmbedBuilder
+            {
+                Title = "**Language:** `" + lang + "`",
+                Color = Discord.Color.Orange,
+                Description = description,
+
+                Footer = new EmbedFooterBuilder
+                {
+                    Text = "xubot :p"
+                },
+                Timestamp = DateTime.UtcNow,
+                Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Input",
+
+                                Value = "```" + highlight_js_lang + "\n" + _eval + "```",
+
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Result",
+                                Value = "```\n" + _result + "```",
+                                IsInline = false
+                            }
+                        }
+            };
+
+            return embedd;
+            //await ReplyAsync("", false, embedd);
+        }
     }
 }
