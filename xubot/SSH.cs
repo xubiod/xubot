@@ -17,10 +17,17 @@ namespace xubot
         public class commands : ModuleBase
         {
             [Command("connect")]
-            public async Task connectSSH(string host, string user, string password)
+            public async Task connectSSH(string host, int port, string user, string password)
             {
-                xuSSH = new SshClient(host, user, password);
-                await ReplyAsync("SSH client set.");
+                xuSSH = new SshClient(host, port, user, password);
+                xuSSH.Connect();
+                await ReplyAsync("SSH client set and connected.");
+            }
+
+            [Command("send")]
+            public async Task sendSSH(string command)
+            {
+                xuSSH.RunCommand(command);
             }
         }
     }
