@@ -694,7 +694,8 @@ namespace xubot
                                 Name = "Commands",
                                 Value = "**GitHub command help**\n\n" +
                                 "`[>github repo [USER] [REPO]` - Gets information about a GitHub repository.\n" +
-                                "`[>github commit [USER] [REPO] [COMMIT]` - Gets information about a GitHub commit on a repo.\n",
+                                "`[>github commit [USER] [REPO] [COMMIT]` - Gets information about a GitHub commit on a repo.\n" +
+                                "`[>github rlc [USER] [REPO]` - Gets information about the latest GitHub commit for a repo.\n",
                                 IsInline = false
                             }
                         }

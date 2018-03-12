@@ -128,7 +128,7 @@ namespace xubot
                 await ReplyAsync("", false, embedd);
             }
 
-            [Command("repo-commits")]
+            [Command("repo-latest-commit"), Alias("rlc")]
             public async Task repoCommInfo(string user, string repo)
             {
                 xuCommitArr_Comm = await xuGitClient.GetRepositoryCommitsAsync(user, repo);
@@ -136,7 +136,7 @@ namespace xubot
                 {
                     Title = "Information about: " + user + "/" + repo,
                     Color = Discord.Color.Red,
-                    Description = "GitHub repo commit details",
+                    Description = "GitHub repo latest commit details",
                     ThumbnailUrl = Context.Guild.IconUrl,
 
                     Footer = new EmbedFooterBuilder
@@ -148,12 +148,7 @@ namespace xubot
                         {
                             new EmbedFieldBuilder
                             {
-                                Name = "Amount of Commits",
-                                Value = xuCommitArr_Comm.Length + " commits\n",
-                                IsInline = false
-                            },new EmbedFieldBuilder
-                            {
-                                Name = "Last Commit SHA",
+                                Name = "Latest Commit SHA",
                                 Value = xuCommitArr_Comm.First<GitCommit>().Sha + "\n",
                                 IsInline = false
                             }
