@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/xubiod/xubot/master/docs/xubiod%20github%20logo.png "")
+![logo](https://raw.githubusercontent.com/xubot-team/xubot/master/docs/xublogo.png)
 
 ## Building
 When building xubot, you need to have a code handler! The official build uses an application I've made.
