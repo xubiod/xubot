@@ -703,6 +703,38 @@ namespace xubot
 
                 await ReplyAsync("", false, embedd);
             }
+
+            [Command("ssh")]
+            public async Task sshhelp()
+            {
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "List of Commands: SSH",
+                    Color = Discord.Color.Orange,
+                    Description = "For extended help on one command, use `[>help [COMM]`.",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Commands",
+                                Value = "**GitHub command help**\n\n" +
+                                "`[>ssh connect [HOST] [PORT] [USER] [PASS]` - Connects to a system.\n" +
+                                "`[>ssh qc [NICK]` - Connects to a system within the Quick Connect file.\n" +
+                                "`[>ssh send [CMD]` - Sends a command to the connected system.\n" +
+                                "`[>ssh disconnect [CODE]` - Disconnects the connected system.\n",
+                                IsInline = false
+                            }
+                        }
+                };
+
+                await ReplyAsync("", false, embedd);
+            }
         }
     }
 }
