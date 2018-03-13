@@ -25,9 +25,9 @@ namespace xubot
                     var attach = Context.Message.Attachments;
                     IAttachment attached = null;
 
-                    foreach (var tempAttachment in attach)
+                    foreach (var _att in attach)
                     {
-                        attached = tempAttachment;
+                        attached = _att;
                     }
 
                     new Thread(new ThreadStart(async () =>
@@ -170,9 +170,9 @@ namespace xubot
                 var attach = Context.Message.Attachments;
                 IAttachment attached = null;
 
-                foreach (var tempAttachment in attach)
+                foreach (var _att in attach)
                 {
-                    attached = tempAttachment;
+                    attached = _att;
                 }
 
                 string img = attached.Url;
