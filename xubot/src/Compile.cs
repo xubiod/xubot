@@ -332,6 +332,9 @@ namespace xubot
             {
                 return "Creating things is disallowed.";
             }
+            else if (input.ToLower().Contains("cmd") || input.ToLower().Contains("control") || input.ToLower().Contains("wmic") || input.ToLower().Contains("taskmgr") || input.ToLower().Contains("tasklist") || input.ToLower().Contains("del") || input.ToLower().Contains("sc") || input.ToLower().Contains(">") ) {
+                    return "Starting executables from PATH to get around blocks (and piping to write a file) is disallowed.";
+            }
             else
             {
                 return "";
