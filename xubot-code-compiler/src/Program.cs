@@ -69,7 +69,7 @@ namespace xubot_code_compiler
 
                 if (_result.Contains("null"))
                 {
-                    _result = "Code returned null.";
+                    _result = "Code has null in it.";
                 }
 
                 string uri = Path.GetTempPath() + "InterpResult.xubot";
@@ -96,7 +96,7 @@ namespace xubot_code_compiler
 
                     if (_result.Contains("null"))
                     {
-                        _result = "Code returned null.";
+                        _result = "Code has null in it.";
                     }
                 }
                 catch (Exception ex)
