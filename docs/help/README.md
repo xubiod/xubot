@@ -17,7 +17,24 @@ Command help for xubot
    * help ssh
 * echo
 * echo repeat
-* math *(use help math)*
+* math
+  * math add
+  * math sub
+  * math multi
+  * math divide
+  * math mod
+  * math pow
+  * math sqrt
+  * math sin
+  * math asin
+  * math sinh
+  * math cos
+  * math acos
+  * math cosh
+  * math tan
+  * math atan
+  * math tanh
+  * math quickeval
 * insult init
 * insult generate
 * insult list
