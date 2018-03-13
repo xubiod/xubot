@@ -18,6 +18,7 @@ namespace xubot
     {
         public static SshClient xuSSH;
         public static ShellStream xuSSHStream;
+        public static string disconnectCode;
 
         [Group("ssh")]
         public class commands : ModuleBase
@@ -30,7 +31,25 @@ namespace xubot
 
                 xuSSHStream = xuSSH.CreateShellStream("xubot", 40, 60, 60, 40, 0);
 
-                await ReplyAsync("SSH client set and connected.");
+                Random _r = new Random();
+                disconnectCode = _r.Next(9).ToString() + _r.Next(9).ToString() + _r.Next(9).ToString() + _r.Next(9).ToString();
+
+                await ReplyAsync("SSH client set and connected. Disconnect code is `" + disconnectCode + "`.");
+            }
+
+            [Command("disconnect")]
+            public async Task unconnectSSH(string code = "0000")
+            {
+                if (code == disconnectCode)
+                {
+                    xuSSH.Disconnect();
+                    xuSSHStream.Close();
+
+                    await ReplyAsync("SSH disconnected and input/output stream closed.");
+                } else
+                {
+                    await ReplyAsync("Invaild disconnect code.");
+                }
             }
 
             [Command("quick-con"), Alias("qc")]
