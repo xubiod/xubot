@@ -68,33 +68,53 @@ namespace xubot
                 return Task.Delay(0);
             };
 
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
 
-            Console.Write("- - - - - - - - - - - - -  xubot {0} startup - - - - - - - - - - - - -", ThisAssembly.Git.Tag);
-            Console.WriteLine("                                                                                ");
-            Console.WriteLine("* setting up bot web agent for reddit use                                       ");
+            Console.Write("- - - - - - - - - - - - - - - -  xubot  startup  - - - - - - - - - - - - - - - -");
+            Console.WriteLine();
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Magenta;
+
+            Console.WriteLine("current build (git): {0}", ThisAssembly.Git.Tag);
+
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine();
+
+            if (!File.Exists(Path.Combine(currentDir, "Keys.json"))) {
+                Console.WriteLine("!!! the keys file is missing!!!");
+                Console.ReadLine();
+            }
+
+            Console.WriteLine("* setting up bot web agent for reddit use");
             if (keys.reddit.user.ToString() == "" && keys.reddit.pass.ToString() == "") {
-                Console.WriteLine("> reddit info not provided, disabling reddit");
+                Console.WriteLine("  > reddit info not provided, disabling reddit");
             }
             else {
                 botf_reddit = true;
                 webAgent = new BotWebAgent(keys.reddit.user.ToString(), keys.reddit.pass.ToString(), keys.reddit.key1.ToString(), keys.reddit.key2.ToString(), "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
-                Console.WriteLine("* setting up reddit client                                                      ");
+                Console.WriteLine("* setting up reddit client");
                 reddit = new Reddit(webAgent, true);
 
-                Console.Write("* setting up default subreddit of /r/xubot_subreddit                            ");
+                Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
                 subreddit = reddit.GetSubreddit("/r/xubot_subreddit");
             }
-            Console.Write("* setting up discord connection: login                                          ");
+            Console.WriteLine("* setting up discord connection: login");
 
 #if (dev)
-            Console.Write("> this version of xubot was compiled as dev");
+            Console.WriteLine("  > this version of xubot was compiled as dev");
             prefix = "d>";
 #endif
-            await xuClient.LoginAsync(TokenType.Bot, keys.discord.ToString());
+            if (prefix != "d>")
+            {
+                await xuClient.LoginAsync(TokenType.Bot, keys.discord.ToString());
+            } else
+            {
+                await xuClient.LoginAsync(TokenType.Bot, keys.discord_dev.ToString());
+            }
 
-            Console.Write("* setting up discord connection: starting client                                ");
+            Console.WriteLine("* setting up discord connection: starting client");
             await BeginStart();
 
             xuClient.Ready += ClientReady;
@@ -169,8 +189,8 @@ namespace xubot
             Console.Write("                                                                                ");
             Console.Write("                               added to a guild!!                               ");
             Console.Write("                                                                                ");
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("the guild name: " + arg.Name);
             Console.WriteLine();
             return Task.CompletedTask;
@@ -185,8 +205,8 @@ namespace xubot
             Console.Write("                               left a guild... :<                               ");
             Console.Write("                   probably got kicked/banned which is rude.                    ");
             Console.Write("                                                                                ");
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("the guild name: " + arg.Name);
             Console.WriteLine();
             return Task.CompletedTask;
@@ -200,8 +220,8 @@ namespace xubot
             Console.Write("                                                                                ");
             Console.Write("                                   logged in!                                   ");
             Console.Write("                                                                                ");
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             return Task.CompletedTask;
         }
@@ -213,8 +233,8 @@ namespace xubot
             Console.Write("                                                                                ");
             Console.Write("                                  logged out.                                   ");
             Console.Write("                                                                                ");
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             return Task.CompletedTask;
         }
@@ -226,8 +246,8 @@ namespace xubot
             Console.Write("                                                                                ");
             Console.Write("                              connection successful!                            ");
             Console.Write("                                                                                ");
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             
             return Task.CompletedTask;
@@ -241,8 +261,8 @@ namespace xubot
             Console.Write("                                connection lost...                              ");
             Console.Write("                               probably got dropped                             ");
             Console.Write("                                                                                ");
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             Console.WriteLine("Exception logged at: " + Environment.CurrentDirectory + "\\Exceptions\\latest.txt");
             Console.Beep();
