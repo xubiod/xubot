@@ -39,6 +39,7 @@ namespace xubot
                         string[] imgSplit = attached.ToString().Split('.');
                         string fileType = imgSplit[imgSplit.Length - 1];
                         fileType = "." + fileType;
+                        string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
 
                         System.Drawing.Image imgFromStream = null;
 
@@ -48,12 +49,11 @@ namespace xubot
                         {
                             imgFromStream = System.Drawing.Image.FromStream(await content.ReadAsStreamAsync());
                             Bitmap bitmap = (Bitmap)imgFromStream;
-
-                            string fileDir = "C:\\tmp\\" + rnd_res.ToString() + fileType;
-                            bitmap.Save(fileDir);
+                            
+                            bitmap.Save(path);
 
                             var Ocr = new AutoOcr();
-                            var Result = Ocr.Read(fileDir);
+                            var Result = Ocr.Read(path);
                             Console.WriteLine(Result.Text);
 
                             await msg.DeleteAsync();
@@ -74,6 +74,7 @@ namespace xubot
                         string[] imgSplit = img.Split('.');
                         string fileType = imgSplit[imgSplit.Length - 1];
                         fileType = "." + fileType;
+                        string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
 
                         System.Drawing.Image imgFromStream = null;
 
@@ -83,12 +84,11 @@ namespace xubot
                         {
                             imgFromStream = System.Drawing.Image.FromStream(await content.ReadAsStreamAsync());
                             Bitmap bitmap = (Bitmap)imgFromStream;
-
-                            string fileDir = "C:\\tmp\\" + rnd_res.ToString() + fileType;
-                            bitmap.Save(fileDir);
+                            
+                            bitmap.Save(path);
 
                             var Ocr = new AutoOcr();
-                            var Result = Ocr.Read(fileDir);
+                            var Result = Ocr.Read(path);
                             Console.WriteLine(Result.Text);
 
                             await msg.DeleteAsync();
@@ -110,12 +110,13 @@ namespace xubot
                 string[] imgSplit = img.Split('.');
                 string fileType = imgSplit[imgSplit.Length - 1];
                 fileType = "." + fileType;
+                string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
 
                 using (HttpClient client = new HttpClient())
                 using (HttpResponseMessage response = await client.GetAsync(img))
                 using (HttpContent content = response.Content)
                 {
-                    FileStream fs = new FileStream("C:\\tmp\\" + rnd_res.ToString() + fileType, FileMode.Create, FileAccess.ReadWrite);
+                    FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
                     byte[] byteBlock = await content.ReadAsByteArrayAsync();
 
                     fs.Write(await content.ReadAsByteArrayAsync(), 0, byteBlock.Length);
@@ -123,7 +124,7 @@ namespace xubot
                     fs.Close();
                 }
 
-                await Context.Channel.SendFileAsync("C:\\tmp\\" + rnd_res.ToString() + fileType);
+                await Context.Channel.SendFileAsync(path);
             }
 
             [Command("corrupt")]
@@ -134,6 +135,7 @@ namespace xubot
                 string[] imgSplit = img.Split('.');
                 string fileType = imgSplit[imgSplit.Length - 1];
                 fileType = "." + fileType;
+                string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
 
                 Random _r = new Random();
                 int breakAmount;
@@ -143,7 +145,7 @@ namespace xubot
                 using (HttpResponseMessage response = await client.GetAsync(img))
                 using (HttpContent content = response.Content)
                 {
-                    FileStream fs = new FileStream("C:\\tmp\\" + rnd_res.ToString() + fileType, FileMode.Create, FileAccess.ReadWrite);
+                    FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
                     byte[] byteBlock = await content.ReadAsByteArrayAsync();
                     breakAmount = _r.Next(byteBlock.Length);
 
@@ -159,7 +161,7 @@ namespace xubot
                     fs.Close();
                 }
 
-                await Context.Channel.SendFileAsync("C:\\tmp\\" + rnd_res.ToString() + fileType, "Attempted break amount (bytes): " + breakAmount);
+                await Context.Channel.SendFileAsync(path, "Attempted break amount (bytes): " + breakAmount);
             }
 
             //[Command("compress")]
@@ -182,12 +184,13 @@ namespace xubot
                     string[] imgSplit = img.Split('.');
                     string fileType = imgSplit[imgSplit.Length - 1];
                     fileType = "." + fileType;
+                    string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
 
                     using (HttpClient client = new HttpClient())
                     using (HttpResponseMessage response = await client.GetAsync(img))
                     using (HttpContent content = response.Content)
                     {
-                        FileStream fs = new FileStream("C:\\tmp\\" + rnd_res.ToString() + fileType, FileMode.Create, FileAccess.ReadWrite);
+                        FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
                         byte[] byteBlock = await content.ReadAsByteArrayAsync();
 
                         using (GZipStream zip = new GZipStream(fs, CompressionLevel.Optimal))
@@ -200,7 +203,7 @@ namespace xubot
                         fs.Close();
                     }
 
-                    await Context.Channel.SendFileAsync("C:\\tmp\\" + rnd_res.ToString() + fileType);
+                    await Context.Channel.SendFileAsync(path);
                 })).Start();
             }
 
