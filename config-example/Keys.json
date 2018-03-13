@@ -1,5 +1,6 @@
 ﻿{
     "discord": "[main bot token]",
+    "discord_dev": "[dev bot token]",
 
     "reddit": {
         "user": "[reddit bot username]",
