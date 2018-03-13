@@ -1040,7 +1040,7 @@ namespace xubot
             {
                 Title = "About Xubot",
                 Color = Discord.Color.Orange,
-                Description = "Version " + ThisAssembly.Git.Tag + " commit " + ThisAssembly.Git.Commit,
+                Description = "Version " + ThisAssembly.Git.Tag,
 
                 Footer = new EmbedFooterBuilder
                 {
