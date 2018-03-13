@@ -1,6 +1,6 @@
 ![logo](https://raw.githubusercontent.com/xubot-team/xubot/master/docs/xublogo.png)
 
-### Build Status (currently still a WIP, will most likely fail for the current time being)
+### Build Status
 [![Build status](https://ci.appveyor.com/api/projects/status/vxb9wvryyppa1cc5?svg=true)](https://ci.appveyor.com/project/xubiod/xubot)
 
 ## Building
