@@ -516,15 +516,19 @@ namespace xubot
             }
 
             [Command("reddit"), Alias("r", "redd"), Summary("attempts to post a thing to reddit")]
-            public async Task redditfun(string title, string content)
-            {
-                Program.subreddit = Program.reddit.GetSubreddit("/r/xubot_subreddit");
+            public async Task redditfun(string title, string content){
+                if (Program.botf_reddit == false) {
+                    await ReplyAsync("Reddit token not provided by bot runner.");
+                }
+                else {
+                    Program.subreddit = Program.reddit.GetSubreddit("/r/xubot_subreddit");
 
-                string result_ = content;
-                var redditPost = await Program.subreddit.SubmitTextPostAsync(title, Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + " on the Discord server " + Context.Guild.Name + " posted:\n\n" + result_);
-                await ReplyAsync("<" + redditPost.Url.AbsoluteUri.ToString() + ">");
-                //await ReplyAsync("Your post has been submitted to reddit. Go to https://www.reddit.com/r/xubot_subreddit/new/ and find it!");
-            }
+                    string result_ = content;
+                    var redditPost = await Program.subreddit.SubmitTextPostAsync(title, Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + " on the Discord server " + Context.Guild.Name + " posted:\n\n" + result_);
+                    await ReplyAsync("<" + redditPost.Url.AbsoluteUri.ToString() + ">");
+                    }
+
+                }
 
             [Command("twitter"), Alias("t", "twit"), Summary("attempts to post a thing to twitter")]
             public async Task tweet(string content)

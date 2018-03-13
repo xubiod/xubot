@@ -32,7 +32,7 @@ namespace xubot
         public static Reddit reddit;
         public static RedditSharp.Things.Subreddit subreddit;
 
-        public string xu_token = ""; // Token
+        public static bool botf_reddit = false;
         public static dynamic keys;
         public static dynamic apiJson;
         public static JToken perserv;
@@ -74,13 +74,18 @@ namespace xubot
             Console.Write("- - - - - - - - - - - - -  xubot {0} startup - - - - - - - - - - - - -", ThisAssembly.Git.Tag);
             Console.WriteLine("                                                                                ");
             Console.WriteLine("* setting up bot web agent for reddit use                                       ");
-            webAgent = new BotWebAgent(keys.reddit.user.ToString(), keys.reddit.pass.ToString(), keys.reddit.key1.ToString(), keys.reddit.key2.ToString(), "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
-            Console.WriteLine("* setting up reddit client                                                      ");
-            reddit = new Reddit(webAgent, true);
+            if (keys.reddit.user.ToString() == "" && keys.reddit.pass.ToString() == "") {
+                Console.WriteLine("> reddit info not provided, disabling reddit");
+            }
+            else {
+                botf_reddit = true;
+                webAgent = new BotWebAgent(keys.reddit.user.ToString(), keys.reddit.pass.ToString(), keys.reddit.key1.ToString(), keys.reddit.key2.ToString(), "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
+                Console.WriteLine("* setting up reddit client                                                      ");
+                reddit = new Reddit(webAgent, true);
 
-            Console.Write("* setting up default subreddit of /r/xubot_subreddit                            ");
-            subreddit = reddit.GetSubreddit("/r/xubot_subreddit");
-
+                Console.Write("* setting up default subreddit of /r/xubot_subreddit                            ");
+                subreddit = reddit.GetSubreddit("/r/xubot_subreddit");
+            }
             Console.Write("* setting up discord connection: login                                          ");
 
 #if (dev)
