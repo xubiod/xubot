@@ -36,7 +36,6 @@ Command help for xubot
 * info client
 * settings
   * settings !
-  * settings nsfw-commands
   * settings playing
   * settings status
   * settings stream
