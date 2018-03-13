@@ -1,8 +1,5 @@
 ﻿{
-    "use": "[put dev here to use dev token]",
-
     "discord": "[main bot token]",
-    "discord_dev": "[dev branch token]",
 
     "reddit": {
         "user": "[reddit bot username]",
@@ -21,5 +18,5 @@
     "googleLinkShort": "[...]",
     "cat": "[...]",
     "steam": "[...]",
-    "github: "[...]"
+    "github:": "[...]"
 }

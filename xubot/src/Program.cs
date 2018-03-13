@@ -76,35 +76,31 @@ namespace xubot
 
             xuClient.Log += (message) =>
             {
-                Console.Write($"{message.ToString()}\n");
+                Console.WriteLine($"{message.ToString()}\n");
                 return Task.Delay(0);
             };
 
             Console.BackgroundColor = ConsoleColor.Gray;
             Console.ForegroundColor = ConsoleColor.Black;
 
-            Console.Write("- - - - - - - - - - - - - - - - - setup stuffs - - - - - - - - - - - - - - - - -");
-            Console.Write("                                                                                ");
-            Console.Write("* setting up bot web agent for reddit use                                       ");
+            Console.Write("- - - - - - - - - - - - -  xubot {0} startup - - - - - - - - - - - - -", ThisAssembly.Git.Tag);
+            Console.WriteLine("                                                                                ");
+            Console.WriteLine("* setting up bot web agent for reddit use                                       ");
             webAgent = new BotWebAgent(keys.reddit.user.ToString(), keys.reddit.pass.ToString(), keys.reddit.key1.ToString(), keys.reddit.key2.ToString(), "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE& state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
-
-            Console.Write("* setting up reddit client                                                      ");
+            Console.WriteLine("* setting up reddit client                                                      ");
             reddit = new Reddit(webAgent, true);
 
             Console.Write("* setting up default subreddit of /r/xubot_subreddit                            ");
             subreddit = reddit.GetSubreddit("/r/xubot_subreddit");
 
             Console.Write("* setting up discord connection: login                                          ");
-            if (keys.use.ToString() == "dev")
-            {
-                Console.Write("  > oh, i've been told to use the dev token, doing than then!                   ");
-                prefix = "d>";
-                await xuClient.LoginAsync(TokenType.Bot, keys.discord_dev.ToString());
-            }
-            else
-            {
-                await xuClient.LoginAsync(TokenType.Bot, keys.discord.ToString());
-            }
+
+#if (dev)
+            Console.Write("> this version of xubot was compiled as dev");
+            prefix = "d>";
+#endif
+            await xuClient.LoginAsync(TokenType.Bot, keys.discord.ToString());
+
             Console.Write("* setting up discord connection: starting client                                ");
             await BeginStart();
 
