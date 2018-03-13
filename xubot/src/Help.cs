@@ -723,7 +723,7 @@ namespace xubot
                             new EmbedFieldBuilder
                             {
                                 Name = "Commands",
-                                Value = "**GitHub command help**\n\n" +
+                                Value = "**SSH command help**\n\n" +
                                 "`[>ssh connect [HOST] [PORT] [USER] [PASS]` - Connects to a system.\n" +
                                 "`[>ssh qc [NICK]` - Connects to a system within the Quick Connect file.\n" +
                                 "`[>ssh send [CMD]` - Sends a command to the connected system.\n" +
