@@ -1,6 +1,8 @@
 Command help for xubot
 (this can get outdated quick)
 
+Amount of logged commands: 57
+
  * help
    * help key
    * help echo
