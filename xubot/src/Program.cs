@@ -25,9 +25,7 @@ namespace xubot
     {
         public static CommandService xuCommand;
         public static DiscordSocketClient xuClient;
-
-        static void Main(string[] args) => new Program().Start().GetAwaiter().GetResult();
-
+        
         public static string prefix = "[>";
 
         public static BotWebAgent webAgent;
@@ -43,7 +41,7 @@ namespace xubot
 
         public static bool first = true;
 
-        public async Task Start()
+        public static async Task Main(string[] args)
         {
             Console.SetWindowSize(80, 25);
 
@@ -56,27 +54,17 @@ namespace xubot
 
             //ImageTypeReader itr = new ImageTypeReader();
             //xuCommand.AddTypeReader<Image>(itr);
-            string text;
-            using (var sr = new StreamReader("Keys.json"))
-            {
-                text = sr.ReadToEnd();
-            }
 
-            keys = JObject.Parse(text);
-
-            using (var sr = new StreamReader("API.json"))
-            {
-                text = sr.ReadToEnd();
-            }
-
-            apiJson = JObject.Parse(text);
+            string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            keys = JObject.Parse(File.ReadAllText(Path.Combine(currentDir, "Keys.json")));
+            apiJson = JObject.Parse(File.ReadAllText(Path.Combine(currentDir, "API.json")));
 
             await commandInitiation();
             await readMessages();
 
             xuClient.Log += (message) =>
             {
-                Console.WriteLine($"{message.ToString()}\n");
+                Console.WriteLine($"{message}");
                 return Task.Delay(0);
             };
 
@@ -86,7 +74,7 @@ namespace xubot
             Console.Write("- - - - - - - - - - - - -  xubot {0} startup - - - - - - - - - - - - -", ThisAssembly.Git.Tag);
             Console.WriteLine("                                                                                ");
             Console.WriteLine("* setting up bot web agent for reddit use                                       ");
-            webAgent = new BotWebAgent(keys.reddit.user.ToString(), keys.reddit.pass.ToString(), keys.reddit.key1.ToString(), keys.reddit.key2.ToString(), "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE& state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
+            webAgent = new BotWebAgent(keys.reddit.user.ToString(), keys.reddit.pass.ToString(), keys.reddit.key1.ToString(), keys.reddit.key2.ToString(), "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
             Console.WriteLine("* setting up reddit client                                                      ");
             reddit = new Reddit(webAgent, true);
 
@@ -111,7 +99,7 @@ namespace xubot
             await Task.Delay(-1);
         }
 
-        public Task XuClient_UserJoined(SocketGuildUser arg)
+        public static Task XuClient_UserJoined(SocketGuildUser arg)
         {
             return Task.CompletedTask;
         }
@@ -121,7 +109,7 @@ namespace xubot
             await xuClient.StartAsync();
         }
 
-        public async Task ClientReady()
+        public static Task ClientReady()
         {
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.ForegroundColor = ConsoleColor.White;
@@ -133,9 +121,11 @@ namespace xubot
             Console.Beep();
 
             RefreshPerServ();
+
+            return Task.CompletedTask;
         }
 
-        public async Task readMessages()
+        public static Task readMessages()
         {
             xuClient.MessageReceived += (message) =>
             {
@@ -143,7 +133,7 @@ namespace xubot
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine($"[{message.Timestamp}] {message.Author}: {message.Content}");
 
-                return Task.Delay(0);
+                return Task.CompletedTask;
             };
 
             //console logs hhheeerrrrrrrr
@@ -156,15 +146,17 @@ namespace xubot
             xuClient.JoinedGuild += XuClient_JoinedGuild;
             xuClient.LeftGuild += XuClient_LeftGuild;
             xuClient.GuildAvailable += XuClient_GuildAvailableAsync;
+
+            return Task.CompletedTask;
         }
 
-        private Task XuClient_GuildAvailable(SocketGuild arg)
+        private static Task XuClient_GuildAvailable(SocketGuild arg)
         {
             Console.WriteLine("guild list: " + arg.Name);
             return Task.CompletedTask;
         }
 
-        private Task XuClient_JoinedGuild(SocketGuild arg)
+        private static Task XuClient_JoinedGuild(SocketGuild arg)
         {
             Console.BackgroundColor = ConsoleColor.Green;
             Console.ForegroundColor = ConsoleColor.Black;
@@ -179,7 +171,7 @@ namespace xubot
             return Task.CompletedTask;
         }
 
-        private Task XuClient_LeftGuild(SocketGuild arg)
+        private static Task XuClient_LeftGuild(SocketGuild arg)
         {
             Console.BackgroundColor = ConsoleColor.Green;
             Console.ForegroundColor = ConsoleColor.Black;
@@ -195,7 +187,7 @@ namespace xubot
             return Task.CompletedTask;
         }
 
-        private Task XuClient_LoggedIn()
+        private static Task XuClient_LoggedIn()
         {
             Console.BackgroundColor = ConsoleColor.Green;
             Console.ForegroundColor = ConsoleColor.Black;
@@ -209,7 +201,7 @@ namespace xubot
             return Task.CompletedTask;
         }
 
-        private Task XuClient_LoggedOut()
+        private static Task XuClient_LoggedOut()
         {
             Console.BackgroundColor = ConsoleColor.Red;
             Console.ForegroundColor = ConsoleColor.Black;
@@ -222,7 +214,7 @@ namespace xubot
             return Task.CompletedTask;
         }
 
-        private Task XuClient_Connected()
+        private static Task XuClient_Connected()
         {
             Console.BackgroundColor = ConsoleColor.Green;
             Console.ForegroundColor = ConsoleColor.Black;
@@ -236,7 +228,7 @@ namespace xubot
             return Task.CompletedTask;
         }
 
-        private Task XuClient_Disconnected(Exception arg)
+        private static Task XuClient_Disconnected(Exception arg)
         {
             Console.BackgroundColor = ConsoleColor.Red;
             Console.ForegroundColor = ConsoleColor.Black;
@@ -252,8 +244,8 @@ namespace xubot
             Console.Beep();
             Console.Beep();
 
-            System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "\\Exceptions\\");
-            System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\Exceptions\\latest.txt", arg.ToString());
+            Directory.CreateDirectory(Environment.CurrentDirectory + "\\Exceptions\\");
+            File.WriteAllText(Environment.CurrentDirectory + "\\Exceptions\\latest.txt", arg.ToString());
 
             Thread.Sleep(2500);
 
@@ -264,7 +256,7 @@ namespace xubot
             return Task.CompletedTask;
         }
 
-        public async Task XuClient_GuildAvailableAsync(Discord.WebSocket.SocketGuild arg)
+        public static async Task XuClient_GuildAvailableAsync(SocketGuild arg)
         {
             if (first)
             {
@@ -295,13 +287,13 @@ namespace xubot
 
         }
 
-        public async Task commandInitiation()
+        public static async Task commandInitiation()
         {
             xuClient.MessageReceived += handleCommands;
             await xuCommand.AddModulesAsync(Assembly.GetEntryAssembly());
         }
 
-        public async Task handleCommands(SocketMessage messageParameters)
+        public static async Task handleCommands(SocketMessage messageParameters)
         {
             var message = messageParameters as SocketUserMessage;
             if (message == null) return;
