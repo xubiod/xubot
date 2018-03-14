@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xubot", "xubot\xubot.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xubot-code-compiler", "xubot-code-compiler\xubot-code-compiler.csproj", "{E93B4C22-0300-4D72-B7CA-5D022AB5328B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xubot-setup-xubiod", "xubot-setup-xubiod\xubot-setup-xubiod.csproj", "{8277886E-A7FF-4648-AA7D-745E89A74F8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Development|Any CPU = Debug Development|Any CPU
@@ -31,14 +33,14 @@ Global
 		{E93B4C22-0300-4D72-B7CA-5D022AB5328B}.Release Development|Any CPU.Build.0 = Release|Any CPU
 		{E93B4C22-0300-4D72-B7CA-5D022AB5328B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E93B4C22-0300-4D72-B7CA-5D022AB5328B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A43F0EA5-BB27-4706-8A72-E471AAA9C65E}.Debug Development|Any CPU.ActiveCfg = Debug|Any CPU
-		{A43F0EA5-BB27-4706-8A72-E471AAA9C65E}.Debug Development|Any CPU.Build.0 = Debug|Any CPU
-		{A43F0EA5-BB27-4706-8A72-E471AAA9C65E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A43F0EA5-BB27-4706-8A72-E471AAA9C65E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A43F0EA5-BB27-4706-8A72-E471AAA9C65E}.Release Development|Any CPU.ActiveCfg = Release|Any CPU
-		{A43F0EA5-BB27-4706-8A72-E471AAA9C65E}.Release Development|Any CPU.Build.0 = Release|Any CPU
-		{A43F0EA5-BB27-4706-8A72-E471AAA9C65E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A43F0EA5-BB27-4706-8A72-E471AAA9C65E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8277886E-A7FF-4648-AA7D-745E89A74F8F}.Debug Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{8277886E-A7FF-4648-AA7D-745E89A74F8F}.Debug Development|Any CPU.Build.0 = Debug|Any CPU
+		{8277886E-A7FF-4648-AA7D-745E89A74F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8277886E-A7FF-4648-AA7D-745E89A74F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8277886E-A7FF-4648-AA7D-745E89A74F8F}.Release Development|Any CPU.ActiveCfg = Release|Any CPU
+		{8277886E-A7FF-4648-AA7D-745E89A74F8F}.Release Development|Any CPU.Build.0 = Release|Any CPU
+		{8277886E-A7FF-4648-AA7D-745E89A74F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8277886E-A7FF-4648-AA7D-745E89A74F8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

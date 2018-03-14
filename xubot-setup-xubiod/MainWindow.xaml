@@ -6,5 +6,8 @@
         xmlns:local="clr-namespace:xubot_setup_xubiod"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid/>
+    <Grid>
+        <Label Content="Welcome to Xubiod's Xubot setup!" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+        <Label Content="This will help you get Xubot up and running." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
+    </Grid>
 </Window>
