@@ -6,11 +6,300 @@
         xmlns:local="clr-namespace:xubot_setup_xubiod"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid Name="Start">
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Label Content="Welcome to Xubiod's Xubot setup!" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
-            <Label Content="This will help you get Xubot up and running." HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="14" />
-            <Button Content="Continue" Click="Button_Click"/>
-        </StackPanel>
+    <Grid Name="Main">
+
+        <Grid Name="Start">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="Welcome to Xubiod's Xubot setup!" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                <Label Content="This will help you get Xubot up and running." HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="14"/>
+                <Button Content="Continue" Click="Button_Click_Men"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="Options" Visibility="Collapsed">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="Before we get too far..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                <Label Content="What would you like to enable?" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="14"/>
+                <CheckBox Name="reddit" IsChecked="True" Content="Use Reddit?"/>
+                <CheckBox Name="twitter" IsChecked="True" Content="Use Twitter?"/>
+                <CheckBox Name="googleShorten" IsChecked="True" Content="Use Google's Link Shortener?"/>
+                <CheckBox Name="cat" IsChecked="True" Content="Use thecatapi.com?"/>
+                <CheckBox Name="steam" IsChecked="True" Content="Use Steam?"/>
+                <CheckBox Name="github" IsChecked="True" Content="Use GitHub?"/>
+                <Button Content="Continue" Click="Button_Click_Opt"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="Discord" Visibility="Collapsed">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="Discord API Token" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" />
+                <TextBox Name="discordToken" Width="350"/>
+                <Button Content="Continue" Click="Button_Click_Discord"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="Reddit_Grid" Visibility="Collapsed">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="Reddit Information" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" />
+
+                <TextBox Name="reddit_username" Width="350">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style.Resources>
+                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content="Bot Username" Foreground="LightGray" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <TextBox Name="reddit_pass" Width="350">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style.Resources>
+                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content="Bot Password" Foreground="LightGray" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <TextBox Name="reddit_id" Width="350">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style.Resources>
+                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content="Application ID" Foreground="LightGray" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <TextBox Name="reddit_secret" Width="350">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style.Resources>
+                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content="Application Secret" Foreground="LightGray" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <Button Content="Continue" Click="Button_Click_Reddit"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="Twitter_Grid" Visibility="Collapsed">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="Twitter Information" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" />
+
+                <TextBox Name="twitter_consumerkey" Width="350">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style.Resources>
+                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content="Consumer Key" Foreground="LightGray" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <TextBox Name="twitter_consumersec" Width="350">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style.Resources>
+                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content="Consumer Secret" Foreground="LightGray" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <TextBox Name="twitter_uat" Width="350">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style.Resources>
+                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content="User Access Token" Foreground="LightGray" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <TextBox Name="twitter_uak" Width="350">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style.Resources>
+                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content="User Access Secret" Foreground="LightGray" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <Button Content="Continue" Click="Button_Click_Twitter"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="Google_Grid" Visibility="Collapsed">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="Google Link Shortener API Key" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" />
+                <TextBox Name="googlKey" Width="350"/>
+                <Button Content="Continue" Click="Button_Click_Google"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="Cat_Grid" Visibility="Collapsed">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="TheCatAPI API Key" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" />
+                <TextBox Name="catKey" Width="350"/>
+                <Button Content="Continue" Click="Button_Click_Cat"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="Steam_Grid" Visibility="Collapsed">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="Steam API Key" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" />
+                <TextBox Name="steamKey" Width="350"/>
+                <Button Content="Continue" Click="Button_Click_Steam"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="GitHub_Grid" Visibility="Collapsed">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="Github Personal Access Token" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" />
+                <TextBox Name="ghpat" Width="350"/>
+                <Button Content="Continue" Click="Button_Click_Github"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="Review" Visibility="Collapsed">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="We are done!" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" />
+                <Label Content="However, I suggest reviewing and confirming that everything is correct." HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="14"/>
+                <Button Content="Review" Click="Button_Click_Men"/>
+                <Button Content="Save" Click="SaveFile"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="Complete" Visibility="Collapsed">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="Your file has been made!" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" />
+                <Label Content="You can now close this window." HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="14"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
