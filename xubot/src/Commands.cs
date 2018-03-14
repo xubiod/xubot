@@ -1029,6 +1029,26 @@ namespace xubot
                 await ReplyAsync(input);
             }
         }
+        
+        [Group("base65536")]
+        public class base65536_comm : ModuleBase
+        {
+            [Command("encode")]
+            public async Task encode(string input)
+            {
+                System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+                byte[] bytes = encoding.GetBytes(input);
+
+                await ReplyAsync(Base65536.Encode(bytes));
+            }
+
+            [Command("decode")]
+            public async Task decode(string input)
+            {
+                System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+                await ReplyAsync(encoding.GetString(Base65536.Decode(input)));
+            }
+        }
 
         [Command("about")]
         public async Task about()
@@ -1040,8 +1060,7 @@ namespace xubot
             {
                 Title = "About Xubot",
                 Color = Discord.Color.Orange,
-                Description = "Version " + ThisAssembly.Git.Tag,
-
+                Description = "Version " + ThisAssembly.Git.BaseTag,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = "xubot :p"
@@ -1071,7 +1090,7 @@ namespace xubot
             {
                 Title = "Xubot Development Credits",
                 Color = Discord.Color.Orange,
-                Description = "Version " + Program.apiJson.version.ToString(),
+                Description = "Version " + ThisAssembly.Git.BaseTag,
 
                 Footer = new EmbedFooterBuilder
                 {
@@ -1092,24 +1111,48 @@ namespace xubot
             await ReplyAsync("", false, embedd);
         }
 
-        [Group("base65536")]
-        public class base65536_comm : ModuleBase
+        [Command("version")]
+        public async Task versionCMD()
         {
-            [Command("encode")]
-            public async Task encode(string input)
-            {
-                System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
-                byte[] bytes = encoding.GetBytes(input);
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.Async = true;
 
-                await ReplyAsync(Base65536.Encode(bytes));
-            }
-
-            [Command("decode")]
-            public async Task decode(string input)
+            EmbedBuilder embedd = new EmbedBuilder
             {
-                System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
-                await ReplyAsync(encoding.GetString(Base65536.Decode(input)));
-            }
+                Title = "Xubot Version",
+                Color = Discord.Color.Orange,
+                Description = "The specifics.",
+
+                Footer = new EmbedFooterBuilder
+                {
+                    Text = "xubot :p"
+                },
+                Timestamp = DateTime.UtcNow,
+                Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Version",
+                                Value = ThisAssembly.Git.BaseTag,
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Specific Build",
+                                Value = ThisAssembly.Git.Tag,
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Build Commit",
+                                Value = ThisAssembly.Git.Commit,
+                                IsInline = false
+                            }
+
+                        }
+            };
+
+            await ReplyAsync("", false, embedd);
         }
     }
 }
