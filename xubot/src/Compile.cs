@@ -261,7 +261,7 @@ namespace xubot
                         }
                     } else
                     {
-                        await ReplyAsync("You are not a trusted user. Stop trying to do this.");
+                        throw new Exception("User trying to run this command isn't trusted!");
                     }
                 });
             }
