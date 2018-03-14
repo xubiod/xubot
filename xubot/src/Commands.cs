@@ -1142,10 +1142,17 @@ namespace xubot
                                 Value = ThisAssembly.Git.Tag,
                                 IsInline = false
                             },
+                            //https://github.com/xubot-team/xubot/commit/2064085bc0fd33a591036f67b686d0366d1591c5
                             new EmbedFieldBuilder
                             {
                                 Name = "Build Commit",
                                 Value = ThisAssembly.Git.Commit,
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Link to Latest Change",
+                                Value = "https://github.com/xubot-team/xubot/commit/" + ThisAssembly.Git.Sha,
                                 IsInline = false
                             }
 
