@@ -24,5 +24,11 @@ namespace xubot_setup_xubiod
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Start.Opacity = 0;
+            Start.IsEnabled = false;
+        }
     }
 }
