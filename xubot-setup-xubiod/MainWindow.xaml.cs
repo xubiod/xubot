@@ -39,6 +39,13 @@ namespace xubot_setup_xubiod
             Options.Visibility = Visibility.Collapsed;
 
             Discord.Visibility = Visibility.Visible;
+
+            if (!(bool)reddit.IsChecked) { reddit_username.Text = ""; reddit_pass.Text = ""; reddit_id.Text = ""; reddit_secret.Text = ""; }
+            if (!(bool)twitter.IsChecked) { twitter_consumerkey.Text = ""; twitter_consumersec.Text = ""; twitter_uat.Text = ""; twitter_uak.Text = ""; }
+            if (!(bool)googleShorten.IsChecked) { googlKey.Text = ""; }
+            if (!(bool)cat.IsChecked) { catKey.Text = ""; }
+            if (!(bool)steam.IsChecked) { steamKey.Text = ""; }
+            if (!(bool)github.IsChecked) { ghpat.Text = ""; }
         }
 
         private void Button_Click_Discord(object sender, RoutedEventArgs e)
