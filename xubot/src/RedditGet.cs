@@ -271,7 +271,7 @@ namespace xubot
             }
             catch (Exception e)
             {
-                await ReplyAsync("Exception: " + e.Message);
+                await GeneralTools.CommHandler.BuildError(e, Context);
             }
         }
 

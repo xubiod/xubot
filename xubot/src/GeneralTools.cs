@@ -46,6 +46,40 @@ namespace xubot
 
                 await context.Channel.SendMessageAsync("", false, embedd);
             }
+
+            public static async Task BuildError(Exception exp, ICommandContext context)
+            {
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Error!",
+                    Color = Discord.Color.Red,
+                    Description = "***That's a bad!!!***",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Source",
+                                Value = "```" + exp.Source + "```",
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Message",
+                                Value = "```" + exp.Message + "```",
+                                IsInline = false
+                            }
+
+                        }
+                };
+
+                await context.Channel.SendMessageAsync("", false, embedd);
+            }
         }
     }
 }
