@@ -51,9 +51,9 @@ namespace xubot
             {
                 EmbedBuilder embedd = new EmbedBuilder
                 {
-                    Title = "Error!",
+                    Title = "Exception!",
                     Color = Discord.Color.Red,
-                    Description = "***That's a bad!!!***",
+                    Description = "***That's a very bad!!!***",
 
                     Footer = new EmbedFooterBuilder
                     {
