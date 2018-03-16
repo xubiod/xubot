@@ -43,7 +43,13 @@ namespace xubot
                         //await ReplyAsync(text);
                         dynamic keys = JObject.Parse(text);
 
-                        await ReplyAsync("http://danbooru.donmai.us" + keys.large_file_url.ToString());
+                        if (keys.large_file_url.ToString().Contains("http"))
+                        {
+                            await ReplyAsync(keys.large_file_url.ToString());
+                        } else
+                        {
+                            await ReplyAsync("http://danbooru.donmai.us" + keys.large_file_url.ToString());
+                        }
                     }
                     catch (Exception exp)
                     {
@@ -54,7 +60,8 @@ namespace xubot
             }
             else
             {
-                await ReplyAsync("NSFW commands are disabled at the moment.");
+                if (Program.enableNSFW) await ReplyAsync("NSFW commands are disabled at the moment.");
+                else { await ReplyAsync("Umm.. something happened that I don't have a clue about. Whoopies."); }
             }
         }
 
@@ -85,7 +92,7 @@ namespace xubot
 
                         //await ReplyAsync(text);
                         dynamic keys = JObject.Parse(text_j);
-
+                        
                         await ReplyAsync(keys.file_url.ToString());
                         //string text = webClient.DownloadString(link);
                         //text = text.Substring(1, text.Length - 2);
@@ -103,7 +110,8 @@ namespace xubot
             }
             else
             {
-                await ReplyAsync("NSFW commands are disabled at the moment.");
+                if (Program.enableNSFW) await ReplyAsync("NSFW commands are disabled at the moment.");
+                else { await ReplyAsync("Umm.. something happened that I don't have a clue about. Whoopies."); }
             }
         }
 
@@ -172,7 +180,8 @@ namespace xubot
                 }
                 else
                 {
-                    await ReplyAsync("NSFW commands are disabled at the moment.");
+                    if (Program.enableNSFW) await ReplyAsync("NSFW commands are disabled at the moment.");
+                    else { await ReplyAsync("Umm.. something happened that I don't have a clue about. Whoopies."); }
                 }
             }
         }
@@ -243,7 +252,8 @@ namespace xubot
                 }
                 else
                 {
-                    await ReplyAsync("NSFW commands are disabled at the moment.");
+                    if (Program.enableNSFW) await ReplyAsync("NSFW commands are disabled at the moment.");
+                    else { await ReplyAsync("Umm.. something happened that I don't have a clue about. Whoopies."); }
                 }
             }
         }
@@ -308,7 +318,8 @@ namespace xubot
             }
             else
             {
-                await ReplyAsync("NSFW commands are disabled at the moment.");
+                if (Program.enableNSFW) await ReplyAsync("NSFW commands are disabled at the moment.");
+                else { await ReplyAsync("Umm.. something happened that I don't have a clue about. Whoopies."); }
             }
         }
 
