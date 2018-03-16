@@ -251,6 +251,7 @@
     <Compile Include="src\Commands.cs" />
     <Compile Include="src\Compile.cs" />
     <Compile Include="src\CompletelyRandom.cs" />
+    <Compile Include="src\GeneralTools.cs" />
     <Compile Include="src\GitHub.cs" />
     <Compile Include="src\Help.cs" />
     <Compile Include="src\Mood.cs" />
