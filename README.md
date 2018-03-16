@@ -1,7 +1,9 @@
 ![logo](https://raw.githubusercontent.com/xubot-team/xubot/master/docs/xublogo.png)
 
 ### Build Status
-[![Build status](https://ci.appveyor.com/api/projects/status/vxb9wvryyppa1cc5?svg=true)](https://ci.appveyor.com/project/xubiod/xubot)
+AppVeyor: [![Build status](https://ci.appveyor.com/api/projects/status/vxb9wvryyppa1cc5?svg=true)](https://ci.appveyor.com/project/xubiod/xubot)
+
+Travis CI: [![Build status](https://api.travis-ci.org/xubot-team/xubot.svg?branch=master)](https://travis-ci.org/xubot-team/xubot)
 
 ## Building
 When building xubot, you need to have a code handler! The official build uses an application I've made.
