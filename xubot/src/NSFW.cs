@@ -53,7 +53,7 @@ namespace xubot
                     }
                     catch (Exception exp)
                     {
-                        await ReplyAsync(exp.Message);
+                        await GeneralTools.CommHandler.BuildError(exp, Context);
                     }
 
                 })).Start();
@@ -101,9 +101,9 @@ namespace xubot
 
                         //await ReplyAsync(keys.file_url.ToString());
                     }
-                    catch (Exception ex)
+                    catch (Exception exp)
                     {
-                        await ReplyAsync(ex.Message);
+                        await GeneralTools.CommHandler.BuildError(exp, Context);
                     }
 
                 })).Start();
@@ -165,9 +165,9 @@ namespace xubot
 
                         await ReplyAsync(imgUrl);
                     }
-                    catch (Exception ex)
+                    catch (Exception exp)
                     {
-                        await ReplyAsync(ex.Message);
+                        await GeneralTools.CommHandler.BuildError(exp, Context);
                     }
 
                 })).Start();
@@ -237,9 +237,9 @@ namespace xubot
 
                         await ReplyAsync(imgUrl);
                     }
-                    catch (Exception ex)
+                    catch (Exception exp)
                     {
-                        await ReplyAsync(ex.Message);
+                        await GeneralTools.CommHandler.BuildError(exp, Context);
                     }
 
                 })).Start();
@@ -311,7 +311,7 @@ namespace xubot
                     }
                     catch (Exception exp)
                     {
-                        await ReplyAsync(exp.Message);
+                        await GeneralTools.CommHandler.BuildError(exp, Context);
                     }
 
                 })).Start();
