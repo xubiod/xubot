@@ -333,36 +333,7 @@ namespace xubot
             var result = await xuCommand.ExecuteAsync(context, argumentPosition);
             if (!result.IsSuccess)
             {
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Error!",
-                    Color = Discord.Color.Red,
-                    Description = "***That's a bad!!!***",
-
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = "xubot :p"
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Error Reason",
-                                Value = "```" + result.ErrorReason + "```",
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "What it is",
-                                Value = "```" + result.Error + "```",
-                                IsInline = false
-                            }
-
-                        }
-                };
-
-                await context.Channel.SendMessageAsync("", false, embedd);
+                await GeneralTools.CommHandler.BuildError(result, context);
             }
         }
 
