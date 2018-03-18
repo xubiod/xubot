@@ -6,71 +6,112 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
 
+#pragma warning disable CS4014
+
 namespace xubot.src
 {
     public class MarkovComm : ModuleBase
     {
         public static TextMarkovChain xuMarkov = new TextMarkovChain();
+        //public static List<string> includeTypes = new List<string>() { ".txt", ".log" };
 
         [Command("markov")]
         public async Task outputMarkov()
         {
-            try
+            Task.Run(async () =>
             {
-                string generated = xuMarkov.generateSentence();
-
-                if (generated.Length > 1000)
+                try
                 {
-                    generated = generated.Substring(0, 1000) + "[...]";
-                }
+                    string generated = xuMarkov.generateSentence();
 
-                await ReplyAsync(generated);
-            }
-            catch (Exception exp)
-            {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
-            }
+                    if (generated.Length > 1000)
+                    {
+                        generated = generated.Substring(0, 1000) + "[...]";
+                    }
+
+                    await ReplyAsync(generated);
+                }
+                catch (Exception exp)
+                {
+                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                }
+            });
         }
 
         [Command("markov")]
         public async Task outputMarkov(string input)
         {
-            try
+            Task.Run(async () =>
             {
-                xuMarkov.feed(input);
+                try
+                {
+                    bool valid = true;
+                    List<char> charArray = input.ToList();
 
-                await ReplyAsync("Learned string.");
-            }
-            catch (Exception exp)
-            {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
-            }
+                    foreach (char _p in charArray)
+                    {
+                        if (Char.IsControl(_p)) { valid = false; break; }
+                    }
+                    if (valid)
+                    {
+                        xuMarkov.feed(input);
+
+                        await ReplyAsync("Learned string.");
+                    }
+                    else
+                    {
+                        await ReplyAsync("Hey... this has control characters in it! Stop it!");
+                    }
+                }
+                catch (Exception exp)
+                {
+                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                }
+            });
         }
 
         [Command("markov?i")]
         public async Task importMarkov()
         {
-            try
+            Task.Run(async () =>
             {
-                string url = GeneralTools.ReturnAttachmentURL(Context);
-                await GeneralTools.DownloadAttachmentAsync(Path.Combine(Path.GetTempPath(), "markov.txt"), url);
-
-                string fileContents = File.ReadAllText(Path.Combine(Path.GetTempPath(), "markov.txt"));
-
-                if (fileContents.Length > 1500)
+                try
                 {
-                    xuMarkov.feed(fileContents);
+                    string url = GeneralTools.ReturnAttachmentURL(Context);
+                    await GeneralTools.DownloadAttachmentAsync(Path.Combine(Path.GetTempPath(), "markov.txt"), url);
 
-                    await ReplyAsync("Learned from file.");
-                } else
-                {
-                    await ReplyAsync("File has too many characters in it (over 1500). Shorten it.");
+                    string fileContents = File.ReadAllText(Path.Combine(Path.GetTempPath(), "markov.txt"));
+
+                    bool valid = true;
+                    List<char> charArray = fileContents.ToList();
+
+                    foreach (char _p in charArray)
+                    {
+                        if (Char.IsControl(_p)) { valid = false; break; }
+                    }
+
+                    if (fileContents.Length < 1500)
+                    {
+                        if (valid)
+                        {
+                            xuMarkov.feed(fileContents);
+
+                            await ReplyAsync("Learned from file.");
+                        } else
+                        {
+                            await ReplyAsync("Hey... this has control characters in it! Stop it!");
+                        }
+                    }
+                    else
+                    {
+                        await ReplyAsync("File has too many characters in it (over 1500). Shorten it.");
+                    }
                 }
-            }
-            catch (Exception exp)
-            {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
-            }
+                catch (Exception exp)
+                {
+                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                }
+            });
         }
 
         [Command("markov?export"), Alias("markov?e")]
