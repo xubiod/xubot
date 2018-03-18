@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -87,24 +88,21 @@ namespace xubot.src
 
                     foreach (char _p in charArray)
                     {
-                        if (Char.IsControl(_p)) { valid = false; break; }
-                    }
-
-                    if (fileContents.Length < 1500)
-                    {
-                        if (valid)
+                        if (Char.IsControl(_p) && _p != '\r' && _p != '\n')
                         {
-                            xuMarkov.feed(fileContents);
-
-                            await ReplyAsync("Learned from file.");
-                        } else
-                        {
-                            await ReplyAsync("Hey... this has control characters in it! Stop it!");
+                            valid = false;
+                            break;
                         }
                     }
-                    else
+
+                    if (valid)
                     {
-                        await ReplyAsync("File has too many characters in it (over 1500). Shorten it.");
+                        xuMarkov.feed(fileContents);
+
+                        await ReplyAsync("Learned from file.");
+                    } else
+                    {
+                        await ReplyAsync("Hey... this has control characters in it! Stop it!");
                     }
                 }
                 catch (Exception exp)
