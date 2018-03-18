@@ -39,7 +39,7 @@ namespace xubot
                                     new EmbedFieldBuilder
                                     {
                                         Name = "Commands",
-                                        Value = "**Actual usable stuff** Page " + page + "/8\n\n" +
+                                        Value = "**Actual usable stuff** Page " + page + "/6\n\n" +
                                         "`[>help [COMM]` - Welp, you know about this one.\n" +
                                         "`[>echo [TYPE]` - Repeats what you give it\n" +
                                         "`[>math [TYPE]` - Does stuff that no one likes. At all.\n" +
@@ -71,7 +71,7 @@ namespace xubot
                                     new EmbedFieldBuilder
                                     {
                                         Name = "Commands",
-                                        Value = "**Actual usable stuff** Page " + page + "/8\n\n" +
+                                        Value = "**Actual usable stuff** Page " + page + "/6\n\n" +
                                         "`[>post [SERVICE]` - Posts something to a service.\n" +
                                         "`[>pattern [COM]` - Makes a pattern with a string.\n" +
                                         "`[>db [ID]` - Generates a Discord bot link to add a bot to a server. *There is no decitated help page for this command.*\n" +
@@ -103,7 +103,7 @@ namespace xubot
                                     new EmbedFieldBuilder
                                     {
                                         Name = "Commands",
-                                        Value = "**Actual usable stuff** Page " + page + "/8\n\n" +
+                                        Value = "**Actual usable stuff** Page " + page + "/6\n\n" +
                                         "`[>interp [LANG] [CODE]` - Interpets code in differnet programming languages.\n" +
                                         "`[>debug [COM]` - Debugs/tests a feature. *You must be the* ***Bot Owner*** *.*\n" +
                                         "`[>expand-googl [GOO.GL LINK]` - Expands a goo.gl link to show where it redirects to.\n" +
@@ -135,7 +135,7 @@ namespace xubot
                                     new EmbedFieldBuilder
                                     {
                                         Name = "Commands",
-                                        Value = "**Actual usable stuff** Page " + page + "/8\n\n" +
+                                        Value = "**Actual usable stuff** Page " + page + "/6\n\n" +
                                         "`[>pet` - Umm... why?\n" +
                                         "`[>hug` - OK..?\n" +
                                         "`[>sex` - why is this here...\n" +
@@ -167,7 +167,7 @@ namespace xubot
                                     new EmbedFieldBuilder
                                     {
                                         Name = "Commands",
-                                        Value = "**Actual usable stuff** Page " + page + "/8\n\n" +
+                                        Value = "**Actual usable stuff** Page " + page + "/6\n\n" +
                                         "`[>bake_cake` - It's mine.\n" +
                                         "`[>read_me_a_story` - Ugh...\n" +
                                         "`[>microbrew_some_local_kombucha` - What is this???\n" +
@@ -199,72 +199,14 @@ namespace xubot
                                     new EmbedFieldBuilder
                                     {
                                         Name = "Commands",
-                                        Value = "**Actual usable stuff** Page " + page + "/8\n\n" +
+                                        Value = "**Actual usable stuff** Page " + page + "/6\n\n" +
                                         "`[>github [COMM]` - Gets information based on parameters and the command." +
                                         "`[>servertriggers add <JOIN MSG> <NSFW OVERRIDE>` - Adds the current server into the per-server triggers.\n" +
                                         "`[>servertriggers edit [KEY] [NEW VALUE]` - Edits this per-server trigger to the new value.\n" +
-                                        "**Next page is NSFW commands.**",
-                                        IsInline = false
-                                    }
-                                }
-                            };
-                            break;
-                        }
-                    case 7:
-                        {
-                            embedd = new EmbedBuilder
-                            {
-                                Title = "List of Commands",
-                                Color = Discord.Color.Orange,
-                                Description = "For extended help on one command, use `[>help [COMM]`.",
-
-                                Footer = new EmbedFooterBuilder
-                                {
-                                    Text = "xubot :p"
-                                },
-                                Timestamp = DateTime.UtcNow,
-                                Fields = new List<EmbedFieldBuilder>()
-                                {
-                                    new EmbedFieldBuilder
-                                    {
-                                        Name = "Commands",
-                                        Value = "**Actual usable stuff** Page " + page + "/8\n\n" +
-                                        "`[>danbooru [STRING]` - Gets a danbooru.donmai.us image from the tag provided.\n" +
-                                        "`[>gelbooru [STRING]` - Gets a gelbooru.com image from the tag provided.\n" +
-                                        "`[>rule34 [STRING]` - Gets a rule34.xxx image from the tag provided.\n" +
-                                        "`[>e621 [STRING]` - Gets a e621.net image from the tag provided.\n" +
-                                        "`[>yandere [STRING]` - Gets a yande.re image from the tag provided.\n",
-                                        IsInline = false
-                                    }
-                                }
-                            };
-                            break;
-                        }
-                    case 8:
-                        {
-                            embedd = new EmbedBuilder
-                            {
-                                Title = "List of Commands",
-                                Color = Discord.Color.Orange,
-                                Description = "For extended help on one command, use `[>help [COMM]`.",
-
-                                Footer = new EmbedFooterBuilder
-                                {
-                                    Text = "xubot :p"
-                                },
-                                Timestamp = DateTime.UtcNow,
-                                Fields = new List<EmbedFieldBuilder>()
-                                {
-                                    new EmbedFieldBuilder
-                                    {
-                                        Name = "Commands",
-                                        Value = "**Actual usable stuff** Page " + page + "/8\n\n" +
-                                        "`[>catgirl` - Shorthand for `[>danbooru cat_girl`.\n" +
-                                        "`[>what` - Shorthand for `[>rule34 what`.\n" +
-                                        "`[>dragon` - Shorthand for `[>rule34 dragon`.\n" +
-                                        "`[>dragon_f` - Shorthand for `[>e621 dragon`.\n" +
-                                        "`[>inflation` - Shorthand for `[>rule34 inflation`.\n" +
-                                        "**End of help.**",
+                                        "`[>markov` - Generates a sentence from a Markov chain." +
+                                        "`[>markov [STRING]` - Gets a sentence and adds it to the Markov chain.\n" +
+                                        "`[>markov?i [FILE]` - Adds text from a file into the Markov chain.\n" +
+                                        "`[>markov?e` - Exports the Markov chain as a XML document.",
                                         IsInline = false
                                     }
                                 }
@@ -289,7 +231,7 @@ namespace xubot
                                     new EmbedFieldBuilder
                                     {
                                         Name = "Commands",
-                                        Value = "**Actual usable stuff** Page ?/8\n\n" +
+                                        Value = "**Actual usable stuff** Page ?/6\n\n" +
                                         "You have entered an invalid help page.",
                                         IsInline = false
                                     }
@@ -731,6 +673,38 @@ namespace xubot
                                 IsInline = false
                             }
                         }
+                };
+
+                await ReplyAsync("", false, embedd);
+            }
+
+            [Command("markov")]
+            public async Task markovhelp()
+            {
+                Embed embedd = new EmbedBuilder
+                {
+                    Title = "List of Commands: Markov",
+                    Color = Discord.Color.Orange,
+                    Description = "For extended help on one command, use `[>help [COMM]`.",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                                {
+                                    new EmbedFieldBuilder
+                                    {
+                                        Name = "Commands",
+                                        Value = "**Markov command help**\n\n" +
+                                        "`[>markov` - Generates a sentence from a Markov chain." +
+                                        "`[>markov [STRING]` - Gets a sentence and adds it to the Markov chain.\n" +
+                                        "`[>markov?i [FILE]` - Adds text from a file into the Markov chain.\n" +
+                                        "`[>markov?e` - Exports the Markov chain as a XML document.",
+                                        IsInline = false
+                                    }
+                                }
                 };
 
                 await ReplyAsync("", false, embedd);
