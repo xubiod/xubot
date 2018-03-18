@@ -19,7 +19,7 @@ namespace xubot
         public class _base : ModuleBase
         {
             [Command("add"), RequireUserPermission(GuildPermission.ManageGuild)]
-            public async Task addServ(string onwake = "", bool nsfwOverride = false)
+            public async Task addServ(string onwake = "", bool nsfwOverride = false, bool useMarkov = false)
             {
                 //[>servertriggers add "onwake msg" true
                 bool exist = false;
@@ -30,7 +30,8 @@ namespace xubot
                             {
                                 guildid = i.Attribute("id"),
                                 onwake = i.Attribute("onwake"),
-                                nsfwoverride = i.Attribute("nsfwoverride")
+                                nsfwoverride = i.Attribute("nsfwoverride"),
+                                useMarkov = i.Attribute("useMarkov")
                             };
 
                 foreach (var item in items)
@@ -48,10 +49,12 @@ namespace xubot
                     XAttribute id_att = new XAttribute("id", Context.Guild.Id.ToString());
                     XAttribute onwake_att = new XAttribute("onwake", onwake);
                     XAttribute nsfw_att = new XAttribute("nsfwoverride", nsfwOverride);
+                    XAttribute useMarkov_att = new XAttribute("useMarkov", useMarkov);
 
                     element.Add(id_att);
                     element.Add(onwake_att);
                     element.Add(nsfw_att);
+                    element.Add(useMarkov_att);
 
                     xdoc.Root.Add(element);
                     xdoc.Save("PerServTrigg.xml");
@@ -74,7 +77,8 @@ namespace xubot
                             {
                                 guildid = i.Attribute("id"),
                                 onwake = i.Attribute("onwake"),
-                                nsfwoverride = i.Attribute("nsfwoverride")
+                                nsfwoverride = i.Attribute("nsfwoverride"),
+                                useMarkov = i.Attribute("useMarkov")
                             };
 
                 foreach (var item in items)
@@ -88,6 +92,9 @@ namespace xubot
                                 break;
                             case "nsfwoverride":
                                 item.nsfwoverride.Value = setTo;
+                                break;
+                            case "useMarkov":
+                                item.useMarkov.Value = setTo;
                                 break;
                         }
                     }

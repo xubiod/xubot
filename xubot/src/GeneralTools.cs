@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using System.IO;
+using System.Net.Http;
 
 namespace xubot
 {
@@ -49,11 +51,17 @@ namespace xubot
 
             public static async Task BuildError(Exception exp, ICommandContext context)
             {
+                string stack = exp.StackTrace;
+                if (exp.StackTrace.Length > 512)
+                {
+                    File.WriteAllText(Path.Combine(Path.GetTempPath(), "StackTrace.txt"), stack);
+                    stack = "Stack trace is too big. Reference the provided file.";
+                }
                 EmbedBuilder embedd = new EmbedBuilder
                 {
                     Title = "Exception!",
                     Color = Discord.Color.Red,
-                    Description = "***That's a very bad!!!***",
+                    Description = "It's a ***" + exp.GetType() + "***.",
 
                     Footer = new EmbedFooterBuilder
                     {
@@ -73,12 +81,51 @@ namespace xubot
                                 Name = "Message",
                                 Value = "```" + exp.Message + "```",
                                 IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Target Site",
+                                Value = "```" + exp.TargetSite + "```",
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Stack Trace",
+                                Value = "```" + stack + "```",
+                                IsInline = false
                             }
 
                         }
                 };
 
                 await context.Channel.SendMessageAsync("", false, embedd);
+                if (exp.StackTrace.Length > 512)
+                {
+                    await context.Channel.SendFileAsync(Path.Combine(Path.GetTempPath(), "StackTrace.txt"));
+                }
+            }
+
+        }
+        public static string ReturnAttachmentURL(ICommandContext Context)
+        {
+            var attach = Context.Message.Attachments;
+            IAttachment attached = null;
+
+            foreach (var _att in attach)
+            {
+                attached = _att;
+            }
+
+            return attached.Url;
+        }
+
+        public static async Task DownloadAttachmentAsync(string localurl, string url)
+        {
+            using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage response = await client.GetAsync(url))
+            using (HttpContent content = response.Content)
+            {
+                File.WriteAllText(localurl, await content.ReadAsStringAsync());
             }
         }
     }

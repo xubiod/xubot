@@ -18,7 +18,6 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Collections.Generic;
-
 namespace xubot
 {
     public class Program : ModuleBase
@@ -156,8 +155,8 @@ namespace xubot
             {
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine($"[{message.Timestamp}] {message.Author}: {message.Content}");
-
+                Console.WriteLine($"[{message.Timestamp}] {{{message.Source}}} {message.Author}: {message.Content}");
+                
                 return Task.CompletedTask;
             };
 
