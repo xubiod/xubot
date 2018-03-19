@@ -20,9 +20,9 @@ namespace xubot
         [Command("reddit?last"), Alias("reddit?l")]
         public async Task last()
         {
-            new Thread(new ThreadStart(async () => {
+            Task.Run(async () => {
                 await Operate(Context, previous_sub, previous_query, previous_sorting, previous_hide);
-            })).Start();
+            });
         }
 
         [Command("reddit?random"), Alias("reddit?r")]
