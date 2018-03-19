@@ -17,15 +17,13 @@ namespace xubot
         static int previous_sorting = 0;
         static bool previous_hide = false;
 
-        [Command("reddit?last"), Alias("reddit?l")]
+        [Command("reddit?last", RunMode = RunMode.Async), Alias("reddit?l")]
         public async Task last()
         {
-            new Thread(new ThreadStart(async () => {
-                await Operate(Context, previous_sub, previous_query, previous_sorting, previous_hide);
-            })).Start();
+            await Operate(Context, previous_sub, previous_query, previous_sorting, previous_hide);
         }
 
-        [Command("reddit?random"), Alias("reddit?r")]
+        [Command("reddit?random", RunMode = RunMode.Async), Alias("reddit?r")]
         public async Task rnd()
         {
             Random rnd = new Random();
@@ -59,12 +57,10 @@ namespace xubot
             previous_sorting = 0;
             previous_hide = false;
 
-            new Thread(new ThreadStart(async () => {
-                await Operate(Context, previous_sub, previous_query, previous_sorting, previous_hide);
-            })).Start();
+            await Operate(Context, previous_sub, previous_query, previous_sorting, previous_hide);
         }
 
-        [Command("reddit?sub")]
+        [Command("reddit?sub", RunMode = RunMode.Async)]
         public async Task subreddit(string input)
         {
             Program.subreddit = Program.reddit.GetSubreddit(input);
@@ -119,7 +115,7 @@ namespace xubot
             await ReplyAsync("", false, embedd);
         }
 
-        [Command("reddit")]
+        [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit)
         {
             previous_sub = subreddit;
@@ -127,12 +123,10 @@ namespace xubot
             previous_query = "";
             previous_hide = false;
 
-            new Thread(new ThreadStart(async () => {
-                await Operate(Context, subreddit, "", 0, false);
-            })).Start();
+            await Operate(Context, subreddit, "", 0, false);
         }
 
-        [Command("reddit")]
+        [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, string query)
         {
             previous_sub = subreddit;
@@ -140,12 +134,10 @@ namespace xubot
             previous_query = query;
             previous_hide = false;
 
-            new Thread(new ThreadStart(async () => {
-                await Operate(Context, subreddit, query, 0, false);
-            })).Start();
+            await Operate(Context, subreddit, query, 0, false);
         }
 
-        [Command("reddit")]
+        [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, string query, int sorting)
         {
             previous_sub = subreddit;
@@ -153,12 +145,10 @@ namespace xubot
             previous_query = query;
             previous_hide = false;
 
-            new Thread(new ThreadStart(async () => {
-                await Operate(Context, subreddit, query, sorting, false);
-            })).Start();
+            await Operate(Context, subreddit, query, sorting, false);
         }
 
-        [Command("reddit")]
+        [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, int sorting)
         {
 
@@ -167,12 +157,10 @@ namespace xubot
             previous_query = "";
             previous_hide = false;
 
-            new Thread(new ThreadStart(async () => {
-                await Operate(Context, subreddit, "", sorting, false);
-            })).Start();
+            await Operate(Context, subreddit, "", sorting, false);
         }
 
-        [Command("reddit")]
+        [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, bool hide)
         {
 
@@ -181,12 +169,10 @@ namespace xubot
             previous_query = "";
             previous_hide = hide;
 
-            new Thread(new ThreadStart(async () => {
-                await Operate(Context, subreddit, "", 0, hide);
-            })).Start();
+            await Operate(Context, subreddit, "", 0, hide);
         }
 
-        [Command("reddit")]
+        [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, string query, bool hide)
         {
             previous_sub = subreddit;
@@ -194,12 +180,10 @@ namespace xubot
             previous_query = query;
             previous_hide = false;
 
-            new Thread(new ThreadStart(async () => {
-                await Operate(Context, subreddit, query, 0, hide);
-            })).Start();
+            await Operate(Context, subreddit, query, 0, hide);
         }
 
-        [Command("reddit")]
+        [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, string query, int sorting, bool hide)
         {
             previous_sub = subreddit;
@@ -207,12 +191,10 @@ namespace xubot
             previous_query = query;
             previous_hide = hide;
 
-            new Thread(new ThreadStart(async () => {
-                await Operate(Context, subreddit, query, sorting, hide);
-            })).Start();
+            await Operate(Context, subreddit, query, sorting, hide);
         }
 
-        [Command("reddit")]
+        [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, int sorting, bool hide)
         {
             previous_sub = subreddit;
@@ -220,9 +202,7 @@ namespace xubot
             previous_query = "";
             previous_hide = hide;
 
-            new Thread(new ThreadStart(async () => {
-                await Operate(Context, subreddit, "", sorting, hide);
-            })).Start();
+            await Operate(Context, subreddit, "", sorting, hide);
         }
 
         /* operation functions */
