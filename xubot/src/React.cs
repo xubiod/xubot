@@ -1,4 +1,4 @@
-﻿using Discord.Commands;
+using Discord.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +12,7 @@ namespace xubot
         [Command("$"), RequireOwner]
         public async Task react(string echo)
         {
-            await Context.Message.DeleteAsync(new Discord.RequestOptions()
-            {
-                AuditLogReason = "i said so."
-            });
+            await Context.Message.DeleteAsync(new Discord.RequestOptions(){});
             await ReplyAsync(echo);
         }
     }
