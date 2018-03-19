@@ -51,7 +51,7 @@ namespace xubot.src
 
                     foreach (char _p in charArray)
                     {
-                        if (Char.IsControl(_p)) { valid = false; break; }
+                        if (Char.IsControl(_p) && _p != '\r' && _p != '\n') { valid = false; break; }
                     }
                     if (valid)
                     {
