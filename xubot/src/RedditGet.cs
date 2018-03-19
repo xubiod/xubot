@@ -59,9 +59,9 @@ namespace xubot
             previous_sorting = 0;
             previous_hide = false;
 
-            new Thread(new ThreadStart(async () => {
+            Task.Run(async () => {
                 await Operate(Context, previous_sub, previous_query, previous_sorting, previous_hide);
-            })).Start();
+            });
         }
 
         [Command("reddit?sub")]
@@ -127,9 +127,9 @@ namespace xubot
             previous_query = "";
             previous_hide = false;
 
-            new Thread(new ThreadStart(async () => {
+            Task.Run(async () => {
                 await Operate(Context, subreddit, "", 0, false);
-            })).Start();
+            });
         }
 
         [Command("reddit")]
@@ -140,9 +140,9 @@ namespace xubot
             previous_query = query;
             previous_hide = false;
 
-            new Thread(new ThreadStart(async () => {
+            Task.Run(async () => {
                 await Operate(Context, subreddit, query, 0, false);
-            })).Start();
+            });
         }
 
         [Command("reddit")]
@@ -153,9 +153,9 @@ namespace xubot
             previous_query = query;
             previous_hide = false;
 
-            new Thread(new ThreadStart(async () => {
+            Task.Run(async () => {
                 await Operate(Context, subreddit, query, sorting, false);
-            })).Start();
+            });
         }
 
         [Command("reddit")]
@@ -167,9 +167,9 @@ namespace xubot
             previous_query = "";
             previous_hide = false;
 
-            new Thread(new ThreadStart(async () => {
+            Task.Run(async () => {
                 await Operate(Context, subreddit, "", sorting, false);
-            })).Start();
+            });
         }
 
         [Command("reddit")]
@@ -181,9 +181,9 @@ namespace xubot
             previous_query = "";
             previous_hide = hide;
 
-            new Thread(new ThreadStart(async () => {
+            Task.Run(async () => {
                 await Operate(Context, subreddit, "", 0, hide);
-            })).Start();
+            });
         }
 
         [Command("reddit")]
@@ -194,9 +194,9 @@ namespace xubot
             previous_query = query;
             previous_hide = false;
 
-            new Thread(new ThreadStart(async () => {
+            Task.Run(async () => {
                 await Operate(Context, subreddit, query, 0, hide);
-            })).Start();
+            });
         }
 
         [Command("reddit")]
@@ -207,9 +207,9 @@ namespace xubot
             previous_query = query;
             previous_hide = hide;
 
-            new Thread(new ThreadStart(async () => {
+            Task.Run(async () => {
                 await Operate(Context, subreddit, query, sorting, hide);
-            })).Start();
+            });
         }
 
         [Command("reddit")]
@@ -220,9 +220,9 @@ namespace xubot
             previous_query = "";
             previous_hide = hide;
 
-            new Thread(new ThreadStart(async () => {
+            Task.Run(async () => {
                 await Operate(Context, subreddit, "", sorting, hide);
-            })).Start();
+            });
         }
 
         /* operation functions */
