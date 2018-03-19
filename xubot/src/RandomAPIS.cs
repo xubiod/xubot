@@ -223,48 +223,46 @@ namespace xubot
         [Group("steam")]
         public class stem : ModuleBase
         {
-            [Command("user")]
+            [Command("user", RunMode = RunMode.Async)]
             public async Task user(string id)
             {
-                new Thread(new ThreadStart(async () =>
+                try
                 {
-                    try
+                    var webClient = new WebClient();
+                    string link = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + Program.keys.steam.ToString() + "&steamids=" + id;
+                    string link2 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" + Program.keys.steam.ToString() + "&steamid=" + id;
+
+                    webClient.Headers.Add("user-agent", "xubotSteam/2.0");
+
+                    Uri request = new Uri(link);
+
+                    string text = webClient.DownloadString(request);
+                    string text2 = webClient.DownloadString(link2);
+                    text = text.Substring(31);
+                    text = text.Substring(0, text.Length - 9);
+                    //await ReplyAsync(text);
+                    dynamic keys = JObject.Parse(text);
+                    dynamic keys2 = JObject.Parse(text2);
+
+                    ulong created = Convert.ToUInt64(keys.timecreated);
+                    DateTime createdDT = UnixTimeStampToDateTime(created);
+
+                    ulong logoff = Convert.ToUInt64(keys.lastlogoff);
+                    DateTime logoffDT = UnixTimeStampToDateTime(logoff);
+
+                    EmbedBuilder embedd = new EmbedBuilder
                     {
-                        var webClient = new WebClient();
-                        string link = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + Program.keys.steam.ToString() + "&steamids=" + id;
-                        string link2 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" + Program.keys.steam.ToString() + "&steamid=" + id;
+                        Title = "Steam: User information on " + keys.personaname.ToString(),
+                        Color = Discord.Color.Orange,
+                        Description = "",
+                        ThumbnailUrl = keys.avatarfull,
 
-                        webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
-
-                        Uri request = new Uri(link);
-
-                        string text = webClient.DownloadString(request);
-                        string text2 = webClient.DownloadString(link2);
-                        text = text.Substring(31);
-                        text = text.Substring(0, text.Length - 9);
-                        //await ReplyAsync(text);
-                        dynamic keys = JObject.Parse(text);
-                        dynamic keys2 = JObject.Parse(text2);
-
-                        ulong created = Convert.ToUInt64(keys.timecreated);
-                        DateTime createdDT = UnixTimeStampToDateTime(created);
-
-                        ulong logoff = Convert.ToUInt64(keys.lastlogoff);
-                        DateTime logoffDT = UnixTimeStampToDateTime(logoff);
-
-                        EmbedBuilder embedd = new EmbedBuilder
+                        Footer = new EmbedFooterBuilder
                         {
-                            Title = "Steam: User information on " + keys.personaname.ToString(),
-                            Color = Discord.Color.Orange,
-                            Description = "",
-                            ThumbnailUrl = keys.avatarfull,
-
-                            Footer = new EmbedFooterBuilder
-                            {
-                                Text = "xubot :p"
-                            },
-                            Timestamp = DateTime.UtcNow,
-                            Fields = new List<EmbedFieldBuilder>()
+                            Text = "xubot :p"
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -298,16 +296,14 @@ namespace xubot
                             }
 
                         }
-                        };
+                    };
 
-                        await ReplyAsync("", false, embedd);
-                    }
-                    catch (Exception exp)
-                    {
-                        await ReplyAsync(exp.Message);
-                    }
-
-                })).Start();
+                    await ReplyAsync("", false, embedd);
+                }
+                catch (Exception exp)
+                {
+                    await ReplyAsync(exp.Message);
+                }
             }
 
             public static DateTime UnixTimeStampToDateTime(ulong unixTimeStamp)

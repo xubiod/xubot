@@ -29,7 +29,8 @@ namespace xubot
         /// @param engine interp engine
         /// @param description erm...
         /// @param highlight_js_lang lang code for hilighting
-        public static Embed BuildEmbed(string lang, string description, string highlight_js_lang) {
+        public static Embed BuildEmbed(string lang, string description, string highlight_js_lang)
+        {
             EmbedBuilder embedd = new EmbedBuilder
             {
                 Title = "**Language:** `" + lang + "`",
@@ -63,7 +64,7 @@ namespace xubot
             return embedd;
             //await ReplyAsync("", false, embedd);
         }
-       
+
         private static string TableToString(LuaTable t)
         {
             object[] keys = new object[t.Keys.Count];
@@ -83,92 +84,145 @@ namespace xubot
         [Group("interp")]
         public class codeCompile : ModuleBase
         {
-            [Command("js")]
+            [Command("js", RunMode = RunMode.Async)]
             public async Task js(string eval)
             {
-                Task.Run(async () =>
+                _eval = eval;
+                int _timeout = 15;
+
+                Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-compiler.exe", "js " + _eval);
+
+                string uri = Path.GetTempPath() + "InterpResult.xubot";
+
+                code_handler.WaitForExit(_timeout * 1000);
+
+                if (!code_handler.HasExited)
                 {
-
-                    _eval = eval;
-                    int _timeout = 15;
-
-                    Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-compiler.exe", "js " + _eval);
-
-                    string uri = Path.GetTempPath() + "InterpResult.xubot";
-
-                    code_handler.WaitForExit(_timeout * 1000);
-
-                    if (!code_handler.HasExited)
+                    code_handler.Kill();
+                    _result = _timeout + " seconds past w/o result.";
+                    await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js"));
+                }
+                else
+                {
+                    if (File.Exists(uri))
                     {
-                        code_handler.Kill();
-                        _result = _timeout + " seconds past w/o result.";
+                        _result = File.ReadAllText(uri);
+                        File.Delete(uri);
+
                         await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js"));
                     }
                     else
                     {
-                        if (File.Exists(uri))
-                        {
-                            _result = File.ReadAllText(uri);
-                            File.Delete(uri);
-
-                            await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js"));
-                        }
-                        else
-                        {
-                            _result = "Result was not stored.";
-                            await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js"));
-                        }
+                        _result = "Result was not stored.";
+                        await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js"));
                     }
-                });
+                }
             }
 
-            [Command("lua")]
+            [Command("lua", RunMode = RunMode.Async)]
             public async Task lua(string eval)
             {
-                Task.Run(async () =>
+                _eval = eval;
+                int _timeout = 15;
+
+                Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-compiler.exe", "lua " + _eval);
+
+                string uri = Path.GetTempPath() + "InterpResult.xubot";
+
+                code_handler.WaitForExit(_timeout * 1000);
+
+                if (!code_handler.HasExited)
                 {
-                    _eval = eval;
-                    int _timeout = 15;
-
-                    Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-compiler.exe", "lua " + _eval);
-
-                    string uri = Path.GetTempPath() + "InterpResult.xubot";
-
-                    code_handler.WaitForExit(_timeout * 1000);
-
-                    if (!code_handler.HasExited)
+                    code_handler.Kill();
+                    _result = _timeout + " seconds past w/o result.";
+                    await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua"));
+                }
+                else
+                {
+                    if (File.Exists(uri))
                     {
-                        code_handler.Kill();
-                        _result = _timeout + " seconds past w/o result.";
+                        _result = File.ReadAllText(uri);
+                        File.Delete(uri);
+
                         await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua"));
                     }
                     else
                     {
-                        if (File.Exists(uri))
-                        {
-                            _result = File.ReadAllText(uri);
-                            File.Delete(uri);
-
-                            await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua"));
-                        }
-                        else
-                        {
-                            _result = "Result was not stored.";
-                            await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua"));
-                        }
+                        _result = "Result was not stored.";
+                        await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua"));
                     }
-                });
+                }
             }
 
-            [Command("powershell")]
+            [Command("powershell", RunMode = RunMode.Async)]
             public async Task ps(string eval)
             {
-                Task.Run(async () =>
-                {
-                    _eval = eval;
+                _eval = eval;
 
-                    if (CompileTools.PowershellDangerous(eval) == "")
+                if (CompileTools.PowershellDangerous(eval) == "")
+                {
+                    int _timeout = 5;
+
+                    Process psproc = new Process();
+
+                    psproc.StartInfo.UseShellExecute = false;
+                    psproc.StartInfo.RedirectStandardOutput = true;
+                    psproc.StartInfo.FileName = "powershell.exe";
+                    psproc.StartInfo.Arguments = "-Command " + eval;
+                    psproc.Start();
+
+                    string psout = psproc.StandardOutput.ReadToEnd();
+                    psproc.WaitForExit(_timeout * 1000);
+
+                    if (!psproc.HasExited)
                     {
+                        psproc.Kill();
+                        _result = _timeout + " seconds past w/o result.";
+                        await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
+                    }
+                    else
+                    {
+                        _result = psout;
+                        await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
+                    }
+                }
+                else
+                {
+                    _result = CompileTools.PowershellDangerous(eval);
+                    await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
+                }
+            }
+
+            [Command("powershell-sudo", RunMode = RunMode.Async)]
+            public async Task ps_sudo(string eval)
+            {
+                XmlReaderSettings settings = new XmlReaderSettings();
+                settings.Async = true;
+
+                bool trusted = false;
+
+                var xdoc = XDocument.Load("Trusted.xml");
+
+                var items = from i in xdoc.Descendants("trust")
+                            select new
+                            {
+                                user = (string)i.Attribute("id")
+                            };
+
+                foreach (var item in items)
+                {
+                    if (item.user == Context.Message.Author.Id.ToString())
+                    {
+                        trusted = true;
+                    }
+                }
+
+                if (trusted)
+                {
+                    if (CompileTools.PowershellSudoDangerous(eval) == "")
+                    {
+                        _eval = eval;
+
                         int _timeout = 5;
 
                         Process psproc = new Process();
@@ -194,76 +248,11 @@ namespace xubot
                             await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
                         }
                     }
-                    else
-                    {
-                        _result = CompileTools.PowershellDangerous(eval);
-                        await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
-                    }
-                });
-            }
-
-            [Command("powershell-sudo")]
-            public async Task ps_sudo(string eval)
-            {
-                Task.Run(async () =>
+                }
+                else
                 {
-                    XmlReaderSettings settings = new XmlReaderSettings();
-                    settings.Async = true;
-
-                    bool trusted = false;
-
-                    var xdoc = XDocument.Load("Trusted.xml");
-
-                    var items = from i in xdoc.Descendants("trust")
-                                select new
-                                {
-                                    user = (string)i.Attribute("id")
-                                };
-
-                    foreach (var item in items)
-                    {
-                        if (item.user == Context.Message.Author.Id.ToString())
-                        {
-                            trusted = true;
-                        }
-                    }
-
-                    if (trusted)
-                    {
-                        if (CompileTools.PowershellSudoDangerous(eval) == "")
-                        {
-                            _eval = eval;
-
-                            int _timeout = 5;
-
-                            Process psproc = new Process();
-
-                            psproc.StartInfo.UseShellExecute = false;
-                            psproc.StartInfo.RedirectStandardOutput = true;
-                            psproc.StartInfo.FileName = "powershell.exe";
-                            psproc.StartInfo.Arguments = "-Command " + eval;
-                            psproc.Start();
-
-                            string psout = psproc.StandardOutput.ReadToEnd();
-                            psproc.WaitForExit(_timeout * 1000);
-
-                            if (!psproc.HasExited)
-                            {
-                                psproc.Kill();
-                                _result = _timeout + " seconds past w/o result.";
-                                await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
-                            }
-                            else
-                            {
-                                _result = psout;
-                                await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
-                            }
-                        }
-                    } else
-                    {
-                        throw new Exception("User trying to run this command isn't trusted!");
-                    }
-                });
+                    throw new Exception("User trying to run this command isn't trusted!");
+                }
             }
         }
     }
@@ -332,8 +321,9 @@ namespace xubot
             {
                 return "Creating things is disallowed.";
             }
-            else if (input.ToLower().Contains("cmd") || input.ToLower().Contains("control") || input.ToLower().Contains("wmic") || input.ToLower().Contains("taskmgr") || input.ToLower().Contains("tasklist") || input.ToLower().Contains("del") || input.ToLower().Contains("sc") || input.ToLower().Contains(">") ) {
-                    return "Starting executables from PATH to get around blocks (and piping to write a file) is disallowed.";
+            else if (input.ToLower().Contains("cmd") || input.ToLower().Contains("control") || input.ToLower().Contains("wmic") || input.ToLower().Contains("taskmgr") || input.ToLower().Contains("tasklist") || input.ToLower().Contains("del") || input.ToLower().Contains("sc") || input.ToLower().Contains(">"))
+            {
+                return "Starting executables from PATH to get around blocks (and piping to write a file) is disallowed.";
             }
             else
             {

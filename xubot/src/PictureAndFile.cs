@@ -19,7 +19,7 @@ namespace xubot
             [Group("ocr")]
             public class ocr_comm : ModuleBase
             {
-                [Command]
+                [Command(RunMode = RunMode.Async)]
                 public async Task read()
                 {
                     var attach = Context.Message.Attachments;
@@ -30,71 +30,65 @@ namespace xubot
                         attached = _att;
                     }
 
-                    new Thread(new ThreadStart(async () =>
+                    var msg = await ReplyAsync("Please wait, this takes a while to read images.");
+
+                    Random rnd = new Random();
+                    int rnd_res = rnd.Next(99999);
+                    string[] imgSplit = attached.ToString().Split('.');
+                    string fileType = imgSplit[imgSplit.Length - 1];
+                    fileType = "." + fileType;
+                    string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
+
+                    System.Drawing.Image imgFromStream = null;
+
+                    using (HttpClient client = new HttpClient())
+                    using (HttpResponseMessage response = await client.GetAsync(attached.Url))
+                    using (HttpContent content = response.Content)
                     {
-                        var msg = await ReplyAsync("Please wait, this takes a while to read images.");
+                        imgFromStream = System.Drawing.Image.FromStream(await content.ReadAsStreamAsync());
+                        Bitmap bitmap = (Bitmap)imgFromStream;
 
-                        Random rnd = new Random();
-                        int rnd_res = rnd.Next(99999);
-                        string[] imgSplit = attached.ToString().Split('.');
-                        string fileType = imgSplit[imgSplit.Length - 1];
-                        fileType = "." + fileType;
-                        string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
+                        bitmap.Save(path);
 
-                        System.Drawing.Image imgFromStream = null;
+                        var Ocr = new AutoOcr();
+                        var Result = Ocr.Read(path);
+                        Console.WriteLine(Result.Text);
 
-                        using (HttpClient client = new HttpClient())
-                        using (HttpResponseMessage response = await client.GetAsync(attached.Url))
-                        using (HttpContent content = response.Content)
-                        {
-                            imgFromStream = System.Drawing.Image.FromStream(await content.ReadAsStreamAsync());
-                            Bitmap bitmap = (Bitmap)imgFromStream;
-                            
-                            bitmap.Save(path);
-
-                            var Ocr = new AutoOcr();
-                            var Result = Ocr.Read(path);
-                            Console.WriteLine(Result.Text);
-
-                            await msg.DeleteAsync();
-                            await ReplyAsync("**(Automatic) Iron OCR returned:\n** " + Result);
-                        }
-                    })).Start();
+                        await msg.DeleteAsync();
+                        await ReplyAsync("**(Automatic) Iron OCR returned:\n** " + Result);
+                    }
                 }
 
-                [Command]
+                [Command(RunMode = RunMode.Async)]
                 public async Task read(string img)
                 {
-                    new Thread(new ThreadStart(async () =>
+                    var msg = await ReplyAsync("Please wait, this takes a while to read images.");
+
+                    Random rnd = new Random();
+                    int rnd_res = rnd.Next(99999);
+                    string[] imgSplit = img.Split('.');
+                    string fileType = imgSplit[imgSplit.Length - 1];
+                    fileType = "." + fileType;
+                    string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
+
+                    System.Drawing.Image imgFromStream = null;
+
+                    using (HttpClient client = new HttpClient())
+                    using (HttpResponseMessage response = await client.GetAsync(img))
+                    using (HttpContent content = response.Content)
                     {
-                        var msg = await ReplyAsync("Please wait, this takes a while to read images.");
+                        imgFromStream = System.Drawing.Image.FromStream(await content.ReadAsStreamAsync());
+                        Bitmap bitmap = (Bitmap)imgFromStream;
 
-                        Random rnd = new Random();
-                        int rnd_res = rnd.Next(99999);
-                        string[] imgSplit = img.Split('.');
-                        string fileType = imgSplit[imgSplit.Length - 1];
-                        fileType = "." + fileType;
-                        string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
+                        bitmap.Save(path);
 
-                        System.Drawing.Image imgFromStream = null;
+                        var Ocr = new AutoOcr();
+                        var Result = Ocr.Read(path);
+                        Console.WriteLine(Result.Text);
 
-                        using (HttpClient client = new HttpClient())
-                        using (HttpResponseMessage response = await client.GetAsync(img))
-                        using (HttpContent content = response.Content)
-                        {
-                            imgFromStream = System.Drawing.Image.FromStream(await content.ReadAsStreamAsync());
-                            Bitmap bitmap = (Bitmap)imgFromStream;
-                            
-                            bitmap.Save(path);
-
-                            var Ocr = new AutoOcr();
-                            var Result = Ocr.Read(path);
-                            Console.WriteLine(Result.Text);
-
-                            await msg.DeleteAsync();
-                            await ReplyAsync("**(Automatic) Iron OCR returned:\n** " + Result);
-                        }
-                    })).Start();
+                        await msg.DeleteAsync();
+                        await ReplyAsync("**(Automatic) Iron OCR returned:\n** " + Result);
+                    }
                 }
             }
         }
@@ -164,7 +158,7 @@ namespace xubot
                 await Context.Channel.SendFileAsync(path, "Attempted break amount (bytes): " + breakAmount);
             }
 
-            //[Command("compress")]
+            //[Command("compress",RunMode = RunMode.Async)]
             public async Task compress()
             {
                 var attach = Context.Message.Attachments;
@@ -177,34 +171,31 @@ namespace xubot
 
                 string img = attached.Url;
 
-                new Thread(new ThreadStart(async () =>
+                Random rnd = new Random();
+                int rnd_res = rnd.Next(99999);
+                string[] imgSplit = img.Split('.');
+                string fileType = imgSplit[imgSplit.Length - 1];
+                fileType = "." + fileType;
+                string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
+
+                using (HttpClient client = new HttpClient())
+                using (HttpResponseMessage response = await client.GetAsync(img))
+                using (HttpContent content = response.Content)
                 {
-                    Random rnd = new Random();
-                    int rnd_res = rnd.Next(99999);
-                    string[] imgSplit = img.Split('.');
-                    string fileType = imgSplit[imgSplit.Length - 1];
-                    fileType = "." + fileType;
-                    string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
+                    FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+                    byte[] byteBlock = await content.ReadAsByteArrayAsync();
 
-                    using (HttpClient client = new HttpClient())
-                    using (HttpResponseMessage response = await client.GetAsync(img))
-                    using (HttpContent content = response.Content)
+                    using (GZipStream zip = new GZipStream(fs, CompressionLevel.Optimal))
                     {
-                        FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-                        byte[] byteBlock = await content.ReadAsByteArrayAsync();
 
-                        using (GZipStream zip = new GZipStream(fs, CompressionLevel.Optimal))
-                        {
-
-                        }
-
-                        fs.Write(await content.ReadAsByteArrayAsync(), 0, byteBlock.Length);
-                        fs.Flush();
-                        fs.Close();
                     }
 
-                    await Context.Channel.SendFileAsync(path);
-                })).Start();
+                    fs.Write(await content.ReadAsByteArrayAsync(), 0, byteBlock.Length);
+                    fs.Flush();
+                    fs.Close();
+                }
+
+                await Context.Channel.SendFileAsync(path);
             }
 
         }

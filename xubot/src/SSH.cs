@@ -46,7 +46,8 @@ namespace xubot
                     xuSSHStream.Close();
 
                     await ReplyAsync("SSH disconnected and input/output stream closed.");
-                } else
+                }
+                else
                 {
                     await ReplyAsync("Invaild disconnect code.");
                 }
@@ -82,43 +83,41 @@ namespace xubot
                 if (!exists) { await ReplyAsync(reply); }
             }
 
-            [Command("send")]
+            [Command("send", RunMode = RunMode.Async)]
             public async Task sendSSH(string cmd)
             {
-                Task.Run(async () =>
+                //adapted from wamwoowam's bot
+                //wamwoowam says hi :wave:
+                xuSSHStream.WriteLine(cmd);
+                StringBuilder ret = new StringBuilder();
+                while (true)
                 {
-                    //adapted from wamwoowam's bot
-                    xuSSHStream.WriteLine(cmd);
-                    StringBuilder ret = new StringBuilder();
-                    while (true)
+                    try
                     {
-                        try
+                        //xuSSHStream.
+                        Thread.Sleep(1000);
+                        string str = xuSSHStream.ReadLine(TimeSpan.FromSeconds(1));
+                        if (str != null)
                         {
-                            //xuSSHStream.
-                            Thread.Sleep(1000);
-                            string str = xuSSHStream.ReadLine(TimeSpan.FromSeconds(1));
-                            if (str != null)
+                            if (str.Trim() != cmd)
                             {
-                                if (str.Trim() != cmd)
-                                {
-                                    ret.Append(str.TrimEnd() + "\r\n");
-                                }
-                            }
-                            else
-                            {
-                                break;
+                                ret.Append(str.TrimEnd() + "\r\n");
                             }
                         }
-                        catch
+                        else
                         {
-                            ret.Append("...fuck.");
                             break;
                         }
                     }
-                    string _eval = cmd;
-                    string _result = ret.ToString();
-                    await ReplyAsync("", false, CompileTools.BuildEmbed("Bash", "Using SSH", "bash", cmd, _result));
-                });
+                    catch
+                    {
+                        ret.Append("...fuck.");
+                        break;
+                    }
+                }
+                string _eval = cmd;
+                string _result = ret.ToString();
+                await ReplyAsync("", false, CompileTools.BuildEmbed("Bash", "Using SSH", "bash", cmd, _result));
             }
         }
     }

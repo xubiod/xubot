@@ -16,100 +16,92 @@ namespace xubot.src
         public static TextMarkovChain xuMarkov = new TextMarkovChain();
         //public static List<string> includeTypes = new List<string>() { ".txt", ".log" };
 
-        [Command("markov")]
+        [Command("markov", RunMode = RunMode.Async)]
         public async Task outputMarkov()
         {
-            Task.Run(async () =>
+            try
             {
-                try
-                {
-                    string generated = xuMarkov.generateSentence();
+                string generated = xuMarkov.generateSentence();
 
-                    if (generated.Length > 1000)
-                    {
-                        generated = generated.Substring(0, 1000) + "[...]";
-                    }
-
-                    await ReplyAsync(generated);
-                }
-                catch (Exception exp)
+                if (generated.Length > 1000)
                 {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                    generated = generated.Substring(0, 1000) + "[...]";
                 }
-            });
+
+                await ReplyAsync(generated);
+            }
+            catch (Exception exp)
+            {
+                await GeneralTools.CommHandler.BuildError(exp, Context);
+            }
         }
 
-        [Command("markov")]
+        [Command("markov", RunMode = RunMode.Async)]
         public async Task outputMarkov(string input)
         {
-            Task.Run(async () =>
+            try
             {
-                try
-                {
-                    bool valid = true;
-                    List<char> charArray = input.ToList();
+                bool valid = true;
+                List<char> charArray = input.ToList();
 
-                    foreach (char _p in charArray)
-                    {
-                        if (Char.IsControl(_p) && _p != '\r' && _p != '\n') { valid = false; break; }
-                    }
-                    if (valid)
-                    {
-                        xuMarkov.feed(input);
-
-                        await ReplyAsync("Learned string.");
-                    }
-                    else
-                    {
-                        await ReplyAsync("Hey... this has control characters in it! Stop it!");
-                    }
-                }
-                catch (Exception exp)
+                foreach (char _p in charArray)
                 {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                    if (Char.IsControl(_p) && _p != '\r' && _p != '\n') { valid = false; break; }
                 }
-            });
+                if (valid)
+                {
+                    xuMarkov.feed(input);
+
+                    await ReplyAsync("Learned string.");
+                }
+                else
+                {
+                    await ReplyAsync("Hey... this has control characters in it! Stop it!");
+                }
+            }
+            catch (Exception exp)
+            {
+                await GeneralTools.CommHandler.BuildError(exp, Context);
+            }
         }
 
-        [Command("markov?i")]
+        [Command("markov?i", RunMode = RunMode.Async)]
         public async Task importMarkov()
         {
-            Task.Run(async () =>
+            try
             {
-                try
+                string url = GeneralTools.ReturnAttachmentURL(Context);
+                await GeneralTools.DownloadAttachmentAsync(Path.Combine(Path.GetTempPath(), "markov.txt"), url);
+
+                string fileContents = File.ReadAllText(Path.Combine(Path.GetTempPath(), "markov.txt"));
+
+                bool valid = true;
+                List<char> charArray = fileContents.ToList();
+
+                foreach (char _p in charArray)
                 {
-                    string url = GeneralTools.ReturnAttachmentURL(Context);
-                    await GeneralTools.DownloadAttachmentAsync(Path.Combine(Path.GetTempPath(), "markov.txt"), url);
-
-                    string fileContents = File.ReadAllText(Path.Combine(Path.GetTempPath(), "markov.txt"));
-
-                    bool valid = true;
-                    List<char> charArray = fileContents.ToList();
-
-                    foreach (char _p in charArray)
+                    if (Char.IsControl(_p) && _p != '\r' && _p != '\n')
                     {
-                        if (Char.IsControl(_p) && _p != '\r' && _p != '\n')
-                        {
-                            valid = false;
-                            break;
-                        }
-                    }
-
-                    if (valid)
-                    {
-                        xuMarkov.feed(fileContents);
-
-                        await ReplyAsync("Learned from file.");
-                    } else
-                    {
-                        await ReplyAsync("Hey... this has control characters in it! Stop it!");
+                        valid = false;
+                        break;
                     }
                 }
-                catch (Exception exp)
+
+                if (valid)
                 {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                    xuMarkov.feed(fileContents);
+
+                    await ReplyAsync("Learned from file.");
                 }
-            });
+                else
+                {
+                    await ReplyAsync("Hey... this has control characters in it! Stop it!");
+                }
+            }
+            catch (Exception exp)
+            {
+                await GeneralTools.CommHandler.BuildError(exp, Context);
+            }
         }
 
         [Command("markov?export"), Alias("markov?e")]
@@ -126,7 +118,7 @@ namespace xubot.src
                 await GeneralTools.CommHandler.BuildError(exp, Context);
             }
         }
-        
+
         [Command("markov?r")]
         public async Task outputMarkovRecur()
         {
