@@ -1,4 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <xubotOpinions>
+  <!--- these must be added before or during execution --->
+  <!--- these are used by the "opinion" command --->
   <opinion on="[input]">Response.</opinion>
 </xubotOpinions>
