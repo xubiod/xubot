@@ -1,4 +1,4 @@
-﻿using Discord.Commands;
+using Discord.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +17,14 @@ namespace xubot
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.Async = true;
-
-            string reply = "I don't have an opinion on that yet.";
-
+            Random _reply_decide = new Random();
+            
+            switch (_reply_decide.Next(2)) {
+                case 0: string reply = "I don't have an opinion on that yet."; break;
+                case 1: string reply = "I got no opinion on that yet."; break;
+                case 2: string reply = "I either don't know what that is, or I just don't have an opinion."; break;
+            }
+            
             var xdoc = XDocument.Load("Opinions.xml");
 
             var items = from i in xdoc.Descendants("opinion")
