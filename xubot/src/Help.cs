@@ -243,7 +243,7 @@ namespace xubot
 
                 await ReplyAsync("", false, embedd);
             }
-
+            
             [Command("key")]
             public async Task helpKey()
             {
