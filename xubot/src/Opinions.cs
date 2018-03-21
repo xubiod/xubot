@@ -19,10 +19,12 @@ namespace xubot
             settings.Async = true;
             Random _reply_decide = new Random();
             
+            string reply = "";
+            
             switch (_reply_decide.Next(2)) {
-                case 0: string reply = "I don't have an opinion on that yet."; break;
-                case 1: string reply = "I got no opinion on that yet."; break;
-                case 2: string reply = "I either don't know what that is, or I just don't have an opinion."; break;
+                case 0: reply = "I don't have an opinion on that yet."; break;
+                case 1: reply = "I got no opinion on that yet."; break;
+                case 2: reply = "I either don't know what that is, or I just don't have an opinion."; break;
             }
             
             var xdoc = XDocument.Load("Opinions.xml");
