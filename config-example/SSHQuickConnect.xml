@@ -1,4 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xubotSSHqc>
+  <!--- these must be added before or during execution --->
+  <!--- these are used by the "ssh qc" command --->
   <connection nick="[nickname]" host="[domain/ip]" port="22" user="[username]" password="[password]" />
 </xubotSSHqc>
