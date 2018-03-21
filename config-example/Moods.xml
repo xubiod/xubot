@@ -1,5 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xubotMood>
   <!--- these elements are added automagically --->
+  <!--- they are used by the commands in Mood.cs --->
   <mood user="[userid]" moodvalue="[mood value]" />
 </xubotMood>
