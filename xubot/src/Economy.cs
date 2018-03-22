@@ -31,7 +31,7 @@ namespace xubot.src
                     DateTime last_upd = DateTime.Parse(EconomyTools.ReadLastUpdate(Context.Message.Author));
                     double hr_since_up = DateTime.Now.ToOADate() - last_upd.ToOADate();
 
-                    _amount = Math.Round(hr_since_up * 10000);
+                    _amount = Math.Round(hr_since_up * 10000)/100;
                 }
                     _new_act = false;
                 EconomyTools.Adjust(Context.Message.Author, _amount);
