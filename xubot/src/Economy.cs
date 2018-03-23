@@ -9,6 +9,7 @@ using System.Xml.Linq;
 
 namespace xubot.src
 {
+    [Group("economy"), Alias("eco")]
     public class Economy : ModuleBase
     {
         public static bool _new_act = false;
