@@ -12,6 +12,13 @@ namespace xubot.src
     public class Economy : ModuleBase
     {
         public static bool _new_act = false;
+        
+        //confirm variables for transfer
+        public static IUser _auth;
+        public static IUser _transferTo;
+        public static double _amount = 0;
+        public static string _pass = "";
+        public Random _r = new Random();
         //public static ICommandContext _Context;
 
         [Command("collect")]
@@ -23,7 +30,7 @@ namespace xubot.src
             {
                 EconomyTools.AddOrRefreshAsync(Context.Message.Author);
                 //string _lastupd = EconomyTools.ReadLastUpdate(Context.Message.Author);
-                double _amount = 5;
+                double _amount = 5.00;
                 string _new_acct = "(This is a new account!)";
                 if (!_new_act)
                 {
@@ -56,6 +63,62 @@ namespace xubot.src
             } else
             {
                 await EconomyTools.Build(Context, "", "Problem!", "You don't have an account.");
+            }
+        }
+
+        [Command("transfer", RunMode = RunMode.Async)]
+        public async Task transfer(double amount, ulong id)
+        {
+            //IUser transferTo = await Context.Guild.GetUserAsync(id);
+            IUser transferTo = Program.xuClient.GetUser(id);
+
+            if (EconomyTools.AccountExists(transferTo))
+            {
+                if (EconomyTools.ReadAmount(Context.Message.Author) > (amount * 1.1) && amount > 1)
+                {
+                    _auth = Context.Message.Author;
+                    _transferTo = transferTo;
+                    _amount = amount;
+
+                    string code = _r.Next(9).ToString() + _r.Next(9).ToString() + _r.Next(9).ToString();
+                    _pass = code;
+
+                    await EconomyTools.Build_Transfer(Context, _amount, _transferTo, code);
+                }
+                else if (amount < 0.01)
+                {
+                    await ReplyAsync("You can't transfer negative or zero amounts.");
+                }
+                else
+                {
+                    await ReplyAsync("You can't transfer what you don't have!");
+                }
+            } else
+            {
+                await EconomyTools.Build(Context, "", "Problem!", "You are trying to transfer money to someone that doesn't have an account.");
+            }
+        }
+
+        [Command("confirm")]
+        public async Task confirmTransfer(string pass)
+        {
+            if (_pass == pass && _pass != "")
+            {
+                if (_auth == Context.Message.Author)
+                {
+                    EconomyTools.Adjust(_auth, Math.Round((_amount * -1.1) * 100)/100);
+                    EconomyTools.Adjust(_transferTo, _amount);
+                    await ReplyAsync("Transfer of `" + _amount + "#` has been completed to " + _transferTo.Username + "#" + _transferTo.Discriminator + ".");
+                } else
+                {
+                    await ReplyAsync("Confirming transactions can only be done by the author of the transfer.");
+                }
+            } else if (_pass == "")
+            {
+                await ReplyAsync("Transfer was not initialized.");
+            } else
+            {
+                await ReplyAsync("Incorrect code. Transfer cancelled.");
             }
         }
 
@@ -210,6 +273,45 @@ namespace xubot.src
                             {
                                 Name = title,
                                 Value = amt,
+                                IsInline = false
+                            }
+                        }
+                };
+
+                await Context.Channel.SendMessageAsync("", false, embedd);
+            }
+
+            public static async Task Build_Transfer(ICommandContext Context, double amount, IUser transferTo, string _code)
+            {
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Economy",
+                    Color = Discord.Color.Green,
+                    Description = "Transfer: Complete Cost is `" + (Math.Round((_amount * 1.1) * 100) / 100) + "#`",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Transfer Amount to **" + transferTo.Username + "#" + transferTo.Discriminator + "**",
+                                Value = "```" + amount + "#```",
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Transfer Fee",
+                                Value = "```" + Math.Round((_amount * .1) * 100)/100 + "#```",
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Transfer Confirmation Code",
+                                Value = "Your confirmation is `" + _code + "`.\nUse `[>confirm` to confirm this transaction.",
                                 IsInline = false
                             }
                         }
