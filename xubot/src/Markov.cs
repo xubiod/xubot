@@ -15,7 +15,10 @@ namespace xubot.src
     {
         public static TextMarkovChain xuMarkov = new TextMarkovChain();
         //public static List<string> includeTypes = new List<string>() { ".txt", ".log" };
-
+        
+        //use this later
+        //Regex tagRegex = new Regex(@"<\s*([^ >]+)[^>]*>.*?<\s*/\s*\1\s*>");
+        
         [Command("markov", RunMode = RunMode.Async)]
         public async Task outputMarkov()
         {
