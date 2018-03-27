@@ -8,6 +8,7 @@ using Discord;
 using Discord.Commands;
 using System.IO;
 using System.Net.Http;
+using System.Xml.Linq;
 
 namespace xubot
 {
@@ -127,6 +128,27 @@ namespace xubot
             {
                 File.WriteAllText(localurl, await content.ReadAsStringAsync());
             }
+        }
+
+        public static bool UserTrusted(ICommandContext Context)
+        {
+            var xdoc = XDocument.Load("Trusted.xml");
+
+            var items = from i in xdoc.Descendants("trust")
+                        select new
+                        {
+                            user = (string)i.Attribute("id")
+                        };
+
+            foreach (var item in items)
+            {
+                if (item.user == Context.Message.Author.Id.ToString())
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

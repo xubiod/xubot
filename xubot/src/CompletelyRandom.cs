@@ -31,5 +31,17 @@ namespace xubot
                              "🥚🥚🥚🥚🥚🥚\n" +
                              "⬛🥚🥚🥚🥚⬛");
         }
+
+        [Command("no-need-to-be-upset")]
+        public async Task nntbu()
+        {
+            await ReplyAsync("https://youtu.be/GJDNkVDGM_s");
+        }
+
+        [Command("gay-frogs")]
+        public async Task gf()
+        {
+            await ReplyAsync("https://youtu.be/9JRLCBb7qK8");
+        }
     }
 }

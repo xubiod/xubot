@@ -198,26 +198,8 @@ namespace xubot
             {
                 XmlReaderSettings settings = new XmlReaderSettings();
                 settings.Async = true;
-
-                bool trusted = false;
-
-                var xdoc = XDocument.Load("Trusted.xml");
-
-                var items = from i in xdoc.Descendants("trust")
-                            select new
-                            {
-                                user = (string)i.Attribute("id")
-                            };
-
-                foreach (var item in items)
-                {
-                    if (item.user == Context.Message.Author.Id.ToString())
-                    {
-                        trusted = true;
-                    }
-                }
-
-                if (trusted)
+                
+                if (GeneralTools.UserTrusted(Context))
                 {
                     if (CompileTools.PowershellSudoDangerous(eval) == "")
                     {

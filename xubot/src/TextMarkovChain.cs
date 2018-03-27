@@ -118,12 +118,27 @@ namespace xubot.src
             return s.ToString();
         }
 
+        //xubiod's additions BEGIN
+        public void flush()
+        {
+            chains.Clear();
+            head.flush();
+        }
+        //END
+
         private class Chain
         {
             public string word;
 
             private Dictionary<string, ChainProbability> chains;
             private int fullCount;
+
+            //more xubiod additions
+            public void flush()
+            {
+                chains.Clear();
+            }
+            //end
 
             public Chain(string w)
             {

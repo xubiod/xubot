@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord.Commands;
 
@@ -22,6 +23,12 @@ namespace xubot.src
         [Command("markov", RunMode = RunMode.Async)]
         public async Task outputMarkov()
         {
+            if (!xuMarkov.readyToGenerate())
+            {
+                await ReplyAsync("I'm not ready!!!");
+                return;
+            }
+
             try
             {
                 string generated = xuMarkov.generateSentence();
@@ -51,15 +58,22 @@ namespace xubot.src
                 {
                     if (Char.IsControl(_p) && _p != '\r' && _p != '\n') { valid = false; break; }
                 }
-                if (valid)
+                if (valid && !ContainsHTML(input))
                 {
                     xuMarkov.feed(input);
 
                     await ReplyAsync("Learned string.");
                 }
-                else
+                else if (!valid)
                 {
                     await ReplyAsync("Hey... this has control characters in it! Stop it!");
+                }
+                else if (ContainsHTML(input))
+                {
+                    await ReplyAsync("Hey... this has HTML! It makes me stupid so no!");
+                } else
+                {
+                    await ReplyAsync("I have no clue what you did but I don't like it.");
                 }
             }
             catch (Exception exp)
@@ -76,10 +90,10 @@ namespace xubot.src
                 string url = GeneralTools.ReturnAttachmentURL(Context);
                 await GeneralTools.DownloadAttachmentAsync(Path.Combine(Path.GetTempPath(), "markov.txt"), url);
 
-                string fileContents = File.ReadAllText(Path.Combine(Path.GetTempPath(), "markov.txt"));
+                string input = File.ReadAllText(Path.Combine(Path.GetTempPath(), "markov.txt"));
 
                 bool valid = true;
-                List<char> charArray = fileContents.ToList();
+                List<char> charArray = input.ToList();
 
                 foreach (char _p in charArray)
                 {
@@ -90,15 +104,23 @@ namespace xubot.src
                     }
                 }
 
-                if (valid)
+                if (valid && !ContainsHTML(input))
                 {
-                    xuMarkov.feed(fileContents);
+                    xuMarkov.feed(input);
 
                     await ReplyAsync("Learned from file.");
                 }
-                else
+                else if (!valid)
                 {
                     await ReplyAsync("Hey... this has control characters in it! Stop it!");
+                }
+                else if (ContainsHTML(input))
+                {
+                    await ReplyAsync("Hey... this has HTML! It makes me stupid so no!");
+                }
+                else
+                {
+                    await ReplyAsync("I have no clue what you did but I don't like it.");
                 }
             }
             catch (Exception exp)
@@ -125,6 +147,12 @@ namespace xubot.src
         [Command("markov?r")]
         public async Task outputMarkovRecur()
         {
+            if (!xuMarkov.readyToGenerate())
+            {
+                await ReplyAsync("I'm not ready!!!");
+                return;
+            }
+
             try
             {
                 string output = xuMarkov.generateSentence();
@@ -138,5 +166,22 @@ namespace xubot.src
             }
         }
 
+        [Command("markov?flush")]
+        public async Task flush()
+        {
+            if (GeneralTools.UserTrusted(Context))
+            {
+                xuMarkov.flush();
+                await ReplyAsync("Markov chain flushed.");
+            } else
+            {
+                await ReplyAsync("Only trusted users can flush the chain.");
+            }
+        }
+
+        public static bool ContainsHTML(string input)
+        {
+            return new Regex(@"<\s*([^ >]+)[^>]*>.*?<\s*/\s*\1\s*>").IsMatch(input);
+        }
     }
 }

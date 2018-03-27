@@ -709,6 +709,39 @@ namespace xubot
 
                 await ReplyAsync("", false, embedd);
             }
+
+            [Command("eco"), Alias("economy")]
+            public async Task ecohelp()
+            {
+                Embed embedd = new EmbedBuilder
+                {
+                    Title = "List of Commands: Economy",
+                    Color = Discord.Color.Orange,
+                    Description = "For extended help on one command, use `[>help [COMM]`.",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                                {
+                                    new EmbedFieldBuilder
+                                    {
+                                        Name = "Commands",
+                                        Value = "**Economy command help**\n\n" +
+                                        "`[>eco collect` - Generates and gives you currency based on last generation.\n" +
+                                        "`[>eco balance` - Gets your economy balance.\n" +
+                                        "`[>eco transfer [AMOUNT] [ID]` - Transfers currency to another user.",
+                                        IsInline = false
+                                    }
+                                }
+                };
+
+                await ReplyAsync("", false, embedd);
+            }
+
+
         }
     }
 }

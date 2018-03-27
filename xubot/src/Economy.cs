@@ -39,7 +39,7 @@ namespace xubot.src
                     DateTime last_upd = DateTime.Parse(EconomyTools.ReadLastUpdate(Context.Message.Author));
                     double hr_since_up = DateTime.Now.ToOADate() - last_upd.ToOADate();
 
-                    _amount = Math.Round(hr_since_up * 10000)/100;
+                    _amount = Math.Min(Math.Round(hr_since_up * 10000)/100, 100);
                 }
                     _new_act = false;
                 EconomyTools.Adjust(Context.Message.Author, _amount);
@@ -107,8 +107,8 @@ namespace xubot.src
             {
                 if (_auth == Context.Message.Author)
                 {
-                    EconomyTools.Adjust(_auth, Math.Round((_amount * -1.1) * 100)/100);
-                    EconomyTools.Adjust(_transferTo, _amount);
+                    EconomyTools.Adjust(_auth, Math.Round((_amount * -1.1) * 100)/100, false);
+                    EconomyTools.Adjust(_transferTo, _amount, false);
                     await ReplyAsync("Transfer of `" + _amount + "#` has been completed to " + _transferTo.Username + "#" + _transferTo.Discriminator + ".");
                 } else
                 {
@@ -231,7 +231,7 @@ namespace xubot.src
                 return "";
             }
 
-            public static void Adjust(IUser arg, double adjust)
+            public static void Adjust(IUser arg, double adjust, bool changeUpdate = true)
             {
                 Mood.xdoc = XDocument.Load("Economy.xml");
 
@@ -248,7 +248,7 @@ namespace xubot.src
                     if (item.user.Value == arg.Id.ToString())
                     {
                         item.amount.Value = (Convert.ToDouble(item.amount.Value) + adjust).ToString();
-                        item.lastupdate.Value = DateTime.Now.ToString();
+                        if (changeUpdate) item.lastupdate.Value = DateTime.Now.ToString();
                     }
                 }
 
@@ -312,7 +312,7 @@ namespace xubot.src
                             new EmbedFieldBuilder
                             {
                                 Name = "Transfer Confirmation Code",
-                                Value = "Your confirmation is `" + _code + "`.\nUse `[>confirm` to confirm this transaction.",
+                                Value = "Your confirmation is `" + _code + "`.\nUse `[>eco confirm` to confirm this transaction.",
                                 IsInline = false
                             }
                         }
