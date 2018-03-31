@@ -551,7 +551,7 @@ namespace xubot
                 await ReplyAsync("", false, embedd);
             }
 
-            [Command("pic"), Alias("file")]
+            [Command("pic")]
             public async Task pictures()
             {
                 EmbedBuilder embedd = new EmbedBuilder
@@ -570,11 +570,9 @@ namespace xubot
                             new EmbedFieldBuilder
                             {
                                 Name = "Commands",
-                                Value = "**Image/File command help**\n\n" +
+                                Value = "**Image command help**\n\n" +
                                 "`[>pic ocr [IMAGE ATTACHMENT]` - Attempts to read the image attached to the command.\n" +
-                                "`[>pic ocr [LINK]` - Attempts to read the image linked to the command.\n" +
-                                "`[>file sendback [LINK]` - Downloads a file and reattaches it (LEGACY - TO BE REMOVED).\n" +
-                                "`[>file corrupt [LINK]` - Downloads a file and changes random bytes.\n",
+                                "`[>pic ocr [LINK]` - Attempts to read the image linked to the command.\n",
                                 IsInline = false
                             }
                             //images
