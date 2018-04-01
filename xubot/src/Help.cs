@@ -572,7 +572,8 @@ namespace xubot
                                 Name = "Commands",
                                 Value = "**Image command help**\n\n" +
                                 "`[>pic ocr [IMAGE ATTACHMENT]` - Attempts to read the image attached to the command.\n" +
-                                "`[>pic ocr [LINK]` - Attempts to read the image linked to the command.\n",
+                                "`[>pic ocr [LINK]` - Attempts to read the image linked to the command.\n" + 
+                                "`[>pic manip [FILTER] [IMAGE ATTACHMENT]` - Play around with images with filters! *[list of filters can only be seen in the source code so far, sorry!]*",
                                 IsInline = false
                             }
                             //images
