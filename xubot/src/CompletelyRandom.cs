@@ -43,5 +43,11 @@ namespace xubot
         {
             await ReplyAsync("https://youtu.be/9JRLCBb7qK8");
         }
+
+        [Command("make-this-middle-finger")]
+        public async Task mtmf(string face)
+        {
+            await ReplyAsync("(凸 " + face + ")凸");
+        }
     }
 }
