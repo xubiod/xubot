@@ -9,6 +9,7 @@ using Discord.Commands;
 using System.IO;
 using System.Net.Http;
 using System.Xml.Linq;
+using System.Web;
 
 namespace xubot
 {
@@ -107,6 +108,7 @@ namespace xubot
             }
 
         }
+
         public static string ReturnAttachmentURL(ICommandContext Context)
         {
             var attach = Context.Message.Attachments;
@@ -120,13 +122,40 @@ namespace xubot
             return attached.Url;
         }
 
-        public static async Task DownloadAttachmentAsync(string localurl, string url)
+        public static async Task DownloadAttachmentAsync(ICommandContext Context, string localurl, bool autoApplyFT = false)
+        {
+            string url = ReturnAttachmentURL(Context);
+            using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage response = await client.GetAsync(url))
+            using (HttpContent content = response.Content)
+            {
+                if (!autoApplyFT)
+                {
+                    File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
+                }
+                else
+                {
+                    string type = VirtualPathUtility.GetExtension(url);
+                    File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
+                }
+            }
+        }
+
+        public static async Task DownloadAttachmentAsync(string localurl, string url, bool autoApplyFT = false)
         {
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(url))
             using (HttpContent content = response.Content)
             {
-                File.WriteAllText(localurl, await content.ReadAsStringAsync());
+                if (!autoApplyFT)
+                {
+                    File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
+                }
+                else
+                {
+                    string type = VirtualPathUtility.GetExtension(url);
+                    File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
+                }
             }
         }
 
