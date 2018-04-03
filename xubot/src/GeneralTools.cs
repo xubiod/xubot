@@ -108,6 +108,101 @@ namespace xubot
             }
 
         }
+        
+        public class XML
+        {
+            private static XDocument xdoc;
+            public static string filename;
+            public static string element;
+            public static List<string> attrib;
+            public static List<string> attrib_def;
+            public static bool exists = false;
+
+            public static void AddRefresh(IUser arg)
+            {
+                throw new NotImplementedException();
+
+                xdoc = XDocument.Load(filename);
+
+                var items = from i in xdoc.Descendants(element)
+                            select new
+                            {
+                                user = i.Attribute(attrib[0]),
+                                preferred = i.Attribute(attrib[1])
+                            };
+
+                foreach (var item in items)
+                {
+                    if (item.user.Value == arg.Id.ToString())
+                    {
+                        exists = true;
+                    }
+                }
+
+                if (!exists)
+                {
+                    Console.WriteLine("new user found to add to {0}, doing that now", filename);
+
+                    XElement xelm = new XElement(element);
+                    XAttribute user = new XAttribute(attrib[0], arg.Id.ToString());
+                    XAttribute prefer = new XAttribute(attrib[1], attrib_def[1]);
+
+                    xelm.Add(user);
+                    xelm.Add(prefer);
+
+                    xdoc.Root.Add(xelm);
+                    xdoc.Save(filename);
+                }
+            }
+
+            public static string Read(IUser arg)
+            {
+                throw new NotImplementedException();
+
+                xdoc = XDocument.Load(filename);
+
+                var items = from i in xdoc.Descendants(element)
+                            select new
+                            {
+                                user = i.Attribute(attrib[0]),
+                                preferred = i.Attribute(attrib[1])
+                            };
+
+                foreach (var item in items)
+                {
+                    if (item.user.Value == arg.Id.ToString())
+                    {
+                        return item.preferred.Value;
+                    }
+                }
+
+                return "not set!";
+            }
+
+            public static void Set(IUser arg, string newVal)
+            {
+                throw new NotImplementedException();
+
+                xdoc = XDocument.Load(filename);
+
+                var items = from i in xdoc.Descendants(element)
+                            select new
+                            {
+                                user = i.Attribute(attrib[0]),
+                                preferred = i.Attribute(attrib[1])
+                            };
+
+                foreach (var item in items)
+                {
+                    if (item.user.Value == arg.Id.ToString())
+                    {
+                        item.preferred.Value = newVal;
+                    }
+                }
+
+                xdoc.Save(filename);
+            }
+        }
 
         public static string ReturnAttachmentURL(ICommandContext Context)
         {

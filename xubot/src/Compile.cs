@@ -155,45 +155,6 @@ namespace xubot
             }
 
             [Command("powershell", RunMode = RunMode.Async)]
-            public async Task ps(string eval)
-            {
-                _eval = eval;
-
-                if (CompileTools.PowershellDangerous(eval) == "")
-                {
-                    int _timeout = 5;
-
-                    Process psproc = new Process();
-
-                    psproc.StartInfo.UseShellExecute = false;
-                    psproc.StartInfo.RedirectStandardOutput = true;
-                    psproc.StartInfo.FileName = "powershell.exe";
-                    psproc.StartInfo.Arguments = "-Command " + eval;
-                    psproc.Start();
-
-                    string psout = psproc.StandardOutput.ReadToEnd();
-                    psproc.WaitForExit(_timeout * 1000);
-
-                    if (!psproc.HasExited)
-                    {
-                        psproc.Kill();
-                        _result = _timeout + " seconds past w/o result.";
-                        await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
-                    }
-                    else
-                    {
-                        _result = psout;
-                        await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
-                    }
-                }
-                else
-                {
-                    _result = CompileTools.PowershellDangerous(eval);
-                    await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
-                }
-            }
-
-            [Command("powershell-sudo", RunMode = RunMode.Async)]
             public async Task ps_sudo(string eval)
             {
                 XmlReaderSettings settings = new XmlReaderSettings();
@@ -201,7 +162,7 @@ namespace xubot
                 
                 if (GeneralTools.UserTrusted(Context))
                 {
-                    if (CompileTools.PowershellSudoDangerous(eval) == "")
+                    if (CompileTools.PowershellDangerous(eval) == "")
                     {
                         _eval = eval;
 
@@ -233,7 +194,7 @@ namespace xubot
                 }
                 else
                 {
-                    throw new Exception("User trying to run this command isn't trusted!");
+                    await ReplyAsync("Sorry, but this command is restricted");
                 }
             }
         }
@@ -303,20 +264,9 @@ namespace xubot
             {
                 return "Creating things is disallowed.";
             }
-            else if (input.ToLower().Contains("cmd") || input.ToLower().Contains("control") || input.ToLower().Contains("wmic") || input.ToLower().Contains("taskmgr") || input.ToLower().Contains("tasklist") || input.ToLower().Contains("del") || input.ToLower().Contains("sc") || input.ToLower().Contains(">"))
+            else if (input.ToLower().Contains("cmd") || input.ToLower().Contains("control") || input.ToLower().Contains("wmic") || input.ToLower().Contains("taskmgr") || input.ToLower().Contains("tasklist") || input.ToLower().Contains("del ") || input.ToLower().Contains("sc ") || input.ToLower().Contains(">"))
             {
                 return "Starting executables from PATH to get around blocks (and piping to write a file) is disallowed.";
-            }
-            else
-            {
-                return "";
-            }
-        }
-        public static string PowershellSudoDangerous(string input)
-        {
-            if (input.ToLower().Contains("keys.json"))
-            {
-                return "Interacting with my API keys is disallowed (even in sudo command).";
             }
             else
             {

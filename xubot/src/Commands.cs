@@ -1161,5 +1161,81 @@ namespace xubot
 
             await ReplyAsync("", false, embedd);
         }
+
+        [Group("trust"), RequireOwner]
+        public class Trust : ModuleBase
+        {
+            XDocument xdoc;
+
+            [Command("add")]
+            public async Task add(string user, string discrim)
+            {
+                try
+                {
+                    Discord.IUser add = Program.xuClient.GetUser(user, discrim);
+
+                    bool exists = false;
+
+                    xdoc = XDocument.Load("Trusted.xml");
+
+                    var items = from i in xdoc.Descendants("trust")
+                                select new
+                                {
+                                    user = i.Attribute("id")
+                                };
+
+                    foreach (var item in items)
+                    {
+                        if (item.user.Value == add.Id.ToString())
+                        {
+                            exists = true;
+                        }
+                    }
+
+                    if (!exists)
+                    {
+                        Console.WriteLine("new user found to add to trust, doing that now");
+
+                        XElement xelm = new XElement("trust");
+                        XAttribute _user = new XAttribute("id", add.Id.ToString());
+
+                        xelm.Add(user);
+
+                        xdoc.Root.Add(xelm);
+                        xdoc.Save("Trusted.xml");
+                        
+                        var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
+
+                        await pri.SendMessageAsync("**" + add.Username + "#" + add.Discriminator + "** has been trusted.");
+                    }
+                    else
+                    {
+                        var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
+
+                        await pri.SendMessageAsync("**" + add.Username + "#" + add.Discriminator + "** has already been trusted.");
+                    }
+                } catch (Exception exp)
+                {
+                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                }
+            }
+
+            [Command("remove")]
+            public async Task remove(string user, string discrim)
+            {
+                Discord.IUser remove = Program.xuClient.GetUser(user, discrim);
+
+                XDocument xdoc = XDocument.Load("Trusted.xml");
+                xdoc.Descendants("trust")
+                    .Where(x => (string)x.Attribute("id") == remove.Id.ToString())
+                    .Remove();
+
+                xdoc.Save("Trusted.xml");
+
+                var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
+
+                await pri.SendMessageAsync("**" + remove.Username + "#" + remove.Discriminator + "** has been untrusted.");
+            }
+        }
     }
 }

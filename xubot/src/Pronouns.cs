@@ -44,14 +44,28 @@ namespace xubot.src
             }
         }
 
-        [Command("set")]
+        [Command("set"), RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task set(string pro)
         {
             PronounTools.AddRefresh(Context.Message.Author);
             PronounTools.Set(Context.Message.Author, pro);
 
-            await ReplyAsync("Pronoun set.");
+            string role_name = "xubot.pronoun = " + pro;
+            IRole role;
+
+            if (Context.Guild.Roles.Any(x => x.Name == role_name))
+            {
+                role = Context.Guild.Roles.First(x => x.Name == role_name);
+            } else
+            {
+                role = await Context.Guild.CreateRoleAsync(role_name);
+            }
+
+            await (Context.Message.Author as IGuildUser).AddRoleAsync(role);
+            await ReplyAsync("Pronoun set, and role made or set.");
         }
+
+
     }
 
     public class PronounTools
