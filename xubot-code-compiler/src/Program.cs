@@ -58,7 +58,8 @@ namespace xubot_code_compiler
                                         os.remove = nil
                                         os.exit = nil
                                         io = nil
-                                        import = nil");
+                                        import = nil
+                                        require = nil");
                         var ret = lua.DoString(code, "eval")?
                             .Select(o => o is LuaTable ta ? TableToString(ta) : o);
                         _result = JsonConvert.SerializeObject(ret);
@@ -81,7 +82,7 @@ namespace xubot_code_compiler
                 Environment.Exit(0);
             }
 
-            if (args[0] == "js")
+            else if (args[0] == "js")
             {
                 string code = "";
                 foreach (string arg in args)
