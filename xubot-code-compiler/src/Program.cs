@@ -46,6 +46,8 @@ namespace xubot_code_compiler
                     }
                 }
 
+                if (code.Contains("luanet")) { Environment.Exit(0); }
+
                 //thanks wamwoowam!!!
                 using (Lua lua = new Lua())
                 {
