@@ -6,6 +6,7 @@ using Discord.Commands;
 using xubot;
 using Tweetinvi;
 using System.Xml;
+using Mastonet;
 
 //unused atm
 using System.IO;
@@ -528,7 +529,7 @@ namespace xubot
                     await ReplyAsync("<" + redditPost.Url.AbsoluteUri.ToString() + ">");
                     }
 
-                }
+            }
 
             [Command("twitter"), Alias("t", "twit"), Summary("attempts to post a thing to twitter")]
             public async Task tweet(string content)
