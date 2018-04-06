@@ -78,7 +78,7 @@ namespace xubot
                                         "`[>reddit [ARGUE]` - Gets a random reddit post in any subreddit.\n" +
                                         "`[>number [COM] [INT]` - Gets a fact about a number.\n" +
                                         "`[>pic [COM]` - Commands relating to images and image manipulation.\n" +
-                                        "`[>file [COM]` - Commands relating to files and file manipulation.\n",
+                                        "`[>interp [LANG] [CODE]` - Interpets code in differnet programming languages.\n",
                                         IsInline = false
                                     }
                                 }
@@ -104,13 +104,13 @@ namespace xubot
                                     {
                                         Name = "Commands",
                                         Value = "**Actual usable stuff** Page " + page + "/6\n\n" +
-                                        "`[>interp [LANG] [CODE]` - Interpets code in differnet programming languages.\n" +
                                         "`[>debug [COM]` - Debugs/tests a feature. *You must be the* ***Bot Owner*** *.*\n" +
                                         "`[>expand-googl [GOO.GL LINK]` - Expands a goo.gl link to show where it redirects to.\n" +
                                         "`[>email-check [EMAIL]` - Runs a check on a email to detect if it's disposable, etc.\n" +
                                         "`[>leetspeak [STRING]` - Converts string to shitty and overdone 1337 speak.\n" +
                                         "`[>moarleetspeak [STRING]` - Converts string to shitty and VERY overdone 1337 speak.\n"+
-                                        "`[>gen [INT]` - Generates a random integer with the provided integer as maximum.\n",
+                                        "`[>gen [INT]` - Generates a random integer with the provided integer as maximum.\n"+
+                                        "`[>pronoun [COMMAND]` - Gets someone's pronoun preferrance/sets yours. Use dedicated help command for more.\n",
                                         IsInline = false
                                     }
                                 }
@@ -740,7 +740,37 @@ namespace xubot
                 await ReplyAsync("", false, embedd);
             }
 
+            [Command("pronoun")]
+            public async Task prohelp()
+            {
+                Embed embedd = new EmbedBuilder
+                {
+                    Title = "List of Commands: Pronoun",
+                    Color = Discord.Color.Orange,
+                    Description = "For extended help on one command, use `[>help [COMM]`.",
 
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                                {
+                                    new EmbedFieldBuilder
+                                    {
+                                        Name = "Commands",
+                                        Value = "**Pronoun command help**\n\n" +
+                                        "`[>pronoun get [USER] [DISCRIM]` - Gets a user's pronoun (global).\n" +
+                                        "`[>pronoun get [ID]` - Gets a user's pronoun by using their id (global).\n" +
+                                        "`[>pronoun set [STRING]` - Sets your pronoun globally and tries to add a role on the server.\n" +
+                                        "`[>pronoun set?no-role [STRING]` - Sets your pronoun globally and does not make a role.",
+                                        IsInline = false
+                                    }
+                                }
+                };
+
+                await ReplyAsync("", false, embedd);
+            }
         }
     }
 }

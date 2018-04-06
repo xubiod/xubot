@@ -65,7 +65,7 @@ namespace xubot.src
             await ReplyAsync("Pronoun set, and role made or set.");
         }
 
-        [Command("set-no-prefix")]
+        [Command("set?no-role")]
         public async Task setnp(string pro)
         {
             PronounTools.AddRefresh(Context.Message.Author);
