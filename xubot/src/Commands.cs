@@ -1199,7 +1199,7 @@ namespace xubot
                         XElement xelm = new XElement("trust");
                         XAttribute _user = new XAttribute("id", add.Id.ToString());
 
-                        xelm.Add(user);
+                        xelm.Add(_user);
 
                         xdoc.Root.Add(xelm);
                         xdoc.Save("Trusted.xml");
@@ -1270,7 +1270,7 @@ namespace xubot
                         XElement xelm = new XElement("trust");
                         XAttribute _user = new XAttribute("id", add.Id.ToString());
 
-                        xelm.Add(user);
+                        xelm.Add(_user);
 
                         xdoc.Root.Add(xelm);
                         xdoc.Save("Trusted.xml");
