@@ -122,6 +122,8 @@ namespace xubot
             [Command("lua", RunMode = RunMode.Async)]
             public async Task lua(string eval)
             {
+                if (!GeneralTools.UserTrusted(Context)) { await ReplyAsync("User is not trusted."); return; }
+
                 _eval = eval;
                 int _timeout = 15;
 
