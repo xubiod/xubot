@@ -6,7 +6,6 @@ using Discord.Commands;
 using xubot;
 using Tweetinvi;
 using System.Xml;
-using Mastonet;
 
 //unused atm
 using System.IO;
