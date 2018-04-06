@@ -50,7 +50,7 @@ namespace xubot.src
             PronounTools.AddRefresh(Context.Message.Author);
             PronounTools.Set(Context.Message.Author, pro);
 
-            string role_name = "xubot.pronoun = " + pro;
+            string role_name = "prefers " + pro;
             IRole role;
 
             if (Context.Guild.Roles.Any(x => x.Name == role_name))
@@ -65,6 +65,27 @@ namespace xubot.src
             await ReplyAsync("Pronoun set, and role made or set.");
         }
 
+        [Command("set-no-prefix")]
+        public async Task setnp(string pro)
+        {
+            PronounTools.AddRefresh(Context.Message.Author);
+            PronounTools.Set(Context.Message.Author, pro);
+
+            string role_name = "prefers " + pro;
+            //IRole role;
+
+            /*if (Context.Guild.Roles.Any(x => x.Name == role_name))
+            {
+                role = Context.Guild.Roles.First(x => x.Name == role_name);
+            }
+            else
+            {
+                role = await Context.Guild.CreateRoleAsync(role_name);
+            }*/
+
+            //await (Context.Message.Author as IGuildUser).AddRoleAsync(role);
+            await ReplyAsync("Pronoun set.");
+        }
 
     }
 
