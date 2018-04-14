@@ -341,9 +341,65 @@ namespace xubot
         public async Task safebooru(string tags = "")
         {
             try
+            {
+                var webClient = new WebClient();
+                string link = "http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1&tags=" + tags;
+
+                webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
+
+                string imgUrl = "";
+                int count = 0;
+                Random rnd = new Random();
+
+                var xdoc = XDocument.Load(link);
+                var items = from i in xdoc.Descendants("posts")
+                            select new
+                            {
+                                Attribute = (string)i.Attribute("count")
+                            };
+
+                foreach (var item in items)
+                {
+                    count = Convert.ToInt32(item.Attribute) / 2;
+                }
+
+                link = "http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1&pid=" + rnd.Next(count) + "&tags=" + tags;
+                xdoc = XDocument.Load(link);
+
+                items = from q in xdoc.Descendants("post")
+                        select new
+                        {
+                            Attribute = (string)q.Attribute("file_url")
+                        };
+
+                foreach (var item in items)
+                {
+                    imgUrl = item.Attribute;
+                }
+
+                await ReplyAsync("http:" + imgUrl);
+
+            }
+            catch (Exception exp)
+            {
+                await GeneralTools.CommHandler.BuildError(exp, Context);
+            }
+
+        }
+
+        [Command("konachan", RunMode = RunMode.Async)]
+        public async Task konachan(string tags = "")
+        {
+            if (!Context.Channel.IsNsfw)
+            {
+                await ReplyAsync("Move to a NSFW channel.");
+            }
+            else if (Program.enableNSFW || CheckTrigger())
+            {
+                try
                 {
                     var webClient = new WebClient();
-                    string link = "http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1&tags=" + tags;
+                    string link = "http://konachan.com/post.xml?limit=1&tags=" + tags;
 
                     webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
 
@@ -363,7 +419,7 @@ namespace xubot
                         count = Convert.ToInt32(item.Attribute) / 2;
                     }
 
-                    link = "http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1&pid=" + rnd.Next(count) + "&tags=" + tags;
+                    link = "http://konachan.com/post.xml?limit=1&page=" + rnd.Next(count) + "&tags=" + tags;
                     xdoc = XDocument.Load(link);
 
                     items = from q in xdoc.Descendants("post")
@@ -377,14 +433,15 @@ namespace xubot
                         imgUrl = item.Attribute;
                     }
 
-                    await ReplyAsync("http:" + imgUrl);
+                    await ReplyAsync(imgUrl);
 
                 }
                 catch (Exception exp)
                 {
                     await GeneralTools.CommHandler.BuildError(exp, Context);
                 }
-            
+            }
+
         }
 
         //shorthands
