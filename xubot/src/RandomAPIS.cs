@@ -23,7 +23,7 @@ namespace xubot
         [Group("number")]
         public class number : ModuleBase
         {
-            [Command("trivia")]
+            [Command("trivia",RunMode = RunMode.Async)]
             public async Task trivia(int number)
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/" + number.ToString() + "/trivia");
@@ -32,7 +32,7 @@ namespace xubot
                 await ReplyAsync(final);
             }
 
-            [Command("trivia")]
+            [Command("trivia", RunMode = RunMode.Async)]
             public async Task trivia()
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/trivia");
@@ -41,7 +41,7 @@ namespace xubot
                 await ReplyAsync(final);
             }
 
-            [Command("year")]
+            [Command("year", RunMode = RunMode.Async)]
             public async Task year(int number)
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/" + number.ToString() + "/year");
@@ -50,7 +50,7 @@ namespace xubot
                 await ReplyAsync(final);
             }
 
-            [Command("year")]
+            [Command("year", RunMode = RunMode.Async)]
             public async Task year()
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/year");
@@ -59,7 +59,7 @@ namespace xubot
                 await ReplyAsync(final);
             }
 
-            [Command("math")]
+            [Command("math", RunMode = RunMode.Async)]
             public async Task math(int number)
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/" + number.ToString() + "/math");
@@ -68,7 +68,7 @@ namespace xubot
                 await ReplyAsync(final);
             }
 
-            [Command("math")]
+            [Command("math", RunMode = RunMode.Async)]
             public async Task math()
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/math");
@@ -78,7 +78,7 @@ namespace xubot
             }
         }
 
-        [Command("email-check")]
+        [Command("email-check", RunMode = RunMode.Async)]
         public async Task check(string email)
         {
             string link = "https://www.validator.pizza/email/" + email;
@@ -138,7 +138,7 @@ namespace xubot
             await ReplyAsync("", false, embedd);
         }
 
-        [Command("expand-googl")]
+        [Command("expand-googl", RunMode = RunMode.Async)]
         public async Task nameGen(string link)
         {
             string sendLink = "https://www.googleapis.com/urlshortener/v1/url?shortUrl=" + link + "&key=" + Program.keys.googleLinkShort.ToString();
@@ -192,7 +192,7 @@ namespace xubot
             await ReplyAsync("", false, embedd);
         }
 
-        [Command("cat")]
+        [Command("cat", RunMode = RunMode.Async)]
         public async Task cat()
         {
             XmlReaderSettings settings = new XmlReaderSettings();
