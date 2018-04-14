@@ -521,7 +521,7 @@ namespace xubot
                     await ReplyAsync("Reddit token not provided by bot runner.");
                 }
                 else {
-                    Program.subreddit = Program.reddit.GetSubreddit("/r/xubot_subreddit");
+                    Program.subreddit = await Program.reddit.GetSubredditAsync("/r/xubot_subreddit");
 
                     string result_ = content;
                     var redditPost = await Program.subreddit.SubmitTextPostAsync(title, Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + " on the Discord server " + Context.Guild.Name + " posted:\n\n" + result_);

@@ -97,7 +97,7 @@ namespace xubot
                 reddit = new Reddit(webAgent, true);
 
                 Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
-                subreddit = reddit.GetSubreddit("/r/xubot_subreddit");
+                subreddit = await reddit.GetSubredditAsync("/r/xubot_subreddit");
             }
             Console.WriteLine("* setting up discord connection: login");
 

@@ -69,7 +69,7 @@ namespace xubot
         [Command("reddit?sub", RunMode = RunMode.Async)]
         public async Task subreddit(string input)
         {
-            Program.subreddit = Program.reddit.GetSubreddit(input);
+            Program.subreddit = await Program.reddit.GetSubredditAsync(input);
 
             string display = Program.subreddit.DisplayName;
             string fullname = Program.subreddit.FullName;
@@ -213,13 +213,13 @@ namespace xubot
 
         /* operation functions */
 
-        List<RedditSharp.Things.Post> contents_list = new List<RedditSharp.Things.Post> { };
+        //List<RedditSharp.Things.Post> contents_list = new List<RedditSharp.Things.Post> { };
 
         public async Task Operate(ICommandContext Context, string subreddit, string query, int sorting, bool hide)
         {
             try
             {
-                Program.subreddit = Program.reddit.GetSubreddit(subreddit);
+                Program.subreddit = await Program.reddit.GetSubredditAsync(subreddit);
                 var msg = await ReplyAsync("Subreddit: **" + subreddit + "**\nPlease wait, this takes a while with broad terms and popular subreddits!");
 
                 await Context.Channel.TriggerTypingAsync();
@@ -227,9 +227,9 @@ namespace xubot
 
                 RedditSharp.Listing<RedditSharp.Things.Post> contents = Program.subreddit.Search(query, FromInt(sorting));
 
-                int contents_count = contents.Count();
+                List<RedditSharp.Things.Post> contents_list = await contents.ToList();
 
-                contents_list = contents.ToList();
+                int contents_count = contents_list.Count();
 
                 var post = contents_list[rnd.Next(contents_count)];
 
