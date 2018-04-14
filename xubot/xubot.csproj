@@ -278,7 +278,7 @@
     <Compile Include="src\Help.cs" />
     <Compile Include="src\Markov.cs" />
     <Compile Include="src\Mood.cs" />
-    <Compile Include="src\NSFW.cs" />
+    <Compile Include="src\ImageBoards.cs" />
     <Compile Include="src\Opinions.cs" />
     <Compile Include="src\PatternPresets.cs" />
     <Compile Include="src\PictureAndFile.cs" />

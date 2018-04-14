@@ -14,7 +14,7 @@ using System.Xml.Linq;
 
 namespace xubot
 {
-    public class NSFW : ModuleBase
+    public class ImageBoards : ModuleBase
     {
         //public JObject jsonInt = new JObject();
 
@@ -303,7 +303,44 @@ namespace xubot
             }
         }
 
+        [Command("e926", RunMode = RunMode.Async)]
+        public async Task e926(string tags = "")
+        {
+            try
+            {
+                Random rnd = new Random();
+                var webClient = new WebClient();
+                var webClient2 = new WebClient();
+                string link = "https://e926.net/post/index.xml?limit=1&page=&tags=" + tags;
+                string text_j = "";
+
+                webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
+                string linkJson = "https://e926.net/post/index.json?limit=1&page=" + rnd.Next(751).ToString() + "&tags=" + tags + "";
+
+                text_j = webClient.DownloadString(linkJson);
+                text_j = text_j.Substring(1, text_j.Length - 2);
+
+                //await ReplyAsync(text);
+                dynamic keys = JObject.Parse(text_j);
+
+                await ReplyAsync(keys.file_url.ToString());
+                //string text = webClient.DownloadString(link);
+                //text = text.Substring(1, text.Length - 2);
+                //await ReplyAsync(text);
+                //dynamic keys = JObject.Parse(text);
+
+                //await ReplyAsync(keys.file_url.ToString());
+            }
+            catch (Exception exp)
+            {
+                await GeneralTools.CommHandler.BuildError(exp, Context);
+            }
+        }
+
         //shorthands
+
+        //removed for now
+        /*
         [Command("catgirl")]
         public async Task catG()
         {
@@ -339,7 +376,7 @@ namespace xubot
         {
             await r34("inflation");
         }
-
+        */
         public bool CheckTrigger()
         {
             bool ret = false;
