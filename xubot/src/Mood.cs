@@ -13,6 +13,20 @@ namespace xubot
     {
         public static XDocument xdoc = new XDocument();
 
+        [Command("mood")]
+        public async Task getMoodCMD()
+        {
+            MoodTools.AddOrRefreshMood(Context.Message.Author);
+            double mood = MoodTools.ReadMood(Context.Message.Author);
+            string moodAsStr = "invalid";
+
+            if (-16 <= mood && mood <= 16) { moodAsStr = "neutral"; }
+            else if (-16 >= mood) { moodAsStr = "negative"; }
+            else if (mood >= 16) { moodAsStr = "positive"; }
+
+            await ReplyAsync("Your mood value is " + mood.ToString() + " (aka " + moodAsStr + ")", false);
+        }
+
         [Command("pet"), Alias("stroke"), Summary("why.")]
         public async Task pet()
         {
