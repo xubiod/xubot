@@ -129,7 +129,7 @@ namespace xubot.src
             }
         }
 
-        [Command("markov?export"), Alias("markov?e")]
+        [Command("markov?export", RunMode = RunMode.Async), Alias("markov?e")]
         public async Task exportMarkov()
         {
             try
@@ -169,6 +169,8 @@ namespace xubot.src
         [Command("markov?flush")]
         public async Task flush()
         {
+            throw new NotImplementedException();
+
             if (GeneralTools.UserTrusted(Context))
             {
                 xuMarkov.flush();
