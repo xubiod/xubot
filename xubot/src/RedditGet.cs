@@ -23,6 +23,12 @@ namespace xubot
             await Operate(Context, previous_sub, previous_query, previous_sorting, previous_hide);
         }
 
+        [Command("reddit?nsfwmap"), RequireNsfw]
+        public async Task map()
+        {
+            await ReplyAsync("Alright... then... " + "http://electronsoup.net/nsfw_subreddits/#");
+        }
+
         [Command("reddit?random", RunMode = RunMode.Async), Alias("reddit?r")]
         public async Task rnd()
         {
@@ -93,7 +99,7 @@ namespace xubot
                             },
                             new EmbedFieldBuilder
                             {
-                                Name = "Full Name",
+                                Name = "Internal Name",
                                 Value = fullname,
                                 IsInline = false
                             },
