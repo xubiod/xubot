@@ -334,6 +334,7 @@
     <Compile Include="src\SpecialException.cs" />
     <Compile Include="src\SSH.cs" />
     <Compile Include="src\TextMarkovChain.cs" />
+    <Compile Include="src\RuntimeReports.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
