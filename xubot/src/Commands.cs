@@ -16,6 +16,7 @@ using RedditSharp;
 using System.Xml.Linq;
 using System.Linq;
 using Tweetinvi.Models;
+using static xubot.src.SpecialException;
 
 namespace xubot
 {
@@ -603,6 +604,28 @@ namespace xubot
 
                 await ReplyAsync(mood.ToString() + " / " + moodAsStr, false);
             }
+
+            [Command("throw_new")]
+            public async Task test004(int id)
+            {
+                try
+                {
+                    switch (id)
+                    {
+                        case 0: throw new ItsFuckingBrokenException();
+                        case 1: throw new IHaveNoFuckingIdeaException();
+                        case 2: throw new PleaseKillMeException();
+                        case 3: throw new ShitCodeException();
+                        case 4: throw new StopDoingThisMethodException();
+                        case 5: throw new ExceptionException();
+                        case 6: throw new InsertBetterExceptionNameException();
+                        default: await ReplyAsync("invaild id"); break;
+                    }
+                } catch (Exception exp)
+                {
+                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                }
+            }
         }
 
         [Group("info")]
@@ -702,21 +725,20 @@ namespace xubot
                 await ReplyAsync("", false, embedd);
             }
 
-            [Command("client"), Alias("channel-info", "ci"), Summary("attempts to post a thing to twitter")]
+            [Command("client"), Alias("client-info"), Summary("attempts to post a thing to twitter")]
             public async Task client()
             {
-
                 EmbedBuilder embedd = new EmbedBuilder
                 {
                     Title = "Information about: " + Context.Client.CurrentUser,
                     Color = Discord.Color.Red,
                     Description = "Client information details",
-                    ThumbnailUrl = Context.User.GetAvatarUrl(),
+                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
                     Footer = new EmbedFooterBuilder
                     {
                         Text = "xubot :p",
-                        IconUrl = Program.xuClient.GetUser(Program.xuClient.CurrentUser.Username, Program.xuClient.CurrentUser.Discriminator).GetAvatarUrl()
+                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
@@ -731,6 +753,58 @@ namespace xubot
                                         "Verified? **" + Program.xuClient.CurrentUser.IsVerified + "**\n" +
                                         "Webhook? **" + Program.xuClient.CurrentUser.IsWebhook + "**\n\n" +
                                         "Created on **" + Context.User.CreatedAt + "**\n",
+                                IsInline = false
+                            }
+                        }
+                };
+                await ReplyAsync("", false, embedd);
+            }
+
+            [Command("user", RunMode = RunMode.Async), Alias("user-info", "ui"), Summary("attempts to post a thing to twitter")]
+            public async Task user()
+            {
+                Discord.IUser _user0 = Context.Message.Author;
+                IGuildUser _user1 = await Context.Guild.GetUserAsync(_user0.Id);
+
+                string _role_list = "";
+
+                foreach (var role in _user1.RoleIds)
+                {
+                    var _role = Context.Guild.GetRole(role);
+
+                    _role_list += _role.Mention + " ";
+                }
+
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Information about: " + Context.Client.CurrentUser,
+                    Color = Discord.Color.Red,
+                    Description = "User information details",
+                    ThumbnailUrl = Context.User.GetAvatarUrl(),
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p",
+                        IconUrl = _user0.GetAvatarUrl()
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Details",
+                                Value = "ID: **" + _user0.Id + "**\n" +
+                                        "Status: **" + _user0.Status + "**\n" +
+                                        "Bot? **" + _user0.IsBot + "**\n" +
+                                        "Webhook? **" + _user0.IsWebhook + "**\n\n" +
+                                        "Current Game: **" + _user1.Game + "**\n" +
+                                        "Deafened: **" + _user1.IsDeafened + "** | Self Deafened: **" + _user1.IsSelfDeafened + "**\n" +
+                                        "Muted: **" + _user1.IsMuted + "** | Self Muted: **" + _user1.IsSelfMuted + "**\n" +
+                                        "Joined server on **" + _user1.JoinedAt + "**\n" +
+                                        "Nickname: **" + _user1.Nickname + "**\n\n" +
+                                        "Amount of Roles: **" + (_user1.RoleIds.Count-1) + "**\n" +
+                                        "All roles: \n**" + _role_list + "**\n\n" +
+                                        "Created on **" + _user0.CreatedAt + "**\n",
                                 IsInline = false
                             }
                         }
