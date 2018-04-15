@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static xubot.RedditGetFunct.ParseSorting;
-
+using static xubot.src.SpecialException;
 
 namespace xubot
 {
@@ -219,6 +219,8 @@ namespace xubot
         {
             try
             {
+                throw new ItsFuckingBrokenException(message: "Throw 'IHaveNoFuckingIdeaException' because I have no fucking idea.", inner: new IHaveNoFuckingIdeaException());
+
                 Program.subreddit = await Program.reddit.GetSubredditAsync(subreddit);
                 var msg = await ReplyAsync("Subreddit: **" + subreddit + "**\nPlease wait, this takes a while with broad terms and popular subreddits!");
 
@@ -228,6 +230,9 @@ namespace xubot
                 RedditSharp.Listing<RedditSharp.Things.Post> contents = Program.subreddit.Search(query, FromInt(sorting));
 
                 List<RedditSharp.Things.Post> contents_list = await contents.ToList();
+
+                Console.WriteLine(contents.Count());
+                Console.WriteLine(contents_list.Count());
 
                 int contents_count = contents_list.Count();
 

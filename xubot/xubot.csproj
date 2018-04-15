@@ -331,6 +331,7 @@
     <Compile Include="src\RedditGet.cs" />
     <Compile Include="src\RedditGetFunct.cs" />
     <Compile Include="src\ServerTriggers.cs" />
+    <Compile Include="src\SpecialException.cs" />
     <Compile Include="src\SSH.cs" />
     <Compile Include="src\TextMarkovChain.cs" />
   </ItemGroup>
