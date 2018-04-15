@@ -777,10 +777,10 @@ namespace xubot
 
                 EmbedBuilder embedd = new EmbedBuilder
                 {
-                    Title = "Information about: " + Context.Client.CurrentUser,
+                    Title = "Information about: " + _user0,
                     Color = Discord.Color.Red,
                     Description = "User information details",
-                    ThumbnailUrl = Context.User.GetAvatarUrl(),
+                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
                     Footer = new EmbedFooterBuilder
                     {
