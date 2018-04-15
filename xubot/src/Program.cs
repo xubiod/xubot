@@ -38,17 +38,10 @@ namespace xubot
         public static dynamic perserv_parsed;
         public static bool enableNSFW = false;
 
-        public static DateTime appStart;
-        public static DateTime connectStart;
-
-        public static DateTime[] stepTimes = new DateTime[8];
-
         public static bool first = true;
 
         public static async Task Main(string[] args)
         {
-            appStart = DateTime.Now;
-
             Console.SetWindowSize(80, 25);
 
             xuClient = new DiscordSocketClient(new DiscordSocketConfig
@@ -102,11 +95,9 @@ namespace xubot
                 webAgent = new BotWebAgent(keys.reddit.user.ToString(), keys.reddit.pass.ToString(), keys.reddit.key1.ToString(), keys.reddit.key2.ToString(), "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
                 Console.WriteLine("* setting up reddit client");
                 reddit = new Reddit(webAgent, true);
-                stepTimes[0] = DateTime.Now;
 
                 Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
                 subreddit = await reddit.GetSubredditAsync("/r/xubot_subreddit");
-                stepTimes[1] = DateTime.Now;
             }
             Console.WriteLine("* setting up discord connection: login");
 
@@ -121,7 +112,6 @@ namespace xubot
             {
                 await xuClient.LoginAsync(TokenType.Bot, keys.discord_dev.ToString());
             }
-            stepTimes[2] = DateTime.Now;
 
             Console.WriteLine("* setting up discord connection: starting client");
             await BeginStart();
@@ -258,9 +248,7 @@ namespace xubot
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
-
-            connectStart = DateTime.Now;
-
+            
             return Task.CompletedTask;
         }
 
