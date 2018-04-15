@@ -15,6 +15,8 @@ namespace xubot
         public static GitHubClient xuGitClient = new GitHubClient(new OAuth2Token(Program.keys.github.ToString()));
         public static GitRepository xuRepo;
         public static GitRepository xuRepo_Comm;
+        public static GitRef[] xuRepo_Refs;
+        public static GitRef xuRepo_Ref;
         public static GitCommit xuCommit_Comm;
         public static GitCommit[] xuCommitArr_Comm;
 
@@ -158,6 +160,42 @@ namespace xubot
                 await ReplyAsync("", false, embedd);
             }
 
+            [Command("latest-ref")]
+            public async Task refsInfo(string user, string repo)
+            {
+                xuRepo_Refs = await xuGitClient.GetRefsAsync(user, repo);
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Information about: " + user + "/" + repo,
+                    Color = Discord.Color.Red,
+                    Description = "GitHub refs details",
+                    ThumbnailUrl = Context.Guild.IconUrl,
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Latest Ref Url",
+                                Value = "**" + xuRepo_Refs.Last().Ref + "**\n",
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Latest Ref SHA",
+                                Value = xuRepo_Refs.Last().Object.Sha + "\n",
+                                IsInline = false
+                            }
+                        }
+                };
+
+                await ReplyAsync("", false, embedd);
+            }
+            
         }
     }
 }
