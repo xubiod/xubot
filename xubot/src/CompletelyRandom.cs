@@ -49,5 +49,11 @@ namespace xubot
         {
             await ReplyAsync("(凸 " + face + ")凸");
         }
+
+        [Command("rm -rf"), Alias("rm -rf --no-preserve-root /")]
+        public async Task gf()
+        {
+            await ReplyAsync("no u");
+        }
     }
 }
