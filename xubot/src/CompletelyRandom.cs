@@ -51,7 +51,7 @@ namespace xubot
         }
 
         [Command("rm -rf"), Alias("rm -rf --no-preserve-root /")]
-        public async Task gf()
+        public async Task rmrf()
         {
             await ReplyAsync("no u");
         }
