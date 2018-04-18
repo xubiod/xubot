@@ -19,5 +19,9 @@
     "googleLinkShort": "[...]",
     "cat": "[...]",
     "steam": "[...]",
-    "github:": "[...]"
+    "github:": "[...]",
+	
+	"donate_link": "[link to donate]",
+	
+	"amdoren": "[api key]"
 }

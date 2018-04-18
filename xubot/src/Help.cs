@@ -10,7 +10,6 @@ namespace xubot
 {
     public class Help : ModuleBase
     {
-
         [Group("help"), Alias("h"), Summary("a calculator, but shittier")]
         public class help : ModuleBase
         {

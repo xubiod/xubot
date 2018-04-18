@@ -111,6 +111,9 @@
     <Reference Include="GitHub, Version=1.11.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GitHub.1.11.2\lib\netstandard2.0\GitHub.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.8.0.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.8.0\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="IronOcr, Version=4.2.2.25207, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IronOcr.4.2.2.1\lib\net40\IronOcr.dll</HintPath>
     </Reference>
@@ -335,6 +338,7 @@
     <Compile Include="src\SSH.cs" />
     <Compile Include="src\TextMarkovChain.cs" />
     <Compile Include="src\RuntimeReports.cs" />
+    <Compile Include="src\Wiki.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

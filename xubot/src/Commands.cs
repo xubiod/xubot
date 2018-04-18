@@ -17,6 +17,9 @@ using System.Xml.Linq;
 using System.Linq;
 using Tweetinvi.Models;
 using static xubot.src.SpecialException;
+using System.Net;
+using Newtonsoft.Json.Linq;
+using HtmlAgilityPack;
 
 namespace xubot
 {
@@ -1123,7 +1126,7 @@ namespace xubot
                 await ReplyAsync(encoding.GetString(Base65536.Decode(input)));
             }
         }
-
+        
         [Command("about")]
         public async Task about()
         {
@@ -1382,6 +1385,199 @@ namespace xubot
 
                 await pri.SendMessageAsync("**" + remove.Username + "#" + remove.Discriminator + "** has been untrusted.");
             }
+        }
+
+        [Command("donate")]
+        public async Task donate()
+        {
+            await ReplyAsync("To donate to the creator of this bot, please visit:\n" + Program.keys.donate_link);
+        }
+
+        [Command("timezone", RunMode = RunMode.Async)]
+        public async Task timezone(string loc)
+        {
+            try
+            {
+                var webClient = new WebClient();
+                var webClient2 = new WebClient();
+                string link = "https://www.amdoren.com/api/timezone.php?api_key=" + Program.keys.amdoren + "&loc=" + loc;
+                string text_j = "";
+
+                text_j = webClient.DownloadString(link);
+                //text_j = text_j.Substring(1, text_j.Length - 2);
+
+                //await ReplyAsync(text);
+                dynamic keys = JObject.Parse(text_j);
+
+                if (keys.error_message.ToString() != "-")
+                {
+                    EmbedBuilder embedd = new EmbedBuilder
+                    {
+                        Title = "Timezone Location",
+                        Color = Discord.Color.Red,
+                        Description = "Error!",
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = "The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \nxubot :p"
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "The API returned: ",
+                                Value = "**" + keys.error_message.ToString() + "**",
+                                IsInline = false
+                            }
+                        }
+                    };
+
+                    await ReplyAsync("", false, embedd);
+                }
+                else
+                {
+                    EmbedBuilder embedd = new EmbedBuilder
+                    {
+                        Title = "Timezone Location",
+                        Color = Discord.Color.Red,
+                        Description = "Timezone and time for " + loc,
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = "The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \nxubot :p"
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Timezone: ",
+                                Value = "**" + keys.timezone.ToString() + "**",
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Current Time: ",
+                                Value = "**" + keys.time.ToString() + "**",
+                                IsInline = false
+                            }
+                        }
+                    };
+
+                    await ReplyAsync("", false, embedd);
+                }
+                //string text = webClient.DownloadString(link);
+                //text = text.Substring(1, text.Length - 2);
+                //await ReplyAsync(text);
+                //dynamic keys = JObject.Parse(text);
+
+                //await ReplyAsync(keys.file_url.ToString());
+            }
+            catch (Exception exp)
+            {
+                await GeneralTools.CommHandler.BuildError(exp, Context);
+            }
+        }
+
+        [Command("timezone?asjfnasuonfjnfaiosnvioneio", RunMode = RunMode.Async)]
+        public async Task timezonefromhtml(string loc)
+        {
+            /*try
+            {
+                var interact = new HtmlWeb();
+
+                string link = "https://time.is/just/" + loc;
+                HtmlDocument doc = interact.Load(link);
+                string res = "";
+
+                var nodes = doc.DocumentNode.Descendants("div")
+                    .Select(y => y.Descendants()
+                    .Where(x => x.Attributes["id"].Value == "twd"))
+                    .ToList();
+
+                foreach (dynamic node in nodes)
+                {
+                    if (node.InnerText != null)
+                    {
+                        res = node.InnerText;
+                        break;
+                    }
+                }
+                //string _str = respond.InnerText;
+                
+                await ReplyAsync(nodes.Count().ToString() + "\n" + res);
+                /*
+                if (keys.error_message.ToString() != "-")
+                {
+                    EmbedBuilder embedd = new EmbedBuilder
+                    {
+                        Title = "Timezone Location",
+                        Color = Discord.Color.Red,
+                        Description = "Error!",
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = "The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \nxubot :p"
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "The API returned: ",
+                                Value = "**" + keys.error_message.ToString() + "**",
+                                IsInline = false
+                            }
+                        }
+                    };
+
+                    await ReplyAsync("", false, embedd);
+                }
+                else
+                {
+                    EmbedBuilder embedd = new EmbedBuilder
+                    {
+                        Title = "Timezone Location",
+                        Color = Discord.Color.Red,
+                        Description = "Timezone and time for " + loc,
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = "The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \nxubot :p"
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Timezone: ",
+                                Value = "**" + keys.timezone.ToString() + "**",
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Current Time: ",
+                                Value = "**" + keys.time.ToString() + "**",
+                                IsInline = false
+                            }
+                        }
+                    };
+
+                    await ReplyAsync("", false, embedd);
+                }
+                //string text = webClient.DownloadString(link);
+                //text = text.Substring(1, text.Length - 2);
+                //await ReplyAsync(text);
+                //dynamic keys = JObject.Parse(text);
+
+                //await ReplyAsync(keys.file_url.ToString());
+                
+            }
+            catch (Exception exp)
+            {
+                await GeneralTools.CommHandler.BuildError(exp, Context);
+            }*/
         }
     }
 }
