@@ -59,7 +59,8 @@ namespace xubot_code_compiler
                                         os.exit = nil
                                         io = nil
                                         import = nil
-                                        require = nil");
+                                        require = nil
+                                        luanet = nil");
                         var ret = lua.DoString(code, "eval")?
                             .Select(o => o is LuaTable ta ? TableToString(ta) : o);
                         _result = JsonConvert.SerializeObject(ret);
