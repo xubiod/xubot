@@ -805,7 +805,7 @@ namespace xubot
                                         "Muted: **" + _user1.IsMuted + "** | Self Muted: **" + _user1.IsSelfMuted + "**\n" +
                                         "Joined server on **" + _user1.JoinedAt + "**\n" +
                                         "Nickname: **" + _user1.Nickname + "**\n\n" +
-                                        "Amount of Roles: **" + (_user1.RoleIds.Count-1) + "**\n" +
+                                        "Amount of Roles: **" + (_user1.RoleIds.Count) + "**\n" +
                                         "All roles: \n**" + _role_list + "**\n\n" +
                                         "Created on **" + _user0.CreatedAt + "**\n",
                                 IsInline = false
@@ -1478,106 +1478,6 @@ namespace xubot
             {
                 await GeneralTools.CommHandler.BuildError(exp, Context);
             }
-        }
-
-        [Command("timezone?asjfnasuonfjnfaiosnvioneio", RunMode = RunMode.Async)]
-        public async Task timezonefromhtml(string loc)
-        {
-            /*try
-            {
-                var interact = new HtmlWeb();
-
-                string link = "https://time.is/just/" + loc;
-                HtmlDocument doc = interact.Load(link);
-                string res = "";
-
-                var nodes = doc.DocumentNode.Descendants("div")
-                    .Select(y => y.Descendants()
-                    .Where(x => x.Attributes["id"].Value == "twd"))
-                    .ToList();
-
-                foreach (dynamic node in nodes)
-                {
-                    if (node.InnerText != null)
-                    {
-                        res = node.InnerText;
-                        break;
-                    }
-                }
-                //string _str = respond.InnerText;
-                
-                await ReplyAsync(nodes.Count().ToString() + "\n" + res);
-                /*
-                if (keys.error_message.ToString() != "-")
-                {
-                    EmbedBuilder embedd = new EmbedBuilder
-                    {
-                        Title = "Timezone Location",
-                        Color = Discord.Color.Red,
-                        Description = "Error!",
-
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = "The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \nxubot :p"
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "The API returned: ",
-                                Value = "**" + keys.error_message.ToString() + "**",
-                                IsInline = false
-                            }
-                        }
-                    };
-
-                    await ReplyAsync("", false, embedd);
-                }
-                else
-                {
-                    EmbedBuilder embedd = new EmbedBuilder
-                    {
-                        Title = "Timezone Location",
-                        Color = Discord.Color.Red,
-                        Description = "Timezone and time for " + loc,
-
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = "The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \nxubot :p"
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Timezone: ",
-                                Value = "**" + keys.timezone.ToString() + "**",
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Current Time: ",
-                                Value = "**" + keys.time.ToString() + "**",
-                                IsInline = false
-                            }
-                        }
-                    };
-
-                    await ReplyAsync("", false, embedd);
-                }
-                //string text = webClient.DownloadString(link);
-                //text = text.Substring(1, text.Length - 2);
-                //await ReplyAsync(text);
-                //dynamic keys = JObject.Parse(text);
-
-                //await ReplyAsync(keys.file_url.ToString());
-                
-            }
-            catch (Exception exp)
-            {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
-            }*/
         }
     }
 }
