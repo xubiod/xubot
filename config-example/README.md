@@ -9,5 +9,6 @@
 - **Keys.json** - used for all api tokens and keys used.
 - **SSHQuickConnect.xml** - used with `[>ssh qc [NICK]`. this is do prevent writing system passwords into chat.
 - **Trusted.xml** - currently used as a pseudo replacement for owner requirement. one current use is `[>markov?flush`
+- **Wiki.xml** - used for `[>wiki`
 
 - **code-handler/code-compiler** - used for most of `[>interp`. must be compiled and located like this relative to the bot executable: `/code-handler/xubot-code-compiler.exe`
