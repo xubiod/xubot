@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,24 @@ namespace xubot
         public async Task rmrf()
         {
             await ReplyAsync("no u");
+        }
+
+        [Command("anon"), RequireContext(ContextType.DM)]
+        public async Task anonmsg(ulong id, string msg)
+        {
+            IUser sendTo = Program.xuClient.GetUser(id);
+
+            var dm = await sendTo.GetOrCreateDMChannelAsync();
+            await dm.SendMessageAsync(msg);
+        }
+
+        [Command("anon"), RequireContext(ContextType.DM)]
+        public async Task anonmsg(string user, string discrm, string msg)
+        {
+            IUser sendTo = Program.xuClient.GetUser(user, discrm);
+
+            var dm = await sendTo.GetOrCreateDMChannelAsync();
+            await dm.SendMessageAsync(msg);
         }
     }
 }
