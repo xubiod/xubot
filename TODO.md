@@ -4,16 +4,17 @@
    - [ ] add opinions via command
    - [ ] edit opinions via command
    - [ ] more server triggers
-   - [ ] get rating from what is returned from imageboard
+   - [x] get rating from what is returned from imageboard **(april 26, 2018)**
+     - this only applies to danbooru at the current moment of time
 - medium priority
-   - [x] anonymous messages
-   - [x] generic wiki
-   - [ ] fix reddit command
+   - [x] anonymous messages **(april 26, 2018)**
+   - [x] generic wiki **(april 19, 2018)**
+   - [x] fix reddit command **(april 26, 2018)**
    - [ ] no nsfw lock in dm
    - [ ] replace `RequireOwner` with trust
 - high priority
    - [ ] canvas
-   - [x] take off pronoun role when a new role is given
+   - [x] take off pronoun role when a new role is given **(april 26, 2018)**
 
 - undecided priority
    - [ ] n/a
