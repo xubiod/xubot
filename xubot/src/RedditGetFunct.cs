@@ -1,5 +1,6 @@
 ﻿using RedditSharp;
 using Discord.Commands;
+using RedditSharp.Things;
 
 namespace xubot
 {
@@ -23,6 +24,15 @@ namespace xubot
                 else if (sorting == 2) { return Sorting.Top; }
                 else if (sorting == 3) { return Sorting.Comments; }
                 else { return Sorting.New; }
+            }
+
+            public static Subreddit.Sort FromIntSort(int sorting)
+            {
+                if (sorting == 0) { return Subreddit.Sort.Rising; }
+                else if (sorting == 1) { return Subreddit.Sort.New; }
+                else if (sorting == 2) { return Subreddit.Sort.Top; }
+                else if (sorting == 3) { return Subreddit.Sort.Controversial; }
+                else { return Subreddit.Sort.New; }
             }
 
             public static int StringToInt(string sorting)

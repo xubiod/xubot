@@ -219,7 +219,7 @@ namespace xubot
         {
             try
             {
-                throw new ItsFuckingBrokenException(message: "Throw 'IHaveNoFuckingIdeaException' because I have no fucking idea.", inner: new IHaveNoFuckingIdeaException());
+                //throw new ItsFuckingBrokenException(message: "Throw 'IHaveNoFuckingIdeaException' because I have no fucking idea.", inner: new IHaveNoFuckingIdeaException());
 
                 Program.subreddit = await Program.reddit.GetSubredditAsync(subreddit);
                 var msg = await ReplyAsync("Subreddit: **" + subreddit + "**\nPlease wait, this takes a while with broad terms and popular subreddits!");
@@ -227,16 +227,11 @@ namespace xubot
                 await Context.Channel.TriggerTypingAsync();
                 Random rnd = new Random();
 
-                RedditSharp.Listing<RedditSharp.Things.Post> contents = Program.subreddit.Search(query, FromInt(sorting));
-
-                List<RedditSharp.Things.Post> contents_list = await contents.ToList();
-
-                Console.WriteLine(contents.Count());
-                Console.WriteLine(contents_list.Count());
-
-                int contents_count = contents_list.Count();
-
-                var post = contents_list[rnd.Next(contents_count)];
+                List<RedditSharp.Things.Post> contents = await Program.subreddit.GetPosts(FromIntSort(sorting), -1).ToList();
+                
+                int contents_count = contents.Count();
+                
+                var post = contents.ElementAt(rnd.Next(contents_count));
 
                 if (post.NSFW)
                 {
