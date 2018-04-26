@@ -13,38 +13,8 @@ namespace xubot.src
     public class Pronouns : ModuleBase
     {
         public static XDocument xdoc = new XDocument();
-
-        [Command("get")]
-        public async Task get(ulong id)
-        {
-            try
-            {
-                IUser usr = Program.xuClient.GetUser(id);
-                PronounTools.AddRefresh(usr);
-                await PronounTools.Build(Context, usr, PronounTools.Read(usr));
-            }
-            catch (Exception exp)
-            {
-                await ReplyAsync("They haven't added it yet.");
-            }
-        }
-
-        [Command("get")]
-        public async Task get(string user, string discrim)
-        {
-            try
-            {
-                IUser usr = Program.xuClient.GetUser(user, discrim);
-                PronounTools.AddRefresh(usr);
-                await PronounTools.Build(Context, usr, PronounTools.Read(usr));
-            }
-            catch (Exception exp)
-            {
-                await ReplyAsync("They haven't added it yet.");
-            }
-        }
-
-        [Command("set"), RequireBotPermission(GuildPermission.ManageRoles)]
+        
+        [Command("add"), RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task set(string pro)
         {
             PronounTools.AddRefresh(Context.Message.Author);
@@ -56,37 +26,78 @@ namespace xubot.src
             if (Context.Guild.Roles.Any(x => x.Name == role_name))
             {
                 role = Context.Guild.Roles.First(x => x.Name == role_name);
-            } else
+            }
+            else
             {
                 role = await Context.Guild.CreateRoleAsync(role_name);
             }
+
+            /*foreach (var _R in (Context.Message.Author as IGuildUser).RoleIds)
+            {
+                IRole _role = Context.Guild.GetRole(_R);
+
+                if (_role.Name.Contains("prefers"))
+                {
+                    await (Context.Message.Author as IGuildUser).RemoveRoleAsync(_role);
+                }
+            }*/
 
             await (Context.Message.Author as IGuildUser).AddRoleAsync(role);
             await ReplyAsync("Pronoun set, and role made or set.");
         }
 
-        [Command("set?no-role")]
-        public async Task setnp(string pro)
+        [Command("remove"), RequireBotPermission(GuildPermission.ManageRoles)]
+        public async Task takeoff(string pro)
         {
             PronounTools.AddRefresh(Context.Message.Author);
             PronounTools.Set(Context.Message.Author, pro);
 
             string role_name = "prefers " + pro;
-            //IRole role;
 
-            /*if (Context.Guild.Roles.Any(x => x.Name == role_name))
+            foreach (var _R in (Context.Message.Author as IGuildUser).RoleIds)
+            {
+                IRole _role = Context.Guild.GetRole(_R);
+
+                if (_role.Name.Contains(role_name))
+                {
+                    await (Context.Message.Author as IGuildUser).RemoveRoleAsync(_role);
+                }
+            }
+
+            await ReplyAsync("Pronoun removed.");
+        }
+
+        [Command("replace"), RequireBotPermission(GuildPermission.ManageRoles)]
+        public async Task replace(string pro)
+        {
+            PronounTools.AddRefresh(Context.Message.Author);
+            PronounTools.Set(Context.Message.Author, pro);
+
+            string role_name = "prefers " + pro;
+            IRole role;
+
+            if (Context.Guild.Roles.Any(x => x.Name == role_name))
             {
                 role = Context.Guild.Roles.First(x => x.Name == role_name);
             }
             else
             {
                 role = await Context.Guild.CreateRoleAsync(role_name);
-            }*/
+            }
 
-            //await (Context.Message.Author as IGuildUser).AddRoleAsync(role);
-            await ReplyAsync("Pronoun set.");
+            foreach (var _R in (Context.Message.Author as IGuildUser).RoleIds)
+            {
+                IRole _role = Context.Guild.GetRole(_R);
+
+                if (_role.Name.Contains("prefers"))
+                {
+                    await (Context.Message.Author as IGuildUser).RemoveRoleAsync(_role);
+                }
+            }
+
+            await (Context.Message.Author as IGuildUser).AddRoleAsync(role);
+            await ReplyAsync("Pronoun replaced (all pronoun roles have been removed).");
         }
-
     }
 
     public class PronounTools
