@@ -23,24 +23,24 @@ namespace xubot
         [Command("danbooru", RunMode = RunMode.Async)]
         public async Task danbooru(string tags = "")
         {
-            if (!Context.Channel.IsNsfw)
+            try
             {
-                await ReplyAsync("Move to a NSFW channel.");
-            }
-            else if (Program.enableNSFW || CheckTrigger())
-            {
-                try
+                var webClient = new WebClient();
+                string link = "http://danbooru.donmai.us/posts.json?limit=1&random=true&tags=" + tags;
+
+                webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
+
+                string text = webClient.DownloadString(link);
+                text = text.Substring(1, text.Length - 2);
+                //await ReplyAsync(text);
+                dynamic keys = JObject.Parse(text);
+
+                if (!Context.Channel.IsNsfw && keys.rating == "e")
                 {
-                    var webClient = new WebClient();
-                    string link = "http://danbooru.donmai.us/posts.json?limit=1&random=true&tags=" + tags;
-
-                    webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
-
-                    string text = webClient.DownloadString(link);
-                    text = text.Substring(1, text.Length - 2);
-                    //await ReplyAsync(text);
-                    dynamic keys = JObject.Parse(text);
-
+                    await ReplyAsync("Move to a NSFW channel.");
+                }
+                else
+                {
                     if (keys.large_file_url.ToString().Contains("http"))
                     {
                         await ReplyAsync(keys.large_file_url.ToString());
@@ -50,44 +50,40 @@ namespace xubot
                         await ReplyAsync("http://danbooru.donmai.us" + keys.large_file_url.ToString());
                     }
                 }
-                catch (Exception exp)
-                {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
-                }
             }
-            else
+            catch (Exception exp)
             {
-                if (Program.enableNSFW) await ReplyAsync("NSFW commands are disabled at the moment.");
-                else { await ReplyAsync("Umm.. something happened that I don't have a clue about. Whoopies."); }
+                await GeneralTools.CommHandler.BuildError(exp, Context);
             }
         }
 
         [Command("e621", RunMode = RunMode.Async)]
         public async Task e621(string tags = "")
         {
-            if (!Context.Channel.IsNsfw)
+
+            try
             {
-                await ReplyAsync("Move to a NSFW channel.");
-            }
-            else if (Program.enableNSFW || CheckTrigger())
-            {
-                try
+                Random rnd = new Random();
+                var webClient = new WebClient();
+                var webClient2 = new WebClient();
+                string link = "https://e621.net/post/index.xml?limit=1&page=&tags=" + tags;
+                string text_j = "";
+
+                webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
+                string linkJson = "https://e621.net/post/index.json?limit=1&page=" + rnd.Next(751).ToString() + "&tags=" + tags + "";
+
+                text_j = webClient.DownloadString(linkJson);
+                text_j = text_j.Substring(1, text_j.Length - 2);
+
+                //await ReplyAsync(text);
+                dynamic keys = JObject.Parse(text_j);
+
+                if (!Context.Channel.IsNsfw && keys.rating == "e")
                 {
-                    Random rnd = new Random();
-                    var webClient = new WebClient();
-                    var webClient2 = new WebClient();
-                    string link = "https://e621.net/post/index.xml?limit=1&page=&tags=" + tags;
-                    string text_j = "";
-
-                    webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
-                    string linkJson = "https://e621.net/post/index.json?limit=1&page=" + rnd.Next(751).ToString() + "&tags=" + tags + "";
-
-                    text_j = webClient.DownloadString(linkJson);
-                    text_j = text_j.Substring(1, text_j.Length - 2);
-
-                    //await ReplyAsync(text);
-                    dynamic keys = JObject.Parse(text_j);
-
+                    await ReplyAsync("Move to a NSFW channel.");
+                }
+                else
+                {
                     await ReplyAsync(keys.file_url.ToString());
                     //string text = webClient.DownloadString(link);
                     //text = text.Substring(1, text.Length - 2);
@@ -96,16 +92,12 @@ namespace xubot
 
                     //await ReplyAsync(keys.file_url.ToString());
                 }
-                catch (Exception exp)
-                {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
-                }
             }
-            else
+            catch (Exception exp)
             {
-                if (Program.enableNSFW) await ReplyAsync("NSFW commands are disabled at the moment.");
-                else { await ReplyAsync("Umm.. something happened that I don't have a clue about. Whoopies."); }
+                await GeneralTools.CommHandler.BuildError(exp, Context);
             }
+            
         }
 
         [Command("rule34", RunMode = RunMode.Async)]
