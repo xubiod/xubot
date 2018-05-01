@@ -14,6 +14,8 @@
    - [ ] replace `RequireOwner` with trust
 - high priority
    - [ ] canvas
+     - SixLabors drawing library is not working
+   - [ ] moderation
    - [x] take off pronoun role when a new role is given **(april 26, 2018)**
 
 - undecided priority
