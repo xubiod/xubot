@@ -17,8 +17,8 @@ namespace xubot.src
         [Command("add"), RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task set(string pro)
         {
-            PronounTools.AddRefresh(Context.Message.Author);
-            PronounTools.Set(Context.Message.Author, pro);
+            RoleTools.Pronoun.AddRefresh(Context.Message.Author);
+            RoleTools.Pronoun.Set(Context.Message.Author, pro);
 
             string role_name = "prefers " + pro;
             IRole role;
@@ -49,8 +49,8 @@ namespace xubot.src
         [Command("remove"), RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task takeoff(string pro)
         {
-            PronounTools.AddRefresh(Context.Message.Author);
-            PronounTools.Set(Context.Message.Author, pro);
+            RoleTools.Pronoun.AddRefresh(Context.Message.Author);
+            RoleTools.Pronoun.Set(Context.Message.Author, pro);
 
             string role_name = "prefers " + pro;
 
@@ -70,8 +70,8 @@ namespace xubot.src
         [Command("replace"), RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task replace(string pro)
         {
-            PronounTools.AddRefresh(Context.Message.Author);
-            PronounTools.Set(Context.Message.Author, pro);
+            RoleTools.Pronoun.AddRefresh(Context.Message.Author);
+            RoleTools.Pronoun.Set(Context.Message.Author, pro);
 
             string role_name = "prefers " + pro;
             IRole role;
@@ -100,103 +100,158 @@ namespace xubot.src
         }
     }
 
-    public class PronounTools
+    [Group("identity")]
+    public class Identity : ModuleBase
     {
-        public static void AddRefresh(IUser arg)
+        public static XDocument xdoc = new XDocument();
+        
+        [Command("set"), RequireBotPermission(GuildPermission.ManageRoles)]
+        public async Task replace(string first, string second, string third)
         {
-            bool exists = false;
+            //RoleTools.Identity.AddRefresh(Context.Message.Author);
 
-            Pronouns.xdoc = XDocument.Load("Pronouns.xml");
+            //RoleTools.Identity.Set(Context.Message.Author, first + second + third);
 
-            var items = from i in Pronouns.xdoc.Descendants("pronoun")
-                        select new
-                        {
-                            user = i.Attribute("id"),
-                            preferred = i.Attribute("preferred")
-                        };
+            string role_name = "identifies as " + RoleTools.Identity.Simplify(first) + " " + second + " " + third;
+            IRole role;
 
-            foreach (var item in items)
+            if (Context.Guild.Roles.Any(x => x.Name == role_name))
             {
-                if (item.user.Value == arg.Id.ToString())
+                role = Context.Guild.Roles.First(x => x.Name == role_name);
+            }
+            else
+            {
+                role = await Context.Guild.CreateRoleAsync(role_name);
+            }
+
+            foreach (var _R in (Context.Message.Author as IGuildUser).RoleIds)
+            {
+                IRole _role = Context.Guild.GetRole(_R);
+
+                if (_role.Name.Contains("identifies as "))
                 {
-                    exists = true;
+                    await (Context.Message.Author as IGuildUser).RemoveRoleAsync(_role);
                 }
             }
 
-            if (!exists)
+            await (Context.Message.Author as IGuildUser).AddRoleAsync(role);
+            await ReplyAsync("Identity added/replaced.");
+        }
+
+        [Command("remove"), RequireBotPermission(GuildPermission.ManageRoles)]
+        public async Task remove()
+        {
+            foreach (var _R in (Context.Message.Author as IGuildUser).RoleIds)
             {
-                Console.WriteLine("new user found to add to pronouns, doing that now");
+                IRole _role = Context.Guild.GetRole(_R);
 
-                XElement xelm = new XElement("pronoun");
-                XAttribute user = new XAttribute("id", arg.Id.ToString());
-                XAttribute prefer = new XAttribute("preferred", "not set!");
+                if (_role.Name.Contains("identifies as "))
+                {
+                    await (Context.Message.Author as IGuildUser).RemoveRoleAsync(_role);
+                }
+            }
 
-                xelm.Add(user);
-                xelm.Add(prefer);
+            //await (Context.Message.Author as IGuildUser).AddRoleAsync(role);
+            await ReplyAsync("Identity removed.");
+        }
+    }
 
-                Pronouns.xdoc.Root.Add(xelm);
+    public class RoleTools
+    {
+        public class Pronoun
+        {
+            public static void AddRefresh(IUser arg)
+            {
+                bool exists = false;
+
+                Pronouns.xdoc = XDocument.Load("Pronouns.xml");
+
+                var items = from i in Pronouns.xdoc.Descendants("pronoun")
+                            select new
+                            {
+                                user = i.Attribute("id"),
+                                preferred = i.Attribute("preferred")
+                            };
+
+                foreach (var item in items)
+                {
+                    if (item.user.Value == arg.Id.ToString())
+                    {
+                        exists = true;
+                    }
+                }
+
+                if (!exists)
+                {
+                    Console.WriteLine("new user found to add to pronouns, doing that now");
+
+                    XElement xelm = new XElement("pronoun");
+                    XAttribute user = new XAttribute("id", arg.Id.ToString());
+                    XAttribute prefer = new XAttribute("preferred", "not set!");
+
+                    xelm.Add(user);
+                    xelm.Add(prefer);
+
+                    Pronouns.xdoc.Root.Add(xelm);
+                    Pronouns.xdoc.Save("Pronouns.xml");
+                }
+            }
+            public static string Read(IUser arg)
+            {
+                Pronouns.xdoc = XDocument.Load("Pronouns.xml");
+
+                var items = from i in Pronouns.xdoc.Descendants("pronoun")
+                            select new
+                            {
+                                user = i.Attribute("id"),
+                                preferred = i.Attribute("preferred")
+                            };
+
+                foreach (var item in items)
+                {
+                    if (item.user.Value == arg.Id.ToString())
+                    {
+                        return item.preferred.Value;
+                    }
+                }
+
+                return "not set!";
+            }
+            public static void Set(IUser arg, string newVal)
+            {
+                Pronouns.xdoc = XDocument.Load("Pronouns.xml");
+
+                var items = from i in Pronouns.xdoc.Descendants("pronoun")
+                            select new
+                            {
+                                user = i.Attribute("id"),
+                                preferred = i.Attribute("preferred")
+                            };
+
+                foreach (var item in items)
+                {
+                    if (item.user.Value == arg.Id.ToString())
+                    {
+                        item.preferred.Value = newVal;
+                    }
+                }
+
                 Pronouns.xdoc.Save("Pronouns.xml");
             }
-        }
-
-        public static string Read(IUser arg)
-        {
-            Pronouns.xdoc = XDocument.Load("Pronouns.xml");
-
-            var items = from i in Pronouns.xdoc.Descendants("pronoun")
-                        select new
-                        {
-                            user = i.Attribute("id"),
-                            preferred = i.Attribute("preferred")
-                        };
-
-            foreach (var item in items)
+            public static async Task Build(ICommandContext Context, IUser arg, string prefer)
             {
-                if (item.user.Value == arg.Id.ToString())
+                EmbedBuilder embedd = new EmbedBuilder
                 {
-                    return item.preferred.Value;
-                }
-            }
+                    Title = "Preferred Pronoun",
+                    Color = Discord.Color.Red,
+                    Description = arg.Username + "#" + arg.Discriminator + " 's Preferred Pronoun",
 
-            return "not set!";
-        }
-
-        public static void Set(IUser arg, string newVal)
-        {
-            Pronouns.xdoc = XDocument.Load("Pronouns.xml");
-
-            var items = from i in Pronouns.xdoc.Descendants("pronoun")
-                        select new
-                        {
-                            user = i.Attribute("id"),
-                            preferred = i.Attribute("preferred")
-                        };
-
-            foreach (var item in items)
-            {
-                if (item.user.Value == arg.Id.ToString())
-                {
-                    item.preferred.Value = newVal;
-                }
-            }
-
-            Pronouns.xdoc.Save("Pronouns.xml");
-        }
-
-        public static async Task Build(ICommandContext Context, IUser arg, string prefer)
-        {
-            EmbedBuilder embedd = new EmbedBuilder
-            {
-                Title = "Preferred Pronoun",
-                Color = Discord.Color.Red,
-                Description = arg.Username + "#" + arg.Discriminator + " 's Preferred Pronoun",
-
-                Footer = new EmbedFooterBuilder
-                {
-                    Text = "xubot :p"
-                },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -205,9 +260,99 @@ namespace xubot.src
                                 IsInline = false
                             }
                         }
-            };
+                };
 
-            await Context.Channel.SendMessageAsync("", false, embedd);
+                await Context.Channel.SendMessageAsync("", false, embedd);
+            }
+        }
+        
+        public class Identity
+        {
+            public static void AddRefresh(IUser arg)
+            {
+                bool exists = false;
+
+                Pronouns.xdoc = XDocument.Load("Identity.xml");
+
+                var items = from i in Pronouns.xdoc.Descendants("identity")
+                            select new
+                            {
+                                user = i.Attribute("id"),
+                                preferred = i.Attribute("identify")
+                            };
+
+                foreach (var item in items)
+                {
+                    if (item.user.Value == arg.Id.ToString())
+                    {
+                        exists = true;
+                    }
+                }
+
+                if (!exists)
+                {
+                    Console.WriteLine("new user found to add to identity, doing that now");
+
+                    XElement xelm = new XElement("identity");
+                    XAttribute user = new XAttribute("id", arg.Id.ToString());
+                    XAttribute prefer = new XAttribute("identify", "not set!");
+
+                    xelm.Add(user);
+                    xelm.Add(prefer);
+
+                    Pronouns.xdoc.Root.Add(xelm);
+                    Pronouns.xdoc.Save("Identity.xml");
+                }
+            }
+            public static string Read(IUser arg)
+            {
+                Pronouns.xdoc = XDocument.Load("Identity.xml");
+
+                var items = from i in Pronouns.xdoc.Descendants("identity")
+                            select new
+                            {
+                                user = i.Attribute("id"),
+                                preferred = i.Attribute("identify")
+                            };
+
+                foreach (var item in items)
+                {
+                    if (item.user.Value == arg.Id.ToString())
+                    {
+                        return item.preferred.Value;
+                    }
+                }
+
+                return "not set!";
+            }
+            public static void Set(IUser arg, string newVal)
+            {
+                Pronouns.xdoc = XDocument.Load("Identity.xml");
+
+                var items = from i in Pronouns.xdoc.Descendants("identity")
+                            select new
+                            {
+                                user = i.Attribute("id"),
+                                preferred = i.Attribute("preferred")
+                            };
+
+                foreach (var item in items)
+                {
+                    if (item.user.Value == arg.Id.ToString())
+                    {
+                        item.preferred.Value = newVal;
+                    }
+                }
+
+                Pronouns.xdoc.Save("Identity.xml");
+            }
+
+            public static string Simplify(string input)
+            {
+                if (input.Contains("cis")) { return "cis"; }
+                else if (input.Contains("trans")) { return "trans"; }
+                else { return input; }
+            }
         }
     }
 }
