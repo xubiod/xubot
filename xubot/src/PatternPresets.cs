@@ -199,6 +199,15 @@ namespace xubot
                 else if (patternID == 5) { return "00100"; }
                 else { return "FAILURE"; }
             }
+            else if (searchterm.Contains("paper"))
+            {
+                if (patternID == 1) { return "11111"; }
+                else if (patternID == 2) { return "10001"; }
+                else if (patternID == 3) { return "11111"; }
+                else if (patternID == 4) { return "10001"; }
+                else if (patternID == 5) { return "11111"; }
+                else { return "FAILURE"; }
+            }
             else { return "FAILURE"; }
         }
     }
