@@ -27,6 +27,22 @@ namespace xubot.src
             Program.xuClient.ChannelCreated += _channel_c;
             Program.xuClient.ChannelDestroyed += _channel_d;
             Program.xuClient.ChannelUpdated += _channel_u;
+
+            //Program.xuClient.GuildUpdated += _guild_u;
+
+            //Program.xuClient.Log += _log;
+
+            //Program.xuClient.MessageDeleted += _msg_d;
+
+            //Program.xuClient.RoleCreated += _role_c;
+            //Program.xuClient.RoleDeleted += _role_d;
+            //Program.xuClient.RoleUpdated += _role_u;
+
+            //Program.xuClient.UserBanned += _user_b;
+            //Program.xuClient.UserJoined += _user_j;
+            //Program.xuClient.UserLeft += _user_l;
+            //Program.xuClient.UserUnbanned += _user_ub;
+            //Program.xuClient.UserUpdated += _user_u;
         }
 
         public async Task _channel_c(SocketChannel arg)

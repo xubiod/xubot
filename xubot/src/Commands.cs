@@ -1479,5 +1479,12 @@ namespace xubot
                 await GeneralTools.CommHandler.BuildError(exp, Context);
             }
         }
+
+        [Command("privacy-policy")]
+        public async Task pp()
+        {
+            File.WriteAllText(Path.GetTempPath() + "pripol.txt", Properties.Resources.PrivacyPolicy);
+            await Context.Channel.SendFileAsync(Path.GetTempPath() + "pripol.txt");
+        }
     }
 }

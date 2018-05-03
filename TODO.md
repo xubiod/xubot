@@ -12,6 +12,7 @@
    - [x] fix reddit command **(april 26, 2018)**
    - [ ] no nsfw lock in dm
    - [ ] replace `RequireOwner` with trust
+   - [ ] remove pronoun xml
 - high priority
    - [ ] canvas
      - SixLabors drawing library is not working
