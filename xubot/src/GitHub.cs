@@ -73,7 +73,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
             
             [Command("commit")]
@@ -127,7 +127,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("repo-latest-commit"), Alias("rlc")]
@@ -157,7 +157,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("latest-ref")]
@@ -193,7 +193,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
             
         }

@@ -370,7 +370,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Group("add")]
@@ -629,6 +629,12 @@ namespace xubot
                     await GeneralTools.CommHandler.BuildError(exp, Context);
                 }
             }
+
+            [Command("ct")]
+            public async Task test005()
+            {
+                await ReplyAsync(Discord.Color.LightOrange.ToString());
+            }
         }
 
         [Group("info")]
@@ -681,7 +687,7 @@ namespace xubot
                             }
                         }
                 };
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("channel"), Alias("channel-info", "ci"), Summary("attempts to post a thing to twitter")]
@@ -719,13 +725,12 @@ namespace xubot
                                 Name = "Details",
                                 Value = "ID: **" + Context.Channel.Id + "**\n" +
                                         "Name: **" + Context.Channel.Name + "**\n\n" +
-                                        "NSFW?: **" + Context.Channel.IsNsfw + "**\n" +
                                         "Created on **" + Context.Channel.CreatedAt + "**\n",
                                 IsInline = false
                             }
                         }
                 };
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("client"), Alias("client-info"), Summary("attempts to post a thing to twitter")]
@@ -760,7 +765,7 @@ namespace xubot
                             }
                         }
                 };
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("user", RunMode = RunMode.Async), Alias("user-info", "ui"), Summary("attempts to post a thing to twitter")]
@@ -800,7 +805,7 @@ namespace xubot
                                         "Status: **" + _user0.Status + "**\n" +
                                         "Bot? **" + _user0.IsBot + "**\n" +
                                         "Webhook? **" + _user0.IsWebhook + "**\n\n" +
-                                        "Current Game: **" + _user1.Game + "**\n" +
+                                        "Current Activity: **" + _user1.Activity + "**\n" +
                                         "Deafened: **" + _user1.IsDeafened + "** | Self Deafened: **" + _user1.IsSelfDeafened + "**\n" +
                                         "Muted: **" + _user1.IsMuted + "** | Self Muted: **" + _user1.IsSelfMuted + "**\n" +
                                         "Joined server on **" + _user1.JoinedAt + "**\n" +
@@ -812,7 +817,7 @@ namespace xubot
                             }
                         }
                 };
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
         }
@@ -849,14 +854,28 @@ namespace xubot
                 [Command("playing"), Alias("play", "game"), Summary("attempts to set playing"), RequireOwner]
                 public async Task play(string new_play)
                 {
-                    await Program.xuClient.SetGameAsync(new_play, null, StreamType.NotStreaming);
+                    await Program.xuClient.SetGameAsync(new_play, null, ActivityType.Playing);
+                    await ReplyAsync("*Game* has been set to: **" + new_play + "**");
+                }
+
+                [Command("watching"), Alias("watch"), Summary("attempts to set playing"), RequireOwner]
+                public async Task watching(string new_play)
+                {
+                    await Program.xuClient.SetGameAsync(new_play, null, ActivityType.Watching);
+                    await ReplyAsync("*Game* has been set to: **" + new_play + "**");
+                }
+
+                [Command("listening"), Alias("listen"), Summary("attempts to set playing"), RequireOwner]
+                public async Task listening(string new_play)
+                {
+                    await Program.xuClient.SetGameAsync(new_play, null, ActivityType.Listening);
                     await ReplyAsync("*Game* has been set to: **" + new_play + "**");
                 }
 
                 [Command("streaming"), Alias("stream"), Summary("attempts to set streaming"), RequireOwner]
                 public async Task stream(string new_play)
                 {
-                    await Program.xuClient.SetGameAsync(new_play, "https://www.twitch.tv/xubiod_chat_bot", StreamType.Twitch);
+                    await Program.xuClient.SetGameAsync(new_play, "https://www.twitch.tv/xubiod_chat_bot", ActivityType.Streaming);
                     await ReplyAsync("*Game* has been set to: **" + new_play + "**" +
                                     "\n*Status* has been set to: **streaming**");
                 }
@@ -1154,7 +1173,7 @@ namespace xubot
                         }
             };
 
-            await ReplyAsync("", false, embedd);
+            await ReplyAsync("", false, embedd.Build());
         }
 
         [Command("credits")]
@@ -1185,7 +1204,7 @@ namespace xubot
                         }
             };
 
-            await ReplyAsync("", false, embedd);
+            await ReplyAsync("", false, embedd.Build());
         }
 
         [Command("version")]
@@ -1236,7 +1255,7 @@ namespace xubot
                         }
             };
 
-            await ReplyAsync("", false, embedd);
+            await ReplyAsync("", false, embedd.Build());
         }
 
         [Group("trust"), RequireOwner]
@@ -1433,7 +1452,7 @@ namespace xubot
                         }
                     };
 
-                    await ReplyAsync("", false, embedd);
+                    await ReplyAsync("", false, embedd.Build());
                 }
                 else
                 {
@@ -1465,7 +1484,7 @@ namespace xubot
                         }
                     };
 
-                    await ReplyAsync("", false, embedd);
+                    await ReplyAsync("", false, embedd.Build());
                 }
                 //string text = webClient.DownloadString(link);
                 //text = text.Substring(1, text.Length - 2);

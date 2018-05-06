@@ -11,6 +11,8 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Xml.Linq;
+using xubot.src;
+using Discord;
 
 namespace xubot
 {
@@ -35,7 +37,7 @@ namespace xubot
                 //await ReplyAsync(text);
                 dynamic keys = JObject.Parse(text);
 
-                if (!Context.Channel.IsNsfw && keys.rating == "e")
+                if (!GeneralTools.ChannelNSFW(Context) && keys.rating == "e")
                 {
                     await ReplyAsync("Move to a NSFW channel.");
                 }
@@ -60,7 +62,6 @@ namespace xubot
         [Command("e621", RunMode = RunMode.Async)]
         public async Task e621(string tags = "")
         {
-
             try
             {
                 Random rnd = new Random();
@@ -78,7 +79,7 @@ namespace xubot
                 //await ReplyAsync(text);
                 dynamic keys = JObject.Parse(text_j);
 
-                if (!Context.Channel.IsNsfw && keys.rating == "e")
+                if (!GeneralTools.ChannelNSFW(Context) && keys.rating == "e")
                 {
                     await ReplyAsync("Move to a NSFW channel.");
                 }
@@ -103,11 +104,12 @@ namespace xubot
         [Command("rule34", RunMode = RunMode.Async)]
         public async Task r34(string tags = "")
         {
-            if (!Context.Channel.IsNsfw)
+            if (!GeneralTools.ChannelNSFW(Context))
             {
                 await ReplyAsync("Move to a NSFW channel.");
             }
-            else if ((Program.enableNSFW || CheckTrigger()) && tags != "")
+            else
+            if ((Program.enableNSFW || CheckTrigger()) && tags != "")
             {
                 try
                 {
@@ -170,11 +172,12 @@ namespace xubot
         [Command("gelbooru", RunMode = RunMode.Async)]
         public async Task gelbooru(string tags = "")
         {
-            if (!Context.Channel.IsNsfw)
+            if (!GeneralTools.ChannelNSFW(Context))
             {
                 await ReplyAsync("Move to a NSFW channel.");
             }
-            else if ((Program.enableNSFW || CheckTrigger()) && tags != "")
+            else
+            if ((Program.enableNSFW || CheckTrigger()) && tags != "")
             {
                 try
                 {
@@ -237,11 +240,12 @@ namespace xubot
         [Command("yandere", RunMode = RunMode.Async)]
         public async Task yandere(string tags = "")
         {
-            if (!Context.Channel.IsNsfw)
+            if (!GeneralTools.ChannelNSFW(Context))
             {
                 await ReplyAsync("Move to a NSFW channel.");
             }
-            else if (Program.enableNSFW || CheckTrigger())
+            else
+            if (Program.enableNSFW || CheckTrigger())
             {
                 try
                 {
@@ -298,6 +302,8 @@ namespace xubot
         [Command("e926", RunMode = RunMode.Async)]
         public async Task e926(string tags = "")
         {
+            //ITextChannel c = Context.Channel as ITextChannel;
+
             try
             {
                 Random rnd = new Random();
@@ -382,11 +388,12 @@ namespace xubot
         [Command("konachan", RunMode = RunMode.Async)]
         public async Task konachan(string tags = "")
         {
-            if (!Context.Channel.IsNsfw)
+            if (!GeneralTools.ChannelNSFW(Context))
             {
                 await ReplyAsync("Move to a NSFW channel.");
             }
-            else if (Program.enableNSFW || CheckTrigger())
+            else
+            if (CheckTrigger())
             {
                 try
                 {

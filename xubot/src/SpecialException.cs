@@ -56,5 +56,12 @@ namespace xubot.src
             public InsertBetterExceptionNameException(string message) : base(message) { }
             public InsertBetterExceptionNameException(string message, Exception inner) : base(message, inner) { }
         }
+
+        public class IHateDiscordDotNetException : Exception
+        {
+            public IHateDiscordDotNetException() { }
+            public IHateDiscordDotNetException(string message) : base(message) { }
+            public IHateDiscordDotNetException(string message, Exception inner) : base(message, inner) { }
+        }
     }
 }

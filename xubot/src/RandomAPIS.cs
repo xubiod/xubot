@@ -135,7 +135,7 @@ namespace xubot
                         }
             };
 
-            await ReplyAsync("", false, embedd);
+            await ReplyAsync("", false, embedd.Build());
         }
 
         [Command("expand-googl", RunMode = RunMode.Async)]
@@ -189,7 +189,7 @@ namespace xubot
                         }
             };
 
-            await ReplyAsync("", false, embedd);
+            await ReplyAsync("", false, embedd.Build());
         }
 
         [Command("cat", RunMode = RunMode.Async)]
@@ -298,7 +298,7 @@ namespace xubot
                         }
                     };
 
-                    await ReplyAsync("", false, embedd);
+                    await ReplyAsync("", false, embedd.Build());
                 }
                 catch (Exception exp)
                 {

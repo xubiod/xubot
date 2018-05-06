@@ -118,7 +118,7 @@ namespace xubot
                         }
             };
 
-            await ReplyAsync("", false, embedd);
+            await ReplyAsync("", false, embedd.Build());
         }
 
         [Command("reddit", RunMode = RunMode.Async)]
@@ -131,7 +131,7 @@ namespace xubot
 
             await Operate(Context, subreddit, "", 0, false);
         }
-
+        
         [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, string query)
         {
@@ -142,7 +142,7 @@ namespace xubot
 
             await Operate(Context, subreddit, query, 0, false);
         }
-
+        
         [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, string query, int sorting)
         {
@@ -153,7 +153,7 @@ namespace xubot
 
             await Operate(Context, subreddit, query, sorting, false);
         }
-
+        
         [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, int sorting)
         {
@@ -165,7 +165,7 @@ namespace xubot
 
             await Operate(Context, subreddit, "", sorting, false);
         }
-
+        
         [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, bool hide)
         {
@@ -177,7 +177,7 @@ namespace xubot
 
             await Operate(Context, subreddit, "", 0, hide);
         }
-
+        
         [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, string query, bool hide)
         {
@@ -188,7 +188,7 @@ namespace xubot
 
             await Operate(Context, subreddit, query, 0, hide);
         }
-
+        
         [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, string query, int sorting, bool hide)
         {
@@ -199,7 +199,7 @@ namespace xubot
 
             await Operate(Context, subreddit, query, sorting, hide);
         }
-
+        
         [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, int sorting, bool hide)
         {
@@ -210,12 +210,12 @@ namespace xubot
 
             await Operate(Context, subreddit, "", sorting, hide);
         }
-
+        
         /* operation functions */
 
         //List<RedditSharp.Things.Post> contents_list = new List<RedditSharp.Things.Post> { };
 
-        public async Task Operate(ICommandContext Context, string subreddit, string query, int sorting, bool hide)
+        public async Task Operate(ICommandContext Context, string subreddit, string query, int sorting, bool hide, bool nsfw = false)
         {
             try
             {
@@ -227,15 +227,13 @@ namespace xubot
                 await Context.Channel.TriggerTypingAsync();
                 Random rnd = new Random();
 
-                List<RedditSharp.Things.Post> contents = await Program.subreddit.GetPosts(FromIntSort(sorting), -1).ToList();
+                var contents = await Program.subreddit.GetPosts(FromIntSort(sorting), -1).ToList();
                 
-                int contents_count = contents.Count();
+                var post = contents.ElementAt(rnd.Next(contents.Count));
                 
-                var post = contents.ElementAt(rnd.Next(contents_count));
-
-                if (post.NSFW)
+                if (GeneralTools.ChannelNSFW(Context) && post.NSFW)
                 {
-                    if (!Context.Channel.IsNsfw)
+                    if (!nsfw)
                     {
                         await msg.DeleteAsync();
                         await ReplyAsync("The random post that was selected is NSFW or the subreddit is NSFW. Try again for another random post, with another subreddit, or move to a NSFW channel (needs nsfw in the name).");

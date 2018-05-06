@@ -240,7 +240,7 @@ namespace xubot
                         }
                 }
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
             
             [Command("key")]
@@ -270,7 +270,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("echo")]
@@ -300,7 +300,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("math")]
@@ -345,7 +345,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("settings")]
@@ -382,7 +382,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("insult")]
@@ -414,7 +414,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("convert")]
@@ -444,7 +444,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("post")]
@@ -474,7 +474,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("patt"), Alias("pattern")]
@@ -505,7 +505,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("reddit"), Alias("reddit")]
@@ -547,7 +547,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("pic")]
@@ -579,7 +579,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("interp")]
@@ -610,7 +610,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("github")]
@@ -642,7 +642,7 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("ssh")]
@@ -674,13 +674,13 @@ namespace xubot
                         }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("markov")]
             public async Task markovhelp()
             {
-                Embed embedd = new EmbedBuilder
+                EmbedBuilder embedd = new EmbedBuilder
                 {
                     Title = "List of Commands: Markov",
                     Color = Discord.Color.Orange,
@@ -706,13 +706,13 @@ namespace xubot
                                 }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("eco"), Alias("economy")]
             public async Task ecohelp()
             {
-                Embed embedd = new EmbedBuilder
+                EmbedBuilder embedd = new EmbedBuilder
                 {
                     Title = "List of Commands: Economy",
                     Color = Discord.Color.Orange,
@@ -737,13 +737,13 @@ namespace xubot
                                 }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("pronoun")]
             public async Task prohelp()
             {
-                Embed embedd = new EmbedBuilder
+                EmbedBuilder embedd = new EmbedBuilder
                 {
                     Title = "List of Commands: Pronoun",
                     Color = Discord.Color.Orange,
@@ -769,7 +769,7 @@ namespace xubot
                                 }
                 };
 
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
         }
     }

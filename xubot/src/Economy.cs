@@ -279,7 +279,7 @@ namespace xubot.src
                         }
                 };
 
-                await Context.Channel.SendMessageAsync("", false, embedd);
+                await Context.Channel.SendMessageAsync("", false, embedd.Build());
             }
 
             public static async Task Build_Transfer(ICommandContext Context, double amount, IUser transferTo, string _code)
@@ -318,7 +318,7 @@ namespace xubot.src
                         }
                 };
 
-                await Context.Channel.SendMessageAsync("", false, embedd);
+                await Context.Channel.SendMessageAsync("", false, embedd.Build());
             }
 
         }

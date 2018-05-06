@@ -61,7 +61,7 @@ namespace xubot
                         }
             };
 
-            return embedd;
+            return embedd.Build();
             //await ReplyAsync("", false, embedd);
         }
 
@@ -308,7 +308,7 @@ namespace xubot
                         }
             };
 
-            return embedd;
+            return embedd.Build();
             //await ReplyAsync("", false, embedd);
         }
     }

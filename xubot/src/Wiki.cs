@@ -25,7 +25,7 @@ namespace xubot.src
             public async Task get(string article)
             {
                 EmbedBuilder embedd = WikiTools.BuildEmbed(WikiTools.ReadArticle(article), WikiTools.ReadLastEdit(article), article);
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
 
             [Command("edit")]

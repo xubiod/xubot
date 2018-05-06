@@ -67,7 +67,7 @@ namespace xubot.src
                             }
                         }
                 };
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
 
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
@@ -117,7 +117,7 @@ namespace xubot.src
                             }
                         }
                 };
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
 
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
@@ -167,7 +167,7 @@ namespace xubot.src
                             }
                         }
                 };
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
 
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
@@ -219,7 +219,7 @@ namespace xubot.src
                             }
                         }
                 };
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
 
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
@@ -259,7 +259,7 @@ namespace xubot.src
                             }
                         }
                 };
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
 
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
@@ -336,7 +336,7 @@ namespace xubot.src
                             }
                         }
                 };
-                await ReplyAsync("", false, embedd);
+                await ReplyAsync("", false, embedd.Build());
             }
         }
     }

@@ -48,7 +48,7 @@ namespace xubot
                         }
                 };
 
-                await context.Channel.SendMessageAsync("", false, embedd);
+                await context.Channel.SendMessageAsync("", false, embedd.Build());
             }
 
             public static async Task BuildError(Exception exp, ICommandContext context)
@@ -100,7 +100,7 @@ namespace xubot
                         }
                 };
 
-                await context.Channel.SendMessageAsync("", false, embedd);
+                await context.Channel.SendMessageAsync("", false, embedd.Build());
                 if (exp.StackTrace.Length > 512)
                 {
                     await context.Channel.SendFileAsync(Path.Combine(Path.GetTempPath(), "StackTrace.txt"));
@@ -273,6 +273,12 @@ namespace xubot
             }
 
             return false;
+        }
+
+        public static bool ChannelNSFW(ICommandContext Context)
+        {
+            ITextChannel _c = Context.Channel as ITextChannel;
+            return _c.IsNsfw;
         }
     }
 }
