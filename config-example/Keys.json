@@ -22,6 +22,9 @@
     "github:": "[...]",
 	
 	"donate_link": "[link to donate]",
-	
-	"amdoren": "[api key]"
+
+  "amdoren": "[api key]",
+
+  "oxford_dic_id": "[app id]",
+  "oxford_dic_key": "[api key]"
 }
