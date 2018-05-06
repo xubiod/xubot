@@ -6,11 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Drawing;
+
+using DColor = Discord.Color;
+using SColor = System.Drawing.Color;
 
 namespace xubot.src
 {
     [Group("pronoun")]
-    public class Pronouns : ModuleBase
+    public class Roles : ModuleBase
     {
         public static XDocument xdoc = new XDocument();
         
@@ -164,9 +168,9 @@ namespace xubot.src
             {
                 bool exists = false;
 
-                Pronouns.xdoc = XDocument.Load("Pronouns.xml");
+                Roles.xdoc = XDocument.Load("Pronouns.xml");
 
-                var items = from i in Pronouns.xdoc.Descendants("pronoun")
+                var items = from i in Roles.xdoc.Descendants("pronoun")
                             select new
                             {
                                 user = i.Attribute("id"),
@@ -192,15 +196,15 @@ namespace xubot.src
                     xelm.Add(user);
                     xelm.Add(prefer);
 
-                    Pronouns.xdoc.Root.Add(xelm);
-                    Pronouns.xdoc.Save("Pronouns.xml");
+                    Roles.xdoc.Root.Add(xelm);
+                    Roles.xdoc.Save("Pronouns.xml");
                 }
             }
             public static string Read(IUser arg)
             {
-                Pronouns.xdoc = XDocument.Load("Pronouns.xml");
+                Roles.xdoc = XDocument.Load("Pronouns.xml");
 
-                var items = from i in Pronouns.xdoc.Descendants("pronoun")
+                var items = from i in Roles.xdoc.Descendants("pronoun")
                             select new
                             {
                                 user = i.Attribute("id"),
@@ -219,9 +223,9 @@ namespace xubot.src
             }
             public static void Set(IUser arg, string newVal)
             {
-                Pronouns.xdoc = XDocument.Load("Pronouns.xml");
+                Roles.xdoc = XDocument.Load("Pronouns.xml");
 
-                var items = from i in Pronouns.xdoc.Descendants("pronoun")
+                var items = from i in Roles.xdoc.Descendants("pronoun")
                             select new
                             {
                                 user = i.Attribute("id"),
@@ -236,7 +240,7 @@ namespace xubot.src
                     }
                 }
 
-                Pronouns.xdoc.Save("Pronouns.xml");
+                Roles.xdoc.Save("Pronouns.xml");
             }
             public static async Task Build(ICommandContext Context, IUser arg, string prefer)
             {
@@ -262,7 +266,7 @@ namespace xubot.src
                         }
                 };
 
-                await Context.Channel.SendMessageAsync("", false, embedd);
+                await Context.Channel.SendMessageAsync("", false, embedd.Build());
             }
         }
         
@@ -272,9 +276,9 @@ namespace xubot.src
             {
                 bool exists = false;
 
-                Pronouns.xdoc = XDocument.Load("Identity.xml");
+                Roles.xdoc = XDocument.Load("Identity.xml");
 
-                var items = from i in Pronouns.xdoc.Descendants("identity")
+                var items = from i in Roles.xdoc.Descendants("identity")
                             select new
                             {
                                 user = i.Attribute("id"),
@@ -300,15 +304,15 @@ namespace xubot.src
                     xelm.Add(user);
                     xelm.Add(prefer);
 
-                    Pronouns.xdoc.Root.Add(xelm);
-                    Pronouns.xdoc.Save("Identity.xml");
+                    Roles.xdoc.Root.Add(xelm);
+                    Roles.xdoc.Save("Identity.xml");
                 }
             }
             public static string Read(IUser arg)
             {
-                Pronouns.xdoc = XDocument.Load("Identity.xml");
+                Roles.xdoc = XDocument.Load("Identity.xml");
 
-                var items = from i in Pronouns.xdoc.Descendants("identity")
+                var items = from i in Roles.xdoc.Descendants("identity")
                             select new
                             {
                                 user = i.Attribute("id"),
@@ -327,9 +331,9 @@ namespace xubot.src
             }
             public static void Set(IUser arg, string newVal)
             {
-                Pronouns.xdoc = XDocument.Load("Identity.xml");
+                Roles.xdoc = XDocument.Load("Identity.xml");
 
-                var items = from i in Pronouns.xdoc.Descendants("identity")
+                var items = from i in Roles.xdoc.Descendants("identity")
                             select new
                             {
                                 user = i.Attribute("id"),
@@ -344,7 +348,7 @@ namespace xubot.src
                     }
                 }
 
-                Pronouns.xdoc.Save("Identity.xml");
+                Roles.xdoc.Save("Identity.xml");
             }
 
             public static string Simplify(string input)
