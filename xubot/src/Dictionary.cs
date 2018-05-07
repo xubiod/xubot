@@ -57,7 +57,26 @@ namespace xubot.src
 
                 dynamic keys = JObject.Parse(text);
 
-                string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
+                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>();
+
+                alldef.Add(new EmbedFieldBuilder
+                {
+                    Name = "Word / Region",
+                    Value = _word + " / " + _langID,
+                    IsInline = false
+                });
+
+                foreach (string _def in keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions)
+                {
+                    alldef.Add(new EmbedFieldBuilder
+                    {
+                        Name = "A Definition",
+                        Value = _def,
+                        IsInline = false
+                    });
+                }
+                    
+                //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
 
                 EmbedBuilder embedd = new EmbedBuilder
                 {
@@ -70,21 +89,7 @@ namespace xubot.src
                         Text = "xubot :p"
                     },
                     Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Word / Region",
-                                Value = _word + " / " + _langID,
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Definition",
-                                Value = _first_def,
-                                IsInline = false
-                            }
-                        }
+                    Fields = alldef
                 };
 
                 await ReplyAsync("", false, embedd.Build());
