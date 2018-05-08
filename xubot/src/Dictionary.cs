@@ -12,6 +12,7 @@ using System.IO;
 
 namespace xubot.src
 {
+    [Group("dictionary"), Alias("dict")]
     public class DictionaryComm : ModuleBase
     {
         public static string result = "";
@@ -19,6 +20,7 @@ namespace xubot.src
 
         public struct DictInputs
         {
+            public string get;
             public string langID;
             public string word;
             public string filters;
@@ -26,7 +28,7 @@ namespace xubot.src
 
         static string AssembleURL(DictInputs inputs)
         {
-            return "https://od-api.oxforddictionaries.com:443/api/v1/entries/" + inputs.langID.ToLower() + "/" + inputs.word.ToLower() + "/" + inputs.filters.ToLower();
+            return "https://od-api.oxforddictionaries.com:443/api/v1/" + inputs.get.ToLower() + "/" + inputs.langID.ToLower() + "/" + inputs.word.ToLower() + inputs.filters.ToLower();
         }
 
         public static Task GetJSON(DictInputs inputs)
@@ -44,15 +46,16 @@ namespace xubot.src
         //AssembleURL("en", "", "definitions")
 
         [Command("define")]
-        public async Task dictionary_comm(string _word, string _langID = "en")
+        public async Task define(string _word, string _langID = "en")
         {
             try
             {
                 await GetJSON(new DictInputs
                 {
+                    get = "entries",
                     langID = _langID,
                     word = _word,
-                    filters = "definitions"
+                    filters = "/definitions"
                 });
 
                 dynamic keys = JObject.Parse(text);
@@ -66,23 +69,29 @@ namespace xubot.src
                     IsInline = false
                 });
 
-                foreach (string _def in keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions)
+                string _all_def_str = "";
+                int _count = 1;
+
+                foreach (var _key in keys.results[0].lexicalEntries[0].entries[0].senses)
                 {
-                    alldef.Add(new EmbedFieldBuilder
-                    {
-                        Name = "A Definition",
-                        Value = _def,
-                        IsInline = false
-                    });
+                    _all_def_str += "**" + _count.ToString() + "**. " + _key.definitions[0]+"\n";
+                    _count++;
                 }
-                    
+
+                alldef.Add(new EmbedFieldBuilder
+                {
+                    Name = "Definition(s)",
+                    Value = _all_def_str,
+                    IsInline = false
+                });
+
                 //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
 
                 EmbedBuilder embedd = new EmbedBuilder
                 {
                     Title = "Oxford Dictionary API",
                     Color = Discord.Color.Orange,
-                    Description = "",
+                    Description = "Definition(s)",
 
                     Footer = new EmbedFooterBuilder
                     {
@@ -98,5 +107,208 @@ namespace xubot.src
                 await GeneralTools.CommHandler.BuildError(e, Context);
             }
         }
+
+        //inflections
+        [Command("inflection")]
+        public async Task inflections(string _word, string _langID = "en")
+        {
+            try
+            {
+                await GetJSON(new DictInputs
+                {
+                    get = "inflections",
+                    langID = _langID,
+                    word = _word,
+                    filters = ""
+                });
+                
+                dynamic keys = JObject.Parse(text);
+
+                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>();
+
+                alldef.Add(new EmbedFieldBuilder
+                {
+                    Name = "Word / Region",
+                    Value = _word + " / " + _langID,
+                    IsInline = false
+                });
+
+                foreach (var _def in keys.results[0].lexicalEntries)
+                {
+                    alldef.Add(new EmbedFieldBuilder
+                    {
+                        Name = "Inflection of: " + _def.inflectionOf[0].id,
+                        Value = "Type: " + _def.grammaticalFeatures[0].text + "\n" +
+                                "Kind: " + _def.grammaticalFeatures[0].type,
+                        //grammaticalFeatures[0].text
+                        //grammaticalFeatures[0].type
+                        //inflectionOf[0].id
+                        IsInline = false
+                    });
+                }
+
+                //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
+
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Oxford Dictionary API",
+                    Color = Discord.Color.Orange,
+                    Description = "Inflections",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = alldef
+                };
+
+                await ReplyAsync("", false, embedd.Build());
+            }
+            catch (Exception e)
+            {
+                await GeneralTools.CommHandler.BuildError(e, Context);
+            }
+        }
+
+        [Command("synonyms")]
+        public async Task syn(string _word, string _langID = "en")
+        {
+            try
+            {
+                await GetJSON(new DictInputs
+                {
+                    get = "entries",
+                    langID = _langID,
+                    word = _word,
+                    filters = "/synonyms"
+                });
+
+                dynamic keys = JObject.Parse(text);
+
+                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>();
+
+                alldef.Add(new EmbedFieldBuilder
+                {
+                    Name = "Word / Region",
+                    Value = _word + " / " + _langID,
+                    IsInline = false
+                });
+
+                string _all_def_str = "";
+
+                foreach (var _key in keys.results[0].lexicalEntries[0].entries[0].senses)
+                {
+                    foreach (var _subsenses in _key.subsenses)
+                    {
+                        foreach (var _syn in _subsenses.synonyms)
+                        {
+                            _all_def_str += "" + _syn.text + ", ";
+                        }
+                    }
+                }
+
+                _all_def_str = _all_def_str.Remove(_all_def_str.Length - 2);
+
+                alldef.Add(new EmbedFieldBuilder
+                {
+                    Name = "Synonym(s)",
+                    Value = _all_def_str,
+                    IsInline = false
+                });
+
+                //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
+
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Oxford Dictionary API",
+                    Color = Discord.Color.Orange,
+                    Description = "Synonym(s)",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = alldef
+                };
+
+                await ReplyAsync("", false, embedd.Build());
+            }
+            catch (Exception e)
+            {
+                //await GeneralTools.CommHandler.BuildError(e, Context);
+                await ReplyAsync("Either that word doesn't exist in the dictionary or it has no synonyms.");
+            }
+        }
+
+        [Command("antonyms")]
+        public async Task ant(string _word, string _langID = "en")
+        {
+            try
+            {
+                await GetJSON(new DictInputs
+                {
+                    get = "entries",
+                    langID = _langID,
+                    word = _word,
+                    filters = "/antonyms"
+                });
+
+                dynamic keys = JObject.Parse(text);
+
+                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>();
+
+                alldef.Add(new EmbedFieldBuilder
+                {
+                    Name = "Word / Region",
+                    Value = _word + " / " + _langID,
+                    IsInline = false
+                });
+
+                string _all_def_str = "";
+
+                foreach (var _key in keys.results[0].lexicalEntries[0].entries[0].senses)
+                {
+                    foreach (var _syn in _key.antonyms)
+                        {
+                            _all_def_str += "" + _syn.text + ", ";
+                        }
+                }
+
+                _all_def_str = _all_def_str.Remove(_all_def_str.Length - 2);
+
+                alldef.Add(new EmbedFieldBuilder
+                {
+                    Name = "Antonyms(s)",
+                    Value = _all_def_str,
+                    IsInline = false
+                });
+
+                //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
+
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Oxford Dictionary API",
+                    Color = Discord.Color.Orange,
+                    Description = "Antonyms(s)",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = alldef
+                };
+
+                await ReplyAsync("", false, embedd.Build());
+            }
+            catch (Exception e)
+            {
+                //await GeneralTools.CommHandler.BuildError(e, Context);
+                await ReplyAsync("Either that word doesn't exist in the dictionary or it has no antonyms.");
+            }
+        }
+
     }
 }
