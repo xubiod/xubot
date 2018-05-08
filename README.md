@@ -3,6 +3,15 @@
 ### Build Status
 [![Build status](https://ci.appveyor.com/api/projects/status/vxb9wvryyppa1cc5?svg=true)](https://ci.appveyor.com/project/xubiod/xubot)
 
+### Other Badges
+[![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/no-ragrets.svg)](https://forthebadge.com) 
+[![forthebadge](https://forthebadge.com/images/badges/gluten-free.svg)](https://forthebadge.com) 
+[![forthebadge](https://forthebadge.com/images/badges/does-not-contain-treenuts.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
+
 ## Building
 When building xubot, you need to have a code handler! The official build uses [this application provided.](xubot-code-compiler)
 
