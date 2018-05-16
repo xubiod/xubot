@@ -15,7 +15,7 @@ namespace xubot.src
         [Command("audit-log-relay")]
         public async Task alr(ulong cid)
         {
-            IChannel _ch = await Context.Guild.GetChannelAsync(cid);
+            ITextChannel _ch = (await Context.Guild.GetChannelAsync(cid) as ITextChannel);
             //complete
         }
     }

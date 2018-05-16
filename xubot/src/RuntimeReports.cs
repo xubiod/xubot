@@ -54,7 +54,7 @@ namespace xubot.src
                                 Name = "Broad report",
                                 Value = "App uptime: **" + app_uptime + "**\n" +
                                         "Connection uptime: **" + con_uptime + "**\n\n" ,
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
@@ -63,7 +63,7 @@ namespace xubot.src
                                         "Connection to Discord: **" + app_to_dis + "**\n\n" +
                                         "Reddit Connection to Default Sub: **" + red_cli_to_sub + "**\n" +
                                         "Default Sub to Discord: **" + sub_to_discord + "**\n\n",
-                                IsInline = false
+                                IsInline = true
                             }
                         }
                 };
@@ -104,7 +104,7 @@ namespace xubot.src
                                 Name = "Broad report",
                                 Value = "App uptime: **" + app_uptime.Days + "d, " + app_uptime.Hours + "h, " + app_uptime.Minutes + "min, " + app_uptime.Seconds + "s, " + app_uptime.Milliseconds + "ms**\n" +
                                         "Connection uptime: **" + con_uptime.Days + "d, " + con_uptime.Hours + "h, " + con_uptime.Minutes + "min, " + con_uptime.Seconds + "s, " + con_uptime.Milliseconds + "ms**\n\n" ,
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
@@ -113,7 +113,7 @@ namespace xubot.src
                                         "Connection to Discord: **" + app_to_dis.Days + "d, " + app_to_dis.Hours + "h, " + app_to_dis.Minutes + "min, " + app_to_dis.Seconds + "s, " + app_to_dis.Milliseconds + "ms**\n" +
                                         "Reddit Connection to Default Sub: **" + red_cli_to_sub.Days + "d, " + red_cli_to_sub.Hours + "h, " + red_cli_to_sub.Minutes + "min, " + red_cli_to_sub.Seconds + "s, " + red_cli_to_sub.Milliseconds + "ms**\n" +
                                         "Default Sub to Discord: **" + sub_to_discord.Days + "d, " + sub_to_discord.Hours + "h, " + sub_to_discord.Minutes + "min, " + sub_to_discord.Seconds + "s, " + sub_to_discord.Milliseconds + "ms**\n\n",
-                                IsInline = false
+                                IsInline = true
                             }
                         }
                 };
@@ -154,7 +154,7 @@ namespace xubot.src
                                 Name = "Broad report",
                                 Value = "App uptime: **" + app_uptime.Ticks + " ticks**\n" +
                                         "Connection uptime: **" + con_uptime.Ticks + " ticks**\n\n" ,
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
@@ -163,7 +163,7 @@ namespace xubot.src
                                         "Connection to Discord: **" + app_to_dis.Ticks + " ticks**\n" +
                                         "Reddit Connection to Default Sub: **" + red_cli_to_sub.Ticks + " ticks**\n" +
                                         "Default Sub to Discord: **" + sub_to_discord.Ticks + " ticks**\n\n",
-                                IsInline = false
+                                IsInline = true
                             }
                         }
                 };
@@ -206,7 +206,7 @@ namespace xubot.src
                                 Name = "Broad report",
                                 Value = "App uptime: **" + (Math.Round((app_uptime.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
                                         "Connection uptime: **" + (Math.Round((con_uptime.TotalMilliseconds / _tic)*100)/ 100) + " DOOM realtics**\n\n" ,
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
@@ -215,7 +215,7 @@ namespace xubot.src
                                         "Connection to Discord: **" + (Math.Round((app_to_dis.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
                                         "Reddit Connection to Default Sub: **" + (Math.Round((red_cli_to_sub.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
                                         "Default Sub to Discord: **" + (Math.Round((sub_to_discord.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n\n",
-                                IsInline = false
+                                IsInline = true
                             }
                         }
                 };
@@ -247,7 +247,7 @@ namespace xubot.src
                                 Name = "Broad report",
                                 Value = "App start time: **" + Program.appStart + "**\n" +
                                         "Connection time: **" + Program.connectStart + "**\n\n" ,
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
@@ -255,7 +255,7 @@ namespace xubot.src
                                 Value = "Connection to Reddit: **" + Program.stepTimes[0] + "**\n" +
                                         "Connection to Default Sub: **" + Program.stepTimes[1] + "**\n" +
                                         "Connection to Discord: **" + Program.stepTimes[2] + "**\n",
-                                IsInline = false
+                                IsInline = true
                             }
                         }
                 };
@@ -316,7 +316,7 @@ namespace xubot.src
                                 Value = "Used (bytes): **" + _used_bytes + "** | Peak (bytes): **" + _peak_bytes + "**\n" +
                                         "Used (KB): **" + _used_kb + "** | Peak (KB): **" + _peak_kb + "**\n" +
                                         "Used (MB): **" + _used_mb + "** | Peak (MB): **" + _peak_mb + "**\n\n",
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
@@ -324,7 +324,7 @@ namespace xubot.src
                                 Value = "Virutal (bytes): **" + _vms + "** | Virutal Peak (bytes): **" + _pvms + "**\n" +
                                         "Virutal (KB): **" + (_vms/1000) + "** | Virutal Peak (KB): **" + (_pvms/1000) + "**\n" +
                                         "Virutal (MB): **" + (_vms/1000000) + "** | Virutal Peak (MB): **" + (_pvms/1000000) + "**\n\n",
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
@@ -332,7 +332,7 @@ namespace xubot.src
                                 Value = "Paged (bytes): **" + _pm + "** | Paged Peak (bytes): **" + _ppm + "**\n" +
                                         "Paged (KB): **" + (_pm/1000) + "** | Paged Peak (KB): **" + (_ppm/1000) + "**\n" +
                                         "Paged (MB): **" + (_pm/1000000) + "** | Paged Peak (MB): **" + (_ppm/1000000) + "**\n\n",
-                                IsInline = false
+                                IsInline = true
                             }
                         }
                 };

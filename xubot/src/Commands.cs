@@ -20,6 +20,7 @@ using static xubot.src.SpecialException;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using HtmlAgilityPack;
+using xubot.src;
 
 namespace xubot
 {
@@ -643,14 +644,14 @@ namespace xubot
             [Command("server"), Alias("server-info", "si"), Summary("attempts to post a thing to twitter")]
             public async Task serverinfo()
             {
-                String verifyLvl = Context.Guild.VerificationLevel.ToString();
-                String afkchannelid = Context.Guild.AFKChannelId.ToString();
+                string verifyLvl = Context.Guild.VerificationLevel.ToString();
+                string afkchannelid = Context.Guild.AFKChannelId.ToString();
 
                 if (afkchannelid == "") { afkchannelid = "No AFK Channel"; }
 
-                if (verifyLvl == "None") { verifyLvl = "None"; }
-                else if (verifyLvl == "Low") { verifyLvl = "Low"; }
-                else if (verifyLvl == "Medium") { verifyLvl = "Medium"; }
+                if (verifyLvl == "None") { verifyLvl = "None ._."; }
+                else if (verifyLvl == "Low") { verifyLvl = "Low >_>"; }
+                else if (verifyLvl == "Medium") { verifyLvl = "Medium o_o"; }
                 else if (verifyLvl == "High") { verifyLvl = "(╯°□°）╯︵ ┻━┻ (High)"; }
                 else if (verifyLvl == "Very High") { verifyLvl = "┻━┻ミヽ(ಠ益ಠ)ﾉ彡 ┻━┻ (Very High)"; }
                 else { verifyLvl = "Unconclusive"; }
@@ -672,18 +673,63 @@ namespace xubot
                         {
                             new EmbedFieldBuilder
                             {
-                                Name = "Details",
-                                Value = "ID: **" + Context.Guild.Id + "**\n" +
-                                        "Name: **" + Context.Guild.Name + "**\n\n" +
-                                        "Owner ID: **" + Context.Guild.OwnerId + "**\n" +
-                                        "Verification Level: **" + verifyLvl + "**\n\n" +
-                                        "AFK Timeout: **" + Context.Guild.AFKTimeout + " seconds**\n" +
-                                        "AFK Channel ID: **" + afkchannelid + "**\n\n" +
-                                        "Created on **" + Context.Guild.CreatedAt + "**\n" +
-                                        "Default MSG Notifications: **" + Context.Guild.DefaultMessageNotifications + "**\n\n" +
-                                        "Amount of Roles: **" + Context.Guild.Roles.Count + "**\n" +
-                                        "Amount of Custom Emoji: **" + Context.Guild.Emotes.Count + "**\n",
-                                IsInline = false
+                                Name = "ID",
+                                Value = Context.Guild.Id,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Name",
+                                Value = Context.Guild.Name,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Owner",
+                                Value = (await Context.Guild.GetUserAsync(Context.Guild.OwnerId)).Username + "#" + (await Context.Guild.GetUserAsync(Context.Guild.OwnerId)).Discriminator,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Verification Level",
+                                Value = verifyLvl,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "AFK Timeout",
+                                Value = Context.Guild.AFKTimeout.ToString() + " seconds",
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "AFK Channel ID",
+                                Value = afkchannelid,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Created",
+                                Value = Context.Guild.CreatedAt,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Default MSG Notifications",
+                                Value = Context.Guild.DefaultMessageNotifications,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Amount of Roles",
+                                Value = Context.Guild.Roles.Count,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Amount of Custom Emoji",
+                                Value = Context.Guild.Emotes.Count,
+                                IsInline = true
                             }
                         }
                 };
@@ -693,18 +739,6 @@ namespace xubot
             [Command("channel"), Alias("channel-info", "ci"), Summary("attempts to post a thing to twitter")]
             public async Task channelinfo()
             {
-                //String verifyLvl = Context.Guild.VerificationLevel.ToString();
-                //String afkchannelid = Context.Guild.AFKChannelId.ToString();
-
-                //if (afkchannelid == "") { afkchannelid = "No AFK Channel"; }
-
-                //if (verifyLvl == "None") { verifyLvl = "None"; }
-                //else if (verifyLvl == "Low") { verifyLvl = "Low"; }
-                //else if (verifyLvl == "Medium") { verifyLvl = "Medium"; }
-                //else if (verifyLvl == "High") { verifyLvl = "(╯°□°）╯︵ ┻━┻ (High)"; }
-                //else if (verifyLvl == "Very High") { verifyLvl = "┻━┻ミヽ(ಠ益ಠ)ﾉ彡 ┻━┻ (Very High)"; }
-                //else { verifyLvl = "Unconclusive"; }
-
                 EmbedBuilder embedd = new EmbedBuilder
                 {
                     Title = "Information about: " + Context.Channel.Name,
@@ -722,102 +756,168 @@ namespace xubot
                         {
                             new EmbedFieldBuilder
                             {
-                                Name = "Details",
-                                Value = "ID: **" + Context.Channel.Id + "**\n" +
-                                        "Name: **" + Context.Channel.Name + "**\n\n" +
-                                        "Created on **" + Context.Channel.CreatedAt + "**\n",
-                                IsInline = false
-                            }
-                        }
-                };
-                await ReplyAsync("", false, embedd.Build());
-            }
-
-            [Command("client"), Alias("client-info"), Summary("attempts to post a thing to twitter")]
-            public async Task client()
-            {
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Information about: " + Context.Client.CurrentUser,
-                    Color = Discord.Color.Red,
-                    Description = "Client information details",
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = "xubot :p",
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                        {
+                                Name = "ID",
+                                Value = Context.Channel.Id,
+                                IsInline = true
+                            },
                             new EmbedFieldBuilder
                             {
-                                Name = "Details",
-                                Value = "Discriminator: **" + Program.xuClient.CurrentUser.Discriminator + "**\n" +
-                                        "Status: **" + Program.xuClient.CurrentUser.Status + "**\n\n" +
-                                        "ID: **" + Program.xuClient.CurrentUser.Id + "**\n" +
-                                        "MFA? **" + Program.xuClient.CurrentUser.IsMfaEnabled + "**\n\n" +
-                                        "Verified? **" + Program.xuClient.CurrentUser.IsVerified + "**\n" +
-                                        "Webhook? **" + Program.xuClient.CurrentUser.IsWebhook + "**\n\n" +
-                                        "Created on **" + Context.User.CreatedAt + "**\n",
-                                IsInline = false
+                                Name = "Name",
+                                Value = Context.Channel.Name,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Created on",
+                                Value = Context.Channel.CreatedAt,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Amount of Pinned Messages",
+                                Value = (await Context.Channel.GetPinnedMessagesAsync()).Count.ToString() + "/50",
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "NSFW?",
+                                Value = GeneralTools.ChannelNSFW(Context),
+                                IsInline = true
                             }
                         }
                 };
                 await ReplyAsync("", false, embedd.Build());
             }
-
+            
             [Command("user", RunMode = RunMode.Async), Alias("user-info", "ui"), Summary("attempts to post a thing to twitter")]
-            public async Task user()
+            public async Task user(ulong id = 0)
             {
-                Discord.IUser _user0 = Context.Message.Author;
-                IGuildUser _user1 = await Context.Guild.GetUserAsync(_user0.Id);
-
-                string _role_list = "";
-
-                foreach (var role in _user1.RoleIds)
+                try
                 {
-                    var _role = Context.Guild.GetRole(role);
+                    throw new SpecialException.IHaveNoFuckingIdeaException();
 
-                    _role_list += _role.Mention + " ";
-                }
+                    Discord.IUser _user0 = Context.Message.Author;
+                    IGuildUser _user1 = await Context.Guild.GetUserAsync(_user0.Id);
 
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Information about: " + _user0,
-                    Color = Discord.Color.Red,
-                    Description = "User information details",
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder
+                    if (id == 0)
                     {
-                        Text = "xubot :p",
-                        IconUrl = _user0.GetAvatarUrl()
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                        _user0 = Context.Message.Author;
+                        _user1 = await Context.Guild.GetUserAsync(_user0.Id);
+                    }
+                    else
+                    {
+                        _user0 = Program.xuClient.GetUser(id);
+                        _user1 = await Context.Guild.GetUserAsync(_user0.Id);
+                    }
+
+                    string _role_list = "";
+
+                    foreach (var role in _user1.RoleIds)
+                    {
+                        var _role = Context.Guild.GetRole(role);
+
+                        _role_list += _role.Mention + " ";
+                    }
+
+                    EmbedBuilder embedd = new EmbedBuilder
+                    {
+                        Title = "Information about: " + _user0,
+                        Color = Discord.Color.Red,
+                        Description = "User information details",
+                        ThumbnailUrl = _user0.GetAvatarUrl(),
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = "xubot :p"
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
-                                Name = "Details",
-                                Value = "ID: **" + _user0.Id + "**\n" +
-                                        "Status: **" + _user0.Status + "**\n" +
-                                        "Bot? **" + _user0.IsBot + "**\n" +
-                                        "Webhook? **" + _user0.IsWebhook + "**\n\n" +
-                                        "Current Activity: **" + _user1.Activity + "**\n" +
-                                        "Deafened: **" + _user1.IsDeafened + "** | Self Deafened: **" + _user1.IsSelfDeafened + "**\n" +
-                                        "Muted: **" + _user1.IsMuted + "** | Self Muted: **" + _user1.IsSelfMuted + "**\n" +
-                                        "Joined server on **" + _user1.JoinedAt + "**\n" +
-                                        "Nickname: **" + _user1.Nickname + "**\n\n" +
-                                        "Amount of Roles: **" + (_user1.RoleIds.Count) + "**\n" +
-                                        "All roles: \n**" + _role_list + "**\n\n" +
-                                        "Created on **" + _user0.CreatedAt + "**\n",
-                                IsInline = false
+                                Name = "ID",
+                                Value = _user0.Id,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Status",
+                                Value = _user0.Status,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Bot?",
+                                Value = _user0.IsBot,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Webhook?",
+                                Value = _user0.IsWebhook,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Current Activity",
+                                Value = _user0.Activity,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Deafened?",
+                                Value = _user1.IsDeafened,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Self Deafened?",
+                                Value = _user1.IsSelfDeafened,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Muted?",
+                                Value = _user1.IsMuted,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Self Muted?",
+                                Value = _user1.IsSelfMuted,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Joined server on",
+                                Value = _user1.JoinedAt,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Nickname",
+                                Value = _user1.Nickname,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Has " + (_user1.RoleIds.Count) + "roles:",
+                                Value = _role_list,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Created on",
+                                Value = _user0.CreatedAt,
+                                IsInline = true
                             }
                         }
-                };
-                await ReplyAsync("", false, embedd.Build());
+                    };
+                    await ReplyAsync("", false, embedd.Build());
+                } catch (Exception e)
+                {
+                    await GeneralTools.CommHandler.BuildError(e, Context);
+                }
             }
 
         }
@@ -1230,26 +1330,26 @@ namespace xubot
                             {
                                 Name = "Version",
                                 Value = ThisAssembly.Git.BaseTag,
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Specific Build",
                                 Value = ThisAssembly.Git.Tag,
-                                IsInline = false
+                                IsInline = true
                             },
                             //https://github.com/xubot-team/xubot/commit/2064085bc0fd33a591036f67b686d0366d1591c5
                             new EmbedFieldBuilder
                             {
                                 Name = "Build Commit",
                                 Value = ThisAssembly.Git.Commit,
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Link to Latest Change",
                                 Value = "https://github.com/xubot-team/xubot/commit/" + ThisAssembly.Git.Sha,
-                                IsInline = false
+                                IsInline = true
                             }
 
                         }
@@ -1473,13 +1573,13 @@ namespace xubot
                             {
                                 Name = "Timezone: ",
                                 Value = "**" + keys.timezone.ToString() + "**",
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Current Time: ",
                                 Value = "**" + keys.time.ToString() + "**",
-                                IsInline = false
+                                IsInline = true
                             }
                         }
                     };

@@ -28,7 +28,13 @@ namespace xubot.src
 
         static string AssembleURL(DictInputs inputs)
         {
-            return "https://od-api.oxforddictionaries.com:443/api/v1/" + inputs.get.ToLower() + "/" + inputs.langID.ToLower() + "/" + inputs.word.ToLower() + inputs.filters.ToLower();
+            if (inputs.langID != null && inputs.word != null)
+            {
+                return "https://od-api.oxforddictionaries.com:443/api/v1/" + inputs.get.ToLower() + "/" + inputs.langID.ToLower() + "/" + inputs.word.ToLower() + inputs.filters.ToLower();
+            } else
+            {
+                return "https://od-api.oxforddictionaries.com:443/api/v1/" + inputs.get.ToLower();
+            }
         }
 
         public static Task GetJSON(DictInputs inputs)
@@ -171,7 +177,7 @@ namespace xubot.src
             }
         }
 
-        [Command("synonyms")]
+        [Command("synonyms"), Alias("syn")]
         public async Task syn(string _word, string _langID = "en")
         {
             try
@@ -242,7 +248,7 @@ namespace xubot.src
             }
         }
 
-        [Command("antonyms")]
+        [Command("antonyms"), Alias("ant")]
         public async Task ant(string _word, string _langID = "en")
         {
             try
@@ -271,9 +277,9 @@ namespace xubot.src
                 foreach (var _key in keys.results[0].lexicalEntries[0].entries[0].senses)
                 {
                     foreach (var _syn in _key.antonyms)
-                        {
-                            _all_def_str += "" + _syn.text + ", ";
-                        }
+                    {
+                        _all_def_str += "" + _syn.text + ", ";
+                    }
                 }
 
                 _all_def_str = _all_def_str.Remove(_all_def_str.Length - 2);
@@ -310,5 +316,111 @@ namespace xubot.src
             }
         }
 
+        [Command("list")]
+        public async Task list()
+        {
+            try
+            {
+                await GetJSON(new DictInputs
+                {
+                    get = "languages"
+                });
+
+                dynamic keys = JObject.Parse(text);
+
+                List<string> _all_mono = new List<string>();
+                List<string> _all_bi = new List<string>();
+
+                foreach (var _key in keys.results)
+                {
+                    if (_key.targetLanguage != null)
+                    {
+                        _all_bi.Add((_key.source + " (" + _key.sourceLanguage.language + " (**" + _key.sourceLanguage.id + "**) => " + _key.targetLanguage.language + " (**" + _key.targetLanguage.id + "**))\n").ToString());
+                    }
+                    else
+                    {
+                        _all_mono.Add((_key.source + " (" + _key.sourceLanguage.language + " (**" + _key.sourceLanguage.id + "**))\n").ToString());
+                    }
+                }
+
+                //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
+
+                string _m_01 = "";
+                string _m_02 = "";
+
+                string _b_01 = "";
+                string _b_02 = "";
+
+                int _c = 0;
+
+                foreach (var _q in _all_mono)
+                {
+                    if (_c < 10)
+                    {
+                        _m_01 += _q;
+                    }
+                    else
+                    {
+                        _m_02 += _q;
+                    }
+                    _c++;
+                }
+
+                _c = 0;
+
+                foreach (var _q in _all_bi)
+                {
+                    if (_c < 10)
+                    {
+                        _b_01 += _q;
+                    }
+                    else
+                    {
+                        _b_02 += _q;
+                    }
+                    _c++;
+                }
+
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Oxford Dictionary API",
+                    Color = Discord.Color.Orange,
+                    Description = "Dictionaries: Complete List (IDs bolded)",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>() {
+                            new EmbedFieldBuilder {
+                                Name = "Monolingual (pt 1)",
+                                Value = _m_01,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder {
+                                Name = "Monolingual (pt 2)",
+                                Value = _m_02,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder {
+                                Name = "Bilingual (pt 1)",
+                                Value = _b_01,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder {
+                                Name = "Bilingual (pt 2)",
+                                Value = _b_02,
+                                IsInline = true
+                            }
+                    }
+                };
+
+                await ReplyAsync("", false, embedd.Build());
+            } catch (Exception e)
+            {
+                await GeneralTools.CommHandler.BuildError(e, Context);
+            }
+            } 
+        }
     }
-}
