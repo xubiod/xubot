@@ -1,6 +1,8 @@
 Command help for xubot
 (this can get outdated quick)
 
+*Approximate amount of commands is around* ***180***
+
  * help
    * help key
    * help echo
