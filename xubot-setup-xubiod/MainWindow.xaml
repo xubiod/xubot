@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:xubot_setup_xubiod"
         mc:Ignorable="d"
-        Title="Xubot Setup by xubiod (from xubot-team)" Height="350" Width="525">
+        Title="Xubot Setup by xubiod (from xubot-team) (Obselete)" Height="350" Width="525">
     <Grid Name="Main">
 
         <Grid Name="Start">

@@ -346,7 +346,7 @@ namespace xubot
 
             int argumentPosition = 0;
 
-            if (!(message.HasStringPrefix(prefix, ref argumentPosition) || message.HasMentionPrefix(xuClient.CurrentUser, ref argumentPosition)))
+            if (!(message.HasStringPrefix(prefix, ref argumentPosition) || message.HasMentionPrefix(xuClient.CurrentUser, ref argumentPosition) || message.HasStringPrefix("xub>", ref argumentPosition)))
                 return;
 
             var context = new CommandContext(xuClient, message);
