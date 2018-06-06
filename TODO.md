@@ -4,6 +4,7 @@
    - [ ] add opinions via command
    - [ ] edit opinions via command
    - [ ] more server triggers
+   - [ ] moderation
    - [x] get rating from what is returned from imageboard **(april 26, 2018)**
      - this only applies to danbooru at the current moment of time
 - medium priority
@@ -14,13 +15,9 @@
    - [ ] replace `RequireOwner` with trust
    - [ ] remove pronoun xml
 - high priority
-   - [ ] canvas
-     - SixLabors drawing library is not working
-   - [ ] moderation
    - [x] take off pronoun role when a new role is given **(april 26, 2018)**
 
-- undecided priority
-   - [ ] n/a
 
- - determined impossible/hard to accomplish
-   - [ ] get `RunMode` default to `RunMode.Async`
+## problems
+ - [ ] canvas
+	- SixLabors drawing library is not working

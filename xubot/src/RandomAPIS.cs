@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -315,5 +316,100 @@ namespace xubot
             }
         }
 
+        [Group("stupid")]
+        public class stupid : ModuleBase
+        {
+            [Command("is_it_leap_year", RunMode = RunMode.Async)]
+            public async Task iily()
+            {
+                try
+                {
+                    string cont;
+                    using (HttpClient hc = new HttpClient()) { cont = await hc.GetStringAsync("http://www.stupidwebtools.com/api/is_leap_year.txt"); }
+                    Console.WriteLine(cont);
+
+                    await ReplyAsync(cont + ".");
+                } catch (Exception e)
+                {
+                    await GeneralTools.CommHandler.BuildError(e, Context);
+                }
+            }
+
+            [Command("is_it_new_year_yet", RunMode = RunMode.Async)]
+            public async Task iinyy()
+            {
+                try
+                {
+                    string cont;
+                    using (HttpClient hc = new HttpClient()) { cont = await hc.GetStringAsync("http://www.stupidwebtools.com/api/is_new_year.txt"); }
+                    Console.WriteLine(cont);
+
+                    await ReplyAsync(cont + ".");
+                }
+                catch (Exception e)
+                {
+                    await GeneralTools.CommHandler.BuildError(e, Context);
+                }
+            }
+
+            [Command("is_it_easter", RunMode = RunMode.Async)]
+            public async Task iie()
+            {
+                try
+                {
+                    string cont;
+                    using (HttpClient hc = new HttpClient()) { cont = await hc.GetStringAsync("http://www.stupidwebtools.com/api/is_easter.txt"); }
+                    Console.WriteLine(cont);
+
+                    await ReplyAsync(cont + ".");
+                }
+                catch (Exception e)
+                {
+                    await GeneralTools.CommHandler.BuildError(e, Context);
+                }
+            }
+
+            [Command("is_it_christmas", RunMode = RunMode.Async)]
+            public async Task iic()
+            {
+                try
+                {
+                    string cont;
+                    using (HttpClient hc = new HttpClient()) { cont = await hc.GetStringAsync("http://www.stupidwebtools.com/api/is_christmas.txt"); }
+                    Console.WriteLine(cont);
+
+                    await ReplyAsync(cont + ".");
+                }
+                catch (Exception e)
+                {
+                    await GeneralTools.CommHandler.BuildError(e, Context);
+                }
+            }
+
+        }
+
+        [Command("qr")]
+        public async Task qrGen(string what)
+        {
+            await ReplyAsync("http://www.stupidwebtools.com/images/qrcode.png?site=" + Uri.EscapeDataString(what));
+            //i know this is lazy but i don't give a fu-
+        }
+
+        [Command("magic-8", RunMode = RunMode.Async)]
+        public async Task magic8()
+        {
+            try
+            {
+                string cont;
+                using (HttpClient hc = new HttpClient()) { cont = await hc.GetStringAsync("http://www.stupidwebtools.com/api/magic8.txt"); }
+                Console.WriteLine(cont);
+
+                await ReplyAsync(cont + ".");
+            }
+            catch (Exception e)
+            {
+                await GeneralTools.CommHandler.BuildError(e, Context);
+            }
+        }
     }
 }

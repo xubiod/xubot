@@ -13,6 +13,7 @@ using System.Net;
 using System.Xml.Linq;
 using xubot.src;
 using Discord;
+using System.Net.Http;
 
 namespace xubot
 {
@@ -27,12 +28,24 @@ namespace xubot
         {
             try
             {
-                var webClient = new WebClient();
+                var client = new HttpClient();
                 string link = "http://danbooru.donmai.us/posts.json?limit=1&random=true&tags=" + tags;
+                string text = "";
 
-                webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(link),
+                    Method = HttpMethod.Get,
+                };
 
-                string text = webClient.DownloadString(link);
+                request.Headers.Add("user-agent", "xubotNSFW/2.0");
+
+                await client.SendAsync(request).ContinueWith(async (res) =>
+                {
+                    var response = res.Result;
+                    text = await response.Content.ReadAsStringAsync();
+                });
+
                 text = text.Substring(1, text.Length - 2);
                 //await ReplyAsync(text);
                 dynamic keys = JObject.Parse(text);
@@ -65,15 +78,28 @@ namespace xubot
             try
             {
                 Random rnd = new Random();
-                var webClient = new WebClient();
-                var webClient2 = new WebClient();
+                var client = new HttpClient();
+                var webClient2 = new HttpClient();
                 string link = "https://e621.net/post/index.xml?limit=1&page=&tags=" + tags;
                 string text_j = "";
 
-                webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
-                string linkJson = "https://e621.net/post/index.json?limit=1&page=" + rnd.Next(751).ToString() + "&tags=" + tags + "";
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(link),
+                    Method = HttpMethod.Get,
+                };
 
-                text_j = webClient.DownloadString(linkJson);
+                request.Headers.Add("user-agent", "xubotNSFW/2.0");
+
+                string linkJson = "https://e621.net/post/index.json?limit=1&page=" + rnd.Next(751).ToString() + "&tags=" + tags + "";
+                
+                await client.SendAsync(request).ContinueWith(async (res) =>
+                {
+                    var response = res.Result;
+                    text_j = await response.Content.ReadAsStringAsync();
+                });
+
+                text_j = await client.GetStringAsync(link);
                 text_j = text_j.Substring(1, text_j.Length - 2);
 
                 //await ReplyAsync(text);
@@ -86,7 +112,7 @@ namespace xubot
                 else
                 {
                     await ReplyAsync(keys.file_url.ToString());
-                    //string text = webClient.DownloadString(link);
+                    //string text = client.DownloadString(link);
                     //text = text.Substring(1, text.Length - 2);
                     //await ReplyAsync(text);
                     //dynamic keys = JObject.Parse(text);
@@ -113,10 +139,16 @@ namespace xubot
             {
                 try
                 {
-                    var webClient = new WebClient();
+                    var client = new HttpClient();
                     string link = "https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1&tags=" + tags;
 
-                    webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = new Uri(link),
+                        Method = HttpMethod.Get,
+                    };
+
+                    request.Headers.Add("user-agent", "xubotNSFW/2.0");
 
                     string imgUrl = "";
                     int count = 0;
@@ -181,10 +213,16 @@ namespace xubot
             {
                 try
                 {
-                    var webClient = new WebClient();
+                    var client = new HttpClient();
                     string link = "https://www.gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1&tags=" + tags;
 
-                    webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = new Uri(link),
+                        Method = HttpMethod.Get,
+                    };
+
+                    request.Headers.Add("user-agent", "xubotNSFW/2.0");
 
                     string imgUrl = "";
                     int count = 0;
@@ -249,10 +287,16 @@ namespace xubot
             {
                 try
                 {
-                    var webClient = new WebClient();
+                    var client = new HttpClient();
                     string link = "https://yande.re/post.xml?limit=1&tags=" + tags;
 
-                    webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = new Uri(link),
+                        Method = HttpMethod.Get,
+                    };
+
+                    request.Headers.Add("user-agent", "xubotNSFW/2.0");
 
                     string imgUrl = "";
                     int count = 0;
@@ -307,22 +351,29 @@ namespace xubot
             try
             {
                 Random rnd = new Random();
-                var webClient = new WebClient();
-                var webClient2 = new WebClient();
+                var client = new HttpClient();
+                var webClient2 = new HttpClient();
                 string link = "https://e926.net/post/index.xml?limit=1&page=&tags=" + tags;
                 string text_j = "";
 
-                webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(link),
+                    Method = HttpMethod.Get,
+                };
+
+                request.Headers.Add("user-agent", "xubotNSFW/2.0");
+
                 string linkJson = "https://e926.net/post/index.json?limit=1&page=" + rnd.Next(751).ToString() + "&tags=" + tags + "";
 
-                text_j = webClient.DownloadString(linkJson);
+                text_j = await client.GetStringAsync(link);
                 text_j = text_j.Substring(1, text_j.Length - 2);
 
                 //await ReplyAsync(text);
                 dynamic keys = JObject.Parse(text_j);
 
                 await ReplyAsync(keys.file_url.ToString());
-                //string text = webClient.DownloadString(link);
+                //string text = client.DownloadString(link);
                 //text = text.Substring(1, text.Length - 2);
                 //await ReplyAsync(text);
                 //dynamic keys = JObject.Parse(text);
@@ -340,10 +391,16 @@ namespace xubot
         {
             try
             {
-                var webClient = new WebClient();
+                var client = new HttpClient();
                 string link = "http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1&tags=" + tags;
 
-                webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(link),
+                    Method = HttpMethod.Get,
+                };
+
+                request.Headers.Add("user-agent", "xubotNSFW/2.0");
 
                 string imgUrl = "";
                 int count = 0;
@@ -397,10 +454,16 @@ namespace xubot
             {
                 try
                 {
-                    var webClient = new WebClient();
+                    var client = new HttpClient();
                     string link = "http://konachan.com/post.xml?limit=1&tags=" + tags;
 
-                    webClient.Headers.Add("user-agent", "xubotNSFW/2.0");
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = new Uri(link),
+                        Method = HttpMethod.Get,
+                    };
+
+                    request.Headers.Add("user-agent", "xubotNSFW/2.0");
 
                     string imgUrl = "";
                     int count = 0;
