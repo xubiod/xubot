@@ -40,7 +40,7 @@ namespace xubot
         public static dynamic perserv_parsed;
         public static bool enableNSFW = false;
 
-        public static bool forceRedditOff = true;
+        public static bool forceRedditOff = false;
 
         public static DateTime appStart;
         public static DateTime connectStart;
@@ -351,7 +351,7 @@ namespace xubot
 
             var context = new CommandContext(xuClient, message);
 
-            var result = await xuCommand.ExecuteAsync(context, argumentPosition);
+            IResult result = await xuCommand.ExecuteAsync(context, argumentPosition);
             if (!result.IsSuccess)
             {
                 await GeneralTools.CommHandler.BuildError(result, context);

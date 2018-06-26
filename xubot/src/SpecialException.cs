@@ -63,5 +63,12 @@ namespace xubot.src
             public IHateDiscordDotNetException(string message) : base(message) { }
             public IHateDiscordDotNetException(string message, Exception inner) : base(message, inner) { }
         }
+
+        public class FuckYouException : Exception
+        {
+            public FuckYouException() { }
+            public FuckYouException(string message) : base(message) { }
+            public FuckYouException(string message, Exception inner) : base(message, inner) { }
+        }
     }
 }

@@ -636,6 +636,20 @@ namespace xubot
             {
                 await ReplyAsync(Discord.Color.LightOrange.ToString());
             }
+
+            [Command("li")]
+            public async Task test006()
+            {
+                List<Discord.WebSocket.SocketGuild> guild_list = Program.xuClient.Guilds.ToList();
+                string _all = "";
+
+                foreach (var item in guild_list)
+                {
+                    _all += item.Name + " (" + item.Id + ")\n";
+                }
+
+                await ReplyAsync(_all);
+            }
         }
 
         [Group("info")]
@@ -794,7 +808,7 @@ namespace xubot
             {
                 try
                 {
-                    throw new SpecialException.IHaveNoFuckingIdeaException();
+                    //throw new SpecialException.IHaveNoFuckingIdeaException();
 
                     Discord.IUser _user0 = Context.Message.Author;
                     IGuildUser _user1 = await Context.Guild.GetUserAsync(_user0.Id);
@@ -817,6 +831,16 @@ namespace xubot
                         var _role = Context.Guild.GetRole(role);
 
                         _role_list += _role.Mention + " ";
+                    }
+
+                    string act = "";
+
+                    if (_user0.Activity == null)
+                    {
+                        act = "Nothing.";
+                    } else
+                    {
+                        act = _user0.Activity.Type + " " + _user0.Activity.Name;
                     }
 
                     EmbedBuilder embedd = new EmbedBuilder
@@ -860,7 +884,7 @@ namespace xubot
                             new EmbedFieldBuilder
                             {
                                 Name = "Current Activity",
-                                Value = _user0.Activity,
+                                Value = act,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder

@@ -236,4 +236,5 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 
+# old projects
 _xubot-code-handler/

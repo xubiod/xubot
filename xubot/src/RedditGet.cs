@@ -121,6 +121,39 @@ namespace xubot
             await ReplyAsync("", false, embedd.Build());
         }
 
+        [Command("reddit?wiki", RunMode = RunMode.Async)]
+        public async Task wiki(string input)
+        {
+            Program.subreddit = await Program.reddit.GetSubredditAsync(input);
+            
+            string image = Program.subreddit.HeaderImage;
+
+            EmbedBuilder embedd = new EmbedBuilder
+            {
+                Title = "Subreddit: " + input,
+                Color = Discord.Color.Orange,
+                Description = "",
+                ThumbnailUrl = image,
+
+                Footer = new EmbedFooterBuilder
+                {
+                    Text = "xubot :p"
+                },
+                Timestamp = DateTime.UtcNow,
+                Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Wiki",
+                                Value = Program.subreddit.GetWiki.GetPageNamesAsync(),
+                                IsInline = false
+                            }
+                        }
+            };
+
+            await ReplyAsync("", false, embedd.Build());
+        }
+
         [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit)
         {
@@ -228,10 +261,14 @@ namespace xubot
                 Random rnd = new Random();
 
                 var contents = await Program.subreddit.GetPosts(FromIntSort(sorting), -1).ToList();
-                
+                if (contents.Count < 10)
+                {
+                    contents = await Program.subreddit.GetPosts(-1).ToList();
+                }
+                //Console.WriteLine(contents.Count);
                 var post = contents.ElementAt(rnd.Next(contents.Count));
-                
-                if (GeneralTools.ChannelNSFW(Context) && post.NSFW)
+                EmbedBuilder embedd;
+                if (GeneralTools.ChannelNSFW(Context) && (post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL")))
                 {
                     if (!nsfw)
                     {
@@ -242,16 +279,17 @@ namespace xubot
                     else
                     {
                         await msg.DeleteAsync();
-                        await ReplyAsync("**" + post.Title + "**\n\nImage/Posted Link: " + ReturnCharOnTrue(hide, "<") + post.Url.AbsoluteUri + ReturnCharOnTrue(hide, ">") + " Reddit Post: <https://www.reddit.com" + post.Permalink.ToString() + ">");
-
+                        await ReplyAsync("**" + post.Title + "**\n" + "Posted on *" + post.CreatedUTC.ToShortDateString() + "* by **" + post.AuthorName + "**" + "\n\n" + ReturnCharOnTrue(hide, "<") + post.Url.AbsoluteUri + ReturnCharOnTrue(hide, ">") + "\n<https://www.reddit.com" + post.Permalink.ToString() + ">");
                     }
                 }
+                else
+                {
 
-                await msg.DeleteAsync();
-                //await ReplyAsync("https://reddit.com" + post.Permalink.ToString());
+                    await msg.DeleteAsync();
+                    //await ReplyAsync("https://reddit.com" + post.Permalink.ToString());
 
-                await ReplyAsync("**" + post.Title + "**\n\nImage/Posted Link: " + ReturnCharOnTrue(hide, "<") + post.Url.AbsoluteUri + ReturnCharOnTrue(hide, ">") + " Reddit Post: <https://www.reddit.com" + post.Permalink.ToString() + ">");
-
+                    await ReplyAsync("**" + post.Title + "**\n" + "Posted on *" + post.CreatedUTC.ToShortDateString() + "* by **" + post.AuthorName + "**" + "\n\n" + ReturnCharOnTrue(hide, "<") + post.Url.AbsoluteUri + ReturnCharOnTrue(hide, ">") + "\n<https://www.reddit.com" + post.Permalink.ToString() + ">");
+                }
             }
             catch (Exception e)
             {

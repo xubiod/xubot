@@ -604,7 +604,9 @@ namespace xubot
                                 Value = "**Interp command help**\n\n" +
                                 "`[>interp js [CODE]` - Takes code and interprets it as JavaScript.\n" +
                                 "`[>interp lua [CODE]` - Takes code and interprets it as Lua. *(IO and OS functions are nullified)*\n" +
-                                "`[>interp powershell [CODE]` - Takes code and runs it in Powershell. *(Some cmdlets are blocked)*\n",
+                                "`[>interp powershell [CODE]` - Takes code and runs it in Powershell. *(Some cmdlets are blocked and it's restricted to trusted users)*\n" +
+                                "`[>interp deadfish [CODE]` - Takes code and runs it as Deadfish.\n" +
+                                "`[>interp deadfish-xub [CODE]` - Takes code and runs it as my derivative of Deadfish. (Adds 'a' (ASCII output) and 'z' (sets cell to zero))\n",
                                 IsInline = false
                             }
                         }

@@ -396,7 +396,7 @@ namespace xubot
         }
 
         [Command("magic-8", RunMode = RunMode.Async)]
-        public async Task magic8()
+        public async Task magic8(string question = "")
         {
             try
             {

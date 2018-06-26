@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using xubot.src;
 
 namespace xubot
 {
@@ -57,21 +58,38 @@ namespace xubot
             await ReplyAsync("no u");
         }
 
-        [Command("anon"), RequireContext(ContextType.DM)]
+        [Command("anon", RunMode = RunMode.Async), RequireContext(ContextType.DM)]
         public async Task anonmsg(ulong id, string msg)
         {
+            if (Economy.EconomyTools.ReadAmount(Context.Message.Author) > 10)
+            {
+                Economy.EconomyTools.Adjust(Context.Message.Author, -10);
+            } else
+            {
+                await ReplyAsync("You need at least 10# from the economy to use this command.");
+                return;
+            }
             IUser sendTo = Program.xuClient.GetUser(id);
 
-            var dm = await sendTo.GetOrCreateDMChannelAsync();
+            IDMChannel dm = await sendTo.GetOrCreateDMChannelAsync();
             await dm.SendMessageAsync(msg);
         }
 
         [Command("anon"), RequireContext(ContextType.DM)]
         public async Task anonmsg(string user, string discrm, string msg)
         {
+            if (Economy.EconomyTools.ReadAmount(Context.Message.Author) > 10)
+            {
+                Economy.EconomyTools.Adjust(Context.Message.Author, -10);
+            }
+            else
+            {
+                await ReplyAsync("You need at least 10# from the economy to use this command.");
+                return;
+            }
             IUser sendTo = Program.xuClient.GetUser(user, discrm);
 
-            var dm = await sendTo.GetOrCreateDMChannelAsync();
+            IDMChannel dm = await sendTo.GetOrCreateDMChannelAsync();
             await dm.SendMessageAsync(msg);
         }
     }

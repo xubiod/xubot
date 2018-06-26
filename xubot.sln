@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xubot-code-compiler", "xubo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xubot-setup-xubiod", "xubot-setup-xubiod\xubot-setup-xubiod.csproj", "{8277886E-A7FF-4648-AA7D-745E89A74F8F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xubot-reminder-client", "xubot-reminder-client\xubot-reminder-client.csproj", "{07F63004-DA91-4AFE-8399-9DC929B0D3A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xubot-reminder-client_framework", "xubot-reminder-client_framework\xubot-reminder-client_framework.csproj", "{B68D065D-CE04-4431-BE42-9D2718BC4EF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Development|Any CPU = Debug Development|Any CPU
@@ -41,6 +45,22 @@ Global
 		{8277886E-A7FF-4648-AA7D-745E89A74F8F}.Release Development|Any CPU.Build.0 = Release|Any CPU
 		{8277886E-A7FF-4648-AA7D-745E89A74F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8277886E-A7FF-4648-AA7D-745E89A74F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07F63004-DA91-4AFE-8399-9DC929B0D3A4}.Debug Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{07F63004-DA91-4AFE-8399-9DC929B0D3A4}.Debug Development|Any CPU.Build.0 = Debug|Any CPU
+		{07F63004-DA91-4AFE-8399-9DC929B0D3A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07F63004-DA91-4AFE-8399-9DC929B0D3A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07F63004-DA91-4AFE-8399-9DC929B0D3A4}.Release Development|Any CPU.ActiveCfg = Release|Any CPU
+		{07F63004-DA91-4AFE-8399-9DC929B0D3A4}.Release Development|Any CPU.Build.0 = Release|Any CPU
+		{07F63004-DA91-4AFE-8399-9DC929B0D3A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07F63004-DA91-4AFE-8399-9DC929B0D3A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B68D065D-CE04-4431-BE42-9D2718BC4EF2}.Debug Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{B68D065D-CE04-4431-BE42-9D2718BC4EF2}.Debug Development|Any CPU.Build.0 = Debug|Any CPU
+		{B68D065D-CE04-4431-BE42-9D2718BC4EF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B68D065D-CE04-4431-BE42-9D2718BC4EF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B68D065D-CE04-4431-BE42-9D2718BC4EF2}.Release Development|Any CPU.ActiveCfg = Release|Any CPU
+		{B68D065D-CE04-4431-BE42-9D2718BC4EF2}.Release Development|Any CPU.Build.0 = Release|Any CPU
+		{B68D065D-CE04-4431-BE42-9D2718BC4EF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B68D065D-CE04-4431-BE42-9D2718BC4EF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
