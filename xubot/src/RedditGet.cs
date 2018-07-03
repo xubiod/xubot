@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using static xubot.RedditGetFunct.ParseSorting;
 using static xubot.src.SpecialException;
+using Strike;
+using Strike.IE;
 
 namespace xubot
 {
@@ -76,6 +78,7 @@ namespace xubot
             string NSFW = Program.subreddit.NSFW.ToString();
             string sub = string.Format("{0:#,###0}", Program.subreddit.Subscribers);
             string image = Program.subreddit.HeaderImage;
+            string desc = Program.subreddit.Description.Split('\n')[0];
 
             EmbedBuilder embedd = new EmbedBuilder
             {
@@ -93,27 +96,33 @@ namespace xubot
                         {
                             new EmbedFieldBuilder
                             {
+                                Name = "First line of Description",
+                                Value = desc,
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
                                 Name = "Subscriber Count",
                                 Value = sub,
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Internal Name",
                                 Value = fullname,
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "NSFW?",
                                 Value = NSFW,
-                                IsInline = false
+                                IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Link",
                                 Value = "https://reddit.com/r/"+input,
-                                IsInline = false
+                                IsInline = true
                             }
                         }
             };
