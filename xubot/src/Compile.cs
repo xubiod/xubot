@@ -207,12 +207,28 @@ namespace xubot
                 _result = SmallLangInterps.Deadfish.Execute(eval);
                 await ReplyAsync("", false, BuildEmbed("Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", ""));
             }
+
             [Command("deadfish-xub", RunMode = RunMode.Async)]
             public async Task deadfishxub(string eval)
             {
                 _eval = eval;
                 _result = SmallLangInterps.DeadfishXub.Execute(eval);
                 await ReplyAsync("", false, BuildEmbed("DeadfishXub", "using a built-in interpeter (adapted from https://esolangs.org)", ""));
+            }
+
+            [Command("brainfuck", RunMode = RunMode.Async), Alias("brainf***", "brainf**k", "b****fuck", "bf")]
+            public async Task brainfuck(string eval, string ascii_input = "")
+            {
+                if (ascii_input != "")
+                {
+                    _eval = "Code: " + eval.Replace("\n", String.Empty) + "\n\nASCII Input: " + ascii_input;
+                } else
+                {
+                    _eval = "Code: " + eval.Replace("\n", String.Empty);
+                }
+                _result = SmallLangInterps.Brainfuck.Execute(eval, ascii_input);
+
+                await ReplyAsync("", false, BuildEmbed("Brainfuck", "using a built-in interpeter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf"));
             }
         }
     }
@@ -412,6 +428,68 @@ namespace xubot
                     }
                 }
 
+                return output;
+            }
+        }
+
+        public class Brainfuck
+        {
+            // adapted from https://github.com/james1345-1/Brainfuck/blob/master/C%23/Brainfuck.cs
+
+            public static string Execute(string input, string ascii_input = "a")
+            {
+                char[] memory = new char[10000];
+                int memory_pointer = 0;
+
+                char[] actions = input.ToCharArray();
+                int action_pointer = 0;
+
+                char[] inputs = ascii_input.ToCharArray();
+                int input_pointer = 0;
+
+                string output = "";
+
+                while (action_pointer < actions.Length)
+                {
+                    char _ = actions[action_pointer];
+
+                    switch (_)
+                    {
+                        case '>': memory_pointer++; break;
+                        case '<': memory_pointer--; break;
+                        case '+': memory[memory_pointer]++; break;
+                        case '-': memory[memory_pointer]--; break;
+                        case '.': output += memory[memory_pointer]; break;
+                        case ',':
+                            try
+                            {
+                                memory[memory_pointer] = inputs[input_pointer];
+                                input_pointer++;
+                            }
+                            catch (Exception e)
+                            {
+                                // do nothing
+                            }
+                            break;
+                        case '[':
+                            if (memory[memory_pointer] == 0)
+                            {
+                                while (actions[action_pointer] != ']') action_pointer++;
+                            }
+                            break;
+
+                        case ']':
+                            if (memory[memory_pointer] != 0)
+                            {
+                                while (actions[action_pointer] != '[') action_pointer--;
+                            }
+                            break;
+                    }
+
+                    // increment instruction mp
+                    action_pointer++;
+                }
+                
                 return output;
             }
         }
