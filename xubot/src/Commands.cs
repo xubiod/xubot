@@ -21,6 +21,27 @@ using System.Net;
 using Newtonsoft.Json.Linq;
 using HtmlAgilityPack;
 using xubot.src;
+using System.Web;
+
+using System;
+using System.Threading.Tasks;
+using Discord.Commands;
+using System.Net.Http;
+using System.Drawing;
+using System.IO;
+using IronOcr;
+using System.Threading;
+using Discord;
+using System.IO.Compression;
+using SixLabors.ImageSharp;
+using System.Web;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
+
+using SLImage = SixLabors.ImageSharp.Image;
+using SixLabors.ImageSharp.Processing.Filters;
 
 namespace xubot
 {
@@ -649,6 +670,42 @@ namespace xubot
                 }
 
                 await ReplyAsync(_all);
+            }
+
+            [Command("attachment data")]
+            public async Task test007()
+            {
+                string _all = "c: " + Context.Message.Attachments.Count + "\nl: <" + GeneralTools.ReturnAttachmentURL(Context) + ">\nf:";
+
+                await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "/downloadsuccess.data");
+
+                await Context.Channel.SendFileAsync(Path.GetTempPath() + "/downloadsuccess.data", _all);
+            }
+
+            [Command("manipulation")]
+            public async Task test008()
+            {
+                try
+                {
+                    await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
+                    await ReplyAsync("past download");
+                    string type = VirtualPathUtility.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
+                    await ReplyAsync("type retrieved");
+
+                    await ReplyAsync("going into the `using (var img = SLImage.Load(Path.GetTempPath() + \"manip\" + type))` block");
+                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
+                    {
+                        img.Mutate(mut => mut.Invert());
+                        await ReplyAsync("img manipulated");
+                        img.Save(Path.GetTempPath() + "manip_new" + type);
+                        await ReplyAsync("img save");
+                    }
+
+                    await ReplyAsync("begin send");
+                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
+                    await ReplyAsync("end send");
+                }
+                catch (Exception e) { await GeneralTools.CommHandler.BuildError(e, Context); }
             }
         }
 
