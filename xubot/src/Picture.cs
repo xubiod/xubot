@@ -145,28 +145,28 @@ namespace xubot
                         switch (_type.ToLower())
                         {
                             case "achromatomaly": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly)); break;
-                            case "part-mono": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly)); break;
+                            case "part-mono"    : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly)); break;
 
                             case "achromatopsia": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia)); break;
-                            case "mono": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia)); break;
+                            case "mono"         : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia)); break;
 
                             case "deuteranomaly": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly)); break;
-                            case "weak-green": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly)); break;
+                            case "weak-green"   : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly)); break;
 
-                            case "deuteranopia": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia)); break;
-                            case "blind-green": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia)); break;
+                            case "deuteranopia" : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia)); break;
+                            case "blind-green"  : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia)); break;
 
-                            case "protanomaly": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly)); break;
-                            case "weak-red": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly)); break;
+                            case "protanomaly"  : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly)); break;
+                            case "weak-red"     : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly)); break;
 
-                            case "protanopia": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia)); break;
-                            case "blind-red": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia)); break;
+                            case "protanopia"   : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia)); break;
+                            case "blind-red"    : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia)); break;
 
-                            case "tritanomaly": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly)); break;
-                            case "weak-blue": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly)); break;
+                            case "tritanomaly"  : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly)); break;
+                            case "weak-blue"    : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly)); break;
 
-                            case "tritanopia": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia)); break;
-                            case "blind-blue": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia)); break;
+                            case "tritanopia"   : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia)); break;
+                            case "blind-blue"   : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia)); break;
                             default: break;
                         }
 
