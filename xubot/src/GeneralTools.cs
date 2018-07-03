@@ -10,6 +10,7 @@ using System.IO;
 using System.Net.Http;
 using System.Xml.Linq;
 using System.Web;
+using System.Text.RegularExpressions;
 
 namespace xubot
 {
@@ -307,6 +308,11 @@ namespace xubot
         {
             ITextChannel _c = Context.Channel as ITextChannel;
             return _c.IsNsfw;
+        }
+
+        public static string StripHTML(string input)
+        {
+            return Regex.Replace(input, "<.*?>", String.Empty);
         }
     }
 }
