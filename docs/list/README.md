@@ -88,6 +88,9 @@ Command help for xubot
   * interp js
   * interp lua
   * interp powershell
+  * interp deadfish
+  * interp deadfish-xub
+  * interp brainfuck
 * dog-unrolling-from-bubble-wrap
 * ( ͡° ͜ʖ ͡°)
 * 🥚
@@ -150,14 +153,18 @@ Command help for xubot
     * pic manip matrix
 * number
   * number trivia
+    * (has 2 overloads)
   * number year
+    * (has 2 overloads)
   * number math
+    * (has 2 overloads)
 * email-check
 * expand-googl
 * cat
 * steam
   * steam user
 * reddit
+  * (has 7 overloads)
 * reddit?last
 * reddit?random
 * reddit?sub
