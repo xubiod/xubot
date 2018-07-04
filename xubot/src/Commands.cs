@@ -727,6 +727,8 @@ namespace xubot
                 else if (verifyLvl == "Very High") { verifyLvl = "┻━┻ミヽ(ಠ益ಠ)ﾉ彡 ┻━┻ (Very High)"; }
                 else { verifyLvl = "Unconclusive"; }
 
+                IGuildChannel welcomeChannel = await Context.Guild.GetChannelAsync(Context.Guild.SystemChannelId ?? 0);
+
                 EmbedBuilder embedd = new EmbedBuilder
                 {
                     Title = "Information about: " + Context.Guild.Name,
@@ -776,6 +778,12 @@ namespace xubot
                             {
                                 Name = "AFK Channel ID",
                                 Value = afkchannelid,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Welcomes go to this channel:",
+                                Value = welcomeChannel.Name,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
