@@ -306,7 +306,6 @@ namespace xubot
 
         public static bool ChannelNSFW(ICommandContext Context)
         {
-            //if (Context.Guild.)
             ITextChannel _c = Context.Channel as ITextChannel;
             return _c.IsNsfw;
         }
