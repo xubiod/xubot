@@ -606,7 +606,8 @@ namespace xubot
                                 "`[>interp lua [CODE]` - Takes code and interprets it as Lua. *(IO and OS functions are nullified)*\n" +
                                 "`[>interp powershell [CODE]` - Takes code and runs it in Powershell. *(Some cmdlets are blocked and it's restricted to trusted users)*\n" +
                                 "`[>interp deadfish [CODE]` - Takes code and runs it as Deadfish.\n" +
-                                "`[>interp deadfish-xub [CODE]` - Takes code and runs it as my derivative of Deadfish. (Adds 'a' (ASCII output) and 'z' (sets cell to zero))\n",
+                                "`[>interp deadfish-xub [CODE]` - Takes code and runs it as my derivative of Deadfish. (Adds 'a' (ASCII output) and 'z' (sets cell to zero))\n" +
+                                "`[>interp brainfuck [CODE] [ASCII]` - Takes code and runs it as Brainfuck. The use of `,` uses the ASCII parameter as a console input.\n",
                                 IsInline = false
                             }
                         }
@@ -764,8 +765,7 @@ namespace xubot
                                         Value = "**Pronoun command help**\n\n" +
                                         "`[>pronoun get [USER] [DISCRIM]` - Gets a user's pronoun (global).\n" +
                                         "`[>pronoun get [ID]` - Gets a user's pronoun by using their id (global).\n" +
-                                        "`[>pronoun set [STRING]` - Sets your pronoun globally and tries to add a role on the server.\n" +
-                                        "`[>pronoun set?no-role [STRING]` - Sets your pronoun globally and does not make a role.",
+                                        "`[>pronoun set [STRING]` - Sets your pronoun globally and tries to add a role on the server.\n",
                                         IsInline = false
                                     }
                                 }
