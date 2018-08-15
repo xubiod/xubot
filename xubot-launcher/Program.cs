@@ -34,7 +34,11 @@ namespace xubot_launcher
 
             if (client.FileExists(keys.location.ToString() + "/xubot_win7.zip"))
             {
-                Console.WriteLine("file exists, downloading update");
+                Console.WriteLine("cleaning");
+                Directory.Delete("./xubot");
+                File.Delete("./xubot_win7.zip");
+
+                Console.WriteLine("downloading update");
                 client.DownloadFile(currentDir + "/xubot_win7.zip", keys.location.ToString() + "/xubot_win7.zip",true);
 
                 Console.WriteLine("download complete, renaming remote file");
