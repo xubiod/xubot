@@ -783,7 +783,7 @@ namespace xubot
                             new EmbedFieldBuilder
                             {
                                 Name = "Welcomes go to this channel:",
-                                Value = welcomeChannel.Name,
+                                Value = "<#" + welcomeChannel.Id + ">",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
