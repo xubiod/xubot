@@ -422,6 +422,7 @@
     <Compile Include="src\SSH.cs" />
     <Compile Include="src\TextMarkovChain.cs" />
     <Compile Include="src\RuntimeReports.cs" />
+    <Compile Include="src\Update.cs" />
     <Compile Include="src\Wiki.cs" />
   </ItemGroup>
   <ItemGroup>
