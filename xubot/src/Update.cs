@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,6 +19,7 @@ namespace xubot.src
 
             if (File.Exists(launcher_path))
             {
+                await Program.xuClient.SetStatusAsync(UserStatus.Invisible);
                 Process.Start(launcher_path);
                 Environment.Exit(0);
             } else
