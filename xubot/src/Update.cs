@@ -12,7 +12,7 @@ namespace xubot.src
 {
     public class Update : ModuleBase
     {
-        [Command("update")]
+        [Command("update"), RequireOwner]
         public async Task update()
         {
             string launcher_path = Directory.GetParent(Directory.GetCurrentDirectory()).FullName + "\\xubot-launcher.exe";
