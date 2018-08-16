@@ -51,7 +51,7 @@ namespace xubot
                 //await ReplyAsync(text);
                 dynamic keys = JObject.Parse(text);
 
-                if (!GeneralTools.ChannelNSFW(Context) && keys.rating == "e")
+                if (!(await GeneralTools.ChannelNSFW(Context)) && keys.rating == "e")
                 {
                     await ReplyAsync("Move to a NSFW channel.");
                 }
@@ -109,7 +109,7 @@ namespace xubot
                 //await ReplyAsync(text);
                 dynamic keys = JObject.Parse(text_j);
 
-                if (!GeneralTools.ChannelNSFW(Context) && keys.rating == "e")
+                if (!(await GeneralTools.ChannelNSFW(Context)) && keys.rating == "e")
                 {
                     await ReplyAsync("Move to a NSFW channel.");
                 }
@@ -134,7 +134,7 @@ namespace xubot
         [Command("rule34", RunMode = RunMode.Async)]
         public async Task r34(string tags = "")
         {
-            if (!GeneralTools.ChannelNSFW(Context))
+            if (!(await GeneralTools.ChannelNSFW(Context)))
             {
                 await ReplyAsync("Move to a NSFW channel.");
             }
@@ -208,7 +208,7 @@ namespace xubot
         [Command("gelbooru", RunMode = RunMode.Async)]
         public async Task gelbooru(string tags = "")
         {
-            if (!GeneralTools.ChannelNSFW(Context))
+            if (!(await GeneralTools.ChannelNSFW(Context)))
             {
                 await ReplyAsync("Move to a NSFW channel.");
             }
@@ -282,7 +282,7 @@ namespace xubot
         [Command("yandere", RunMode = RunMode.Async)]
         public async Task yandere(string tags = "")
         {
-            if (!GeneralTools.ChannelNSFW(Context))
+            if (!(await GeneralTools.ChannelNSFW(Context)))
             {
                 await ReplyAsync("Move to a NSFW channel.");
             }
@@ -449,7 +449,7 @@ namespace xubot
         [Command("konachan", RunMode = RunMode.Async)]
         public async Task konachan(string tags = "")
         {
-            if (!GeneralTools.ChannelNSFW(Context))
+            if (!(await GeneralTools.ChannelNSFW(Context)))
             {
                 await ReplyAsync("Move to a NSFW channel.");
             }

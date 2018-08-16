@@ -304,16 +304,19 @@ namespace xubot
             return false;
         }
 
-        public static bool ChannelNSFW(ICommandContext Context)
+        public static async Task<bool> ChannelNSFW(ICommandContext Context)
         {
-            //if (Context.Channel.GetType() != IDMChannel)
-            //{
+            IDMChannel ifDM = await Context.Message.Author.GetOrCreateDMChannelAsync();
+            
+            if (ifDM.Id == Context.Channel.Id)
+            {
+                return true;
+            }
+            else
+            {
                 ITextChannel _c = Context.Channel as ITextChannel;
                 return _c.IsNsfw;
-            //} else
-            //{
-                return true;
-            //}
+            }
 
         }
 

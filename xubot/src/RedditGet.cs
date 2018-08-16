@@ -257,7 +257,7 @@ namespace xubot
 
         //List<RedditSharp.Things.Post> contents_list = new List<RedditSharp.Things.Post> { };
 
-        public async Task Operate(ICommandContext Context, string subreddit, string query, int sorting, bool hide, bool nsfw = false)
+        public async Task Operate(ICommandContext Context, string subreddit, string query, int sorting, bool hide)
         {
             try
             {
@@ -277,9 +277,14 @@ namespace xubot
                 //Console.WriteLine(contents.Count);
                 var post = contents.ElementAt(rnd.Next(contents.Count));
                 EmbedBuilder embedd;
-                if (GeneralTools.ChannelNSFW(Context) && (post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL")))
+
+                bool isNSFW = await GeneralTools.ChannelNSFW(Context);
+
+                //await ReplyAsync((isNSFW && (post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL"))).ToString());
+
+                if (post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL"))
                 {
-                    if (!nsfw)
+                    if (!isNSFW)
                     {
                         await msg.DeleteAsync();
                         await ReplyAsync("The random post that was selected is NSFW or the subreddit is NSFW. Try again for another random post, with another subreddit, or move to a NSFW channel (needs nsfw in the name).");

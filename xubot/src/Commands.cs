@@ -707,6 +707,31 @@ namespace xubot
                 }
                 catch (Exception e) { await GeneralTools.CommHandler.BuildError(e, Context); }
             }
+
+            [Command("channels")]
+            public async Task test009()
+            {
+                try
+                {
+                    IDMChannel ifDM = await Context.Message.Author.GetOrCreateDMChannelAsync();
+                    ITextChannel DMtoTXT = ifDM as ITextChannel;
+                    ITextChannel STtoTXT = Context.Channel as ITextChannel;
+
+                    await ReplyAsync(ifDM.Id.ToString());
+                    await ReplyAsync(Context.Channel.Id.ToString());
+                }
+                catch (Exception e) { await GeneralTools.CommHandler.BuildError(e, Context); }
+            }
+
+            [Command("nsfw")]
+            public async Task test010()
+            {
+                try
+                {
+                    await ReplyAsync((await GeneralTools.ChannelNSFW(Context)).ToString());
+                }
+                catch (Exception e) { await GeneralTools.CommHandler.BuildError(e, Context); }
+            }
         }
 
         [Group("info")]
@@ -860,7 +885,7 @@ namespace xubot
                             new EmbedFieldBuilder
                             {
                                 Name = "NSFW?",
-                                Value = GeneralTools.ChannelNSFW(Context),
+                                Value = (await GeneralTools.ChannelNSFW(Context)),
                                 IsInline = true
                             }
                         }
