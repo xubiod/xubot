@@ -394,6 +394,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="src\Base65536.cs" />
+    <Compile Include="src\BetterHelp.cs" />
     <Compile Include="src\Canvas.cs" />
     <Compile Include="src\Commands.cs" />
     <Compile Include="src\Compile.cs" />

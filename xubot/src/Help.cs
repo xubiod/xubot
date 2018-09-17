@@ -10,7 +10,7 @@ namespace xubot
 {
     public class Help : ModuleBase
     {
-        [Group("help"), Alias("h"), Summary("a calculator, but shittier")]
+        /*[Group("help"), Alias("h"), Summary("a calculator, but shittier")]
         public class help : ModuleBase
         {
             [Command]
@@ -773,6 +773,6 @@ namespace xubot
 
                 await ReplyAsync("", false, embedd.Build());
             }
-        }
+        }*/
     }
 }
