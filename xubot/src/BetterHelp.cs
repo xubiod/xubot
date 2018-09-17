@@ -11,12 +11,15 @@ namespace xubot.src
     public class BetterHelp : ModuleBase
     {
         [Command("help?beta")]
-        public async Task helpbeta(string lookup)
+        public async Task helpbeta(string lookup, int index = 1)
         {
             try {
                 List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
 
-                CommandInfo comm = commList.Find(ci => ci.Name == lookup);
+                commList = commList.FindAll(ci => ci.Name == lookup);
+
+                CommandInfo comm = commList[index-1];
+                int allMatchs = commList.Count;
 
                 string all_alias = "";
                 IReadOnlyList<string> _aliases = comm.Aliases ?? new List<string>();
@@ -51,7 +54,7 @@ namespace xubot.src
                 {
                     Title = "Help (Beta)",
                     Color = Discord.Color.Magenta,
-                    Description = "The newer *better* help",
+                    Description = "The newer *better* help. Showing result #"+ (index).ToString() + " out of " + allMatchs.ToString() + " match(s).",
                     ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
                     Footer = new EmbedFooterBuilder
