@@ -61,7 +61,7 @@ namespace xubot
         public static string pattern4 = "11011";
         public static string pattern5 = "01110";
         
-        [Group("echo"), Alias("m"), Summary("a calculator, but shittier")]
+        [Group("echo"), Alias("m"), Summary("repeats what you say back")]
         public class echo : ModuleBase
         {
             [Command]
@@ -301,7 +301,7 @@ namespace xubot
             }
         }
 
-        [Group("insult"), Summary("yay")]
+        [Group("insult"), Summary("get insulted by software")]
         public class insult : ModuleBase
         {
             [Command("init"), Summary("inits the insults"), RequireOwner]
@@ -441,7 +441,7 @@ namespace xubot
             }
         }
 
-        [Group("convert"), Alias("c"), Summary("a calculator, but shittier")]
+        [Group("convert"), Alias("c"), Summary("converts some stuff")]
         public class convert : ModuleBase
         {
             [Command("temperature"), Alias("temp"), Summary("attempts to add two floats")]

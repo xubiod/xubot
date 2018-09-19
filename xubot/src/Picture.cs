@@ -104,7 +104,7 @@ namespace xubot
             [Group("manip")]
             public class manipulation : ModuleBase
             {
-                [Command("brightness", RunMode = RunMode.Async)]
+                [Command("brightness", RunMode = RunMode.Async), Summary("Increases/decreases the brightness of the image.")]
                 public async Task ghost(float amt)
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
