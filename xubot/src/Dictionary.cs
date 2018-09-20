@@ -51,7 +51,7 @@ namespace xubot.src
 
         //AssembleURL("en", "", "definitions")
 
-        [Command("define")]
+        [Command("define"), Summary("Defines a word using the Oxford Dictionary.")]
         public async Task define(string _word, string _langID = "en")
         {
             try
@@ -115,7 +115,7 @@ namespace xubot.src
         }
 
         //inflections
-        [Command("inflection")]
+        [Command("inflection"), Summary("Shows inflections for a word using the Oxford Dictionary.")]
         public async Task inflections(string _word, string _langID = "en")
         {
             try
@@ -177,7 +177,7 @@ namespace xubot.src
             }
         }
 
-        [Command("synonyms"), Alias("syn")]
+        [Command("synonyms"), Alias("syn"), Summary("Gives a list of synonyms a word using the Oxford Dictionary.")]
         public async Task syn(string _word, string _langID = "en")
         {
             try
@@ -248,7 +248,7 @@ namespace xubot.src
             }
         }
 
-        [Command("antonyms"), Alias("ant")]
+        [Command("antonyms"), Alias("ant"), Summary("Gives a list of antonyms a word using the Oxford Dictionary.")]
         public async Task ant(string _word, string _langID = "en")
         {
             try
@@ -316,7 +316,7 @@ namespace xubot.src
             }
         }
 
-        [Command("list")]
+        [Command("list"), Summary("Gives a list of supported languages for the Oxford Dictionary.")]
         public async Task list()
         {
             try
