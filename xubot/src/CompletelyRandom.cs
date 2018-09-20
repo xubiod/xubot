@@ -92,5 +92,11 @@ namespace xubot
             IDMChannel dm = await sendTo.GetOrCreateDMChannelAsync();
             await dm.SendMessageAsync(msg);
         }
+
+        [Command("yritwh"), Alias("you-reposted-in-the-wrong-neighborhood")]
+        public async Task yritwh()
+        {
+            await ReplyAsync("https://www.youtube.com/watch?v=0cOAUSVBGX8");
+        }
     }
 }
