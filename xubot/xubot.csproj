@@ -403,7 +403,6 @@
     <Compile Include="src\Economy.cs" />
     <Compile Include="src\GeneralTools.cs" />
     <Compile Include="src\GitHub.cs" />
-    <Compile Include="src\Help.cs" />
     <Compile Include="src\Hotline.cs" />
     <Compile Include="src\Markov.cs" />
     <Compile Include="src\Moderation.cs" />

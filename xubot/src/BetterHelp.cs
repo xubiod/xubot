@@ -8,21 +8,102 @@ using System.Threading.Tasks;
 
 namespace xubot.src
 {
-    public class BetterHelp : ModuleBase
+    [Group("help")]
+    public class Helpv2 : ModuleBase
     {
-        public double itemsPerPage = 10.0;
+        public int itemsPerPage = 15;
 
-        [Command("help?beta")]
+        [Command, Summary("Lists data for one command.")]
         public async Task helpbeta(string lookup, int index = 1)
+        {
+            await helpbetaHandling(lookup, index, false);
+        }
+
+        [Command, Summary("Lists data for one command.")]
+        public async Task helpbeta(string lookup, bool wGroup = false, int index = 1)
+        {
+            await helpbetaHandling(lookup, index, wGroup);
+        }
+
+        [Command("list"), Summary("Lists all commands.")]
+        public async Task helpbeta(int page = 1)
+        {
+            List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
+
+            string items = "";
+
+            int limit = Math.Min(commList.Count - ((page-1) * itemsPerPage), itemsPerPage);
+            await ReplyAsync((limit).ToString());
+
+            for (int i = 0; i < limit; i++)
+            {
+                int index = i + (page-1)*itemsPerPage;
+
+                if (index > commList.Count) { break; }
+
+                string parentForm = "No parent";
+                if (commList[index].Module.Parent != null)
+                {
+                    parentForm = commList[index].Module.Parent.Name;
+                }
+
+                items += "(" + parentForm + ") " + commList[index].Name + "\n";
+            }
+
+            EmbedBuilder embedd = new EmbedBuilder
+            {
+                Title = "Help (Beta)",
+                Color = Discord.Color.Magenta,
+                Description = "The newer *better* help. Showing page #" + (page).ToString() + " out of " + ((commList.Count/itemsPerPage)+1).ToString() + " pages.",
+                ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+
+                Footer = new EmbedFooterBuilder
+                {
+                    Text = "xubot :p",
+                    IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                },
+                Timestamp = DateTime.UtcNow,
+                Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "List",
+                                Value = "```" + items + "```" ,
+                                IsInline = true
+                            }
+                        }
+            };
+            await ReplyAsync("", false, embedd.Build());
+        }
+
+        public async Task helpbetaHandling(string lookup, int index = 1, bool exact = false)
         {
             try
             {
-                List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
+                List<CommandInfo> commList_e = Program.xuCommand.Commands.ToList();
 
-                commList = commList.FindAll(ci => ci.Name == (lookup.Split(' ').Last()));
+                commList_e = commList_e.FindAll(ci => ci.Name == (lookup.Split(' ').Last()));
+
+                List<CommandInfo> commList = commList_e;
+
+                if (exact)
+                {
+                    commList = new List<CommandInfo>();
+                    foreach (var item in commList_e)
+                    {
+                        foreach (var alias in item.Aliases)
+                        {
+                            if (alias == lookup)
+                            {
+                                commList.Add(item);
+                            }
+                        }
+                    }
+                }
+
+                int allMatchs = commList.Count;
 
                 CommandInfo comm = commList[index - 1];
-                int allMatchs = commList.Count;
 
                 string all_alias = "";
                 IReadOnlyList<string> _aliases = comm.Aliases ?? new List<string>();
@@ -124,54 +205,6 @@ namespace xubot.src
             {
                 await GeneralTools.CommHandler.BuildError(e, Context);
             }
-        }
-
-        [Command("help?beta list")]
-        public async Task helpbeta(int page = 1)
-        {
-            List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
-
-            string items = "";
-
-            
-            for (int i = 0; i < itemsPerPage; i++)
-            {
-                int index = i + (page-1)*10;
-                if (index > commList.Count) break;
-
-                string parentForm = "No parent";
-                if (commList[index].Module.Parent != null)
-                {
-                    parentForm = commList[index].Module.Parent.Name;
-                }
-
-                items += "(" + parentForm + ") " + commList[index].Name + "\n";
-            }
-
-            EmbedBuilder embedd = new EmbedBuilder
-            {
-                Title = "Help (Beta)",
-                Color = Discord.Color.Magenta,
-                Description = "The newer *better* help. Showing page #" + (page).ToString() + " out of " + Math.Ceiling(commList.Count/itemsPerPage).ToString() + " pages.",
-                ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                Footer = new EmbedFooterBuilder
-                {
-                    Text = "xubot :p",
-                    IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "List",
-                                Value = "```" + items + "```" ,
-                                IsInline = true
-                            }
-                        }
-            };
-            await ReplyAsync("", false, embedd.Build());
         }
     }
 }
