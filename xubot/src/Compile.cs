@@ -84,7 +84,7 @@ namespace xubot
         [Group("interp")]
         public class codeCompile : ModuleBase
         {
-            [Command("js", RunMode = RunMode.Async)]
+            [Command("js", RunMode = RunMode.Async), Summary("Executes JavaScript.")]
             public async Task js(string eval)
             {
                 _eval = eval;
@@ -119,7 +119,7 @@ namespace xubot
                 }
             }
 
-            [Command("lua", RunMode = RunMode.Async)]
+            [Command("lua", RunMode = RunMode.Async), Summary("Executes Lua with some restrictions.")]
             public async Task lua(string eval)
             {
                 if (!GeneralTools.UserTrusted(Context)) { await ReplyAsync("User is not trusted."); return; }
@@ -156,7 +156,7 @@ namespace xubot
                 }
             }
 
-            [Command("powershell", RunMode = RunMode.Async)]
+            [Command("powershell", RunMode = RunMode.Async), Summary("Executes Powershell with restrictions.")]
             public async Task ps_sudo(string eval)
             {
                 XmlReaderSettings settings = new XmlReaderSettings();
@@ -200,7 +200,7 @@ namespace xubot
                 }
             }
 
-            [Command("deadfish", RunMode = RunMode.Async)]
+            [Command("deadfish", RunMode = RunMode.Async), Summary("Interperts Deadfish and outputs the results.")]
             public async Task deadfish(string eval)
             {
                 _eval = eval;
@@ -208,7 +208,7 @@ namespace xubot
                 await ReplyAsync("", false, BuildEmbed("Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", ""));
             }
 
-            [Command("deadfish-xub", RunMode = RunMode.Async)]
+            [Command("deadfish-xub", RunMode = RunMode.Async), Summary("Interperts Deadfish with some modifications.")]
             public async Task deadfishxub(string eval)
             {
                 _eval = eval;
@@ -216,7 +216,7 @@ namespace xubot
                 await ReplyAsync("", false, BuildEmbed("DeadfishXub", "using a built-in interpeter (adapted from https://esolangs.org)", ""));
             }
 
-            [Command("brainfuck", RunMode = RunMode.Async), Alias("brainf***", "brainf**k", "b****fuck", "bf")]
+            [Command("brainfuck", RunMode = RunMode.Async), Alias("brainf***", "brainf**k", "b****fuck", "bf"), Summary("Interperts Brainfuck and outputs the result.")]
             public async Task brainfuck(string eval, string ascii_input = "")
             {
                 if (ascii_input != "")
