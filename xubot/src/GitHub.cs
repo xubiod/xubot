@@ -28,7 +28,7 @@ namespace xubot
         [Group("github")]
         public class gitCommands : ModuleBase
         {
-            [Command("repo")]
+            [Command("repo"), Summary("Returns information about a GitHub repo.")]
             public async Task repoInfo(string user, string repo)
             {
                 xuRepo_Comm = await xuGitClient.GetRepositoryAsync(user, repo);
@@ -76,7 +76,7 @@ namespace xubot
                 await ReplyAsync("", false, embedd.Build());
             }
             
-            [Command("commit")]
+            [Command("commit"), Summary("Returns information about a GitHub commit based on its SHA.")]
             public async Task commitInfo(string user, string repo, string sha)
             {
                 xuCommit_Comm = await xuGitClient.GetCommitAsync(user, repo, sha);
@@ -130,7 +130,7 @@ namespace xubot
                 await ReplyAsync("", false, embedd.Build());
             }
 
-            [Command("repo-latest-commit"), Alias("rlc")]
+            [Command("repo-latest-commit"), Alias("rlc"), Summary("Returns the latest commit on a GitHub repo.")]
             public async Task repoCommInfo(string user, string repo)
             {
                 xuCommitArr_Comm = await xuGitClient.GetRepositoryCommitsAsync(user, repo);
@@ -160,7 +160,7 @@ namespace xubot
                 await ReplyAsync("", false, embedd.Build());
             }
 
-            [Command("latest-ref")]
+            [Command("latest-ref"), Summary("Returns information on a GitHub repo's latest ref.")]
             public async Task refsInfo(string user, string repo)
             {
                 xuRepo_Refs = await xuGitClient.GetRefsAsync(user, repo);
