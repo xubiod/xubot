@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using System;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace xubot.src
         public Random _r = new Random();
         //public static ICommandContext _Context;
 
-        [Command("collect")]
+        [Command("collect"), Summary("Collects currency based on the amount of hours since last collection.")]
         public async Task collect()
         {
             //await ReplyAsync(DateTime.Now.ToOADate().ToString());
@@ -55,7 +55,7 @@ namespace xubot.src
             }
         }
 
-        [Command("balance")]
+        [Command("balance"), Summary("Returns your balance.")]
         public async Task balance()
         {
             if (EconomyTools.AccountExists(Context.Message.Author))
@@ -67,7 +67,7 @@ namespace xubot.src
             }
         }
 
-        [Command("transfer", RunMode = RunMode.Async)]
+        [Command("transfer", RunMode = RunMode.Async), Summary("Initializes a transfer to someone. Only one transfer is allowed at any given time.")]
         public async Task transfer(double amount, ulong id)
         {
             //IUser transferTo = await Context.Guild.GetUserAsync(id);
@@ -100,7 +100,7 @@ namespace xubot.src
             }
         }
 
-        [Command("confirm")]
+        [Command("confirm"), Summary("Confirms a transfer to someone. Can only be done by the starter of the transfer, and incorrect codes cancel the transfer.")]
         public async Task confirmTransfer(string pass)
         {
             if (_pass == pass && _pass != "")
