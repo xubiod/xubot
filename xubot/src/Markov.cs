@@ -20,7 +20,7 @@ namespace xubot.src
         //use this later
         //Regex tagRegex = new Regex(@"<\s*([^ >]+)[^>]*>.*?<\s*/\s*\1\s*>");
         
-        [Command("markov", RunMode = RunMode.Async)]
+        [Command("markov", RunMode = RunMode.Async), Summary("Generates a sentence based on the markov chain.")]
         public async Task outputMarkov()
         {
             if (!xuMarkov.readyToGenerate())
@@ -46,7 +46,7 @@ namespace xubot.src
             }
         }
 
-        [Command("markov", RunMode = RunMode.Async)]
+        [Command("markov", RunMode = RunMode.Async), Summary("Inputs a string into the markov chain.")]
         public async Task outputMarkov(string input)
         {
             try
@@ -82,7 +82,7 @@ namespace xubot.src
             }
         }
 
-        [Command("markov?i", RunMode = RunMode.Async)]
+        [Command("markov?i", RunMode = RunMode.Async), Summary("Imports a file into the markov chain. Does not import files with control characters.")]
         public async Task importMarkov()
         {
             try
@@ -129,7 +129,7 @@ namespace xubot.src
             }
         }
 
-        [Command("markov?export", RunMode = RunMode.Async), Alias("markov?e")]
+        [Command("markov?export", RunMode = RunMode.Async), Alias("markov?e"), Summary("Exports the markov chain as a XML file.")]
         public async Task exportMarkov()
         {
             try
@@ -144,7 +144,7 @@ namespace xubot.src
             }
         }
 
-        [Command("markov?r")]
+        [Command("markov?r"), Summary("Outputs a sentence from the markov chain and refeeds it into the chain.")]
         public async Task outputMarkovRecur()
         {
             if (!xuMarkov.readyToGenerate())
