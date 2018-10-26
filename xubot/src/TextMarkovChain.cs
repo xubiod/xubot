@@ -235,7 +235,6 @@ namespace xubot.src
         }
     }
     
-    
         public class DeepMarkovChain
         {
             /* Order of action:
@@ -425,7 +424,4 @@ namespace xubot.src
                 }
             }
         }
-
-
     }
-
