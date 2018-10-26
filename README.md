@@ -1,7 +1,7 @@
 ![logo](https://raw.githubusercontent.com/xubot-team/xubot/master/docs/xublogo.png)
 
-### Build Status
-[![Build status](https://ci.appveyor.com/api/projects/status/vxb9wvryyppa1cc5?svg=true)](https://ci.appveyor.com/project/xubiod/xubot) <----- (currently broken, needs some nuget package feed updates for appveyor)
+### CodeFactor Grade
+[![CodeFactor](https://www.codefactor.io/repository/github/xubot-team/xubot/badge)](https://www.codefactor.io/repository/github/xubot-team/xubot)
 
 ### Other Badges
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](https://forthebadge.com)
