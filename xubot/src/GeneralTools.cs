@@ -132,7 +132,6 @@ namespace xubot
                     await context.Channel.SendFileAsync(Path.Combine(Path.GetTempPath(), "StackTrace.txt"));
                 }
             }
-
         }
         
         public class XML
