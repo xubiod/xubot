@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using System;
 using System.Collections.Generic;
@@ -199,7 +199,6 @@ namespace xubot
         [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, int sorting)
         {
-
             previous_sub = subreddit;
             previous_sorting = sorting;
             previous_query = "";
@@ -211,7 +210,6 @@ namespace xubot
         [Command("reddit", RunMode = RunMode.Async)]
         public async Task reddit_pic(string subreddit, bool hide)
         {
-
             previous_sub = subreddit;
             previous_sorting = 0;
             previous_query = "";
@@ -298,7 +296,6 @@ namespace xubot
                 }
                 else
                 {
-
                     await msg.DeleteAsync();
                     //await ReplyAsync("https://reddit.com" + post.Permalink.ToString());
 
