@@ -128,7 +128,6 @@ namespace xubot
             {
                 await GeneralTools.CommHandler.BuildError(exp, Context);
             }
-            
         }
 
         [Command("rule34", RunMode = RunMode.Async)]
@@ -333,7 +332,6 @@ namespace xubot
                     }
 
                     await ReplyAsync(imgUrl);
-
                 }
                 catch (Exception exp)
                 {
@@ -437,13 +435,11 @@ namespace xubot
                 }
 
                 await ReplyAsync("http:" + imgUrl);
-
             }
             catch (Exception exp)
             {
                 await GeneralTools.CommHandler.BuildError(exp, Context);
             }
-
         }
 
         [Command("konachan", RunMode = RunMode.Async)]
@@ -500,14 +496,12 @@ namespace xubot
                     }
 
                     await ReplyAsync(imgUrl);
-
                 }
                 catch (Exception exp)
                 {
                     await GeneralTools.CommHandler.BuildError(exp, Context);
                 }
             }
-
         }
 
         //shorthands
