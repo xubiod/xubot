@@ -45,7 +45,6 @@ namespace xubot
                                 Value = "```" + result.Error + "```",
                                 IsInline = false
                             }
-
                         }
                 };
 
@@ -73,7 +72,6 @@ namespace xubot
                                 Value = "```" + err + "```",
                                 IsInline = false
                             }
-
                         }
                 };
 
@@ -125,7 +123,6 @@ namespace xubot
                                 Value = "```" + stack + "```",
                                 IsInline = false
                             }
-
                         }
                 };
 
@@ -317,7 +314,6 @@ namespace xubot
                 ITextChannel _c = Context.Channel as ITextChannel;
                 return _c.IsNsfw;
             }
-
         }
 
         public static string StripHTML(string input)
