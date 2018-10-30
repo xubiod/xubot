@@ -133,6 +133,9 @@ namespace xubot
         [Command("rule34", RunMode = RunMode.Async)]
         public async Task r34(string tags = "")
         {
+            await GetPostFromXML("https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, "&pid=");
+
+            /*
             if (!(await GeneralTools.ChannelNSFW(Context)))
             {
                 await ReplyAsync("Move to a NSFW channel.");
@@ -201,148 +204,20 @@ namespace xubot
                     if (Program.enableNSFW) await ReplyAsync("NSFW commands are disabled at the moment.");
                     else { await ReplyAsync("Umm.. something happened that I don't have a clue about. Whoopies."); }
                 }
-            }
+            }*/
         }
 
         [Command("gelbooru", RunMode = RunMode.Async)]
         public async Task gelbooru(string tags = "")
         {
-            if (!(await GeneralTools.ChannelNSFW(Context)))
-            {
-                await ReplyAsync("Move to a NSFW channel.");
-            }
-            else
-            if ((Program.enableNSFW || CheckTrigger()) && tags != "")
-            {
-                try
-                {
-                   // var client = new HttpClient();
-                    string link = "https://www.gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1&tags=" + tags;
-
-                    var request = new HttpRequestMessage()
-                    {
-                        RequestUri = new Uri(link),
-                        Method = HttpMethod.Get,
-                    };
-
-                    request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
-
-                    string imgUrl = "";
-                    int count = 0;
-                    Random rnd = new Random();
-
-                    var xdoc = XDocument.Load(link);
-                    var items = from i in xdoc.Descendants("posts")
-                                select new
-                                {
-                                    Attribute = (string)i.Attribute("count")
-                                };
-
-                    foreach (var item in items)
-                    {
-                        count = Convert.ToInt32(item.Attribute) / 2;
-                    }
-
-                    link = "https://www.gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1&pid=" + rnd.Next(count) + "&tags=" + tags;
-                    xdoc = XDocument.Load(link);
-
-                    items = from q in xdoc.Descendants("post")
-                            select new
-                            {
-                                Attribute = (string)q.Attribute("file_url")
-                            };
-
-                    foreach (var item in items)
-                    {
-                        imgUrl = item.Attribute;
-                    }
-
-                    await ReplyAsync(imgUrl);
-                }
-                catch (Exception exp)
-                {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
-                }
-            }
-            else
-            {
-                if (tags == "" && Program.enableNSFW)
-                {
-                    await ReplyAsync("Gelbooru requires a tag.");
-                }
-                else
-                {
-                    if (Program.enableNSFW) await ReplyAsync("NSFW commands are disabled at the moment.");
-                    else { await ReplyAsync("Umm.. something happened that I don't have a clue about. Whoopies."); }
-                }
-            }
+            await GetPostFromXML("https://www.gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, "&pid=");
         }
 
+        // OPTIMIZED 
         [Command("yandere", RunMode = RunMode.Async)]
         public async Task yandere(string tags = "")
         {
-            if (!(await GeneralTools.ChannelNSFW(Context)))
-            {
-                await ReplyAsync("Move to a NSFW channel.");
-            }
-            else
-            if (Program.enableNSFW || CheckTrigger())
-            {
-                try
-                {
-                    //var client = new HttpClient();
-                    string link = "https://yande.re/post.xml?limit=1&tags=" + tags;
-
-                    var request = new HttpRequestMessage()
-                    {
-                        RequestUri = new Uri(link),
-                        Method = HttpMethod.Get,
-                    };
-
-                    request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
-
-                    string imgUrl = "";
-                    int count = 0;
-                    Random rnd = new Random();
-
-                    var xdoc = XDocument.Load(link);
-                    var items = from i in xdoc.Descendants("posts")
-                                select new
-                                {
-                                    Attribute = (string)i.Attribute("count")
-                                };
-
-                    foreach (var item in items)
-                    {
-                        count = Convert.ToInt32(item.Attribute) / 2;
-                    }
-
-                    link = "https://yande.re/post.xml?limit=1&page=" + rnd.Next(count) + "&tags=" + tags;
-                    xdoc = XDocument.Load(link);
-
-                    items = from q in xdoc.Descendants("post")
-                            select new
-                            {
-                                Attribute = (string)q.Attribute("file_url")
-                            };
-
-                    foreach (var item in items)
-                    {
-                        imgUrl = item.Attribute;
-                    }
-
-                    await ReplyAsync(imgUrl);
-                }
-                catch (Exception exp)
-                {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
-                }
-            }
-            else
-            {
-                if (Program.enableNSFW) await ReplyAsync("NSFW commands are disabled at the moment.");
-                else { await ReplyAsync("Umm.. something happened that I don't have a clue about. Whoopies."); }
-            }
+            await GetPostFromXML("https://yande.re/post.xml?limit=1", tags, Context);
         }
 
         [Command("e926", RunMode = RunMode.Async)]
@@ -388,11 +263,16 @@ namespace xubot
             }
         }
 
+        // OPTIMIZED 
         [Command("safebooru", RunMode = RunMode.Async)]
         public async Task safebooru(string tags = "")
         {
+            await GetPostFromXML("http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, "&pid=");
+
+            /*
             try
             {
+                
                 //var client = new HttpClient();
                 string link = "http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1&tags=" + tags;
 
@@ -439,69 +319,14 @@ namespace xubot
             catch (Exception exp)
             {
                 await GeneralTools.CommHandler.BuildError(exp, Context);
-            }
+            }*/
         }
 
+        // OPTIMIZED 
         [Command("konachan", RunMode = RunMode.Async)]
         public async Task konachan(string tags = "")
         {
-            if (!(await GeneralTools.ChannelNSFW(Context)))
-            {
-                await ReplyAsync("Move to a NSFW channel.");
-            }
-            else
-            if (CheckTrigger())
-            {
-                try
-                {
-                    //var client = new HttpClient();
-                    string link = "http://konachan.com/post.xml?limit=1&tags=" + tags;
-
-                    var request = new HttpRequestMessage()
-                    {
-                        RequestUri = new Uri(link),
-                        Method = HttpMethod.Get,
-                    };
-
-                    request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
-
-                    string imgUrl = "";
-                    int count = 0;
-                    Random rnd = new Random();
-
-                    var xdoc = XDocument.Load(link);
-                    var items = from i in xdoc.Descendants("posts")
-                                select new
-                                {
-                                    Attribute = (string)i.Attribute("count")
-                                };
-
-                    foreach (var item in items)
-                    {
-                        count = Convert.ToInt32(item.Attribute) / 2;
-                    }
-
-                    link = "http://konachan.com/post.xml?limit=1&page=" + rnd.Next(count) + "&tags=" + tags;
-                    xdoc = XDocument.Load(link);
-
-                    items = from q in xdoc.Descendants("post")
-                            select new
-                            {
-                                Attribute = (string)q.Attribute("file_url")
-                            };
-
-                    foreach (var item in items)
-                    {
-                        imgUrl = item.Attribute;
-                    }
-
-                    await ReplyAsync(imgUrl);
-                }
-                catch (Exception exp)
-                {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
-                }
-            }
+            await GetPostFromXML("http://konachan.com/post.xml?limit=1", tags, Context);
         }
 
         //shorthands
@@ -564,6 +389,79 @@ namespace xubot
             }
 
             return ret;
+        }
+
+        public void GetPostFromJSON()
+        {
+
+        }
+
+        public async Task GetPostFromXML(string inputLink, string tags, ICommandContext Context, string pageIn = "&page=")
+        {
+            if (!(await GeneralTools.ChannelNSFW(Context)))
+            {
+                await ReplyAsync("Move to a NSFW channel.");
+            }
+            else
+            {
+                try
+                {
+                    //var client = new HttpClient();
+                    string link = inputLink + "&tags=" + tags;
+                    Console.WriteLine(link);
+
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = new Uri(link),
+                        Method = HttpMethod.Get
+                    };
+
+                    request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
+
+                    string imgUrl = "";
+                    int count = 0;
+                    Random rnd = new Random();
+
+                    var xdoc = XDocument.Load(link);
+                    var items = from i in xdoc.Descendants("posts")
+                                select new
+                                {
+                                    Attribute = (string)i.Attribute("count")
+                                };
+
+                    foreach (var item in items)
+                    {
+                        count = Convert.ToInt32(item.Attribute) / 2;
+                    }
+
+                    link = inputLink + pageIn + rnd.Next(count) + "&tags=" + tags;
+                    xdoc = XDocument.Load(link);
+
+                    items = from q in xdoc.Descendants("post")
+                            select new
+                            {
+                                Attribute = (string)q.Attribute("file_url")
+                            };
+
+                    foreach (var item in items)
+                    {
+                        imgUrl = item.Attribute;
+                    }
+                    
+                    if (!imgUrl.Contains("http"))
+                    {
+                        await ReplyAsync("http:" + imgUrl);
+                    } 
+                    else
+                    {
+                        await ReplyAsync(imgUrl);
+                    }
+                }
+                catch (Exception exp)
+                {
+                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                }
+            }
         }
     }
 }
