@@ -66,14 +66,15 @@ namespace xubot.src
 
                 dynamic keys = JObject.Parse(text);
 
-                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>();
-
-                alldef.Add(new EmbedFieldBuilder
+                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>
                 {
-                    Name = "Word / Region",
-                    Value = _word + " / " + _langID,
-                    IsInline = false
-                });
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Word / Region",
+                        Value = _word + " / " + _langID,
+                        IsInline = false
+                    }
+                };
 
                 string _all_def_str = "";
                 int _count = 1;
@@ -130,14 +131,15 @@ namespace xubot.src
                 
                 dynamic keys = JObject.Parse(text);
 
-                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>();
-
-                alldef.Add(new EmbedFieldBuilder
+                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>
                 {
-                    Name = "Word / Region",
-                    Value = _word + " / " + _langID,
-                    IsInline = false
-                });
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Word / Region",
+                        Value = _word + " / " + _langID,
+                        IsInline = false
+                    }
+                };
 
                 foreach (var _def in keys.results[0].lexicalEntries)
                 {
@@ -192,14 +194,15 @@ namespace xubot.src
 
                 dynamic keys = JObject.Parse(text);
 
-                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>();
-
-                alldef.Add(new EmbedFieldBuilder
+                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>
                 {
-                    Name = "Word / Region",
-                    Value = _word + " / " + _langID,
-                    IsInline = false
-                });
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Word / Region",
+                        Value = _word + " / " + _langID,
+                        IsInline = false
+                    }
+                };
 
                 string _all_def_str = "";
 
@@ -263,14 +266,15 @@ namespace xubot.src
 
                 dynamic keys = JObject.Parse(text);
 
-                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>();
-
-                alldef.Add(new EmbedFieldBuilder
+                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>
                 {
-                    Name = "Word / Region",
-                    Value = _word + " / " + _langID,
-                    IsInline = false
-                });
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Word / Region",
+                        Value = _word + " / " + _langID,
+                        IsInline = false
+                    }
+                };
 
                 string _all_def_str = "";
 

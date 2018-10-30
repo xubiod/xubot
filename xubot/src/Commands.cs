@@ -23,18 +23,10 @@ using HtmlAgilityPack;
 using xubot.src;
 using System.Web;
 
-using System;
-using System.Threading.Tasks;
-using Discord.Commands;
-using System.Net.Http;
-using System.Drawing;
-using System.IO;
 using IronOcr;
 using System.Threading;
-using Discord;
 using System.IO.Compression;
 using SixLabors.ImageSharp;
-using System.Web;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Formats.Jpeg;

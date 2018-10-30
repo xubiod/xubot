@@ -274,7 +274,7 @@ namespace xubot
                 }
                 //Console.WriteLine(contents.Count);
                 var post = contents.ElementAt(rnd.Next(contents.Count));
-                EmbedBuilder embedd;
+                //EmbedBuilder embedd;
 
                 bool isNSFW = await GeneralTools.ChannelNSFW(Context);
 
