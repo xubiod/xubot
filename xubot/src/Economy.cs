@@ -49,7 +49,8 @@ namespace xubot.src
 
                     await EconomyTools.Build(Context, _new_acct, "Collected " + _amount + "#.", "Your balance is now " + _new + "#.");
                 
-            } catch (Exception exp)
+            } 
+            catch (Exception exp)
             {
                 await GeneralTools.CommHandler.BuildError(exp, Context);
             }
@@ -61,7 +62,8 @@ namespace xubot.src
             if (EconomyTools.AccountExists(Context.Message.Author))
             {
                 await EconomyTools.Build(Context, "Fake money! Woo!", "Amount in your account", EconomyTools.ReadAmount(Context.Message.Author).ToString() + "#");
-            } else
+            } 
+            else
             {
                 await EconomyTools.Build(Context, "", "Problem!", "You don't have an account.");
             }
@@ -94,7 +96,8 @@ namespace xubot.src
                 {
                     await ReplyAsync("You can't transfer what you don't have!");
                 }
-            } else
+            } 
+            else
             {
                 await EconomyTools.Build(Context, "", "Problem!", "You are trying to transfer money to someone that doesn't have an account.");
             }
@@ -110,14 +113,17 @@ namespace xubot.src
                     EconomyTools.Adjust(_auth, Math.Round((_amount * -1.1) * 100)/100, false);
                     EconomyTools.Adjust(_transferTo, _amount, false);
                     await ReplyAsync("Transfer of `" + _amount + "#` has been completed to " + _transferTo.Username + "#" + _transferTo.Discriminator + ".");
-                } else
+                } 
+                else
                 {
                     await ReplyAsync("Confirming transactions can only be done by the author of the transfer.");
                 }
-            } else if (_pass == "")
+            } 
+            else if (_pass == "")
             {
                 await ReplyAsync("Transfer was not initialized.");
-            } else
+            } 
+            else
             {
                 await ReplyAsync("Incorrect code. Transfer cancelled.");
             }
@@ -306,7 +312,7 @@ namespace xubot.src
                             new EmbedFieldBuilder
                             {
                                 Name = "Transfer Fee",
-                                Value = "```" + Math.Round((_amount * .1) * 100)/100 + "#```",
+                                Value = "```" + (Math.Round((_amount * .1) * 100)/100).ToString() + "#```",
                                 IsInline = false
                             },
                             new EmbedFieldBuilder
@@ -320,7 +326,6 @@ namespace xubot.src
 
                 await Context.Channel.SendMessageAsync("", false, embedd.Build());
             }
-
         }
     }
 }
