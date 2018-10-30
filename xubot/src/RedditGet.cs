@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using static xubot.RedditGetFunct.ParseSorting;
-using static xubot.src.SpecialException;
 using Strike;
 using Strike.IE;
+
+using static xubot.RedditGetFunct.ParseSorting;
+using static xubot.src.SpecialException;
 
 namespace xubot
 {
