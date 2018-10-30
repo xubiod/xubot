@@ -35,9 +35,10 @@ using SixLabors.ImageSharp.Formats.Png;
 using SLImage = SixLabors.ImageSharp.Image;
 using SixLabors.ImageSharp.Processing.Filters;
 
+#pragma warning disable SA1107
+
 namespace xubot
 {
-
     public class Commands : ModuleBase
     {
         public static string[] insult_v = new string[128];
@@ -441,7 +442,7 @@ namespace xubot
             {
                 if (fromto == "c2f")
                 {
-                    await ReplyAsync("*Celsius to Fahrenheit:* " + ((num1 / 9) * 5 + 32).ToString());
+                    await ReplyAsync("*Celsius to Fahrenheit:* " + ((num1 / 9) * (5 + 32)).ToString());
                 }
                 else if (fromto == "f2c")
                 {
