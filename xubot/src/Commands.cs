@@ -635,7 +635,10 @@ namespace xubot
                         case 4: throw new StopDoingThisMethodException();
                         case 5: throw new ExceptionException();
                         case 6: throw new InsertBetterExceptionNameException();
-                        default: await ReplyAsync("invaild id"); break;
+                        default: {
+                                await ReplyAsync("invaild id");
+                                break;
+                            }
                     }
                 }
                 catch (Exception exp)
@@ -1548,7 +1551,11 @@ namespace xubot
             [Command("add"), Summary("Adds a user to the trusted list.")]
             public async Task add(ulong id)
             {
-                try
+                Discord.IUser _add = Program.xuClient.GetUser(id);
+
+                await add(_add.Username, _add.Discriminator);
+
+                /*try
                 {
                     Discord.IUser add = Program.xuClient.GetUser(id);
 
@@ -1596,7 +1603,7 @@ namespace xubot
                 catch (Exception exp)
                 {
                     await GeneralTools.CommHandler.BuildError(exp, Context);
-                }
+                }*/
             }
 
             [Command("remove"), Summary("Revokes a user from the trusted list.")]
