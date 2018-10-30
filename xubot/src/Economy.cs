@@ -48,7 +48,6 @@ namespace xubot.src
                     _new_act = false;
 
                     await EconomyTools.Build(Context, _new_acct, "Collected " + _amount + "#.", "Your balance is now " + _new + "#.");
-                
             } 
             catch (Exception exp)
             {
