@@ -697,7 +697,9 @@ namespace xubot
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                     await ReplyAsync("end send");
                 }
-                catch (Exception e) { await GeneralTools.CommHandler.BuildError(e, Context); }
+                catch (Exception e) {
+                    await GeneralTools.CommHandler.BuildError(e, Context);
+                }
             }
 
             [Command("channels")]
@@ -712,7 +714,9 @@ namespace xubot
                     await ReplyAsync(ifDM.Id.ToString());
                     await ReplyAsync(Context.Channel.Id.ToString());
                 }
-                catch (Exception e) { await GeneralTools.CommHandler.BuildError(e, Context); }
+                catch (Exception e) {
+                    await GeneralTools.CommHandler.BuildError(e, Context);
+                }
             }
 
             [Command("nsfw")]
@@ -722,7 +726,9 @@ namespace xubot
                 {
                     await ReplyAsync((await GeneralTools.ChannelNSFW(Context)).ToString());
                 }
-                catch (Exception e) { await GeneralTools.CommHandler.BuildError(e, Context); }
+                catch (Exception e) {
+                    await GeneralTools.CommHandler.BuildError(e, Context);
+                }
             }
         }
 
@@ -920,7 +926,8 @@ namespace xubot
                     if (_user0.Activity == null)
                     {
                         act = "Nothing.";
-                    } else
+                    }
+                    else
                     {
                         act = _user0.Activity.Type + " " + _user0.Activity.Name;
                     }
@@ -1026,7 +1033,6 @@ namespace xubot
                     await GeneralTools.CommHandler.BuildError(e, Context);
                 }
             }
-
         }
 
         public class settings_comm : ModuleBase
@@ -1145,7 +1151,6 @@ namespace xubot
             /// jokes below
             /// </summary>
             /// 
-
             [Command("gen"), Summary("Makes a random integer with the number given as maximum.")]
             public async Task rnd_default(int max)
             {
@@ -1458,7 +1463,6 @@ namespace xubot
                                 Value = "https://github.com/xubot-team/xubot/commit/" + ThisAssembly.Git.Sha,
                                 IsInline = true
                             }
-
                         }
             };
 
