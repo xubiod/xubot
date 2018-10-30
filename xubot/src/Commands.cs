@@ -16,7 +16,6 @@ using RedditSharp;
 using System.Xml.Linq;
 using System.Linq;
 using Tweetinvi.Models;
-using static xubot.src.SpecialException;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using HtmlAgilityPack;
@@ -35,7 +34,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SLImage = SixLabors.ImageSharp.Image;
 using SixLabors.ImageSharp.Processing.Filters;
 
-#pragma warning disable SA1107
+using static xubot.src.SpecialException;
 
 namespace xubot
 {
@@ -76,7 +75,6 @@ namespace xubot
                 await ReplyAsync(echo_res);
                 //await ReplyAsync("Currently not usable due to spam reasons.");
             }
-
         }
 
         [Group("math"), Alias("m"), Summary("a calculator, but shittier")]
@@ -539,14 +537,14 @@ namespace xubot
                 if (Program.botf_reddit == false) {
                     await ReplyAsync("Reddit token not provided by bot runner.");
                 }
-                else {
+                else
+                {
                     Program.subreddit = await Program.reddit.GetSubredditAsync("/r/xubot_subreddit");
 
                     string result_ = content;
                     var redditPost = await Program.subreddit.SubmitTextPostAsync(title, Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + " on the Discord server " + Context.Guild.Name + " posted:\n\n" + result_);
                     await ReplyAsync("<" + redditPost.Url.AbsoluteUri.ToString() + ">");
-                    }
-
+                }
             }
 
             [Command("twitter"), Alias("t", "twit"), Summary("Attempts to post a thing to Twitter. Substitute `@` and `#` with [A] and [H] prospectively.")]
@@ -639,7 +637,8 @@ namespace xubot
                         case 6: throw new InsertBetterExceptionNameException();
                         default: await ReplyAsync("invaild id"); break;
                     }
-                } catch (Exception exp)
+                }
+                catch (Exception exp)
                 {
                     await GeneralTools.CommHandler.BuildError(exp, Context);
                 }
@@ -1021,7 +1020,8 @@ namespace xubot
                         }
                     };
                     await ReplyAsync("", false, embedd.Build());
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     await GeneralTools.CommHandler.BuildError(e, Context);
                 }
