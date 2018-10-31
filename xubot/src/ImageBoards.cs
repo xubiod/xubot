@@ -24,9 +24,12 @@ namespace xubot
         public static XDocument xdoc = new XDocument();
         public HttpClient client = new HttpClient();
 
+        // (TECHNICALLY) OPTIMIZED
         [Command("danbooru", RunMode = RunMode.Async)]
         public async Task danbooru(string tags = "")
         {
+            // this shouldn't use the methods because of how different it is
+
             try
             {
                 //var client = new HttpClient();
@@ -76,6 +79,7 @@ namespace xubot
             }
         }
 
+        // BROKEN?
         [Command("e621", RunMode = RunMode.Async)]
         public async Task e621(string tags = "")
         {
@@ -130,6 +134,7 @@ namespace xubot
             }
         }
 
+        // OPTIMIZED
         [Command("rule34", RunMode = RunMode.Async)]
         public async Task r34(string tags = "")
         {
@@ -207,6 +212,7 @@ namespace xubot
             }*/
         }
 
+        // OPTIMIZED
         [Command("gelbooru", RunMode = RunMode.Async)]
         public async Task gelbooru(string tags = "")
         {
@@ -220,12 +226,17 @@ namespace xubot
             await GetPostFromXML("https://yande.re/post.xml?limit=1", tags, Context);
         }
 
+        // BROKEN?
         [Command("e926", RunMode = RunMode.Async)]
         public async Task e926(string tags = "")
         {
             //ITextChannel c = Context.Channel as ITextChannel;
 
-            try
+            //await GetPostFromXML("https://e926.net/post/index.xml?limit=1", tags, Context);
+            await GetPostFromJSON("https://e926.net/post/index.xml?limit=1&page=", "https://e926.net/post/index.json?limit=1&page=", tags, Context);
+
+            /*
+             try
             {
                 Random rnd = new Random();
                 //var client = new HttpClient();
@@ -261,6 +272,7 @@ namespace xubot
             {
                 await GeneralTools.CommHandler.BuildError(exp, Context);
             }
+             */
         }
 
         // OPTIMIZED 
@@ -391,9 +403,44 @@ namespace xubot
             return ret;
         }
 
-        public void GetPostFromJSON()
+        public async Task GetPostFromJSON(string xmlLink, string jsonLink, string tags, ICommandContext Context)
         {
+            try
+            {
+                Random rnd = new Random();
+                //var client = new HttpClient();
+                var webClient2 = new HttpClient();
+                string link = xmlLink + "&tags=" + tags;
+                string text_j = "";
 
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(link),
+                    Method = HttpMethod.Get,
+                };
+
+                request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
+
+                string linkJson = jsonLink + rnd.Next(751).ToString() + "&tags=" + tags + "";
+
+                text_j = await client.GetStringAsync(link);
+                text_j = text_j.Substring(1, text_j.Length - 2);
+
+                //await ReplyAsync(text);
+                dynamic keys = JObject.Parse(text_j);
+
+                await ReplyAsync(keys.file_url.ToString());
+                //string text = client.DownloadString(link);
+                //text = text.Substring(1, text.Length - 2);
+                //await ReplyAsync(text);
+                //dynamic keys = JObject.Parse(text);
+
+                //await ReplyAsync(keys.file_url.ToString());
+            }
+            catch (Exception exp)
+            {
+                await GeneralTools.CommHandler.BuildError(exp, Context);
+            }
         }
 
         public async Task GetPostFromXML(string inputLink, string tags, ICommandContext Context, string pageIn = "&page=")
