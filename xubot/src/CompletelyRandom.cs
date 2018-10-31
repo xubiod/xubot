@@ -98,5 +98,11 @@ namespace xubot
         {
             await ReplyAsync("https://www.youtube.com/watch?v=0cOAUSVBGX8");
         }
+
+        [Command("what-is-the-best-feeling")]
+        public async Task ohGoodGod()
+        {
+            await ReplyAsync("https://www.youtube.com/watch?v=0tdyU_gW6WE");
+        }
     }
 }
