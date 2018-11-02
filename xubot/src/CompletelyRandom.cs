@@ -58,7 +58,7 @@ namespace xubot
             await ReplyAsync("no u");
         }
 
-        [Command("anon", RunMode = RunMode.Async), RequireContext(ContextType.DM)]
+        [Command("anon", RunMode = RunMode.Async), RequireContext(ContextType.DM), Summary("Sends someone an anonymous message. They must have a DM of the bot open to work.")]
         public async Task anonmsg(ulong id, string msg)
         {
             if (Economy.EconomyTools.ReadAmount(Context.Message.Author) > 10)
@@ -75,7 +75,7 @@ namespace xubot
             await dm.SendMessageAsync(msg);
         }
 
-        [Command("anon"), RequireContext(ContextType.DM)]
+        [Command("anon"), RequireContext(ContextType.DM), Summary("Sends someone an anonymous message. They must have a DM of the bot open to work.")]
         public async Task anonmsg(string user, string discrm, string msg)
         {
             if (Economy.EconomyTools.ReadAmount(Context.Message.Author) > 10)
