@@ -33,7 +33,7 @@ namespace xubot.src
             string items = "";
 
             int limit = Math.Min(commList.Count - ((page-1) * itemsPerPage), itemsPerPage);
-            await ReplyAsync((limit).ToString());
+            //await ReplyAsync((limit).ToString());
 
             for (int i = 0; i < limit; i++)
             {
@@ -154,7 +154,7 @@ namespace xubot.src
 
                 EmbedBuilder embedd = new EmbedBuilder
                 {
-                    Title = "Help (Beta)",
+                    Title = "Help",
                     Color = Discord.Color.Magenta,
                     Description = "The newer *better* help. Showing result #" + (index).ToString() + " out of " + allMatchs.ToString() + " match(s).",
                     ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
