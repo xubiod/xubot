@@ -28,7 +28,7 @@ namespace xubot
             [Group("ocr")]
             public class ocr_comm : ModuleBase
             {
-                [Command(RunMode = RunMode.Async)]
+                [Command(RunMode = RunMode.Async), Summary("Attempts to read text in an image.")]
                 public async Task read()
                 {
                     var attach = Context.Message.Attachments;
@@ -68,6 +68,7 @@ namespace xubot
                     }
                 }
 
+                /*
                 [Command(RunMode = RunMode.Async)]
                 public async Task read(string img)
                 {
@@ -98,7 +99,7 @@ namespace xubot
                         await msg.DeleteAsync();
                         await ReplyAsync("**(Automatic) Iron OCR returned:\n** " + Result);
                     }
-                }
+                }*/
             }
 
             [Group("manip")]
