@@ -25,82 +25,78 @@ namespace xubot
         [Group("pic")]
         public class music_comm : ModuleBase
         {
-            [Group("ocr")]
-            public class ocr_comm : ModuleBase
+            [Command("ocr",RunMode = RunMode.Async), Summary("Attempts to read text in an image.")]
+            public async Task read()
             {
-                [Command(RunMode = RunMode.Async), Summary("Attempts to read text in an image.")]
-                public async Task read()
+                var attach = Context.Message.Attachments;
+                IAttachment attached = null;
+
+                foreach (var _att in attach)
                 {
-                    var attach = Context.Message.Attachments;
-                    IAttachment attached = null;
-
-                    foreach (var _att in attach)
-                    {
-                        attached = _att;
-                    }
-
-                    var msg = await ReplyAsync("Please wait, this takes a while to read images.");
-
-                    Random rnd = new Random();
-                    int rnd_res = rnd.Next(99999);
-                    string[] imgSplit = attached.ToString().Split('.');
-                    string fileType = imgSplit[imgSplit.Length - 1];
-                    fileType = "." + fileType;
-                    string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
-
-                    System.Drawing.Image imgFromStream = null;
-
-                    using (HttpClient client = new HttpClient())
-                    using (HttpResponseMessage response = await client.GetAsync(attached.Url))
-                    using (HttpContent content = response.Content)
-                    {
-                        imgFromStream = System.Drawing.Image.FromStream(await content.ReadAsStreamAsync());
-                        Bitmap bitmap = (Bitmap)imgFromStream;
-
-                        bitmap.Save(path);
-
-                        var Ocr = new AutoOcr();
-                        var Result = Ocr.Read(path);
-                        Console.WriteLine(Result.Text);
-
-                        await msg.DeleteAsync();
-                        await ReplyAsync("**(Automatic) Iron OCR returned:\n** " + Result);
-                    }
+                    attached = _att;
                 }
 
-                /*
-                [Command(RunMode = RunMode.Async)]
-                public async Task read(string img)
+                var msg = await ReplyAsync("Please wait, this takes a while to read images.");
+
+                Random rnd = new Random();
+                int rnd_res = rnd.Next(99999);
+                string[] imgSplit = attached.ToString().Split('.');
+                string fileType = imgSplit[imgSplit.Length - 1];
+                fileType = "." + fileType;
+                string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
+
+                System.Drawing.Image imgFromStream = null;
+
+                using (HttpClient client = new HttpClient())
+                using (HttpResponseMessage response = await client.GetAsync(attached.Url))
+                using (HttpContent content = response.Content)
                 {
-                    var msg = await ReplyAsync("Please wait, this takes a while to read images.");
+                    imgFromStream = System.Drawing.Image.FromStream(await content.ReadAsStreamAsync());
+                    Bitmap bitmap = (Bitmap)imgFromStream;
 
-                    Random rnd = new Random();
-                    int rnd_res = rnd.Next(99999);
-                    string[] imgSplit = img.Split('.');
-                    string fileType = imgSplit[imgSplit.Length - 1];
-                    fileType = "." + fileType;
-                    string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
+                    bitmap.Save(path);
 
-                    System.Drawing.Image imgFromStream = null;
+                    var Ocr = new AutoOcr();
+                    var Result = Ocr.Read(path);
+                    Console.WriteLine(Result.Text);
 
-                    using (HttpClient client = new HttpClient())
-                    using (HttpResponseMessage response = await client.GetAsync(img))
-                    using (HttpContent content = response.Content)
-                    {
-                        imgFromStream = System.Drawing.Image.FromStream(await content.ReadAsStreamAsync());
-                        Bitmap bitmap = (Bitmap)imgFromStream;
-
-                        bitmap.Save(path);
-
-                        var Ocr = new AutoOcr();
-                        var Result = Ocr.Read(path);
-                        Console.WriteLine(Result.Text);
-
-                        await msg.DeleteAsync();
-                        await ReplyAsync("**(Automatic) Iron OCR returned:\n** " + Result);
-                    }
-                }*/
+                    await msg.DeleteAsync();
+                    await ReplyAsync("**(Automatic) Iron OCR returned:\n** " + Result);
+                }
             }
+
+            /*
+            [Command(RunMode = RunMode.Async)]
+            public async Task read(string img)
+            {
+                var msg = await ReplyAsync("Please wait, this takes a while to read images.");
+
+                Random rnd = new Random();
+                int rnd_res = rnd.Next(99999);
+                string[] imgSplit = img.Split('.');
+                string fileType = imgSplit[imgSplit.Length - 1];
+                fileType = "." + fileType;
+                string path = Path.Combine(Path.GetTempPath(), rnd_res.ToString()) + fileType;
+
+                System.Drawing.Image imgFromStream = null;
+
+                using (HttpClient client = new HttpClient())
+                using (HttpResponseMessage response = await client.GetAsync(img))
+                using (HttpContent content = response.Content)
+                {
+                    imgFromStream = System.Drawing.Image.FromStream(await content.ReadAsStreamAsync());
+                    Bitmap bitmap = (Bitmap)imgFromStream;
+
+                    bitmap.Save(path);
+
+                    var Ocr = new AutoOcr();
+                    var Result = Ocr.Read(path);
+                    Console.WriteLine(Result.Text);
+
+                    await msg.DeleteAsync();
+                    await ReplyAsync("**(Automatic) Iron OCR returned:\n** " + Result);
+                }
+            }*/
 
             [Group("manip")]
             public class manipulation : ModuleBase
@@ -135,7 +131,7 @@ namespace xubot
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                 }
 
-                [Command("colorblind", RunMode = RunMode.Async)]
+                [Command("colorblind", RunMode = RunMode.Async), Alias("colourblind")]
                 public async Task emuColor(string _type)
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
@@ -145,29 +141,97 @@ namespace xubot
                     {
                         switch (_type.ToLower())
                         {
-                            case "achromatomaly": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly)); break;
-                            case "part-mono"    : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly)); break;
+                                // NO COLOUR
+                            case "achromatomaly":
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly));
+                                    break;
+                                }
+                            case "part-mono":
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly));
+                                    break;
+                                }
+                                
+                            case "achromatopsia":
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia));
+                                    break;
+                                }
+                            case "mono":
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia));
+                                    break;
+                                }
 
-                            case "achromatopsia": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia)); break;
-                            case "mono"         : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia)); break;
+                                // GREEN
+                            case "deuteranomaly":
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly));
+                                    break;
+                                }
+                            case "weak-green":
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly));
+                                    break;
+                                }
 
-                            case "deuteranomaly": img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly)); break;
-                            case "weak-green"   : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly)); break;
+                            case "deuteranopia":
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia));
+                                    break;
+                                }
+                            case "blind-green":
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia));
+                                    break;
+                                }
 
-                            case "deuteranopia" : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia)); break;
-                            case "blind-green"  : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia)); break;
+                                // RED
+                            case "protanomaly"  :
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly));
+                                    break;
+                                }
+                            case "weak-red"     :
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly));
+                                    break;
+                                }
 
-                            case "protanomaly"  : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly)); break;
-                            case "weak-red"     : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly)); break;
+                            case "protanopia"   :
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia));
+                                    break;
+                                }
+                            case "blind-red"    :
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia));
+                                    break;
+                                }
 
-                            case "protanopia"   : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia)); break;
-                            case "blind-red"    : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia)); break;
+                                // BLUE
+                            case "tritanomaly"  :
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly));
+                                    break;
+                                }
+                            case "weak-blue"    :
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly));
+                                    break;
+                                }
 
-                            case "tritanomaly"  : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly)); break;
-                            case "weak-blue"    : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly)); break;
-
-                            case "tritanopia"   : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia)); break;
-                            case "blind-blue"   : img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia)); break;
+                            case "tritanopia"   :
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia));
+                                    break;
+                                }
+                            case "blind-blue"   :
+                                {
+                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia));
+                                    break;
+                                }
                             default: break;
                         }
 
