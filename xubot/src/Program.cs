@@ -126,7 +126,8 @@ namespace xubot
             if (prefix != "d>")
             {
                 await xuClient.LoginAsync(TokenType.Bot, keys.discord.ToString());
-            } else
+            } 
+            else
             {
                 await xuClient.LoginAsync(TokenType.Bot, keys.discord_dev.ToString());
             }
@@ -330,7 +331,6 @@ namespace xubot
 
                 first = false;
             }
-
         }
 
         public static async Task commandInitiation()
