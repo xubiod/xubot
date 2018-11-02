@@ -117,7 +117,7 @@ namespace xubot
                 }
                 string _eval = cmd;
                 string _result = ret.ToString();
-                await ReplyAsync("", false, CompileTools.BuildEmbed("Bash", "Using SSH", "bash", cmd, _result));
+                await ReplyAsync("", false, Compile.BuildEmbed("Bash", "Using SSH", "bash", cmd, _result));
             }
         }
     }

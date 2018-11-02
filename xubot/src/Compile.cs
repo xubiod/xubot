@@ -22,14 +22,14 @@ namespace xubot
     {
         public static ScriptEngine jsEngine = new ScriptEngine();
 
-        public static string _eval = "";
-        public static string _result = "";
+        //public static string _eval = "";
+        //public static string _result = "";
         public static string _result_input = "";
 
         /// @param engine interp engine
         /// @param description erm...
         /// @param highlight_js_lang lang code for hilighting
-        public static Embed BuildEmbed(string lang, string description, string highlight_js_lang)
+        public static Embed BuildEmbed(string lang, string description, string highlight_js_lang, string _eval, string _result)
         {
             EmbedBuilder embedd = new EmbedBuilder
             {
@@ -87,10 +87,10 @@ namespace xubot
             [Command("js", RunMode = RunMode.Async), Summary("Executes JavaScript.")]
             public async Task js(string eval)
             {
-                _eval = eval;
+                string local_result;
                 int _timeout = 15;
 
-                Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-compiler.exe", "js " + _eval);
+                Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-compiler.exe", "js " + eval);
 
                 string uri = Path.GetTempPath() + "InterpResult.xubot";
 
@@ -99,22 +99,22 @@ namespace xubot
                 if (!code_handler.HasExited)
                 {
                     code_handler.Kill();
-                    _result = _timeout + " seconds past w/o result.";
-                    await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js"));
+                    local_result = _timeout + " seconds past w/o result.";
+                    await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js", eval, local_result));
                 }
                 else
                 {
                     if (File.Exists(uri))
                     {
-                        _result = File.ReadAllText(uri);
+                        local_result = File.ReadAllText(uri);
                         File.Delete(uri);
 
-                        await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js"));
+                        await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js", eval, local_result));
                     }
                     else
                     {
-                        _result = "Result was not stored.";
-                        await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js"));
+                        local_result = "Result was not stored.";
+                        await ReplyAsync("", false, BuildEmbed("Javascript", "using Jurassic", "js", eval, local_result));
                     }
                 }
             }
@@ -127,10 +127,10 @@ namespace xubot
                     return;
                 }
 
-                _eval = eval;
+                string local_result;
                 int _timeout = 15;
 
-                Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-compiler.exe", "lua " + _eval);
+                Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-compiler.exe", "lua " + eval);
 
                 string uri = Path.GetTempPath() + "InterpResult.xubot";
 
@@ -139,22 +139,22 @@ namespace xubot
                 if (!code_handler.HasExited)
                 {
                     code_handler.Kill();
-                    _result = _timeout + " seconds past w/o result.";
-                    await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua"));
+                    local_result = _timeout + " seconds past w/o result.";
+                    await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua", eval, local_result));
                 }
                 else
                 {
                     if (File.Exists(uri))
                     {
-                        _result = File.ReadAllText(uri);
+                        local_result = File.ReadAllText(uri);
                         File.Delete(uri);
 
-                        await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua"));
+                        await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua", eval, local_result));
                     }
                     else
                     {
-                        _result = "Result was not stored.";
-                        await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua"));
+                        local_result = "Result was not stored.";
+                        await ReplyAsync("", false, BuildEmbed("Lua", "using NLua", "lua", eval, local_result));
                     }
                 }
             }
@@ -169,8 +169,7 @@ namespace xubot
                 {
                     if (CompileTools.PowershellDangerous(eval) == "")
                     {
-                        _eval = eval;
-
+                        string local_result;
                         int _timeout = 5;
 
                         Process psproc = new Process();
@@ -187,13 +186,13 @@ namespace xubot
                         if (!psproc.HasExited)
                         {
                             psproc.Kill();
-                            _result = _timeout + " seconds past w/o result.";
-                            await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
+                            local_result = _timeout + " seconds past w/o result.";
+                            await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell", eval, local_result));
                         }
                         else
                         {
-                            _result = psout;
-                            await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell"));
+                            local_result = psout;
+                            await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell", eval, local_result));
                         }
                     }
                 }
@@ -206,33 +205,32 @@ namespace xubot
             [Command("deadfish", RunMode = RunMode.Async), Summary("Interperts Deadfish and outputs the results.")]
             public async Task deadfish(string eval)
             {
-                _eval = eval;
-                _result = SmallLangInterps.Deadfish.Execute(eval);
-                await ReplyAsync("", false, BuildEmbed("Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", ""));
+                string local_result = SmallLangInterps.Deadfish.Execute(eval);
+                await ReplyAsync("", false, BuildEmbed("Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", "", eval, local_result));
             }
 
             [Command("deadfish-xub", RunMode = RunMode.Async), Summary("Interperts Deadfish with some modifications.")]
             public async Task deadfishxub(string eval)
             {
-                _eval = eval;
-                _result = SmallLangInterps.DeadfishXub.Execute(eval);
-                await ReplyAsync("", false, BuildEmbed("DeadfishXub", "using a built-in interpeter (adapted from https://esolangs.org)", ""));
+                string local_result = SmallLangInterps.DeadfishXub.Execute(eval);
+                await ReplyAsync("", false, BuildEmbed("DeadfishXub", "using a built-in interpeter (adapted from https://esolangs.org)", "", eval, local_result));
             }
 
             [Command("brainfuck", RunMode = RunMode.Async), Alias("brainf***", "brainf**k", "b****fuck", "bf"), Summary("Interperts Brainfuck and outputs the result.")]
             public async Task brainfuck(string eval, string ascii_input = "")
             {
+                string temp_eval;
                 if (ascii_input != "")
                 {
-                    _eval = "Code: " + eval.Replace("\n", String.Empty) + "\n\nASCII Input: " + ascii_input;
+                    temp_eval = "Code: " + eval.Replace("\n", String.Empty) + "\n\nASCII Input: " + ascii_input;
                 }
                 else
                 {
-                    _eval = "Code: " + eval.Replace("\n", String.Empty);
+                    temp_eval = "Code: " + eval.Replace("\n", String.Empty);
                 }
-                _result = SmallLangInterps.Brainfuck.Execute(eval, ascii_input);
+                string local_result = SmallLangInterps.Brainfuck.Execute(eval, ascii_input);
 
-                await ReplyAsync("", false, BuildEmbed("Brainfuck", "using a built-in interpeter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf"));
+                await ReplyAsync("", false, BuildEmbed("Brainfuck", "using a built-in interpeter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf", temp_eval, local_result));
             }
         }
     }
