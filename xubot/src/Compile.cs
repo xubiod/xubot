@@ -18,7 +18,7 @@ using System.Xml.Linq;
 
 namespace xubot
 {
-    public class Compile : ModuleBase
+    public partial class Compile : ModuleBase
     {
         public static ScriptEngine jsEngine = new ScriptEngine();
 
@@ -122,7 +122,10 @@ namespace xubot
             [Command("lua", RunMode = RunMode.Async), Summary("Executes Lua with some restrictions.")]
             public async Task lua(string eval)
             {
-                if (!GeneralTools.UserTrusted(Context)) { await ReplyAsync("User is not trusted."); return; }
+                if (!GeneralTools.UserTrusted(Context)) {
+                    await ReplyAsync("User is not trusted.");
+                    return;
+                }
 
                 _eval = eval;
                 int _timeout = 15;
@@ -196,7 +199,7 @@ namespace xubot
                 }
                 else
                 {
-                    await ReplyAsync("Sorry, but this command is restricted");
+                    await ReplyAsync("Sorry, but this command is restricted.");
                 }
             }
 
@@ -222,7 +225,8 @@ namespace xubot
                 if (ascii_input != "")
                 {
                     _eval = "Code: " + eval.Replace("\n", String.Empty) + "\n\nASCII Input: " + ascii_input;
-                } else
+                }
+                else
                 {
                     _eval = "Code: " + eval.Replace("\n", String.Empty);
                 }
@@ -233,7 +237,7 @@ namespace xubot
         }
     }
 
-    public class CompileTools
+    public partial class CompileTools
     {
         public static string PowershellDangerous(string input)
         {
@@ -306,45 +310,9 @@ namespace xubot
                 return "";
             }
         }
-
-        public static Embed BuildEmbed(string lang, string description, string highlight_js_lang, string _eval, string _result)
-        {
-            EmbedBuilder embedd = new EmbedBuilder
-            {
-                Title = "**Language:** `" + lang + "`",
-                Color = Discord.Color.Orange,
-                Description = description,
-
-                Footer = new EmbedFooterBuilder
-                {
-                    Text = "xubot :p"
-                },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Input",
-
-                                Value = "```" + highlight_js_lang + "\n" + _eval + "```",
-
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Result",
-                                Value = "```\n" + _result + "```",
-                                IsInline = false
-                            }
-                        }
-            };
-
-            return embedd.Build();
-            //await ReplyAsync("", false, embedd);
-        }
     }
 
-    public class SmallLangInterps
+    public partial class SmallLangInterps
     {
         //adapted from https://esolangs.org/wiki/Deadfish#C.23
         public class Deadfish
