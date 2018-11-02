@@ -465,7 +465,7 @@ namespace xubot
         [Group("pattern"), Alias("pat"), Summary("a calculator, but shittier")]
         public class pat : ModuleBase
         {
-            [Command("generate"), Summary("Generates the currently loaded pattern.")]
+            /*[Command("generate"), Summary("Generates the currently loaded pattern.")]
             public async Task generate(string emo1, string emo2)
             {
                 string pattern1_;
@@ -482,7 +482,7 @@ namespace xubot
 
                 await ReplyAsync(pattern1_ + '\n' + pattern2_ + '\n' + pattern3_ + '\n' + pattern4_ + '\n' + pattern5_);
             }
-
+            
             [Command("set"), Summary("Sets the pattern.")]
             public async Task set(string pat1, string pat2, string pat3, string pat4, string pat5)
             {
@@ -508,9 +508,9 @@ namespace xubot
                 {
                     await ReplyAsync("One of the patterns given has an invalid character, or it's too long, or it's too short. Use **0**s and **1**s and the patterns must be exactly **5** characters long.");
                 }
-            }
+            }*/
 
-            [Command("generate-preset"), Summary("Generates a premade pattern using a search term.")]
+            [Command("generate"), Summary("Generates a premade pattern using a search term.")]
             public async Task generate_preset(string searchqueue, string emo1, string emo2)
             {
                 string pattern1_ = Pattern_Presets.Return_Query(searchqueue, 1).Replace("0", emo1).Replace("1", emo2);
