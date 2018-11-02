@@ -85,7 +85,7 @@ namespace xubot
             {
                 Title = "Subreddit: " + input,
                 Color = Discord.Color.Orange,
-                Description = "",
+                Description = "Details of a subreddit",
                 ThumbnailUrl = image,
 
                 Footer = new EmbedFooterBuilder
@@ -142,7 +142,7 @@ namespace xubot
             {
                 Title = "Subreddit: " + input,
                 Color = Discord.Color.Orange,
-                Description = "",
+                Description = "Subreddit Wiki Pages",
                 ThumbnailUrl = image,
 
                 Footer = new EmbedFooterBuilder
