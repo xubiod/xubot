@@ -319,5 +319,19 @@ namespace xubot
         {
             return Regex.Replace(input, "<.*?>", String.Empty);
         }
+
+        public static string SyntaxHighlightify(string input)
+        {
+            switch (input)
+            {
+                case "System.String":  return "string";
+                case "System.Int32":   return "int";
+                case "System.Boolean": return "bool";
+                case "System.Single":  return "float";
+                case "System.Double":  return "double";
+
+                default: return input;
+            }
+        }
     }
 }

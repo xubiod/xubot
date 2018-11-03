@@ -133,11 +133,11 @@ namespace xubot.src
                     {
                         if (para.IsOptional)
                         {
-                            all_para += para.Type + " " + para.Name + " (optional)\n";
+                            all_para += GeneralTools.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + " (optional)\n";
                         }
                         else
                         {
-                            all_para += para.Type + " " + para.Name + "\n";
+                            all_para += GeneralTools.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + "\n";
                         }
                     }
                 }
@@ -194,7 +194,7 @@ namespace xubot.src
                             new EmbedFieldBuilder
                             {
                                 Name = "Parameters",
-                                Value = "```" + all_para + "```",
+                                Value = "```cs\n" + all_para + "```",
                                 IsInline = true
                             }
                         }
