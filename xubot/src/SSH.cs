@@ -74,7 +74,7 @@ namespace xubot
                     if (item.nick.ToLower() == hostnick.ToLower())
                     {
                         exists = true;
-                        connectSSH(item.host, item.port, item.user, item.password);
+                        await connectSSH(item.host, item.port, item.user, item.password);
                     }
                 }
 
