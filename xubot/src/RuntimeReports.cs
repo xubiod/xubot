@@ -34,20 +34,7 @@ namespace xubot.src
                 TimeSpan red_cli_to_sub = Program.stepTimes[1] - Program.stepTimes[0];
                 TimeSpan sub_to_discord = Program.stepTimes[2] - Program.stepTimes[1];
 
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Uptime Report",
-                    Color = Discord.Color.Red,
-                    Description = "Report from " + DateTime.Now,
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = "xubot :p",
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                await BuildReport(Context, new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -66,8 +53,7 @@ namespace xubot.src
                                 IsInline = true
                             }
                         }
-                };
-                await ReplyAsync("", false, embedd.Build());
+                );
 
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
@@ -84,20 +70,7 @@ namespace xubot.src
                 TimeSpan red_cli_to_sub = Program.stepTimes[1] - Program.stepTimes[0];
                 TimeSpan sub_to_discord = Program.stepTimes[2] - Program.stepTimes[1];
 
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Uptime Report",
-                    Color = Discord.Color.Red,
-                    Description = "Report from " + DateTime.Now,
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = "xubot :p",
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                await BuildReport(Context, new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -116,8 +89,7 @@ namespace xubot.src
                                 IsInline = true
                             }
                         }
-                };
-                await ReplyAsync("", false, embedd.Build());
+                );
 
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
@@ -134,20 +106,8 @@ namespace xubot.src
                 TimeSpan red_cli_to_sub = Program.stepTimes[1] - Program.stepTimes[0];
                 TimeSpan sub_to_discord = Program.stepTimes[2] - Program.stepTimes[1];
 
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Uptime Report",
-                    Color = Discord.Color.Red,
-                    Description = "Report from " + DateTime.Now,
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = "xubot :p",
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                await BuildReport(Context,
+                    new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -166,8 +126,7 @@ namespace xubot.src
                                 IsInline = true
                             }
                         }
-                };
-                await ReplyAsync("", false, embedd.Build());
+                    );
 
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
@@ -186,20 +145,8 @@ namespace xubot.src
 
                 float _tic = 35;
 
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Uptime Report",
-                    Color = Discord.Color.Red,
-                    Description = "Report from " + DateTime.Now,
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = "xubot :p",
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                await BuildReport(Context,
+                    new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -218,8 +165,7 @@ namespace xubot.src
                                 IsInline = true
                             }
                         }
-                };
-                await ReplyAsync("", false, embedd.Build());
+                );
 
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
@@ -227,20 +173,8 @@ namespace xubot.src
             [Command("report?no-span", RunMode = RunMode.Async)]
             public async Task report_date()
             {
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Uptime Report",
-                    Color = Discord.Color.Red,
-                    Description = "Report from " + DateTime.Now,
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = "xubot :p",
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                await BuildReport(Context,
+                    new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -257,9 +191,7 @@ namespace xubot.src
                                         "Connection to Discord: **" + Program.stepTimes[2] + "**\n",
                                 IsInline = true
                             }
-                        }
-                };
-                await ReplyAsync("", false, embedd.Build());
+                        });
 
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
@@ -295,20 +227,7 @@ namespace xubot.src
                 double _pm = currentProcess.PagedMemorySize64;
                 double _ppm = currentProcess.PeakPagedMemorySize64;
 
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Memory Report",
-                    Color = Discord.Color.Red,
-                    Description = "Report from " + DateTime.Now,
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = "xubot :p",
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                await BuildReport(Context, new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -335,9 +254,28 @@ namespace xubot.src
                                 IsInline = true
                             }
                         }
-                };
-                await ReplyAsync("", false, embedd.Build());
+                );
             }
+        }
+
+        public static async Task BuildReport(ICommandContext context, List<EmbedFieldBuilder> fields)
+        {
+            EmbedBuilder embedd = new EmbedBuilder
+            {
+                Title = "Uptime Report",
+                Color = Discord.Color.Red,
+                Description = "Report from " + DateTime.Now,
+                ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+
+                Footer = new EmbedFooterBuilder
+                {
+                    Text = "xubot :p",
+                    IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                },
+                Timestamp = DateTime.UtcNow,
+                Fields = fields
+            };
+            await context.Channel.SendMessageAsync("", false, embedd.Build());
         }
     }
 }
