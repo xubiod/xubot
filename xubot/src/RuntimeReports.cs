@@ -34,7 +34,6 @@ namespace xubot.src
             [Command("report", RunMode = RunMode.Async)]
             public async Task report()
             {
-
                 await BuildReport(Context, new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
@@ -89,7 +88,6 @@ namespace xubot.src
             [Command("report?ticks", RunMode = RunMode.Async)]
             public async Task reportTicks()
             {
-
                 await BuildReport(Context,
                     new List<EmbedFieldBuilder>()
                         {
@@ -118,7 +116,6 @@ namespace xubot.src
             [Command("report?doom-tics", RunMode = RunMode.Async)]
             public async Task reportDOOMTics()
             {
-
                 float _tic = 35;
 
                 await BuildReport(Context,
