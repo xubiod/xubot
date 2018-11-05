@@ -82,7 +82,7 @@ namespace xubot
         }
 
         [Group("interp")]
-        public class codeCompile : ModuleBase
+        public partial class codeCompile : ModuleBase
         {
             [Command("js", RunMode = RunMode.Async), Summary("Executes JavaScript.")]
             public async Task js(string eval)
@@ -306,7 +306,7 @@ namespace xubot
     public partial class SmallLangInterps
     {
         //adapted from https://esolangs.org/wiki/Deadfish#C.23
-        public class Deadfish
+        public partial class Deadfish
         {
             public static string Execute(string input)
             {
@@ -345,7 +345,7 @@ namespace xubot
             }
         }
 
-        public class Brainfuck
+        public partial class Brainfuck
         {
             // adapted from https://github.com/james1345-1/Brainfuck/blob/master/C%23/Brainfuck.cs
 
