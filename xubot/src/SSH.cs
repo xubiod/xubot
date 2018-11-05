@@ -10,8 +10,6 @@ using System.IO;
 using System.Threading;
 using System.Xml.Linq;
 
-#pragma warning disable CS4014
-
 namespace xubot
 {
     public class SSH : ModuleBase
