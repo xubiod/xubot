@@ -345,10 +345,9 @@ namespace xubot
             }
         }
 
+        // adapted from https://github.com/james1345-1/Brainfuck/blob/master/C%23/Brainfuck.cs
         public partial class Brainfuck
         {
-            // adapted from https://github.com/james1345-1/Brainfuck/blob/master/C%23/Brainfuck.cs
-
             public static string Execute(string input, string ascii_input = "a")
             {
                 char[] memory = new char[10000];
@@ -368,11 +367,31 @@ namespace xubot
 
                     switch (_)
                     {
-                        case '>': memory_pointer++; break;
-                        case '<': memory_pointer--; break;
-                        case '+': memory[memory_pointer]++; break;
-                        case '-': memory[memory_pointer]--; break;
-                        case '.': output += memory[memory_pointer]; break;
+                        case '>':
+                            {
+                                memory_pointer++;
+                                break;
+                            }
+                        case '<':
+                            {
+                                memory_pointer--;
+                                break;
+                            }
+                        case '+':
+                            {
+                                memory[memory_pointer]++;
+                                break;
+                            }
+                        case '-':
+                            {
+                                memory[memory_pointer]--;
+                                break;
+                            }
+                        case '.':
+                            {
+                                output += memory[memory_pointer];
+                                break;
+                            }
                         case ',':
                             try
                             {
