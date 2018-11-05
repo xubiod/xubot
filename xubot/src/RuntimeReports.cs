@@ -14,6 +14,15 @@ namespace xubot.src
         [Group("uptime")]
         public class Uptime : ModuleBase
         {
+            TimeSpan app_uptime = DateTime.Now - Program.appStart;
+            TimeSpan con_uptime = DateTime.Now - Program.connectStart;
+
+            TimeSpan app_to_red_cli = Program.stepTimes[0] - Program.appStart;
+            TimeSpan app_to_dis = Program.stepTimes[2] - Program.appStart;
+
+            TimeSpan red_cli_to_sub = Program.stepTimes[1] - Program.stepTimes[0];
+            TimeSpan sub_to_discord = Program.stepTimes[2] - Program.stepTimes[1];
+
             [Command]
             public async Task basic()
             {
@@ -25,14 +34,6 @@ namespace xubot.src
             [Command("report", RunMode = RunMode.Async)]
             public async Task report()
             {
-                TimeSpan app_uptime = DateTime.Now - Program.appStart;
-                TimeSpan con_uptime = DateTime.Now - Program.connectStart;
-
-                TimeSpan app_to_red_cli = Program.stepTimes[0] - Program.appStart;
-                TimeSpan app_to_dis = Program.stepTimes[2] - Program.appStart;
-
-                TimeSpan red_cli_to_sub = Program.stepTimes[1] - Program.stepTimes[0];
-                TimeSpan sub_to_discord = Program.stepTimes[2] - Program.stepTimes[1];
 
                 await BuildReport(Context, new List<EmbedFieldBuilder>()
                         {
@@ -61,15 +62,6 @@ namespace xubot.src
             [Command("report?human", RunMode = RunMode.Async)]
             public async Task reportHuman()
             {
-                TimeSpan app_uptime = DateTime.Now - Program.appStart;
-                TimeSpan con_uptime = DateTime.Now - Program.connectStart;
-
-                TimeSpan app_to_red_cli = Program.stepTimes[0] - Program.appStart;
-                TimeSpan app_to_dis = Program.stepTimes[2] - Program.appStart;
-
-                TimeSpan red_cli_to_sub = Program.stepTimes[1] - Program.stepTimes[0];
-                TimeSpan sub_to_discord = Program.stepTimes[2] - Program.stepTimes[1];
-
                 await BuildReport(Context, new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
@@ -97,14 +89,6 @@ namespace xubot.src
             [Command("report?ticks", RunMode = RunMode.Async)]
             public async Task reportTicks()
             {
-                TimeSpan app_uptime = DateTime.Now - Program.appStart;
-                TimeSpan con_uptime = DateTime.Now - Program.connectStart;
-
-                TimeSpan app_to_red_cli = Program.stepTimes[0] - Program.appStart;
-                TimeSpan app_to_dis = Program.stepTimes[2] - Program.appStart;
-
-                TimeSpan red_cli_to_sub = Program.stepTimes[1] - Program.stepTimes[0];
-                TimeSpan sub_to_discord = Program.stepTimes[2] - Program.stepTimes[1];
 
                 await BuildReport(Context,
                     new List<EmbedFieldBuilder>()
@@ -134,14 +118,6 @@ namespace xubot.src
             [Command("report?doom-tics", RunMode = RunMode.Async)]
             public async Task reportDOOMTics()
             {
-                TimeSpan app_uptime = DateTime.Now - Program.appStart;
-                TimeSpan con_uptime = DateTime.Now - Program.connectStart;
-
-                TimeSpan app_to_red_cli = Program.stepTimes[0] - Program.appStart;
-                TimeSpan app_to_dis = Program.stepTimes[2] - Program.appStart;
-
-                TimeSpan red_cli_to_sub = Program.stepTimes[1] - Program.stepTimes[0];
-                TimeSpan sub_to_discord = Program.stepTimes[2] - Program.stepTimes[1];
 
                 float _tic = 35;
 
