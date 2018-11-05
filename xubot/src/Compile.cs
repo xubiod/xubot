@@ -208,14 +208,7 @@ namespace xubot
                 string local_result = SmallLangInterps.Deadfish.Execute(eval);
                 await ReplyAsync("", false, BuildEmbed("Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", "", eval, local_result));
             }
-
-            [Command("deadfish-xub", RunMode = RunMode.Async), Summary("Interperts Deadfish with some modifications.")]
-            public async Task deadfishxub(string eval)
-            {
-                string local_result = SmallLangInterps.DeadfishXub.Execute(eval);
-                await ReplyAsync("", false, BuildEmbed("DeadfishXub", "using a built-in interpeter (adapted from https://esolangs.org)", "", eval, local_result));
-            }
-
+            
             [Command("brainfuck", RunMode = RunMode.Async), Alias("brainf***", "brainf**k", "b****fuck", "bf"), Summary("Interperts Brainfuck and outputs the result.")]
             public async Task brainfuck(string eval, string ascii_input = "")
             {
@@ -340,52 +333,6 @@ namespace xubot
                     else if (c == 'o')
                     {
                         output += cell.ToString();
-                    }
-
-                    if (cell == -1 || cell == 256)
-                    {
-                        cell = 0;
-                    }
-                }
-
-                return output;
-            }
-        }
-        public class DeadfishXub
-        {
-            public static string Execute(string input)
-            {
-                input = input.Replace(((char)13).ToString(), "");
-                string output = "";
-
-                int cell = 0;
-
-                foreach (char c in input)
-                {
-                    if (c == 'i')
-                    {
-                        cell++;
-                    }
-                    else if (c == 'd')
-                    {
-                        cell--;
-                    }
-                    else if (c == 's')
-                    {
-                        int i = cell * cell;
-                        cell = i;
-                    }
-                    else if (c == 'o')
-                    {
-                        output += cell.ToString();
-                    }
-                    else if (c == 'a')
-                    {
-                        output += ((char)cell).ToString();
-                    }
-                    else if (c == 'z')
-                    {
-                        cell = 0;
                     }
 
                     if (cell == -1 || cell == 256)
