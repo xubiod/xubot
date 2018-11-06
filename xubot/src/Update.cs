@@ -15,7 +15,7 @@ namespace xubot.src
         [Command("update"), RequireOwner]
         public async Task update()
         {
-            string launcher_path = Directory.GetParent(Directory.GetCurrentDirectory()).FullName + "\\xubot-launcher.exe";
+            string launcher_path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory())).FullName + "\\xubot-launcher.exe";
 
             if (File.Exists(launcher_path))
             {
