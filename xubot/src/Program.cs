@@ -286,13 +286,13 @@ namespace xubot
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
-            Console.WriteLine("Exception logged at: " + Environment.CurrentDirectory + "\\Exceptions\\latest.txt");
+            Console.WriteLine("Exception logged at: " + Environment.CurrentDirectory + "\\Exceptions\\" + DateTime.UtcNow.ToLongTimeString() + ".txt");
             Console.Beep();
             Console.Beep();
             Console.Beep();
 
             Directory.CreateDirectory(Environment.CurrentDirectory + "\\Exceptions\\");
-            File.WriteAllText(Environment.CurrentDirectory + "\\Exceptions\\latest.txt", arg.ToString());
+            File.WriteAllText(Environment.CurrentDirectory + "\\Exceptions\\" + DateTime.UtcNow.ToLongTimeString() + ".txt", arg.ToString());
 
             Thread.Sleep(2500);
 
