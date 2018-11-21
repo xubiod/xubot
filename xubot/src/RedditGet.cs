@@ -20,6 +20,9 @@ namespace xubot
         static int previous_sorting = 0;
         static bool previous_hide = false;
 
+        static string[] randomSubs = { "adviceanimals", "askreddit", "aww", "bestof", "books", "earthporn", "explainlikeimfive", "funny", "gaming", "gifs", "iama", "movies", "music",
+                                       "news", "pics", "science", "technology", "television", "todayilearned", "videos", "worldnews", "wtf" };
+
         [Command("reddit?last", RunMode = RunMode.Async), Alias("reddit?l"), Summary("Gets a post from the last subreddit entered.")]
         public async Task last()
         {
@@ -36,32 +39,9 @@ namespace xubot
         public async Task rnd()
         {
             Random rnd = new Random();
-            switch (rnd.Next(0, 22))
-            {
-                case 0: { previous_sub = "adviceanimals"; break; }
-                case 1: { previous_sub = "askreddit"; break; }
-                case 2: { previous_sub = "aww"; break; }
-                case 3: { previous_sub = "bestof"; break; }
-                case 4: { previous_sub = "books"; break; }
-                case 5: { previous_sub = "earthporn"; break; }
-                case 6: { previous_sub = "explainlikeimfive"; break; }
-                case 7: { previous_sub = "funny"; break; }
-                case 8: { previous_sub = "gaming"; break; }
-                case 9: { previous_sub = "gifs"; break; }
-                case 10: { previous_sub = "iama"; break; }
-                case 11: { previous_sub = "movies"; break; }
-                case 12: { previous_sub = "music"; break; }
-                case 13: { previous_sub = "news"; break; }
-                case 14: { previous_sub = "pics"; break; }
-                case 15: { previous_sub = "science"; break; }
-                case 16: { previous_sub = "technology"; break; }
-                case 17: { previous_sub = "television"; break; }
-                case 18: { previous_sub = "todayilearned"; break; }
-                case 19: { previous_sub = "videos"; break; }
-                case 20: { previous_sub = "worldnews"; break; }
-                case 21: { previous_sub = "wtf"; break; }
-            }
 
+            previous_sub = randomSubs[rnd.Next(randomSubs.Length)];
+            
             previous_query = "";
             previous_sorting = 0;
             previous_hide = false;
