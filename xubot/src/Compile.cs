@@ -307,12 +307,16 @@ namespace xubot
         //adapted from https://esolangs.org/wiki/Deadfish#C.23
         public partial class Deadfish
         {
+            private static string output = "";
+
+            private static int cell = 0;
+
             public static string Execute(string input)
             {
                 input = input.Replace(((char)13).ToString(), "");
-                string output = "";
 
-                int cell = 0;
+                output = "";
+                cell = 0;
 
                 foreach (char c in input)
                 {
