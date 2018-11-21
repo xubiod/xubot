@@ -156,7 +156,7 @@ namespace xubot
                     }
                 }
             }
-
+            /*
             [Command("powershell", RunMode = RunMode.Async), Summary("Executes Powershell with restrictions.")]
             public async Task ps_sudo(string eval)
             {
@@ -199,7 +199,7 @@ namespace xubot
                     await ReplyAsync("Sorry, but this command is restricted.");
                 }
             }
-
+            */
             [Command("deadfish", RunMode = RunMode.Async), Summary("Interperts Deadfish and outputs the results.")]
             public async Task deadfish(string eval)
             {
@@ -226,6 +226,7 @@ namespace xubot
         }
     }
 
+    /*
     public partial class CompileTools
     {
         public static string PowershellDangerous(string input)
@@ -300,7 +301,7 @@ namespace xubot
             }
         }
     }
-
+    */
     public partial class SmallLangInterps
     {
         //adapted from https://esolangs.org/wiki/Deadfish#C.23
@@ -346,22 +347,36 @@ namespace xubot
         // adapted from https://github.com/james1345-1/Brainfuck/blob/master/C%23/Brainfuck.cs
         public partial class Brainfuck
         {
+            private static char[] memory;
+            private static int memory_pointer;
+
+            private static char[] actions;
+            private static int action_pointer;
+
+            private static char[] inputs;
+            private static int input_pointer;
+
+            private static char _;
+            private static string output;
+
             public static string Execute(string input, string ascii_input = "a")
             {
-                char[] memory = new char[10000];
-                int memory_pointer = 0;
+                // initialize/reset variables
+                memory = new char[10000];
+                memory_pointer = 0;
 
-                char[] actions = input.ToCharArray();
-                int action_pointer = 0;
+                actions = input.ToCharArray();
+                action_pointer = 0;
 
-                char[] inputs = ascii_input.ToCharArray();
-                int input_pointer = 0;
+                inputs = ascii_input.ToCharArray();
+                input_pointer = 0;
 
-                string output = "";
+                output = "";
+
 
                 while (action_pointer < actions.Length)
                 {
-                    char _ = actions[action_pointer];
+                    _ = actions[action_pointer];
 
                     switch (_)
                     {
