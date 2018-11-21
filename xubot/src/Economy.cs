@@ -39,7 +39,7 @@ namespace xubot.src
                     DateTime last_upd = DateTime.Parse(EconomyTools.ReadLastUpdate(Context.Message.Author));
                     double hr_since_up = DateTime.Now.ToOADate() - last_upd.ToOADate();
 
-                    _amount = Math.Min(Math.Round(hr_since_up * 10000)/100, 100);
+                    _amount = System.Math.Min(System.Math.Round(hr_since_up * 10000)/100, 100);
                 }
                     _new_act = false;
                 EconomyTools.Adjust(Context.Message.Author, _amount);
@@ -109,7 +109,7 @@ namespace xubot.src
             {
                 if (_auth == Context.Message.Author)
                 {
-                    EconomyTools.Adjust(_auth, Math.Round((_amount * -1.1) * 100)/100, false);
+                    EconomyTools.Adjust(_auth, System.Math.Round((_amount * -1.1) * 100)/100, false);
                     EconomyTools.Adjust(_transferTo, _amount, false);
                     await ReplyAsync("Transfer of `" + _amount + "#` has been completed to " + _transferTo.Username + "#" + _transferTo.Discriminator + ".");
                 } 
@@ -293,7 +293,7 @@ namespace xubot.src
                 {
                     Title = "Economy",
                     Color = Discord.Color.Green,
-                    Description = "Transfer: Complete Cost is `" + (Math.Round((_amount * 1.1) * 100) / 100) + "#`",
+                    Description = "Transfer: Complete Cost is `" + (System.Math.Round((_amount * 1.1) * 100) / 100) + "#`",
 
                     Footer = new EmbedFooterBuilder
                     {
@@ -311,7 +311,7 @@ namespace xubot.src
                             new EmbedFieldBuilder
                             {
                                 Name = "Transfer Fee",
-                                Value = "```" + (Math.Round((_amount * .1) * 100)/100).ToString() + "#```",
+                                Value = "```" + (System.Math.Round((_amount * .1) * 100)/100).ToString() + "#```",
                                 IsInline = false
                             },
                             new EmbedFieldBuilder

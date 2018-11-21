@@ -38,7 +38,7 @@ namespace xubot.src
 
             string items = "";
 
-            int limit = Math.Min(commList.Count - ((page-1) * itemsPerPage), itemsPerPage);
+            int limit = System.Math.Min(commList.Count - ((page-1) * itemsPerPage), itemsPerPage);
             //await ReplyAsync((limit).ToString());
 
             for (int i = 0; i < limit; i++)

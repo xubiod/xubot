@@ -124,17 +124,17 @@ namespace xubot.src
                             new EmbedFieldBuilder
                             {
                                 Name = "Broad report",
-                                Value = "App uptime: **" + (Math.Round((app_uptime.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
-                                        "Connection uptime: **" + (Math.Round((con_uptime.TotalMilliseconds / _tic)*100)/ 100) + " DOOM realtics**\n\n" ,
+                                Value = "App uptime: **" + (System.Math.Round((app_uptime.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
+                                        "Connection uptime: **" + (System.Math.Round((con_uptime.TotalMilliseconds / _tic)*100)/ 100) + " DOOM realtics**\n\n" ,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Specific connections report",
-                                Value = "Connection to Reddit: **" + (Math.Round((app_to_red_cli.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
-                                        "Connection to Discord: **" + (Math.Round((app_to_dis.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
-                                        "Reddit Connection to Default Sub: **" + (Math.Round((red_cli_to_sub.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
-                                        "Default Sub to Discord: **" + (Math.Round((sub_to_discord.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n\n",
+                                Value = "Connection to Reddit: **" + (System.Math.Round((app_to_red_cli.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
+                                        "Connection to Discord: **" + (System.Math.Round((app_to_dis.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
+                                        "Reddit Connection to Default Sub: **" + (System.Math.Round((red_cli_to_sub.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
+                                        "Default Sub to Discord: **" + (System.Math.Round((sub_to_discord.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n\n",
                                 IsInline = true
                             }
                         }
