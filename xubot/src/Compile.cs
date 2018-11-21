@@ -376,8 +376,7 @@ namespace xubot
                 input_pointer = 0;
 
                 output = "";
-
-
+                
                 while (action_pointer < actions.Length)
                 {
                     _ = actions[action_pointer];
