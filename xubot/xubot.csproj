@@ -404,6 +404,7 @@
     <Compile Include="src\GitHub.cs" />
     <Compile Include="src\Hotline.cs" />
     <Compile Include="src\Markov.cs" />
+    <Compile Include="src\Math.cs" />
     <Compile Include="src\Moderation.cs" />
     <Compile Include="src\Mood.cs" />
     <Compile Include="src\ImageBoards.cs" />
