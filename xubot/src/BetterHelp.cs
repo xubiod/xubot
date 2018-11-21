@@ -13,6 +13,12 @@ namespace xubot.src
     {
         public int itemsPerPage = 15;
 
+        [Command]
+        public async Task help(int page = 1)
+        {
+            await helpbeta(page);
+        }
+
         [Command, Summary("Lists data for one command.")]
         public async Task helpbeta(string lookup, int index = 1)
         {
