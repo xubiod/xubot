@@ -179,6 +179,7 @@ namespace xubot.src
             }
         }
 
+        //words with same meanings
         [Command("synonyms"), Alias("syn"), Summary("Gives a list of synonyms a word using the Oxford Dictionary.")]
         public async Task syn(string _word, string _langID = "en")
         {
@@ -251,6 +252,7 @@ namespace xubot.src
             }
         }
 
+        //words with opposite meanings
         [Command("antonyms"), Alias("ant"), Summary("Gives a list of antonyms a word using the Oxford Dictionary.")]
         public async Task ant(string _word, string _langID = "en")
         {
@@ -320,6 +322,7 @@ namespace xubot.src
             }
         }
 
+        //dictionary list
         [Command("list"), Summary("Gives a list of supported languages for the Oxford Dictionary.")]
         public async Task list()
         {
