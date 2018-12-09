@@ -360,27 +360,6 @@ namespace xubot
 
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                 }
-
-                [Command("matrix", RunMode = RunMode.Async)]
-                public async Task customfilter(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
-                {
-                    System.Numerics.Matrix4x4 custFilt = new System.Numerics.Matrix4x4();
-                    custFilt.M11 = m11; custFilt.M12 = m12; custFilt.M13 = m13; custFilt.M14 = m14;
-                    custFilt.M21 = m21; custFilt.M22 = m22; custFilt.M23 = m23; custFilt.M24 = m24;
-                    custFilt.M31 = m31; custFilt.M32 = m32; custFilt.M33 = m33; custFilt.M34 = m34;
-                    custFilt.M41 = m41; custFilt.M42 = m42; custFilt.M43 = m43; custFilt.M44 = m44;
-
-                    await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = VirtualPathUtility.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
-
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
-                    {
-                        img.Mutate(mut => mut.Filter(custFilt));
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
-                    }
-
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
-                }
             }
         }
     }
