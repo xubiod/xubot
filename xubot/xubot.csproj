@@ -413,7 +413,6 @@
     <Compile Include="src\PatternPresets.cs" />
     <Compile Include="src\Picture.cs" />
     <Compile Include="src\Program.cs" />
-    <Compile Include="src\RemindMe.cs" />
     <Compile Include="src\Roles.cs" />
     <Compile Include="src\RandomAPIS.cs" />
     <Compile Include="src\React.cs" />
