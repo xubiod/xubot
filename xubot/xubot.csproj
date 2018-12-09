@@ -394,7 +394,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="src\Base65536.cs" />
-    <Compile Include="src\BetterHelp.cs" />
+    <Compile Include="src\Help.cs" />
     <Compile Include="src\Commands.cs" />
     <Compile Include="src\Compile.cs" />
     <Compile Include="src\CompletelyRandom.cs" />
@@ -420,6 +420,7 @@
     <Compile Include="src\RedditGet.cs" />
     <Compile Include="src\RedditGetFunct.cs" />
     <Compile Include="src\ServerTriggers.cs" />
+    <Compile Include="src\SmallLangInterps.cs" />
     <Compile Include="src\SpecialException.cs" />
     <Compile Include="src\SSH.cs" />
     <Compile Include="src\TextMarkovChain.cs" />
