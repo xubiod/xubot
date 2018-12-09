@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace xubot.src
 {
-    class Hotline
+    public class Hotline
     {
+
     }
 }
