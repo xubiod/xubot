@@ -9,30 +9,30 @@ using System.Threading.Tasks;
 namespace xubot.src
 {
     [Group("help")]
-    public class Helpv2 : ModuleBase
+    public class Help : ModuleBase
     {
         public int itemsPerPage = 15;
 
         [Command]
-        public async Task help(int page = 1)
+        public async Task _help(int page = 1)
         {
-            await helpbeta(page);
+            await help(page);
         }
 
         [Command, Summary("Lists data for one command.")]
-        public async Task helpbeta(string lookup, int index = 1)
+        public async Task help(string lookup, int index = 1)
         {
-            await helpbetaHandling(lookup, index, false);
+            await helpHandling(lookup, index, false);
         }
 
         [Command, Summary("Lists data for one command.")]
-        public async Task helpbeta(string lookup, bool wGroup = false, int index = 1)
+        public async Task help(string lookup, bool wGroup = false, int index = 1)
         {
-            await helpbetaHandling(lookup, index, wGroup);
+            await helpHandling(lookup, index, wGroup);
         }
 
         [Command("list"), Summary("Lists all commands.")]
-        public async Task helpbeta(int page = 1)
+        public async Task help(int page = 1)
         {
             List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
 
@@ -82,7 +82,7 @@ namespace xubot.src
             await ReplyAsync("", false, embedd.Build());
         }
 
-        public async Task helpbetaHandling(string lookup, int index = 1, bool exact = false)
+        public async Task helpHandling(string lookup, int index = 1, bool exact = false)
         {
             try
             {
