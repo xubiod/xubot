@@ -336,7 +336,7 @@ namespace xubot
         public static async Task commandInitiation()
         {
             xuClient.MessageReceived += handleCommands;
-            await xuCommand.AddModulesAsync(Assembly.GetEntryAssembly());
+            await xuCommand.AddModulesAsync(Assembly.GetEntryAssembly(), null);
         }
 
         public static async Task handleCommands(SocketMessage messageParameters)
@@ -351,7 +351,7 @@ namespace xubot
 
             var context = new CommandContext(xuClient, message);
 
-            IResult result = await xuCommand.ExecuteAsync(context, argumentPosition);
+            IResult result = await xuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)
             {
                 await GeneralTools.CommHandler.BuildError(result, context);

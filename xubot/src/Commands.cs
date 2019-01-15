@@ -32,7 +32,6 @@ using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
 
 using SLImage = SixLabors.ImageSharp.Image;
-using SixLabors.ImageSharp.Processing.Filters;
 
 using static xubot.src.SpecialException;
 
