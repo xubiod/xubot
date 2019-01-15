@@ -21,7 +21,7 @@
 [![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
 
 
-## Building
+## Building (.NET Framework)
 Xubot uses WebSocket4Net to use connectivity on Windows 7.
 
 Xubot is currently 64bit only. You may change it when building, however, you may come across memory issues.
@@ -31,6 +31,9 @@ Xubot requires some applications for some functionality. These include [a code i
 The binary also depends on certain files within its directory. These can be found in the [config example](config-example) folder.
 
 When forking for your own bot, ***follow the license.***
+
+## Building (.NET Core)
+N/A at current moment of time.
 
 ## Contributing
 To be rewritten.
