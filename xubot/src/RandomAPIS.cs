@@ -20,6 +20,7 @@ namespace xubot
     public class RandomAPIS : ModuleBase
     {
         public static HttpClient httpClient = new HttpClient();
+        static Random r = new Random();
 
         [Group("number")]
         public class number : ModuleBase
@@ -385,7 +386,6 @@ namespace xubot
                     await GeneralTools.CommHandler.BuildError(e, Context);
                 }
             }
-
         }
 
         [Command("qr")]
@@ -405,6 +405,61 @@ namespace xubot
                 Console.WriteLine(cont);
 
                 await ReplyAsync(cont + ".");
+            }
+            catch (Exception e)
+            {
+                await GeneralTools.CommHandler.BuildError(e, Context);
+            }
+        }
+
+        [Command("shibe", RunMode = RunMode.Async)]
+        public async Task shibe()
+        {
+            //http://shibe.online/api/shibes
+
+            // i couldn't get jobject or jarray to parse it :P
+            // which is why it's such a strange thing for json
+            // don't fuckin judge me >:(
+
+            try
+            {
+                string cont;
+                using (HttpClient hc = new HttpClient()) { cont = await hc.GetStringAsync("http://shibe.online/api/shibes"); }
+                cont = cont.Trim('[', ']', '"');
+                Console.WriteLine(cont);
+
+                await ReplyAsync("Shibe.\n" + cont);
+            }
+            catch (Exception e)
+            {
+                await GeneralTools.CommHandler.BuildError(e, Context);
+            }
+        }
+
+        [Command("bird", RunMode = RunMode.Async)]
+        public async Task bird()
+        {
+            //http://shibe.online/api/birds
+
+            // i couldn't get jobject or jarray to parse it :P
+            // which is why it's such a strange thing for json
+            // don't fuckin judge me >:(
+
+            try
+            {
+                string cont;
+                using (HttpClient hc = new HttpClient()) { cont = await hc.GetStringAsync("http://shibe.online/api/birds"); }
+                cont = cont.Trim('[', ']', '"');
+                Console.WriteLine(cont);
+
+                if (r.Next(100) == 0)
+                {
+                    await ReplyAsync("Birb.\n" + cont);
+                }
+                else
+                {
+                    await ReplyAsync("Bird.\n" + cont);
+                }
             }
             catch (Exception e)
             {
