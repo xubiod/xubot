@@ -31,6 +31,8 @@ In the project directory, run this to compile to Windows x64:
 dotnet build --runtime win-x64
 ```
 
+The binary depends on certain files within its directory. These can be found in the [config example](config-example) folder.
+
 For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog)
 
 ## Building (.NET Framework) (deprecated)
