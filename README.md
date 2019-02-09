@@ -31,9 +31,13 @@ In the project directory, run this to compile to Windows x64:
 dotnet build --runtime win-x64
 ```
 
+Note: I do not know what's necessary for other runtimes other than Windows.
+
 The binary depends on certain files within its directory. These can be found in the [config example](config-example) folder.
 
 For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog)
+
+**Confirmed working on:** Windows 7 x64
 
 ## Building (.NET Framework) (deprecated)
 **Note: The .NET Framework version of xubot is no longer supported.**
