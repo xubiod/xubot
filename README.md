@@ -23,7 +23,19 @@
 [![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
 
 
-## Building (.NET Framework)
+## Building (.NET Core)
+*Use xubot-core to build with .NET Core. You need .NET Core 2.1 on the target machine.*
+
+In the project directory, run this to compile to Windows x64:
+```
+dotnet build --runtime win-x64
+```
+
+For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog)
+
+## Building (.NET Framework) (deprecated)
+**Note: The .NET Framework version of xubot is no longer supported.**
+
 Xubot uses WebSocket4Net to use connectivity on Windows 7.
 
 Xubot is currently 64bit only. You may change it when building, however, you may come across memory issues.
