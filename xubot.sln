@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xubot-code-compiler", "xubo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xubot-launcher", "xubot-launcher\xubot-launcher.csproj", "{EE86C344-B4E4-458D-BD02-E1007CC45B1C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xubot-core", "xubot-core\xubot-core.csproj", "{0F429396-2B0B-468A-88EB-95DA7F8C2BC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Development|Any CPU = Debug Development|Any CPU
@@ -41,6 +43,14 @@ Global
 		{EE86C344-B4E4-458D-BD02-E1007CC45B1C}.Release Development|Any CPU.Build.0 = Release|Any CPU
 		{EE86C344-B4E4-458D-BD02-E1007CC45B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE86C344-B4E4-458D-BD02-E1007CC45B1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F429396-2B0B-468A-88EB-95DA7F8C2BC2}.Debug Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F429396-2B0B-468A-88EB-95DA7F8C2BC2}.Debug Development|Any CPU.Build.0 = Debug|Any CPU
+		{0F429396-2B0B-468A-88EB-95DA7F8C2BC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F429396-2B0B-468A-88EB-95DA7F8C2BC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F429396-2B0B-468A-88EB-95DA7F8C2BC2}.Release Development|Any CPU.ActiveCfg = Release|Any CPU
+		{0F429396-2B0B-468A-88EB-95DA7F8C2BC2}.Release Development|Any CPU.Build.0 = Release|Any CPU
+		{0F429396-2B0B-468A-88EB-95DA7F8C2BC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F429396-2B0B-468A-88EB-95DA7F8C2BC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

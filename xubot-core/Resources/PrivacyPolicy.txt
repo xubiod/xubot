@@ -1,0 +1,53 @@
+Xubot Privacy Policy
+Last updated on May 2nd, 2018
+
+i. Output
+
+What Xubot outputs is not filtered in any way. This includes content made from other users. I do not hold any
+responsibility for what is returned that was created by another user.
+
+
+I. General Use
+
+Xubot does not use any data from the user and when the bot does it's temporary for the specific command, except for
+the following outliers.
+
+
+II. Markov Chains
+
+Xubot uses a command input for the Markov inputs, and does not automatically add sentences from chat into the chain.
+
+I understand that other bots take chat inputs into Markov chains, sometimes without discrimination, which the reason
+I went with this design choice.
+
+
+III. Adult Content
+
+Any content that is adult and not safe for work is automatically restricted to channels marked as NSFW. However, there
+is a toggle for individual server access, so *some* adult content is restricted unless a server administrator sets it.
+This is to prevent servers that do not want *some* adult content can't be accessed.
+
+
+IV. Moderation
+
+The moderation commands are restricted to approriate roles, and there is no backdoor for unauthorized users. The bot
+also needs the appropriate roles to do said actions.
+
+
+V. XML Storage
+
+Some commands store data in XML. This includes trusted users, pronouns, mood, and server triggers. The server triggers
+and trusted users are nescessary for special functionalities. However, pronoun storage were for non-role functionality.
+This functionality is planned to be completely phased out in following updates.
+
+The data that is stored is elobrated below.
+
+
+VI. Stored Data and What is Done With It
+
+The data that is stored are as follows:
+	- Your user ID
+	- Your internal mood value
+	- A server's join message
+	- A server's NSFW lock
+	- Your pronoun (to be removed)
