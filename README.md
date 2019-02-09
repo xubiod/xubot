@@ -35,7 +35,14 @@ The binary also depends on certain files within its directory. These can be foun
 When forking for your own bot, ***follow the license.***
 
 ## Building (.NET Core)
-N/A at current moment of time.
+*Use xubot-core to build with .NET Core. You need .NET Core 2.1 on the target machine.*
+
+In the project directory, run this to compile to Windows x64:
+```
+dotnet build --runtime win-x64
+```
+
+For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog)
 
 ## Contributing
 To be rewritten.
