@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using System;
 using System.Collections.Generic;
@@ -26,9 +26,7 @@ namespace xubot_core.src
             [Command]
             public async Task basic()
             {
-                TimeSpan uptime = DateTime.Now - Program.appStart;
-
-                await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
+                await ReplyAsync("Uptime (from application start) is **" + app_uptime.Days + " days, " + app_uptime.Hours + " hours, " + app_uptime.Minutes + " minutes, " + app_uptime.Seconds + " seconds.**");
             }
 
             [Command("report", RunMode = RunMode.Async)]
