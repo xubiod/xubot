@@ -58,7 +58,7 @@ namespace xubot_core.src
 
             EmbedBuilder embedd = new EmbedBuilder
             {
-                Title = "Help (Beta)",
+                Title = "Help",
                 Color = Discord.Color.Magenta,
                 Description = "The newer *better* help. Showing page #" + (page).ToString() + " out of " + ((commList.Count / itemsPerPage) + 1).ToString() + " pages.",
                 ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
