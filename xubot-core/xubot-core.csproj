@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RootNamespace>xubot_core</RootNamespace>
     <LangVersion>latest</LangVersion>
+    <AssemblyName>xubot-core</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -29,6 +30,7 @@
     <PackageReference Include="SixLabors.Shapes" Version="1.0.0-beta0008" />
     <PackageReference Include="SixLabors.Shapes.Text" Version="1.0.0-beta0008" />
     <PackageReference Include="SSH.NET" Version="2016.1.0" />
+    <PackageReference Include="SshNet.Security.Cryptography" Version="1.2.0" />
     <PackageReference Include="Strike.IE" Version="1.10.0" />
     <PackageReference Include="SuperSocket" Version="1.6.6.1" />
     <PackageReference Include="TweetinviAPI" Version="4.0.0" />

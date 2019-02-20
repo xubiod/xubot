@@ -104,5 +104,17 @@ namespace xubot_core.src
         {
             await ReplyAsync("https://www.youtube.com/watch?v=0tdyU_gW6WE");
         }
+
+        [Command("is-there-soap-everywhere")]
+        public async Task soap()
+        {
+            await ReplyAsync("https://www.youtube.com/watch?v=fcYRmNx1FBA");
+        }
+
+        [Command("english-motherfucker"), Alias("english-mf")]
+        public async Task whatIsntACountryIveHeardOf()
+        {
+            await ReplyAsync("https://www.youtube.com/watch?v=a0x6vIAtFcI");
+        }
     }
 }
