@@ -10,19 +10,19 @@ namespace xubot_core.src
 {
     public class CompletelyRandom : ModuleBase
     {
-        [Command("dog-unrolling-from-bubble-wrap")]
+        [Command("dog-unrolling-from-bubble-wrap"), Summary("I honestly forgot why this is here.")]
         public async Task dufbw()
         {
             await ReplyAsync("https://68.media.tumblr.com/6dd362a8aafe8bbdacf8fb32a5c6b528/tumblr_ncmv90I1gM1qj26eao1_400.gif");
         }
 
-        [Command("( ͡° ͜ʖ ͡°)"), Alias("lenny")]
+        [Command("( ͡° ͜ʖ ͡°)"), Alias("lenny"), Summary("( ͡° ͜ʖ ͡°)")]
         public async Task lenny()
         {
             await ReplyAsync("( ͡° ͜ʖ ͡°)");
         }
 
-        [Command("🥚"), Alias("egg")]
+        [Command("🥚"), Alias("egg"), Summary("Egg.")]
         public async Task egg()
         {
             await ReplyAsync("⬛⬛🥚🥚⬛⬛\n" +
@@ -33,25 +33,25 @@ namespace xubot_core.src
                              "⬛🥚🥚🥚🥚⬛");
         }
 
-        [Command("no-need-to-be-upset")]
+        [Command("no-need-to-be-upset"), Summary(":)")]
         public async Task nntbu()
         {
             await ReplyAsync("https://youtu.be/GJDNkVDGM_s");
         }
 
-        [Command("gay-frogs")]
+        [Command("gay-frogs"), Summary("I DONT LIKE PUTTIN CHEMICALS IN THE WATER THAT TURN THE FROGS GAY")]
         public async Task gf()
         {
             await ReplyAsync("https://youtu.be/9JRLCBb7qK8");
         }
 
-        [Command("make-this-middle-finger")]
+        [Command("make-this-middle-finger"), Summary("Takes text and makes it rude.")]
         public async Task mtmf(string face)
         {
             await ReplyAsync("(凸 " + face + ")凸");
         }
 
-        [Command("rm -rf"), Alias("rm -rf --no-preserve-root /")]
+        [Command("rm -rf"), Alias("rm -rf --no-preserve-root /"), Summary("Deletes xubot.")]
         public async Task rmrf()
         {
             await ReplyAsync("no u");
@@ -93,25 +93,25 @@ namespace xubot_core.src
             await dm.SendMessageAsync(msg);
         }
 
-        [Command("yritwh"), Alias("you-reposted-in-the-wrong-neighborhood")]
+        [Command("yritwh"), Alias("you-reposted-in-the-wrong-neighborhood"), Summary("Use as a reaction to a meme that has been reposted inappropriately.")]
         public async Task yritwh()
         {
             await ReplyAsync("https://www.youtube.com/watch?v=0cOAUSVBGX8");
         }
 
-        [Command("what-is-the-best-feeling")]
+        [Command("what-is-the-best-feeling"), Summary("A mistake.")]
         public async Task ohGoodGod()
         {
             await ReplyAsync("https://www.youtube.com/watch?v=0tdyU_gW6WE");
         }
 
-        [Command("is-there-soap-everywhere")]
+        [Command("is-there-soap-everywhere"), Summary("It lOoKs lIke a iCe cReAm dIsPeNsEr")]
         public async Task soap()
         {
             await ReplyAsync("https://www.youtube.com/watch?v=fcYRmNx1FBA");
         }
 
-        [Command("english-motherfucker"), Alias("english-mf")]
+        [Command("english-motherfucker"), Alias("english-mf"), Summary("DO YOU SPEAK IT???")]
         public async Task whatIsntACountryIveHeardOf()
         {
             await ReplyAsync("https://www.youtube.com/watch?v=a0x6vIAtFcI");
