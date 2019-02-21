@@ -60,7 +60,7 @@ namespace xubot_core.src
             {
                 Title = "Help",
                 Color = Discord.Color.Magenta,
-                Description = "Showing page #" + (page).ToString() + " out of " + ((commList.Count / itemsPerPage) + 1).ToString() + " pages.\nShowing a few of the **" + commList.Count.ToString() + "** cmds.",
+                Description = "The newer *better* help. Showing page #" + (page).ToString() + " out of " + ((commList.Count / itemsPerPage) + 1).ToString() + " pages.\nShowing a few of the **" + commList.Count.ToString() + "** cmds.",
                 ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
                 Footer = new EmbedFooterBuilder
