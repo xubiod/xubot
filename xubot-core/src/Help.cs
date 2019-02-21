@@ -60,7 +60,7 @@ namespace xubot_core.src
             {
                 Title = "Help",
                 Color = Discord.Color.Magenta,
-                Description = "The newer *better* help. Showing page #" + (page).ToString() + " out of " + ((commList.Count / itemsPerPage) + 1).ToString() + " pages.",
+                Description = "The newer *better* help. Showing page #" + (page).ToString() + " out of " + ((commList.Count / itemsPerPage) + 1).ToString() + " pages.\nShowing a few of the **" + commList.Count.ToString() + "** cmds.",
                 ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
                 Footer = new EmbedFooterBuilder
@@ -81,7 +81,7 @@ namespace xubot_core.src
             };
             await ReplyAsync("", false, embedd.Build());
         }
-
+        
         public async Task helpHandling(string lookup, int index = 1, bool exact = false)
         {
             try
