@@ -75,7 +75,7 @@ namespace xubot_core.src
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                 }
 
-                [Command("bw", RunMode = RunMode.Async)]
+                [Command("bw", RunMode = RunMode.Async), Summary("Makes an image black and white.")]
                 public async Task bw()
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
@@ -90,7 +90,7 @@ namespace xubot_core.src
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                 }
 
-                [Command("colorblind", RunMode = RunMode.Async), Alias("colourblind")]
+                [Command("colorblind", RunMode = RunMode.Async), Alias("colourblind"), Summary("Applies a filter to simulate colourblindness.")]
                 public async Task emuColor(string _type)
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
@@ -200,7 +200,7 @@ namespace xubot_core.src
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                 }
 
-                [Command("contrast", RunMode = RunMode.Async)]
+                [Command("contrast", RunMode = RunMode.Async), Summary("Increases/decreases the contrast of an image.")]
                 public async Task contrast(float amt)
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
@@ -215,7 +215,7 @@ namespace xubot_core.src
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                 }
 
-                [Command("hue-rotate", RunMode = RunMode.Async)]
+                [Command("hue-rotate", RunMode = RunMode.Async), Summary("Shifts/rotates the hues of an image by a given amount of degrees.")]
                 public async Task huerotate(float deg)
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
@@ -230,7 +230,7 @@ namespace xubot_core.src
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                 }
 
-                [Command("invert", RunMode = RunMode.Async)]
+                [Command("invert", RunMode = RunMode.Async), Summary("iNVERTS THE COLORS OF AN IMAGE.")]
                 public async Task invert()
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
@@ -245,7 +245,7 @@ namespace xubot_core.src
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                 }
 
-                [Command("kodachrome", RunMode = RunMode.Async)]
+                [Command("kodachrome", RunMode = RunMode.Async), Summary("Applies a kodachrome filter to an image.")]
                 public async Task kodachrome()
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
@@ -260,7 +260,7 @@ namespace xubot_core.src
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                 }
 
-                [Command("lomograph", RunMode = RunMode.Async)]
+                [Command("lomograph", RunMode = RunMode.Async), Summary("Applies a lomograph filter to an image.")]
                 public async Task lomo()
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
@@ -275,7 +275,7 @@ namespace xubot_core.src
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                 }
 
-                [Command("polaroid", RunMode = RunMode.Async)]
+                [Command("polaroid", RunMode = RunMode.Async), Summary("Applies a polaroid filter to an image.")]
                 public async Task polaroid()
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
@@ -290,7 +290,7 @@ namespace xubot_core.src
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                 }
 
-                [Command("saturate", RunMode = RunMode.Async)]
+                [Command("saturate", RunMode = RunMode.Async), Summary("Increases/decreases the saturation of an image.")]
                 public async Task sat(float amount)
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
@@ -305,7 +305,7 @@ namespace xubot_core.src
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
                 }
 
-                [Command("sepia", RunMode = RunMode.Async)]
+                [Command("sepia", RunMode = RunMode.Async), Summary("Applies a sepia filter to an image.")]
                 public async Task sepia()
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
