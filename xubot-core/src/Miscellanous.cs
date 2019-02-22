@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace xubot_core.src
 {
-    public class CompletelyRandom : ModuleBase
+    public class Miscellanous : ModuleBase
     {
         [Command("dog-unrolling-from-bubble-wrap"), Summary("I honestly forgot why this is here.")]
         public async Task dufbw()
