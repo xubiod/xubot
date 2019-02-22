@@ -96,25 +96,31 @@ namespace xubot_core.src
         [Command("yritwh"), Alias("you-reposted-in-the-wrong-neighborhood"), Summary("Use as a reaction to a meme that has been reposted inappropriately.")]
         public async Task yritwh()
         {
-            await ReplyAsync("https://www.youtube.com/watch?v=0cOAUSVBGX8");
+            await ReplyAsync("https://youtu.be/0cOAUSVBGX8");
         }
 
         [Command("what-is-the-best-feeling"), Summary("A mistake.")]
         public async Task ohGoodGod()
         {
-            await ReplyAsync("https://www.youtube.com/watch?v=0tdyU_gW6WE");
+            await ReplyAsync("https://youtu.be/0tdyU_gW6WE");
         }
 
         [Command("is-there-soap-everywhere"), Summary("It lOoKs lIke a iCe cReAm dIsPeNsEr")]
         public async Task soap()
         {
-            await ReplyAsync("https://www.youtube.com/watch?v=fcYRmNx1FBA");
+            await ReplyAsync("https://youtu.be/fcYRmNx1FBA");
         }
 
         [Command("english-motherfucker"), Alias("english-mf"), Summary("DO YOU SPEAK IT???")]
         public async Task whatIsntACountryIveHeardOf()
         {
-            await ReplyAsync("https://www.youtube.com/watch?v=a0x6vIAtFcI");
+            await ReplyAsync("https://youtu.be/a0x6vIAtFcI");
+        }
+
+        [Command("what-does-a-cat-in-zero-g-look-like"), Alias("wdacizgll")]
+        public async Task wdacizgll()
+        {
+            await ReplyAsync("A cat in a zero G flight looks like this: https://youtu.be/hb4Yd4mEVsE");
         }
     }
 }
