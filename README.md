@@ -50,18 +50,6 @@ Xubot requires some applications for some functionality. These include [a code i
 
 The binary also depends on certain files within its directory. These can be found in the [config example](config-example) folder.
 
-When forking for your own bot, ***follow the license.***
-
-## Building (.NET Core)
-*Use xubot-core to build with .NET Core. You need .NET Core 2.1 on the target machine.*
-
-In the project directory, run this to compile to Windows x64:
-```
-dotnet build --runtime win-x64
-```
-
-For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog)
-
 ## Contributing
 To be rewritten.
 
