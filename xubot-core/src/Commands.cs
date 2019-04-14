@@ -22,7 +22,6 @@ using HtmlAgilityPack;
 using xubot_core.src;
 using System.Web;
 
-using IronOcr;
 using System.Threading;
 using System.IO.Compression;
 using SixLabors.ImageSharp;
@@ -53,10 +52,10 @@ namespace xubot_core.src
         public static string pattern4 = "11011";
         public static string pattern5 = "01110";
 
-        [Group("echo"), Alias("m")]
+        [Group("echo"), Alias("m"), Summary("Repeats after you.")]
         public class Echo : ModuleBase
         {
-            [Command, Summary("Repeats a string given once.")]
+            [Command(""), Summary("Repeats a string given once.")]
             public async Task RepeatOnce(string blegh)
             {
                 await ReplyAsync(blegh);
@@ -77,7 +76,7 @@ namespace xubot_core.src
             }
         }
 
-        [Group("insult"), Summary("get insulted by software")]
+        [Group("insult"), Summary("Get insulted by software.")]
         public class Insult : ModuleBase
         {
             [Command("init"), Summary("Initalizes the insult choices.")]
@@ -220,51 +219,6 @@ namespace xubot_core.src
         [Group("pattern"), Alias("pat"), Summary("a calculator, but shittier")]
         public class Pattern : ModuleBase
         {
-            /*[Command("generate"), Summary("Generates the currently loaded pattern.")]
-            public async Task generate(string emo1, string emo2)
-            {
-                string pattern1_;
-                string pattern2_;
-                string pattern3_;
-                string pattern4_;
-                string pattern5_;
-
-                pattern1_ = pattern1.Replace("0", emo1).Replace("1", emo2);
-                pattern2_ = pattern2.Replace("0", emo1).Replace("1", emo2);
-                pattern3_ = pattern3.Replace("0", emo1).Replace("1", emo2);
-                pattern4_ = pattern4.Replace("0", emo1).Replace("1", emo2);
-                pattern5_ = pattern5.Replace("0", emo1).Replace("1", emo2);
-
-                await ReplyAsync(pattern1_ + '\n' + pattern2_ + '\n' + pattern3_ + '\n' + pattern4_ + '\n' + pattern5_);
-            }
-            
-            [Command("set"), Summary("Sets the pattern.")]
-            public async Task set(string pat1, string pat2, string pat3, string pat4, string pat5)
-            {
-                if ((pat1.Contains("0") || pat1.Contains("1") ||
-                    pat2.Contains("0") || pat2.Contains("1") ||
-                    pat3.Contains("0") || pat3.Contains("1") ||
-                    pat4.Contains("0") || pat4.Contains("1") ||
-                    pat5.Contains("0") || pat5.Contains("1")) &&
-                    pat1.Length == 5 && pat2.Length == 5 &&
-                    pat3.Length == 5 && pat4.Length == 5 &&
-                    pat5.Length == 5
-                    )
-                {
-                    pattern1 = pat1;
-                    pattern2 = pat2;
-                    pattern3 = pat3;
-                    pattern4 = pat4;
-                    pattern5 = pat5;
-
-                    await ReplyAsync("Pattern(s) set.");
-                }
-                else
-                {
-                    await ReplyAsync("One of the patterns given has an invalid character, or it's too long, or it's too short. Use **0**s and **1**s and the patterns must be exactly **5** characters long.");
-                }
-            }*/
-
             [Command("generate"), Summary("Generates a premade pattern using a search term.")]
             public async Task GeneratePreset(string searchqueue, string emo1, string emo2)
             {
@@ -281,7 +235,7 @@ namespace xubot_core.src
         [Group("post"), Alias("p"), Summary("post to ...")]
         public class Post2Media : ModuleBase
         {
-            [Command]
+            [Command("")]
             public async Task Default_()
             {
                 await ReplyAsync("You didn't give me a service... ;<");
@@ -331,7 +285,7 @@ namespace xubot_core.src
             await ReplyAsync("https://discordapp.com/api/oauth2/authorize?client_id=" + id + "&scope=bot&permissions=0");
         }
 
-        [Group("debug"), RequireOwner]
+        [Group("debug"), Summary("A group of debug commands for quick debug work. Cannot be used by anyone except owner."), RequireOwner]
         public class Debug : ModuleBase
         {
             [Command("return_attachs")]
@@ -498,7 +452,7 @@ namespace xubot_core.src
 
         public class SettingsComm : ModuleBase
         {
-            [Group("settings"), Alias("set"), Summary("bot setting tweaks")]
+            [Group("settings"), Alias("set"), Summary("Modify some bot stuff. Most of it is restricted.")]
             public class Settings : ModuleBase
             {
                 [Command("!"), Alias("kill"), Summary("Kills the bot."), RequireOwner]
@@ -508,7 +462,7 @@ namespace xubot_core.src
                     Environment.Exit(0);
                 }
 
-                [Group("nsfw-commands")]
+                [Group("nsfw-commands"), Summary("The toggle for the defunct NSFW restrictor (Bot now uses channel's NSFW flag instead.)")]
                 public class NSFWSet : ModuleBase
                 {
                     [Command]
@@ -799,7 +753,7 @@ namespace xubot_core.src
             }
         }
 
-        [Group("base65536")]
+        [Group("base65536"), Summary("Encodes or decodes strings into Base65536.")]
         public class Base65536Comm : ModuleBase
         {
             [Command("encode"), Summary("Encodes a string into Base65536.")]
@@ -819,7 +773,7 @@ namespace xubot_core.src
             }
         }
 
-        [Group("trust"), RequireOwner]
+        [Group("trust"), Summary("Management for trust. Cannot be used by anyone except owner."), RequireOwner]
         public class Trust : ModuleBase
         {
             XDocument xdoc;

@@ -12,7 +12,7 @@ using System.IO;
 
 namespace xubot_core.src
 {
-    [Group("dictionary"), Alias("dict")]
+    [Group("dictionary"), Alias("dict"), Summary("The mini-wrapper for the Oxford Dictionary API.")]
     public class DictionaryComm : ModuleBase
     {
         public static string result = "";
