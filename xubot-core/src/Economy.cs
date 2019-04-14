@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace xubot_core.src
 {
-    [Group("economy"), Alias("eco")]
+    [Group("economy"), Alias("eco"), Summary("Stuff relating to the economics system.")]
     public class Economy : ModuleBase
     {
         public static bool _new_act = false;
@@ -25,8 +25,6 @@ namespace xubot_core.src
         [Command("collect"), Summary("Collects currency based on the amount of hours since last collection.")]
         public async Task collect()
         {
-            //await ReplyAsync(DateTime.Now.ToOADate().ToString());
-            //_Context = Context;
             try
             {
                 EconomyTools.AddOrRefreshAsync(Context.Message.Author);
@@ -39,7 +37,7 @@ namespace xubot_core.src
                     DateTime last_upd = DateTime.Parse(EconomyTools.ReadLastUpdate(Context.Message.Author));
                     double hr_since_up = DateTime.Now.ToOADate() - last_upd.ToOADate();
 
-                    _amount = System.Math.Min(System.Math.Round(hr_since_up * 10000) / 100, 100);
+                    _amount = System.Math.Round(hr_since_up * 10000);
                 }
                 _new_act = false;
                 EconomyTools.Adjust(Context.Message.Author, _amount);
