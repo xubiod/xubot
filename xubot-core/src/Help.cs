@@ -22,14 +22,14 @@ namespace xubot_core.src
         [Command, Summary("Lists data for one command.")]
         public async Task help(string lookup, int index = 1)
         {
-            await helpHandling(lookup, index, false);
+            await helpHandling(lookup, index, true);
         }
 
-        [Command, Summary("Lists data for one command.")]
+        /*[Command, Summary("Lists data for one command.")]
         public async Task help(string lookup, bool wGroup = false, int index = 1)
         {
             await helpHandling(lookup, index, wGroup);
-        }
+        }*/
 
         [Command("list"), Summary("Lists all commands.")]
         public async Task help(int page = 1)
@@ -81,12 +81,13 @@ namespace xubot_core.src
             };
             await ReplyAsync("", false, embedd.Build());
         }
-        
+
         public async Task helpHandling(string lookup, int index = 1, bool exact = false)
         {
             try
             {
                 List<CommandInfo> commList_e = Program.xuCommand.Commands.ToList();
+                List<ModuleInfo> moduList_e = Program.xuCommand.Modules.ToList();
 
                 commList_e = commList_e.FindAll(ci => ci.Name == (lookup.Split(' ').Last()));
 
@@ -109,7 +110,18 @@ namespace xubot_core.src
 
                 int allMatchs = commList.Count;
 
-                CommandInfo comm = commList[index - 1];
+                CommandInfo comm;
+
+                try
+                {
+                    comm = commList[index - 1];
+                }
+                catch (System.ArgumentOutOfRangeException aoore)
+                {
+                    //not a command
+                    groupHandling(lookup);
+                    return;
+                }
 
                 string all_alias = "";
                 IReadOnlyList<string> _aliases = comm.Aliases ?? new List<string>();
@@ -201,6 +213,122 @@ namespace xubot_core.src
                             {
                                 Name = "Parameters",
                                 Value = "```cs\n" + all_para + "```",
+                                IsInline = true
+                            }
+                        }
+                };
+                await ReplyAsync("", false, embedd.Build());
+            }
+            catch (Exception e)
+            {
+                await GeneralTools.CommHandler.BuildError(e, Context);
+            }
+        }
+
+        public async Task groupHandling(string lookup)
+        {
+            try
+            {
+                List<ModuleInfo> moduList = Program.xuCommand.Modules.ToList().FindAll(ci => ci.Group == (lookup.Split(' ').Last()));
+
+                int allMatchs = moduList.Count;
+
+                ModuleInfo group;
+
+                try
+                {
+                    group = moduList[0];
+                }
+                catch (System.ArgumentOutOfRangeException aoore)
+                {
+                    //not a command OR group
+                    await ReplyAsync("This command does not exist. (Trust me, I looked everywhere.)");
+                    return;
+                }
+
+                string all_alias = "";
+                IReadOnlyList<string> _aliases = group.Aliases ?? new List<string>();
+
+                string trueName = group.Name;
+
+                if (_aliases.ToList().Find(al => al == lookup) == lookup)
+                {
+                    trueName = lookup;
+                }
+
+                if (_aliases.Count != 0)
+                {
+                    foreach (string alias in group.Aliases)
+                    {
+                        all_alias += alias + "\n";
+                    }
+                }
+                
+                string parentForm = "Nothing";
+
+                if (group.Parent != null)
+                {
+                    parentForm = group.Parent.Name;
+                }
+
+                string commands = "";
+                foreach (var cmd in group.Commands)
+                {
+                    commands += group.Name + " " + cmd.Name + "\n";
+                }
+
+                string trueSumm = "No summary given.";
+                if (group.Summary != null) trueSumm = group.Summary;
+
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Help",
+                    Color = Discord.Color.Magenta,
+                    Description = "The newer *better* help. For more specifics, combine the group and command.", //Showing result #" + (index).ToString() + " out of " + allMatchs.ToString() + " match(s).",
+                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p",
+                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Module Name",
+                                Value = "`" + trueName + "`" ,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Group",
+                                Value = group.Group,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Part of",
+                                Value = "```" + parentForm + "```",
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Summary",
+                                Value = trueSumm,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Known Aliases",
+                                Value = "```" + all_alias + "```",
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Commands in Group",
+                                Value = "```" + commands + "```",
                                 IsInline = true
                             }
                         }
