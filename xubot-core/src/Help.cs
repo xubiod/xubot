@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace xubot_core.src
 {
-    [Group("help")]
+    [Group("help"), Summary("The savior for the lost.")]
     public class Help : ModuleBase
     {
         public int itemsPerPage = 15;
@@ -271,10 +271,24 @@ namespace xubot_core.src
                     parentForm = group.Parent.Name;
                 }
 
-                string commands = "";
-                foreach (var cmd in group.Commands)
+                string commands = "None";
+                if (group.Commands.Count != 0)
                 {
-                    commands += group.Name + " " + cmd.Name + "\n";
+                    commands = "";
+                    foreach (var cmd in group.Commands)
+                    {
+                        commands += group.Name + " " + cmd.Name + "\n";
+                    }
+                }
+
+                string subgroup = "None";
+                if (group.Submodules.Count != 0)
+                {
+                    subgroup = "";
+                    foreach (var sub in group.Submodules)
+                    {
+                        subgroup += group.Name + " " + sub.Name + "\n";
+                    }
                 }
 
                 string trueSumm = "No summary given.";
@@ -329,6 +343,12 @@ namespace xubot_core.src
                             {
                                 Name = "Commands in Group",
                                 Value = "```" + commands + "```",
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Subgroups in Group",
+                                Value = "```" + subgroup + "```",
                                 IsInline = true
                             }
                         }
