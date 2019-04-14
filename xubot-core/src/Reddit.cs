@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Strike;
-using Strike.IE;
 
 using static xubot_core.src.RedditTools.ParseSorting;
 using static xubot_core.src.SpecialException;
