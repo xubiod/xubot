@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace xubot_core.src
 {
-    [Group("math"), Alias("m"), Summary("a calculator, but shittier")]
+    [Group("math"), Alias("m"), Summary("A calculator, but shittier.")]
     public class Math : ModuleBase
     {
         // SIMPLE MATH

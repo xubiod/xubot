@@ -24,7 +24,7 @@ namespace xubot_core.src
         public HttpClient client = new HttpClient();
 
         // (TECHNICALLY) OPTIMIZED
-        [Command("danbooru", RunMode = RunMode.Async)]
+        [Command("danbooru", RunMode = RunMode.Async), Summary("Retrives a post from danbooru.")]
         public async Task danbooru(string tags = "")
         {
             // this shouldn't use the methods because of how different it is
@@ -79,7 +79,7 @@ namespace xubot_core.src
         }
 
         // BROKEN?
-        [Command("e621", RunMode = RunMode.Async)]
+        [Command("e621", RunMode = RunMode.Async), Summary("Retrives a post from e621 (Currently not working, probs got myself banned lol).")]
         public async Task e621(string tags = "")
         {
             try
@@ -134,99 +134,28 @@ namespace xubot_core.src
         }
 
         // OPTIMIZED
-        [Command("rule34", RunMode = RunMode.Async)]
+        [Command("rule34", RunMode = RunMode.Async), Summary("Retrives a post from rule34, to the bot's dismay.")]
         public async Task r34(string tags = "")
         {
             await GetPostFromXML("https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, "&pid=");
-
-            /*
-            if (!(await GeneralTools.ChannelNSFW(Context)))
-            {
-                await ReplyAsync("Move to a NSFW channel.");
-            }
-            else
-            if ((Program.enableNSFW || CheckTrigger()) && tags != "")
-            {
-                try
-                {
-                    //var client = new HttpClient();
-                    string link = "https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1&tags=" + tags;
-
-                    var request = new HttpRequestMessage()
-                    {
-                        RequestUri = new Uri(link),
-                        Method = HttpMethod.Get,
-                    };
-
-                    request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
-
-                    string imgUrl = "";
-                    int count = 0;
-                    Random rnd = new Random();
-
-                    var xdoc = XDocument.Load(link);
-                    var items = from i in xdoc.Descendants("posts")
-                                select new
-                                {
-                                    Attribute = (string)i.Attribute("count")
-                                };
-
-                    foreach (var item in items)
-                    {
-                        count = Convert.ToInt32(item.Attribute) / 2;
-                    }
-
-                    link = "https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1&pid=" + rnd.Next(count) + "&tags=" + tags;
-                    xdoc = XDocument.Load(link);
-
-                    items = from q in xdoc.Descendants("post")
-                            select new
-                            {
-                                Attribute = (string)q.Attribute("file_url")
-                            };
-
-                    foreach (var item in items)
-                    {
-                        imgUrl = item.Attribute;
-                    }
-
-                    await ReplyAsync(imgUrl);
-                }
-                catch (Exception exp)
-                {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
-                }
-            }
-            else
-            {
-                if (tags == "" && Program.enableNSFW)
-                {
-                    await ReplyAsync("rule34 requires a tag.");
-                }
-                else
-                {
-                    if (Program.enableNSFW) await ReplyAsync("NSFW commands are disabled at the moment.");
-                    else { await ReplyAsync("Umm.. something happened that I don't have a clue about. Whoopies."); }
-                }
-            }*/
         }
 
         // OPTIMIZED
-        [Command("gelbooru", RunMode = RunMode.Async)]
+        [Command("gelbooru", RunMode = RunMode.Async), Summary("Retrives a post from gelbooru.")]
         public async Task gelbooru(string tags = "")
         {
             await GetPostFromXML("https://www.gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, "&pid=");
         }
 
         // OPTIMIZED 
-        [Command("yandere", RunMode = RunMode.Async)]
+        [Command("yandere", RunMode = RunMode.Async), Summary("Retrives a post from yandere.")]
         public async Task yandere(string tags = "")
         {
             await GetPostFromXML("https://yande.re/post.xml?limit=1", tags, Context);
         }
 
         // BROKEN?
-        [Command("e926", RunMode = RunMode.Async)]
+        [Command("e926", RunMode = RunMode.Async), Summary("Retrives a post from e926 (Currently not working, probs got myself banned lol).")]
         public async Task e926(string tags = "")
         {
             //ITextChannel c = Context.Channel as ITextChannel;
@@ -275,111 +204,19 @@ namespace xubot_core.src
         }
 
         // OPTIMIZED 
-        [Command("safebooru", RunMode = RunMode.Async)]
+        [Command("safebooru", RunMode = RunMode.Async), Summary("Retrives a post from safebooru.")]
         public async Task safebooru(string tags = "")
         {
             await GetPostFromXML("http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, "&pid=");
-
-            /*
-            try
-            {
-                
-                //var client = new HttpClient();
-                string link = "http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1&tags=" + tags;
-
-                var request = new HttpRequestMessage()
-                {
-                    RequestUri = new Uri(link),
-                    Method = HttpMethod.Get,
-                };
-
-                request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
-
-                string imgUrl = "";
-                int count = 0;
-                Random rnd = new Random();
-
-                var xdoc = XDocument.Load(link);
-                var items = from i in xdoc.Descendants("posts")
-                            select new
-                            {
-                                Attribute = (string)i.Attribute("count")
-                            };
-
-                foreach (var item in items)
-                {
-                    count = Convert.ToInt32(item.Attribute) / 2;
-                }
-
-                link = "http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1&pid=" + rnd.Next(count) + "&tags=" + tags;
-                xdoc = XDocument.Load(link);
-
-                items = from q in xdoc.Descendants("post")
-                        select new
-                        {
-                            Attribute = (string)q.Attribute("file_url")
-                        };
-
-                foreach (var item in items)
-                {
-                    imgUrl = item.Attribute;
-                }
-
-                await ReplyAsync("http:" + imgUrl);
-            }
-            catch (Exception exp)
-            {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
-            }*/
         }
 
         // OPTIMIZED 
-        [Command("konachan", RunMode = RunMode.Async)]
+        [Command("konachan", RunMode = RunMode.Async), Summary("Retrives a post from konachan.")]
         public async Task konachan(string tags = "")
         {
             await GetPostFromXML("http://konachan.com/post.xml?limit=1", tags, Context);
         }
-
-        //shorthands
-
-        //removed for now
-        /*
-        [Command("catgirl")]
-        public async Task catG()
-        {
-            await danbooru("cat_girl");
-        }
-
-        [Command("what")]
-        public async Task wat()
-        {
-            await r34("what");
-        }
-
-        [Command("dragon")]
-        public async Task dragon()
-        {
-            await r34("dragon");
-        }
-
-        [Command("dragon_f")]
-        public async Task dragonE()
-        {
-            await e621("dragon");
-        }
-
-        [Command("gaydragon")]
-        public async Task gaydragon()
-        {
-            await r34("gay_dragon");
-        }
-
-        [Command("inflation")]
-        public async Task inflationKink()
-        {
-            await r34("inflation");
-        }
-        */
+        
         public bool CheckTrigger()
         {
             bool ret = false;

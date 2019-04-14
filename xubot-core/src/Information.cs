@@ -13,7 +13,7 @@ namespace xubot_core.src
     public class Information : ModuleBase
     {
         //INFORMATION ABOUT SERVER/CHANNEL/USER
-        [Group("info")]
+        [Group("info"), Summary("Gets information about various things.")]
         public class info : ModuleBase
         {
             [Command("server"), Alias("server-info", "si"), Summary("Gets information about the server.")]

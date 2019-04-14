@@ -15,7 +15,7 @@ namespace xubot_core.src
     {
         public static XDocument xdoc = new XDocument();
 
-        [Group("servertriggers")]
+        [Group("servertriggers"), Summary("Server specific triggers? Wow that sounds hella lame")]
         public class _base : ModuleBase
         {
             [Command("add"), RequireUserPermission(GuildPermission.ManageGuild)]

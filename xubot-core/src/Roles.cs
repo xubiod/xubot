@@ -13,7 +13,7 @@ using SColor = System.Drawing.Color;
 
 namespace xubot_core.src
 {
-    [Group("pronoun")]
+    [Group("pronoun"), Summary("Stuff relating to the working albeit kinda defunct pronoun system.")]
     public class Roles : ModuleBase
     {
         public static XDocument xdoc = new XDocument();
@@ -104,7 +104,7 @@ namespace xubot_core.src
         }
     }
 
-    [Group("identity")]
+    [Group("identity"), Summary("Stuff relating to the working albeit kinda defunct identification system.")]
     public class Identity : ModuleBase
     {
         public static XDocument xdoc = new XDocument();

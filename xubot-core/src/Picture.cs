@@ -18,12 +18,12 @@ using SLImage = SixLabors.ImageSharp.Image;
 
 namespace xubot_core.src
 {
-    public class PictureAndFile : ModuleBase
+    public class Picture : ModuleBase
     {
-        [Group("pic")]
+        [Group("pic"), Summary("Does shit with images.")]
         public class music_comm : ModuleBase
         {
-            [Group("manip")]
+            [Group("manip"), Summary("Manipulates images. Can be used to deepfry.")]
             public class manipulation : ModuleBase
             {
                 [Command("brightness", RunMode = RunMode.Async), Summary("Increases/decreases the brightness of the image.")]

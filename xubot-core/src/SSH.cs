@@ -17,7 +17,7 @@ namespace xubot_core.src
         public static ShellStream xuSSHStream;
         public static string disconnectCode;
 
-        [Group("ssh")]
+        [Group("ssh"), Summary("Stuff relating to the SSH functionality.")]
         public class commands : ModuleBase
         {
             [Command("connect")]

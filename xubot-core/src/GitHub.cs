@@ -25,7 +25,7 @@ namespace xubot_core.src
             xuRepo = await xuGitClient.GetRepositoryAsync("xubot-team", "xubot");
         }
 
-        [Group("github")]
+        [Group("github"), Summary("The wrapper for the Github API.")]
         public class gitCommands : ModuleBase
         {
             [Command("repo"), Summary("Returns information about a GitHub repo.")]

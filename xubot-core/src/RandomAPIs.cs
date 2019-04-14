@@ -22,7 +22,7 @@ namespace xubot_core.src
         public static HttpClient httpClient = new HttpClient();
         static Random r = new Random();
 
-        [Group("number")]
+        [Group("number"), Summary("LEARNING AAAAAAAAAAAA")]
         public class number : ModuleBase
         {
             [Command("trivia", RunMode = RunMode.Async)]
@@ -80,7 +80,7 @@ namespace xubot_core.src
             }
         }
 
-        [Command("email-check", RunMode = RunMode.Async)]
+        [Command("email-check", RunMode = RunMode.Async), Summary("Uses API to check if email is a temporary one for sCaMs OoOoOoO")]
         public async Task check(string email)
         {
             string link = "https://www.validator.pizza/email/" + email;
@@ -139,62 +139,8 @@ namespace xubot_core.src
 
             await ReplyAsync("", false, embedd.Build());
         }
-
-        [Command("expand-googl", RunMode = RunMode.Async)]
-        public async Task nameGen(string link)
-        {
-            string sendLink = "https://www.googleapis.com/urlshortener/v1/url?shortUrl=" + link + "&key=" + Program.keys.googleLinkShort.ToString();
-
-            var request = WebRequest.Create(sendLink);
-            request.ContentType = "application/json; charset=utf-8";
-
-            string text;
-            var response = (HttpWebResponse)request.GetResponse();
-
-            using (var sr = new StreamReader(response.GetResponseStream()))
-            {
-                text = sr.ReadToEnd();
-            }
-
-            dynamic parsedTxt = JObject.Parse(text);
-            EmbedBuilder embedd = new EmbedBuilder
-            {
-                Title = "goo.gl Link Expander",
-                Color = Discord.Color.Orange,
-                Description = "",
-
-                Footer = new EmbedFooterBuilder
-                {
-                    Text = "xubot :p"
-                },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "ID",
-                                Value = parsedTxt.id,
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Expanded Link",
-                                Value = parsedTxt.longUrl,
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Status",
-                                Value = parsedTxt.status.ToString(),
-                                IsInline = false
-                            }
-                        }
-            };
-
-            await ReplyAsync("", false, embedd.Build());
-        }
-
-        [Command("cat", RunMode = RunMode.Async)]
+        
+        [Command("cat", RunMode = RunMode.Async), Summary("Gets random cat picture. Best utilized when sad.")]
         public async Task cat()
         {
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -222,7 +168,7 @@ namespace xubot_core.src
             await ReplyAsync("Cat.\n" + final);
         }
 
-        [Group("steam")]
+        [Group("steam"), Summary("The mini-wrapper for Steamworks API.")]
         public class stem : ModuleBase
         {
             [Command("user", RunMode = RunMode.Async)]
@@ -317,7 +263,7 @@ namespace xubot_core.src
             }
         }
 
-        [Command("shibe", RunMode = RunMode.Async)]
+        [Command("shibe", RunMode = RunMode.Async), Summary("Gets random Shibe Inu picture. Best utilized when sad.")]
         public async Task shibe()
         {
             //http://shibe.online/api/shibes
@@ -341,7 +287,7 @@ namespace xubot_core.src
             }
         }
 
-        [Command("bird", RunMode = RunMode.Async)]
+        [Command("bird", RunMode = RunMode.Async), Summary("Gets random bird picture. Best utilized when sad.")]
         public async Task bird()
         {
             //http://shibe.online/api/birds
