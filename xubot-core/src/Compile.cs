@@ -77,7 +77,7 @@ namespace xubot_core.src
             return builder.ToString();
         }
 
-        [Group("interp")]
+        [Group("interp"), Summary("Interperts other languages and displays output.")]
         public class codeCompile : ModuleBase
         {
             [Command("js", RunMode = RunMode.Async), Summary("Executes JavaScript.")]
@@ -161,50 +161,7 @@ namespace xubot_core.src
                     }
                 }*/
             }
-            /*
-            [Command("powershell", RunMode = RunMode.Async), Summary("Executes Powershell with restrictions.")]
-            public async Task ps_sudo(string eval)
-            {
-                XmlReaderSettings settings = new XmlReaderSettings();
-                settings.Async = true;
-                
-                if (GeneralTools.UserTrusted(Context))
-                {
-                    if (CompileTools.PowershellDangerous(eval) == "")
-                    {
-                        string local_result;
-                        int _timeout = 5;
-
-                        Process psproc = new Process();
-
-                        psproc.StartInfo.UseShellExecute = false;
-                        psproc.StartInfo.RedirectStandardOutput = true;
-                        psproc.StartInfo.FileName = "powershell.exe";
-                        psproc.StartInfo.Arguments = "-Command " + eval;
-                        psproc.Start();
-
-                        string psout = psproc.StandardOutput.ReadToEnd();
-                        psproc.WaitForExit(_timeout * 1000);
-
-                        if (!psproc.HasExited)
-                        {
-                            psproc.Kill();
-                            local_result = _timeout + " seconds past w/o result.";
-                            await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell", eval, local_result));
-                        }
-                        else
-                        {
-                            local_result = psout;
-                            await ReplyAsync("", false, BuildEmbed("Powershell", "Using Direct Execution", "powershell", eval, local_result));
-                        }
-                    }
-                }
-                else
-                {
-                    await ReplyAsync("Sorry, but this command is restricted.");
-                }
-            }
-            */
+            
             [Command("deadfish", RunMode = RunMode.Async), Summary("Interperts Deadfish and outputs the results.")]
             public async Task deadfish(string eval)
             {
@@ -230,81 +187,4 @@ namespace xubot_core.src
             }
         }
     }
-
-    /*
-    public partial class CompileTools
-    {
-        public static string PowershellDangerous(string input)
-        {
-            if (input.ToLower().Contains("start-process") || input.ToLower().Contains("invoke-item") ||
-                input.ToLower().Contains("ii ") || input.ToLower().Contains("system.diagnostics.process") ||
-                input.ToLower().Contains("stop-service") || input.ToLower().Contains("spsv ") ||
-                input.ToLower().Contains("start-service") || input.ToLower().Contains("sasv ") ||
-                input.ToLower().Contains("restart-service") ||
-                input.ToLower().Contains("stop-process") || input.ToLower().Contains("spps ") || input.ToLower().Contains("kill ") ||
-                input.ToLower().Contains("suspend-service") || input.ToLower().Contains("resume-service") ||
-                input.ToLower().Contains("invoke-expression") || input.ToLower().Contains("iex "))
-            {
-                return "Starting/closing processess is disallowed.";
-            }
-            else if (input.ToLower().Contains("keys.json"))
-            {
-                return "Interacting with my API keys is disallowed.";
-            }
-            else if (input.ToLower().Contains("delete") || input.ToLower().Contains("remove-item"))
-            {
-                return "Deleting/removing anything is disallowed.";
-            }
-            else if (input.ToLower().Contains("rename-item") || input.ToLower().Contains("cpi ") ||
-                input.ToLower().Contains("ren "))
-            {
-                return "Renaming files are disallowed.";
-            }
-            else if (input.ToLower().Contains("move-item") || input.ToLower().Contains("mi ") ||
-                input.ToLower().Contains("mv ") || input.ToLower().Contains("move "))
-            {
-                return "Moving files are disallowed.";
-            }
-            else if (input.ToLower().Contains("copy-item") || input.ToLower().Contains("cpi ") ||
-                input.ToLower().Contains("cp ") || input.ToLower().Contains("copy "))
-            {
-                return "Copying files are disallowed.";
-            }
-            else if (input.ToLower().Contains("stop-computer") || input.ToLower().Contains("restart-computer"))
-            {
-                return "DA FUCK YOU DOING MATE (╯°□°）╯︵ ┻━┻";
-            }
-            else if (input.ToLower().Contains("set-date"))
-            {
-                return "Changing my computer's date is not nice. So stop it.";
-            }
-            else if (input.ToLower().Contains("get-item") || input.ToLower().Contains("gu ") ||
-                input.ToLower().Contains("set-executionpolicy") ||
-                input.ToLower().Contains("new-alias") || input.ToLower().Contains("nal ") ||
-                input.ToLower().Contains("import-alias") || input.ToLower().Contains("ipal ") ||
-                input.ToLower().Contains("get-alias") || input.ToLower().Contains("gal ") ||
-                input.ToLower().Contains("set-alias") ||
-                input.ToLower().Contains("export-alias") || input.ToLower().Contains("epal "))
-            {
-                return "No. Besides these are (mostly) based on session.";
-            }
-            else if (input.ToLower().Contains("clear-content") || input.ToLower().Contains("clc "))
-            {
-                return "Editing things is disallowed.";
-            }
-            else if (input.ToLower().Contains("new-item") || input.ToLower().Contains("ni "))
-            {
-                return "Creating things is disallowed.";
-            }
-            else if (input.ToLower().Contains("cmd") || input.ToLower().Contains("control") || input.ToLower().Contains("wmic") || input.ToLower().Contains("taskmgr") || input.ToLower().Contains("tasklist") || input.ToLower().Contains("del ") || input.ToLower().Contains("sc ") || input.ToLower().Contains(">"))
-            {
-                return "Starting executables from PATH to get around blocks (and piping to write a file) is disallowed.";
-            }
-            else
-            {
-                return "";
-            }
-        }
-    }
-    */
 }
