@@ -70,5 +70,12 @@ namespace xubot_core.src
             public FuckYouException(string message) : base(message) { }
             public FuckYouException(string message, Exception inner) : base(message, inner) { }
         }
+
+        public class IfThisExceptionShowsUpMyWillToLiveWillDropByARatherLot : Exception
+        {
+            public IfThisExceptionShowsUpMyWillToLiveWillDropByARatherLot() { }
+            public IfThisExceptionShowsUpMyWillToLiveWillDropByARatherLot(string message) : base(message) { }
+            public IfThisExceptionShowsUpMyWillToLiveWillDropByARatherLot(string message, Exception inner) : base(message, inner) { }
+        }
     }
 }
