@@ -208,7 +208,7 @@ namespace xubot_core.src
             await Operate(Context, subreddit, query, 0, hide);
         }
 
-        [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, search query, sorting method, and prevention from showing previews.")]
+        [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, search query, sorting method, and can prevent from showing previews.")]
         public async Task reddit_pic(string subreddit, string query, int sorting, bool hide)
         {
             previous_sub = subreddit;
