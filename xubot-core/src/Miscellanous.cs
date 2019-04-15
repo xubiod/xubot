@@ -39,7 +39,7 @@ namespace xubot_core.src
             await ReplyAsync("https://youtu.be/GJDNkVDGM_s");
         }
 
-        [Command("gay-frogs"), Summary("I DONT LIKE PUTTIN CHEMICALS IN THE WATER THAT TURN THE FROGS GAY")]
+        [Command("gay-frogs"), Summary("I DONT LIKE PUTTIN CHEMICALS IN THE WATER THAT TURN THE FRICKIN FROGS GAY")]
         public async Task gf()
         {
             await ReplyAsync("https://youtu.be/9JRLCBb7qK8");
@@ -51,7 +51,7 @@ namespace xubot_core.src
             await ReplyAsync("(凸 " + face + ")凸");
         }
 
-        [Command("rm -rf"), Alias("rm -rf --no-preserve-root /"), Summary("Deletes xubot.")]
+        [Command("rm -rf"), Alias("rm -rf --no-preserve-root /"), Summary("Deletes xubot and the rest of the computer it's running on.")]
         public async Task rmrf()
         {
             await ReplyAsync("no u");
