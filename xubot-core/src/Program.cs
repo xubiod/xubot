@@ -19,6 +19,7 @@ using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Collections.Generic;
 using xubot_core.src;
+using System.Runtime.InteropServices;
 
 namespace xubot_core.src
 {
@@ -53,7 +54,7 @@ namespace xubot_core.src
         {
             appStart = DateTime.Now;
 
-            Console.SetWindowSize(80, 25);
+            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetWindowSize(80, 25);
 
             xuClient = new DiscordSocketClient(new DiscordSocketConfig
             {
