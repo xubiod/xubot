@@ -188,7 +188,7 @@ namespace xubot_core.src
                             new EmbedFieldBuilder
                             {
                                 Name = "Total Colour Blindness",
-                                Value = "**Achromatomaly** (part-mono)\n**Achromatopsia** (mono)`" ,
+                                Value = "**Achromatomaly** (part-mono)\n**Achromatopsia** (mono)" ,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
