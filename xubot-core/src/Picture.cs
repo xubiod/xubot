@@ -187,26 +187,26 @@ namespace xubot_core.src
                         {
                             new EmbedFieldBuilder
                             {
-                                Name = "Total Color Blindness",
-                                Value = "`Achromatomaly (part-mono)`\n`Achromatopsia (mono)`" ,
+                                Name = "Total Colour Blindness",
+                                Value = "**Achromatomaly** (part-mono)\n**Achromatopsia** (mono)`" ,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Red-Green Colour Deficiency (Low/No Green Cones)",
-                                Value = "`Deuteranomaly (weak-green)`\n`Deuteranopia (blind-green)`" ,
+                                Value = "**Deuteranomaly** (weak-green)\n**Deuteranopia** (blind-green)" ,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Red-Green Colour Deficiency (Low/No Red Cones)",
-                                Value = "`Protanomaly (weak-red)`\n`Protanopia (blind-red)`" ,
+                                Value = "**Protanomaly** (weak-red)\n**Protanopia** (blind-red)" ,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Blue-Yellow Colour Deficiency (Low/No Blue Cones)",
-                                Value = "`Tritanomaly (weak-blue)`\n`Tritanopia (blind-blue)`" ,
+                                Value = "**Tritanomaly** (weak-blue)\n**Tritanopia** (blind-blue)" ,
                                 IsInline = true
                             }
                         }
