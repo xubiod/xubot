@@ -15,6 +15,7 @@ using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
 
 using SLImage = SixLabors.ImageSharp.Image;
+using System.Collections.Generic;
 
 namespace xubot_core.src
 {
@@ -164,6 +165,53 @@ namespace xubot_core.src
                     }
 
                     await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
+                }
+
+                [Command("colorblind?list", RunMode = RunMode.Async), Alias("colourblind?list"), Summary("Lists the colourblindness filters.")]
+                public async Task emuColorList()
+                {
+                    EmbedBuilder embedd = new EmbedBuilder
+                    {
+                        Title = "Colourblind Filter List",
+                        Color = Discord.Color.Magenta,
+                        Description = "All the filters for the colourblindness emulation.",
+                        ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = "xubot :p",
+                            IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Total Color Blindness",
+                                Value = "`Achromatomaly (part-mono)`\n`Achromatopsia (mono)`" ,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Red-Green Colour Deficiency (Low/No Green Cones)",
+                                Value = "`Deuteranomaly (weak-green)`\n`Deuteranopia (blind-green)`" ,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Red-Green Colour Deficiency (Low/No Red Cones)",
+                                Value = "`Protanomaly (weak-red)`\n`Protanopia (blind-red)`" ,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Blue-Yellow Colour Deficiency (Low/No Blue Cones)",
+                                Value = "`Tritanomaly (weak-blue)`\n`Tritanopia (blind-blue)`" ,
+                                IsInline = true
+                            }
+                        }
+                    };
+                    await ReplyAsync("", false, embedd.Build());
                 }
 
                 [Command("contrast", RunMode = RunMode.Async), Summary("Increases/decreases the contrast of an image.")]
