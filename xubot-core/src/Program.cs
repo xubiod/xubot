@@ -121,8 +121,8 @@ namespace xubot_core.src
             }
             Console.WriteLine("* setting up discord connection: login");
 
-#if (dev)
-            Console.WriteLine("  > this version of xubot was compiled as dev");
+#if (DEBUG)
+            Console.WriteLine("  > this version of xubot was compiled as debug build");
             prefix = "d>";
 #endif
             if (prefix != "d>")
