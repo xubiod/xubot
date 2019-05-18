@@ -448,6 +448,12 @@ namespace xubot_core.src
                     await GeneralTools.CommHandler.BuildError(e, Context);
                 }
             }
+
+            [Command("new error handling")]
+            public async Task Test011()
+            {
+                await GeneralTools.CommHandler.BuildError("you triggered the debug command\ncongratu-fucking-lations bitch", Context);
+            }
         }
 
         public class SettingsComm : ModuleBase
