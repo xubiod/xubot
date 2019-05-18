@@ -132,6 +132,33 @@ namespace xubot_core.src
                     await context.Channel.SendFileAsync(Path.Combine(Path.GetTempPath(), "StackTrace.txt"));
                 }
             }
+
+            public static async Task BuildError(object problem, ICommandContext context)
+            {
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Exception!",
+                    Color = Discord.Color.Red,
+                    Description = "It's a dedicated ***" + problem.GetType() + "*** issue.",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Details",
+                                Value = "```" + problem.ToString() + "```",
+                                IsInline = false
+                            }
+                        }
+                };
+
+                await context.Channel.SendMessageAsync("", false, embedd.Build());
+            }
         }
 
         public class XML
