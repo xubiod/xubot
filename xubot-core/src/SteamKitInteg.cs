@@ -19,7 +19,7 @@ namespace xubot_core.src
         public async Task User(ulong id)
         {
             try {
-                KeyValue ownedGames = playerServiceInterface.GetOwnedGames(steamid: id);
+                KeyValue ownedGames = playerServiceInterface.GetOwnedGames(steamid: id, include_appinfo: 1);
                 KeyValue playerSummaries = steamUserInterface.GetPlayerSummaries002(steamids: id);
 
                 playerSummaries = playerSummaries["players"].Children[0];
@@ -27,10 +27,10 @@ namespace xubot_core.src
                 decimal twoWeeks = 0;
                 decimal forever = 0;
 
-                int mostTimeIn = 0;
+                string mostTimeIn = "";
                 decimal mostTime = 0;
 
-                int mostWeekIn = 0;
+                string mostWeekIn = "";
                 decimal mostWeek = 0;
 
                 EmbedFieldBuilder mostWeekField = new EmbedFieldBuilder { Name = "Most Playtime (last 2 weeks)", Value = "Has not played in last 2 weeks.", IsInline = true };
@@ -44,24 +44,24 @@ namespace xubot_core.src
                     if (game["playtime_forever"].AsInteger(0) > mostTime)
                     {
                         mostTime = game["playtime_forever"].AsInteger(0);
-                        mostTimeIn = game["appid"].AsInteger();
+                        mostTimeIn = game["name"].AsString();
                     }
 
                     if (game["playtime_2weeks"].AsInteger(0) > mostWeek)
                     {
                         mostWeek = game["playtime_2weeks"].AsInteger(0);
-                        mostWeekIn = game["appid"].AsInteger();
+                        mostWeekIn = game["name"].AsString();
                     }
                 }
 
-                if (mostWeekIn != 0)
+                if (mostWeekIn != "")
                 {
-                    mostWeekField.Value = "In App **" + ReturnAppName(mostWeekIn) + "**: " + string.Format("{0:#,###}", mostWeek) + " minutes\n" + string.Format("{0:#,###0.0}", mostWeek / 60) + " hours";
+                    mostWeekField.Value = "In App **" + mostWeekIn + "**: " + string.Format("{0:#,###}", mostWeek) + " minutes\n" + string.Format("{0:#,###0.0}", mostWeek / 60) + " hours";
                 }
 
-                if (mostTimeIn != 0)
+                if (mostTimeIn != "")
                 {
-                    mostTimeField.Value = "In App **" + ReturnAppName(mostTimeIn) + "**: " + string.Format("{0:#,###}", mostTime) + " minutes\n" + string.Format("{0:#,###0.0}", mostTime / 60) + " hours";
+                    mostTimeField.Value = "In App **" + mostTimeIn + "**: " + string.Format("{0:#,###}", mostTime) + " minutes\n" + string.Format("{0:#,###0.0}", mostTime / 60) + " hours";
                 }
 
                 ulong _lastLogOff = playerSummaries["lastlogoff"].AsUnsignedLong(0);
