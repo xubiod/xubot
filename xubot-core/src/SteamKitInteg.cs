@@ -57,12 +57,12 @@ namespace xubot_core.src
 
                 if (mostWeekIn != "")
                 {
-                    mostWeekField.Value = "In App **" + mostWeekIn + "**: " + string.Format("{0:#,###}", mostWeek) + " minutes\n" + string.Format("{0:#,###0.0}", mostWeek / 60) + " hours";
+                    mostWeekField.Value = "In App\n**" + mostWeekIn + "**: " + string.Format("{0:#,###}", mostWeek) + " minutes\n" + string.Format("{0:#,###0.0}", mostWeek / 60) + " hours";
                 }
 
                 if (mostTimeIn != "")
                 {
-                    mostTimeField.Value = "In App **" + mostTimeIn + "**: " + string.Format("{0:#,###}", mostTime) + " minutes\n" + string.Format("{0:#,###0.0}", mostTime / 60) + " hours";
+                    mostTimeField.Value = "In App\n**" + mostTimeIn + "**: " + string.Format("{0:#,###}", mostTime) + " minutes\n" + string.Format("{0:#,###0.0}", mostTime / 60) + " hours";
                 }
 
                 ulong _lastLogOff = playerSummaries["lastlogoff"].AsUnsignedLong(0);
@@ -74,36 +74,51 @@ namespace xubot_core.src
                 TimeSpan lastLogOffToNow = DateTime.Now - lastLogOff;
                 TimeSpan createdToNow = DateTime.Now - timeCreated;
 
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Steam User: " + playerSummaries["personaname"].AsString() + " (Level " + playerLevel["player_level"].AsString() + ")",
-                    Color = Discord.Color.DarkBlue,
-                    Description = "Data obtained Steam WebAPI using SteamKit2",
-                    ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
+                string playing = "";
+                if (playerSummaries["gameid"].AsInteger(0) != 0) playing = "Currently playing **" + ReturnAppName(playerSummaries["gameid"].AsInteger()) + "**";
 
-                    Footer = new EmbedFooterBuilder
+                EmbedBuilder embedd = new EmbedBuilder();
+
+                if (playerSummaries["communityvisibilitystate"].AsInteger(1) == 3 /* public, don't ask why */)
+                {
+                    embedd = new EmbedBuilder
                     {
-                        Text = "xubot :p"
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                        Title = "Steam User: " + playerSummaries["personaname"].AsString(),
+                        Color = Discord.Color.DarkBlue,
+                        Description = "Data obtained Steam WebAPI using SteamKit2",
+                        ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = "xubot :p"
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
                             {
+                                new EmbedFieldBuilder
+                                {
+                                    Name = "Current Stats",
+                                    Value = "Currently __" + GetStatus(playerSummaries["personastate"].AsInteger()) + "__\n" +
+                                            "Level **" + playerLevel["player_level"].AsString() + "**\n" +
+                                            playing,
+                                    IsInline = true
+                                },
                                 new EmbedFieldBuilder
                                 {
                                     Name = "Owned Games",
                                     Value = ownedGames["game_count"].AsString() + " products",
-                                    IsInline = false
+                                    IsInline = true
                                 },
                                 new EmbedFieldBuilder
                                 {
                                     Name = "Playtime (last 2 weeks)",
-                                    Value = string.Format("{0:#,###}", twoWeeks) + " minutes\n" + string.Format("{0:#,###0.0}", twoWeeks/60) + " hours",
+                                    Value = string.Format("{0:#,##0}", twoWeeks) + " minutes\n" + string.Format("{0:#,###0.0}", twoWeeks/60) + " hours",
                                     IsInline = true
                                 },
                                 new EmbedFieldBuilder
                                 {
                                     Name = "Playtime (forever)",
-                                    Value = string.Format("{0:#,###}", forever) + " minutes\n" + string.Format("{0:#,###0.0}", forever/60) + " hours\n" + string.Format("{0:#,###0.0}", forever/1440) + " days",
+                                    Value = string.Format("{0:#,##0}", forever) + " minutes\n" + string.Format("{0:#,###0.0}", forever/60) + " hours\n" + string.Format("{0:#,###0.00}", forever/1440) + " days",
                                     IsInline = true
                                 },
                                 mostWeekField
@@ -121,11 +136,44 @@ namespace xubot_core.src
                                 {
                                     Name = "Time Created",
                                     Value = timeCreated.ToShortDateString() + " " + timeCreated.ToShortTimeString() + "\n(" +
-                                    (System.Math.Round(createdToNow.TotalDays/3.65)/100).ToString() + " years)",
+                                    string.Format("{0:#,###.00}", (createdToNow.TotalDays/365)) + " years)",
                                     IsInline = true
                                 }
                             }
-                };
+                    };
+                }
+                else
+                {
+                    embedd = new EmbedBuilder
+                    {
+                        Title = "Steam User: " + playerSummaries["personaname"].AsString(),
+                        Color = Discord.Color.DarkBlue,
+                        Description = "Data obtained Steam WebAPI using SteamKit2",
+                        ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = "xubot :p"
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
+                            {
+                                new EmbedFieldBuilder
+                                {
+                                    Name = "Current Stats",
+                                    Value = "**This user's profile is private.**\nCurrently __" + GetStatus(playerSummaries["personastate"].AsInteger()) + "__",
+                                    IsInline = false
+                                },
+                                new EmbedFieldBuilder
+                                {
+                                    Name = "Last Logoff",
+                                    Value = lastLogOff.ToShortDateString() + " " + lastLogOff.ToShortTimeString() + "\n(" +
+                                    System.Math.Round((lastLogOffToNow.TotalHours*100)/100).ToString() + " hours)",
+                                    IsInline = false
+                                }
+                            }
+                    };
+                }
 
                 await ReplyAsync("", false, embedd.Build());
             }
@@ -159,6 +207,21 @@ namespace xubot_core.src
             KeyValue app = appList.Children.Find(x => x["name"].AsString() == appName);
 
             return app["appid"].AsInteger();
+        }
+
+        public static string GetStatus(int input)
+        {
+            switch (input)
+            {//The user's current status. 0 - Offline, 1 - Online, 2 - Busy, 3 - Away, 4 - Snooze, 5 - looking to trade, 6 - looking to play
+                case 0: return "Offline";
+                case 1: return "Online";
+                case 2: return "Busy";
+                case 3: return "Away";
+                case 4: return "Snooze";
+                case 5: return "Looking to Trade";
+                case 6: return "Looking to Play";
+                default: return "Something's wrong...";
+            }
         }
     }
 }
