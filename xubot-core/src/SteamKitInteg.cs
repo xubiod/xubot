@@ -21,6 +21,7 @@ namespace xubot_core.src
             try {
                 KeyValue ownedGames = playerServiceInterface.GetOwnedGames(steamid: id, include_appinfo: 1);
                 KeyValue playerSummaries = steamUserInterface.GetPlayerSummaries002(steamids: id);
+                KeyValue playerLevel = playerServiceInterface.GetSteamLevel(steamid: id);
 
                 playerSummaries = playerSummaries["players"].Children[0];
 
@@ -75,7 +76,7 @@ namespace xubot_core.src
 
                 EmbedBuilder embedd = new EmbedBuilder
                 {
-                    Title = "Steam User: " + playerSummaries["personaname"].AsString(),
+                    Title = "Steam User: " + playerSummaries["personaname"].AsString() + " (Level " + playerLevel["player_level"].AsString() + ")",
                     Color = Discord.Color.DarkBlue,
                     Description = "Data obtained Steam WebAPI using SteamKit2",
                     ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
