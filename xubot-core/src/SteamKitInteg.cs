@@ -49,7 +49,7 @@ namespace xubot_core.src
 
                     if (game["playtime_2weeks"].AsInteger(0) > mostWeek)
                     {
-                        mostWeek = game["playtime_forever"].AsInteger(0);
+                        mostWeek = game["playtime_2weeks"].AsInteger(0);
                         mostWeekIn = game["appid"].AsInteger();
                     }
                 }
