@@ -56,12 +56,12 @@ namespace xubot_core.src
 
                 if (mostWeekIn != 0)
                 {
-                    mostWeekField.Value = "In App **" + ReturnAppName(mostWeekIn) + "**: " + string.Format("{0:#,###0.0}", mostWeek) + " minutes\n" + string.Format("{0:#,###0.0}", mostWeek / 60) + " hours";
+                    mostWeekField.Value = "In App **" + ReturnAppName(mostWeekIn) + "**: " + string.Format("{0:#,###}", mostWeek) + " minutes\n" + string.Format("{0:#,###0.0}", mostWeek / 60) + " hours";
                 }
 
                 if (mostTimeIn != 0)
                 {
-                    mostTimeField.Value = "In App **" + ReturnAppName(mostTimeIn) + "**: " + string.Format("{0:#,###0.0}", mostTime) + " minutes\n" + string.Format("{0:#,###0.0}", mostTime / 60) + " hours";
+                    mostTimeField.Value = "In App **" + ReturnAppName(mostTimeIn) + "**: " + string.Format("{0:#,###}", mostTime) + " minutes\n" + string.Format("{0:#,###0.0}", mostTime / 60) + " hours";
                 }
 
                 ulong _lastLogOff = playerSummaries["lastlogoff"].AsUnsignedLong(0);
@@ -96,13 +96,13 @@ namespace xubot_core.src
                                 new EmbedFieldBuilder
                                 {
                                     Name = "Playtime (last 2 weeks)",
-                                    Value = string.Format("{0:#,###0.0}", twoWeeks) + " minutes\n" + string.Format("{0:#,###0.0}", twoWeeks/60) + " hours",
+                                    Value = string.Format("{0:#,###}", twoWeeks) + " minutes\n" + string.Format("{0:#,###0.0}", twoWeeks/60) + " hours",
                                     IsInline = true
                                 },
                                 new EmbedFieldBuilder
                                 {
                                     Name = "Playtime (forever)",
-                                    Value = string.Format("{0:#,###0.0}", forever) + " minutes\n" + string.Format("{0:#,###0.0}", forever/60) + " hours\n" + string.Format("{0:#,###0.0}", forever/1440) + " days",
+                                    Value = string.Format("{0:#,###}", forever) + " minutes\n" + string.Format("{0:#,###0.0}", forever/60) + " hours\n" + string.Format("{0:#,###0.0}", forever/1440) + " days",
                                     IsInline = true
                                 },
                                 mostWeekField
