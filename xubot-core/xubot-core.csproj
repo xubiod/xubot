@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net" Version="2.0.1" />
+    <PackageReference Include="Discord.Net" Version="2.1.0" />
     <PackageReference Include="GitHub" Version="1.13.2" />
     <PackageReference Include="GitInfo" Version="2.0.20">
       <PrivateAssets>all</PrivateAssets>
@@ -31,7 +31,7 @@
     <PackageReference Include="SixLabors.Shapes.Text" Version="1.0.0-beta0008" />
     <PackageReference Include="SSH.NET" Version="2016.1.0" />
     <PackageReference Include="SshNet.Security.Cryptography" Version="1.2.0" />
-    <PackageReference Include="SteamKit2" Version="2.2.0-Beta.2" />
+    <PackageReference Include="SteamKit2" Version="2.2.0-Beta.3" />
     <PackageReference Include="TweetinviAPI" Version="4.0.0" />
   </ItemGroup>
 
