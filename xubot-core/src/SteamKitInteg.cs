@@ -14,6 +14,7 @@ namespace xubot_core.src
         static dynamic steamUserInterface = WebAPI.GetInterface("ISteamUser", Program.keys.steam.ToString());
         static dynamic playerServiceInterface = WebAPI.GetInterface("IPlayerService", Program.keys.steam.ToString());
         static dynamic steamAppsInterface = WebAPI.GetInterface("ISteamApps", Program.keys.steam.ToString());
+        static dynamic steamNewsInterface = WebAPI.GetInterface("ISteamNews", Program.keys.steam.ToString());
 
         [Command("user", RunMode = RunMode.Async), Summary("Gets information about a Steam user based on their ID.")]
         public async Task User(ulong id)
@@ -189,6 +190,61 @@ namespace xubot_core.src
             KeyValue vanityUrl = steamUserInterface.ResolveVanityURL(vanityurl: vanity);
 
             await User(vanityUrl["steamid"].AsUnsignedLong(0));
+        }
+
+        [Command("news", RunMode = RunMode.Async), Summary("Gets news for a game via it's ID.")]
+        public async Task News(int appid, int cap = 5)
+        {
+            try
+            {
+                KeyValue news = steamNewsInterface.GetNewsForApp0002(appid: appid);
+
+                news = news["newsitems"];
+                int amount = System.Math.Min(System.Math.Min(news.Children.Count, cap), 5);
+
+                List<EmbedFieldBuilder> article_details = new List<EmbedFieldBuilder>();
+
+                for (int i = 0; i < amount; i++)
+                {
+                    Uri article_URI = new Uri(news.Children[i]["url"].AsString());
+
+                    string label = "";
+                    if (news.Children[i]["feedlabel"].AsString() != "Community Announcements") label = "\n*(" + news.Children[i]["feedlabel"].AsString() + ")*";
+
+                    article_details.Add(new EmbedFieldBuilder {
+                        Name = news.Children[i]["title"].AsString() + label,
+                        Value = "[Go to article (" + article_URI.Host + ")](" +
+                                news.Children[i]["url"].AsString() + ")"
+                    });
+                }
+
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Latest " + amount.ToString() + " news articles for the app: " + ReturnAppName(appid),
+                    Color = Discord.Color.DarkBlue,
+                    Description = "Data obtained Steam WebAPI using SteamKit2",
+                    //ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = article_details
+                };
+
+                await ReplyAsync("", false, embedd.Build());
+            }
+            catch (Exception exp)
+            {
+                await GeneralTools.CommHandler.BuildError(exp, Context);
+            }
+        }
+
+        [Command("news", RunMode = RunMode.Async), Summary("Gets news for a game via it's name on Steam. (HAS TO BE EXACT)")]
+        public async Task News(string name, int cap = 5)
+        {
+            await News(ReturnAppID(name), cap);
         }
 
         public static string ReturnAppName(int appID)
