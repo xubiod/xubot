@@ -307,32 +307,7 @@ namespace xubot_core.src
 
         public static async Task XuClient_GuildAvailableAsync(SocketGuild arg)
         {
-            if (first)
-            {
-                Console.WriteLine("guild list: " + arg.Name);
-
-                var xdoc = XDocument.Load("PerServTrigg.xml");
-
-                var items = from i in xdoc.Descendants("server")
-                            select new
-                            {
-                                guildid = i.Attribute("id"),
-                                onwake = i.Attribute("onwake")
-                            };
-
-                foreach (var item in items)
-                {
-                    if (item.guildid.Value == arg.Id.ToString())
-                    {
-                        if (item.onwake.Value != "")
-                        {
-                            await arg.DefaultChannel.SendMessageAsync(item.onwake.Value);
-                        }
-                    }
-                }
-
-                first = false;
-            }
+            Console.WriteLine("guild: " + arg.Name);
         }
 
         public static async Task commandInitiation()

@@ -1,0 +1,33 @@
+﻿{
+  "discord": "[main bot token]",
+  "discord_dev": "[dev bot token]",
+
+  "reddit": {
+    "user": "[reddit bot username]",
+    "pass": "[reddit bot password]",
+    "key1": "[...]",
+    "key2": "[...]"
+  },
+
+  "twitter": {
+    "key1": "[...]",
+    "key2": "[...]",
+    "key3": "[...]",
+    "key4": "[...]"
+  },
+
+  "googleLinkShort": "[...]",
+  "cat": "[...]",
+  "steam": "[...]",
+  "github:": "[...]",
+
+  "donate_link": "[link to donate]",
+
+  "amdoren": "[api key]",
+
+  "oxford_dic_id": "[app id]",
+  "oxford_dic_key": "[api key]",
+
+  "update_repository": "[...]",
+  "update_clonehere": "[directory to clone to]"
+}
