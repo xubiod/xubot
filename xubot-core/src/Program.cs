@@ -37,8 +37,6 @@ namespace xubot_core.src
         public static bool botf_reddit = false;
         public static dynamic keys;
         public static dynamic apiJson;
-        public static JToken perserv;
-        public static dynamic perserv_parsed;
         public static bool enableNSFW = false;
 
         public static bool forceRedditOff = false;
@@ -166,8 +164,6 @@ namespace xubot_core.src
 
             //await xuClient.SetGameAsync("xubot is alive!");
             Console.Beep();
-
-            RefreshPerServ();
 
             return Task.CompletedTask;
         }
@@ -332,34 +328,6 @@ namespace xubot_core.src
             if (!result.IsSuccess)
             {
                 await GeneralTools.CommHandler.BuildError(result, context);
-            }
-        }
-
-        public static void RefreshPerServ()
-        {
-            string text;
-            using (var sr = new StreamReader("PerServerTrigg.json"))
-            {
-                text = sr.ReadToEnd();
-            }
-
-            perserv = JObject.Parse(text);
-            perserv_parsed = JObject.Parse(text);
-            text = null;
-        }
-
-        public static bool ServerTrigger_Detect(ICommandContext Context)
-        {
-            RefreshPerServ();
-            try
-            {
-                string guild = Context.Guild.Id.ToString() + "_onwake";
-                return (perserv.Value<String>(guild).ToString() ?? "") == "";
-            }
-            catch (Exception fuck)
-            {
-                Context.Channel.SendMessageAsync(fuck.ToString());
-                return false;
             }
         }
     }
