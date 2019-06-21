@@ -351,15 +351,15 @@ namespace xubot_core.src
         {
             switch (input)
             {
-                case "System.String": return "string";
+                case "System.String":  return "string";
                 case "System.Boolean": return "bool";
                 case "System.Decimal": return "decimal";
-                case "System.Single": return "float";
-                case "System.Double": return "double";
-                case "System.Int32": return "int";
-                case "System.UInt32": return "uint";
-                case "System.Int64": return "long";
-                case "System.UInt64": return "ulong";
+                case "System.Single":  return "float";
+                case "System.Double":  return "double";
+                case "System.Int32":   return "int";
+                case "System.UInt32":  return "uint";
+                case "System.Int64":   return "long";
+                case "System.UInt64":  return "ulong";
 
                 default: return input;
             }
