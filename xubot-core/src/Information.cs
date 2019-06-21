@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -313,6 +314,47 @@ namespace xubot_core.src
                 {
                     await GeneralTools.CommHandler.BuildError(e, Context);
                 }
+            }
+
+            [Command("host"), Summary("Gets data about the machine running xubot, and xubot itself.")]
+            public async Task HostMachine()
+            {
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Runtime Information",
+                    Color = new Color(194, 24, 91),
+                    Description = "Details of the bot and OS",
+                    ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                    {
+                         new EmbedFieldBuilder
+                         {
+                             Name = ".NET Installation",
+                             Value = RuntimeInformation.FrameworkDescription + "\n" + RuntimeInformation.ProcessArchitecture.ToString(),
+                             IsInline = true
+                         },
+                         new EmbedFieldBuilder
+                         {
+                             Name = "OS Description",
+                             Value = RuntimeInformation.OSDescription + "\n" + RuntimeInformation.OSArchitecture.ToString(),
+                             IsInline = true
+                         },
+                         new EmbedFieldBuilder
+                         {
+                             Name = "Runtime Environment Version",
+                             Value = RuntimeEnvironment.GetSystemVersion(),
+                             IsInline = true
+                         }
+                    }
+                };
+
+                await ReplyAsync("", false, embedd.Build());
             }
         }
 
