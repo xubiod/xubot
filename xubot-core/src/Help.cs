@@ -13,13 +13,13 @@ namespace xubot_core.src
     {
         public int itemsPerPage = 15;
 
-        [Command]
+        [Command("", RunMode = RunMode.Async)]
         public async Task _help(int page = 1)
         {
             await help(page);
         }
 
-        [Command, Summary("Lists data for one command.")]
+        [Command("", RunMode = RunMode.Async), Summary("Lists data for one command.")]
         public async Task help(string lookup, int index = 1)
         {
             await helpHandling(lookup, index, true);
@@ -31,7 +31,7 @@ namespace xubot_core.src
             await helpHandling(lookup, index, wGroup);
         }*/
 
-        [Command("list"), Summary("Lists all commands.")]
+        [Command("list", RunMode = RunMode.Async), Summary("Lists all commands.")]
         public async Task help(int page = 1)
         {
             List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
