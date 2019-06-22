@@ -55,9 +55,11 @@ namespace xubot_core.src
         }
 
         [Command("update")]
-        public async Task UpdateBot()
+        public async Task UpdateBot(/* location for update script */)
         {
-
+            // run update script/application
+            // then kill xubot
+            // with a msg
         }
     }
 }
