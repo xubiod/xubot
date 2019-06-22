@@ -214,6 +214,12 @@ namespace xubot_core.src
                                 Name = "Parameters",
                                 Value = "```cs\n" + all_para + "```",
                                 IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Miscellanous",
+                                Value = "Runmode: " + comm.RunMode.ToString() + "\nRemarks: " + comm.Remarks + "\nPriority: " + comm.Priority.ToString(),
+                                IsInline = true
                             }
                         }
                 };
