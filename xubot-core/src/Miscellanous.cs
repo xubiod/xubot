@@ -122,5 +122,17 @@ namespace xubot_core.src
         {
             await ReplyAsync("A cat in a zero G flight looks like this: https://youtu.be/hb4Yd4mEVsE");
         }
+
+        [Command("there-is-a-steam-sale"), Alias("praise-lord-gaben"), Summary("TONIGHT'S THE NIGHT!")]
+        public async Task itIsTimeToCelebrate()
+        {
+            await ReplyAsync("https://youtu.be/bUo1PgKksgw");
+        }
+
+        [Command("santa-kills-the-kids"), Alias("santa-blows-up-children"), Summary(">:)")]
+        public async Task santaFuckingKillsTheKids()
+        {
+            await ReplyAsync("https://youtu.be/HG2F3hMcBrs");
+        }
     }
 }
