@@ -11,7 +11,7 @@ namespace xubot_core.src
 {
     public class ApplicationReports : ModuleBase
     {
-        [Group("uptime")]
+        [Group("uptime"), Summary("Gets application and/or connection uptime.")]
         public class Uptime : ModuleBase
         {
             TimeSpan app_uptime = DateTime.Now - Program.appStart;
@@ -23,13 +23,13 @@ namespace xubot_core.src
             TimeSpan red_cli_to_sub = Program.stepTimes[1] - Program.stepTimes[0];
             TimeSpan sub_to_discord = Program.stepTimes[2] - Program.stepTimes[1];
 
-            [Command]
+            [Command, Summary("Gets application uptime.")]
             public async Task basic()
             {
                 await ReplyAsync("Uptime (from application start) is **" + app_uptime.Days + " days, " + app_uptime.Hours + " hours, " + app_uptime.Minutes + " minutes, " + app_uptime.Seconds + " seconds.**");
             }
 
-            [Command("report", RunMode = RunMode.Async)]
+            [Command("report", RunMode = RunMode.Async), Summary("Gets application and connection uptimes.")]
             public async Task report()
             {
                 await BuildReport(Context, new List<EmbedFieldBuilder>()
@@ -56,7 +56,7 @@ namespace xubot_core.src
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
 
-            [Command("report?human", RunMode = RunMode.Async)]
+            [Command("report?human", RunMode = RunMode.Async), Summary("Gets application and connection uptimes in a more friendlier layout.")]
             public async Task reportHuman()
             {
                 await BuildReport(Context, new List<EmbedFieldBuilder>()
@@ -83,7 +83,7 @@ namespace xubot_core.src
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
 
-            [Command("report?ticks", RunMode = RunMode.Async)]
+            [Command("report?ticks", RunMode = RunMode.Async), Summary("Gets application and connection uptimes into C# ticks.")]
             public async Task reportTicks()
             {
                 await BuildReport(Context,
@@ -111,7 +111,7 @@ namespace xubot_core.src
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
 
-            [Command("report?doom-tics", RunMode = RunMode.Async)]
+            [Command("report?doom-tics", RunMode = RunMode.Async), Summary("Gets application and connection uptimes into DOOM realtics (1/35ths of a second).")]
             public async Task reportDOOMTics()
             {
                 float _tic = 35;
@@ -122,17 +122,17 @@ namespace xubot_core.src
                             new EmbedFieldBuilder
                             {
                                 Name = "Broad report",
-                                Value = "App uptime: **" + (System.Math.Round((app_uptime.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
-                                        "Connection uptime: **" + (System.Math.Round((con_uptime.TotalMilliseconds / _tic)*100)/ 100) + " DOOM realtics**\n\n" ,
+                                Value = "App uptime: **" + (System.Math.Round((app_uptime.TotalSeconds / _tic)*100)/100) + " DOOM realtics**\n" +
+                                        "Connection uptime: **" + (System.Math.Round((con_uptime.TotalSeconds / _tic)*100)/ 100) + " DOOM realtics**\n\n" ,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Specific connections report",
-                                Value = "Connection to Reddit: **" + (System.Math.Round((app_to_red_cli.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
-                                        "Connection to Discord: **" + (System.Math.Round((app_to_dis.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
-                                        "Reddit Connection to Default Sub: **" + (System.Math.Round((red_cli_to_sub.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n" +
-                                        "Default Sub to Discord: **" + (System.Math.Round((sub_to_discord.TotalMilliseconds / _tic)*100)/100) + " DOOM realtics**\n\n",
+                                Value = "Connection to Reddit: **" + (System.Math.Round((app_to_red_cli.TotalSeconds / _tic)*100)/100) + " DOOM realtics**\n" +
+                                        "Connection to Discord: **" + (System.Math.Round((app_to_dis.TotalSeconds / _tic)*100)/100) + " DOOM realtics**\n" +
+                                        "Reddit Connection to Default Sub: **" + (System.Math.Round((red_cli_to_sub.TotalSeconds / _tic)*100)/100) + " DOOM realtics**\n" +
+                                        "Default Sub to Discord: **" + (System.Math.Round((sub_to_discord.TotalSeconds / _tic)*100)/100) + " DOOM realtics**\n\n",
                                 IsInline = true
                             }
                         }
@@ -141,7 +141,7 @@ namespace xubot_core.src
                 //await ReplyAsync("Uptime (from application start) is **" + uptime.Days + " days, " + uptime.Hours + " hours, " + uptime.Minutes + " minutes, " + uptime.Seconds + " seconds.**");
             }
 
-            [Command("report?no-span", RunMode = RunMode.Async)]
+            [Command("report?no-span", RunMode = RunMode.Async), Summary("Gets application and connection starting time.")]
             public async Task report_date()
             {
                 await BuildReport(Context,
@@ -168,10 +168,10 @@ namespace xubot_core.src
             }
         }
 
-        [Group("memory")]
+        [Group("memory"), Summary("Gets memory stats for xubot.")]
         public class Memory : ModuleBase
         {
-            [Command]
+            [Command, Summary("Gets working set memory for xubot in MB.")]
             public async Task memory()
             {
                 Process currentProcess = System.Diagnostics.Process.GetCurrentProcess();
@@ -180,7 +180,7 @@ namespace xubot_core.src
                 await ReplyAsync("Memory used (MB): **" + (_used / 1000000) + "**");
             }
 
-            [Command("report")]
+            [Command("report"), Summary("Gets working set memory, virtual memory, paged memory, and their peaks for xubot.")]
             public async Task report()
             {
                 Process currentProcess = System.Diagnostics.Process.GetCurrentProcess();
