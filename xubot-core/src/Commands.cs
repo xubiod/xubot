@@ -216,7 +216,7 @@ namespace xubot_core.src
             }
         }
 
-        [Group("pattern"), Alias("pat"), Summary("a calculator, but shittier")]
+        [Group("pattern"), Alias("pat"), Summary("Makes a pattern with given characters.")]
         public class Pattern : ModuleBase
         {
             [Command("generate"), Summary("Generates a premade pattern using a search term.")]
