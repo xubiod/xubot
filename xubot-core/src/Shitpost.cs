@@ -35,7 +35,7 @@ namespace xubot_core.src
         [Group("text-overlay"), Summary("A couple of commands relating to overlaying text on an attached image.")]
         public class TextOverlay : ModuleBase
         {
-            [Command("", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```The optional parameter has a specific format too: ```\"textwrap width, r, g, b\"```")]
+            [Command("direct", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```The optional parameter has a specific format too: ```\"textwrap width, r, g, b\"```")]
             public async Task Command(string parameter, string optional = "")
             {
                 InterpParameters(parameter);
@@ -46,18 +46,11 @@ namespace xubot_core.src
 
                 font = new Font(fontCollect.Find("Roboto"), Size);
 
-                Operation(Path.GetTempPath() + "textoverlay" + type, Path.GetTempPath() + "textoverlay_new" + type, (optional != ""));
-
-                await Context.Channel.SendFileAsync(Path.GetTempPath() + "textoverlay_new" + type);
-            }
-
-            public static void Operation(string file, string newFile, bool optional = false)
-            {
-                using (var img = SLImage.Load(file))
+                using (var img = SLImage.Load(Path.GetTempPath() + "textoverlay" + type))
                 using (Image<Rgba32> container = new Image<Rgba32>(img.Width * 5, img.Height * 5))
                 {
                     container.Mutate(mut => mut.DrawImage(img, new Point(img.Width * 2, img.Height * 2), PixelColorBlendingMode.Normal, 1.0F));
-                    if (optional)
+                    if (optional != "")
                     {
                         container.Mutate(mut => mut.DrawText(new TextGraphicsOptions() { WrapTextWidth = Wraparound, ColorBlendingMode = PixelColorBlendingMode.Normal }, Text, font, new Rgba32(R / 255, G / 255, B / 255), new PointF((img.Width * 2) + X, (img.Height * 2) + Y)));
                     }
@@ -72,8 +65,9 @@ namespace xubot_core.src
                     // produces a "bts" result scaled down
                     // container.Mutate(mut => mut.Resize(new ResizeOptions() { Mode = ResizeMode.Crop, Size = new Size(img.Width, img.Height) }));
 
-                    container.Save(newFile);
+                    container.Save(Path.GetTempPath() + "textoverlay_new" + type);
                 }
+                await Context.Channel.SendFileAsync(Path.GetTempPath() + "textoverlay_new" + type);
             }
 
             public static void InterpParameters(string input)
