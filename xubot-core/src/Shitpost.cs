@@ -32,60 +32,69 @@ namespace xubot_core.src
         public static int Wraparound;
         public static int R, G, B;
 
-        [Command("text-overlay", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```The optional parameter has a specific format too: ```\"textwrap width, r, g, b\"```")]
-        public async Task ShitpostCmd(string parameter, string optional = "")
+        [Group("text-overlay"), Summary("A couple of commands relating to overlaying text on an attached image.")]
+        public class TextOverlay : ModuleBase
         {
-            InterpParameters(parameter);
-            if (optional != "") InterpOptionalParameters(optional);
-
-            await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
-            string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
-
-            font = new Font(fontCollect.Find("Roboto"), Size);
-
-            using (var img = SLImage.Load(Path.GetTempPath() + "textoverlay" + type))
-            using (Image<Rgba32> container = new Image<Rgba32>(img.Width * 5, img.Height * 5))
+            [Command("", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```The optional parameter has a specific format too: ```\"textwrap width, r, g, b\"```")]
+            public async Task Command(string parameter, string optional = "")
             {
-                container.Mutate(mut => mut.DrawImage(img, new Point(img.Width * 2, img.Height * 2), PixelColorBlendingMode.Normal, 1.0F));
-                if (optional == "")
-                {
-                    container.Mutate(mut => mut.DrawText(Text, font, Rgba32.Black, new PointF((img.Width * 2) + X, (img.Height * 2) + Y)));
-                }
-                else
-                {
-                    container.Mutate(mut => mut.DrawText(new TextGraphicsOptions() { WrapTextWidth = Wraparound, ColorBlendingMode = PixelColorBlendingMode.Normal },Text, font, new Rgba32(R/255, G/255, B/255), new PointF((img.Width * 2) + X, (img.Height * 2) + Y)));
-                }
+                InterpParameters(parameter);
+                if (optional != "") InterpOptionalParameters(optional);
 
-                // proper cropping
-                container.Mutate(mut => mut.Crop(new Rectangle(img.Width * 2, img.Height * 2, img.Width, img.Height)));
+                await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
+                string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
 
-                // produces a "bts" result scaled down
-                // container.Mutate(mut => mut.Resize(new ResizeOptions() { Mode = ResizeMode.Crop, Size = new Size(img.Width, img.Height) }));
+                font = new Font(fontCollect.Find("Roboto"), Size);
 
-                container.Save(Path.GetTempPath() + "textoverlay_new" + type);
+                Operation(Path.GetTempPath() + "textoverlay" + type, Path.GetTempPath() + "textoverlay_new" + type, (optional != ""));
+
+                await Context.Channel.SendFileAsync(Path.GetTempPath() + "textoverlay_new" + type);
             }
 
-            await Context.Channel.SendFileAsync(Path.GetTempPath() + "textoverlay_new" + type);
-        }
+            public static void Operation(string file, string newFile, bool optional = false)
+            {
+                using (var img = SLImage.Load(file))
+                using (Image<Rgba32> container = new Image<Rgba32>(img.Width * 5, img.Height * 5))
+                {
+                    container.Mutate(mut => mut.DrawImage(img, new Point(img.Width * 2, img.Height * 2), PixelColorBlendingMode.Normal, 1.0F));
+                    if (optional)
+                    {
+                        container.Mutate(mut => mut.DrawText(new TextGraphicsOptions() { WrapTextWidth = Wraparound, ColorBlendingMode = PixelColorBlendingMode.Normal }, Text, font, new Rgba32(R / 255, G / 255, B / 255), new PointF((img.Width * 2) + X, (img.Height * 2) + Y)));
+                    }
+                    else
+                    {
+                        container.Mutate(mut => mut.DrawText(Text, font, Rgba32.Black, new PointF((img.Width * 2) + X, (img.Height * 2) + Y)));
+                    }
 
-        public static void InterpParameters(string input)
-        {
-            string[] split = input.Split(",");
+                    // proper cropping
+                    container.Mutate(mut => mut.Crop(new Rectangle(img.Width * 2, img.Height * 2, img.Width, img.Height)));
 
-            X = int.Parse(split[0]);
-            Y = int.Parse(split[1]);
-            Text = split[2];
-            Size = int.Parse(split[3]);
-        }
+                    // produces a "bts" result scaled down
+                    // container.Mutate(mut => mut.Resize(new ResizeOptions() { Mode = ResizeMode.Crop, Size = new Size(img.Width, img.Height) }));
 
-        public static void InterpOptionalParameters(string input)
-        {
-            string[] split = input.Split(",");
+                    container.Save(newFile);
+                }
+            }
 
-            Wraparound = int.Parse(split[0]);
-            R = int.Parse(split[1]);
-            G = int.Parse(split[2]);
-            B = int.Parse(split[3]);
+            public static void InterpParameters(string input)
+            {
+                string[] split = input.Split(",");
+
+                X = int.Parse(split[0]);
+                Y = int.Parse(split[1]);
+                Text = split[2];
+                Size = int.Parse(split[3]);
+            }
+
+            public static void InterpOptionalParameters(string input)
+            {
+                string[] split = input.Split(",");
+
+                Wraparound = int.Parse(split[0]);
+                R = int.Parse(split[1]);
+                G = int.Parse(split[2]);
+                B = int.Parse(split[3]);
+            }
         }
     }
 }
