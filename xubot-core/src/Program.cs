@@ -140,6 +140,8 @@ namespace xubot_core.src
             xuClient.UserJoined += XuClient_UserJoined;
             Console.WriteLine();
 
+            Shitpost.Populate();
+
             await Task.Delay(-1);
         }
 
