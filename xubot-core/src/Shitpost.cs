@@ -29,24 +29,32 @@ namespace xubot_core.src
         public static int Size, X, Y;
         public static string Text;
 
-        [Command("shitpost", RunMode = RunMode.Async), Summary("FUNNY JOKE")]
-        public async Task ShitpostCmd(string file, string param)
+        [Command("text-overlay", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```")]
+        public async Task ShitpostCmd(string parameter)
         {
-            InterpParameters(param);
+            InterpParameters(parameter);
 
-            await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "shitpost", true);
+            await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
             string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
 
             font = new Font(fontCollect.Find("Roboto"), Size);
 
-            using (var img = SLImage.Load(Path.GetTempPath() + "shitpost" + type))
+            using (var img = SLImage.Load(Path.GetTempPath() + "textoverlay" + type))
+            using (Image<Rgba32> container = new Image<Rgba32>(img.Width * 5, img.Height * 5))
             {
-                img.Mutate(mut => mut.DrawText(new TextGraphicsOptions() { WrapTextWidth = img.Width - X } ,Text, font, Rgba32.Black, new PointF(X, Y)));
+                container.Mutate(mut => mut.DrawImage(img, new Point(img.Width * 2, img.Height * 2), PixelColorBlendingMode.Normal, 1.0F));
+                container.Mutate(mut => mut.DrawText(Text, font, Rgba32.Black, new PointF((img.Width * 2) + X, (img.Height * 2) + Y)));
 
-                img.Save(Path.GetTempPath() + "shitpost_new" + type);
+                // proper cropping
+                container.Mutate(mut => mut.Crop(new Rectangle(img.Width * 2, img.Height * 2, img.Width, img.Height)));
+
+                // produces a "bts" result scaled down
+                // container.Mutate(mut => mut.Resize(new ResizeOptions() { Mode = ResizeMode.Crop, Size = new Size(img.Width, img.Height) }));
+
+                container.Save(Path.GetTempPath() + "textoverlay_new" + type);
             }
 
-            await Context.Channel.SendFileAsync(Path.GetTempPath() + "shitpost_new" + type);
+            await Context.Channel.SendFileAsync(Path.GetTempPath() + "textoverlay_new" + type);
         }
 
         public static void InterpParameters(string input)
