@@ -32,14 +32,18 @@ namespace xubot_core.src
         public static int Wraparound;
         public static int R, G, B;
 
+        public static int HeaderHeight;
+        public static int LRMargin;
+        public static int TBMargin;
+
         [Group("text-overlay"), Summary("A couple of commands relating to overlaying text on an attached image.")]
         public class TextOverlay : ModuleBase
         {
-            [Command("direct", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```The optional parameter has a specific format too: ```\"textwrap width, r, g, b\"```")]
-            public async Task Command(string parameter, string optional = "")
+            [Command("direct", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```The optional parameter has a specific format too: ```\"textwrap width,r,g,b\"```")]
+            public async Task Direct(string parameter, string optional = "")
             {
-                InterpParameters(parameter);
-                if (optional != "") InterpOptionalParameters(optional);
+                DirectUtils.InterpParameters(parameter);
+                if (optional != "") DirectUtils.InterpOptionalParameters(optional);
 
                 await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
                 string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
@@ -70,24 +74,84 @@ namespace xubot_core.src
                 await Context.Channel.SendFileAsync(Path.GetTempPath() + "textoverlay_new" + type);
             }
 
-            public static void InterpParameters(string input)
+            [Command("header", RunMode = RunMode.Async), Summary("Makes a header on up of an image. The parameter string has a very specific format that **must** be followed: ```\"header height,left-right margin,top-bottom margin,text,size\"```The optional parameter has a specific format too: ```\"r, g, b\"```")]
+            public async Task Header(string parameter, string optional = "")
             {
-                string[] split = input.Split(",");
+                HeaderUtils.InterpParameters(parameter);
+                if (optional != "") HeaderUtils.InterpOptionalParameters(optional);
 
-                X = int.Parse(split[0]);
-                Y = int.Parse(split[1]);
-                Text = split[2];
-                Size = int.Parse(split[3]);
+                await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
+                string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
+
+                font = new Font(fontCollect.Find("Roboto"), Size);
+
+                using (var img = SLImage.Load(Path.GetTempPath() + "textoverlay" + type))
+                using (Image<Rgba32> container = new Image<Rgba32>(img.Width, img.Height + HeaderHeight))
+                {
+                    // forced parameters
+                    X = 4;
+                    Y = 4;
+                    Wraparound = img.Width - 8;
+
+                    container.Mutate(mut => mut.Fill(Rgba32.White));
+
+                    container.Mutate(mut => mut.DrawImage(img, new Point(0, HeaderHeight), PixelColorBlendingMode.Normal, 1.0F));
+                    if (optional != "")
+                    {
+                        container.Mutate(mut => mut.DrawText(new TextGraphicsOptions() { WrapTextWidth = Wraparound, ColorBlendingMode = PixelColorBlendingMode.Normal }, Text, font, new Rgba32(R / 255, G / 255, B / 255), new PointF(X, Y)));
+                    }
+                    else
+                    {
+                        container.Mutate(mut => mut.DrawText(new TextGraphicsOptions() { WrapTextWidth = Wraparound, ColorBlendingMode = PixelColorBlendingMode.Normal }, Text, font, Rgba32.Black, new PointF(X, Y)));
+                    }
+                }
+                await Context.Channel.SendFileAsync(Path.GetTempPath() + "textoverlay_new" + type);
             }
 
-            public static void InterpOptionalParameters(string input)
+            public class DirectUtils
             {
-                string[] split = input.Split(",");
+                public static void InterpParameters(string input)
+                {
+                    string[] split = input.Split(",");
 
-                Wraparound = int.Parse(split[0]);
-                R = int.Parse(split[1]);
-                G = int.Parse(split[2]);
-                B = int.Parse(split[3]);
+                    X = int.Parse(split[0]);
+                    Y = int.Parse(split[1]);
+                    Text = split[2];
+                    Size = int.Parse(split[3]);
+                }
+
+                public static void InterpOptionalParameters(string input)
+                {
+                    string[] split = input.Split(",");
+
+                    R = int.Parse(split[0]);
+                    G = int.Parse(split[1]);
+                    B = int.Parse(split[2]);
+                }
+            }
+
+            public class HeaderUtils
+            {
+                public static void InterpParameters(string input)
+                {
+                    string[] split = input.Split(",");
+
+                    HeaderHeight = int.Parse(split[0]);
+                    LRMargin = int.Parse(split[1]);
+                    TBMargin = int.Parse(split[2]);
+                    Text = split[3];
+                    Size = int.Parse(split[4]);
+                }
+
+                public static void InterpOptionalParameters(string input)
+                {
+                    string[] split = input.Split(",");
+
+                    Wraparound = int.Parse(split[0]);
+                    R = int.Parse(split[1]);
+                    G = int.Parse(split[2]);
+                    B = int.Parse(split[3]);
+                }
             }
         }
     }
