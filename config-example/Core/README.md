@@ -12,3 +12,5 @@
 - **Wiki.xml** - used for `[>wiki`
 
 - **code-handler/code-compiler** - used for most of `[>interp`. must be compiled and located like this relative to the bot executable: `/code-handler/xubot-code-compiler.exe`
+
+- a copy of "Roboto-Regular.ttf" is provided for text overlays and future text drawings

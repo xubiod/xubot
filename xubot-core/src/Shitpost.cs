@@ -22,8 +22,7 @@ namespace xubot_core.src
 
         public static void Populate()
         {
-            using (Stream stream = new MemoryStream(Properties.Resources.Roboto_Regular))
-                fontCollect.Install(stream);
+            fontCollect.Install("./include/Roboto-Regular.ttf");
         }
 
         [Group("text-overlay"), Summary("A couple of commands relating to overlaying text on an attached image.")]
