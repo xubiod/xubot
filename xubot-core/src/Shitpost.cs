@@ -26,19 +26,19 @@ namespace xubot_core.src
                 fontCollect.Install(stream);
         }
 
-        public static int Size, X, Y;
-        public static string Text;
-
-        public static int Wraparound;
-        public static int R, G, B;
-
-        public static int HeaderHeight;
-        public static int LRMargin;
-        public static int TBMargin;
-
         [Group("text-overlay"), Summary("A couple of commands relating to overlaying text on an attached image.")]
         public class TextOverlay : ModuleBase
         {
+            public static int Size, X, Y;
+            public static string Text;
+
+            public static int Wraparound;
+            public static int R, G, B;
+
+            public static int HeaderHeight;
+            public static int LRMargin;
+            public static int TBMargin;
+
             [Command("direct", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```The optional parameter has a specific format too: ```\"textwrap width,r,g,b\"```")]
             public async Task Direct(string parameter, string optional = "")
             {
