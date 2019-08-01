@@ -89,9 +89,9 @@ namespace xubot_core.src
                 using (Image<Rgba32> container = new Image<Rgba32>(img.Width, img.Height + HeaderHeight))
                 {
                     // forced parameters
-                    X = 4;
-                    Y = 4;
-                    Wraparound = img.Width - 8;
+                    X = LRMargin;
+                    Y = TBMargin;
+                    Wraparound = img.Width - (2 * LRMargin);
 
                     container.Mutate(mut => mut.Fill(Rgba32.White));
 
@@ -104,6 +104,8 @@ namespace xubot_core.src
                     {
                         container.Mutate(mut => mut.DrawText(new TextGraphicsOptions() { WrapTextWidth = Wraparound, ColorBlendingMode = PixelColorBlendingMode.Normal }, Text, font, Rgba32.Black, new PointF(X, Y)));
                     }
+
+                    container.Save(Path.GetTempPath() + "textoverlay_new" + type);
                 }
                 await Context.Channel.SendFileAsync(Path.GetTempPath() + "textoverlay_new" + type);
             }
