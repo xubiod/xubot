@@ -43,7 +43,6 @@ namespace xubot_core.src
                 else if (sorting.ToLower() == "comments") { return 3; }
                 else { return 1; }
             }
-
         }
     }
 }
