@@ -1,4 +1,4 @@
-﻿using RedditSharp;
+using RedditSharp;
 using Discord.Commands;
 using RedditSharp.Things;
 
@@ -43,7 +43,6 @@ namespace xubot_core.src
                 else if (sorting.ToLower() == "comments") { return 3; }
                 else { return 1; }
             }
-
         }
     }
 }
