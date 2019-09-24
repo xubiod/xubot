@@ -195,7 +195,6 @@ namespace xubot_core.src
 
                 await ReplyAsync("", false, embedd.Build());
             }
-
         }
     }
 }
