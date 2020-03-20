@@ -1,7 +1,5 @@
 ![logo](https://raw.githubusercontent.com/xubot-team/xubot/master/docs/xublogo.png)
 
-*Note: You can now donate to this project [using these cryptocurrency addresses.](DONATE.md)*
-
 ### CodeFactor Grade
 [![CodeFactor](https://www.codefactor.io/repository/github/xubot-team/xubot/badge)](https://www.codefactor.io/repository/github/xubot-team/xubot)
 
