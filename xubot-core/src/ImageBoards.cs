@@ -25,7 +25,7 @@ namespace xubot_core.src
 
         // (TECHNICALLY) OPTIMIZED
         [Command("danbooru", RunMode = RunMode.Async), Summary("Retrives a post from danbooru.")]
-        public async Task Danbooru(string tags = "")
+        public async Task Danbooru(string tags = "", bool spoiler = false)
         {
             // this shouldn't use the methods because of how different it is
 
@@ -59,14 +59,19 @@ namespace xubot_core.src
                 }
                 else
                 {
+                    string url;
                     if (keys.large_file_url.ToString().Contains("http"))
                     {
-                        await ReplyAsync(keys.large_file_url.ToString());
+                        url = keys.large_file_url.ToString();
                     }
                     else
                     {
-                        await ReplyAsync("http://danbooru.donmai.us" + keys.large_file_url.ToString());
+                        url = "http://danbooru.donmai.us" + keys.large_file_url.ToString();
                     }
+
+                    if (spoiler) url = "|| " + url + " ||";
+
+                    await ReplyAsync(url);
                 }
 
                 client.Dispose();
@@ -80,7 +85,7 @@ namespace xubot_core.src
 
         // BROKEN?
         [Command("e621", RunMode = RunMode.Async), Summary("Retrives a post from e621 (Currently not working, probs got myself banned lol).")]
-        public async Task e621(string tags = "")
+        public async Task e621(string tags = "", bool spoiler = false)
         {
             try
             {
@@ -135,33 +140,33 @@ namespace xubot_core.src
 
         // OPTIMIZED
         [Command("rule34", RunMode = RunMode.Async), Summary("Retrives a post from rule34, to the bot's dismay.")]
-        public async Task r34(string tags = "")
+        public async Task r34(string tags = "", bool spoiler = true)
         {
-            await GetPostFromXML("https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, "&pid=");
+            await GetPostFromXML("https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, spoiler, "&pid=");
         }
 
         // OPTIMIZED
         [Command("gelbooru", RunMode = RunMode.Async), Summary("Retrives a post from gelbooru.")]
-        public async Task Gelbooru(string tags = "")
+        public async Task Gelbooru(string tags = "", bool spoiler = false)
         {
-            await GetPostFromXML("https://www.gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, "&pid=");
+            await GetPostFromXML("https://www.gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, spoiler, "&pid=");
         }
 
         // OPTIMIZED
         [Command("yandere", RunMode = RunMode.Async), Summary("Retrives a post from yandere.")]
-        public async Task Yandere(string tags = "")
+        public async Task Yandere(string tags = "", bool spoiler = false)
         {
-            await GetPostFromXML("https://yande.re/post.xml?limit=1", tags, Context);
+            await GetPostFromXML("https://yande.re/post.xml?limit=1", tags, Context, spoiler);
         }
 
         // BROKEN?
         [Command("e926", RunMode = RunMode.Async), Summary("Retrives a post from e926 (Currently not working, probs got myself banned lol).")]
-        public async Task e926(string tags = "")
+        public async Task e926(string tags = "", bool spoiler = false)
         {
             //ITextChannel c = Context.Channel as ITextChannel;
 
             //await GetPostFromXML("https://e926.net/post/index.xml?limit=1", tags, Context);
-            await GetPostFromJSON("https://e926.net/post/index.xml?limit=1&page=", "https://e926.net/post/index.json?limit=1&page=", tags, Context);
+            await GetPostFromJSON("https://e926.net/post/index.xml?limit=1&page=", "https://e926.net/post/index.json?limit=1&page=", tags, Context, spoiler);
 
             /*
              try
@@ -205,16 +210,16 @@ namespace xubot_core.src
 
         // OPTIMIZED
         [Command("safebooru", RunMode = RunMode.Async), Summary("Retrives a post from safebooru.")]
-        public async Task Safebooru(string tags = "")
+        public async Task Safebooru(string tags = "", bool spoiler = false)
         {
-            await GetPostFromXML("http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, "&pid=");
+            await GetPostFromXML("http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, spoiler, "&pid=");
         }
 
         // OPTIMIZED
         [Command("konachan", RunMode = RunMode.Async), Summary("Retrives a post from konachan.")]
-        public async Task Konachan(string tags = "")
+        public async Task Konachan(string tags = "", bool spoiler = false)
         {
-            await GetPostFromXML("http://konachan.com/post.xml?limit=1", tags, Context);
+            await GetPostFromXML("http://konachan.com/post.xml?limit=1", tags, Context, spoiler);
         }
 
         public bool CheckTrigger()
@@ -239,7 +244,7 @@ namespace xubot_core.src
             return ret;
         }
 
-        public async Task GetPostFromJSON(string xmlLink, string jsonLink, string tags, ICommandContext Context)
+        public async Task GetPostFromJSON(string xmlLink, string jsonLink, string tags, ICommandContext Context, bool spoiler)
         {
             try
             {
@@ -265,7 +270,11 @@ namespace xubot_core.src
                 //await ReplyAsync(text);
                 dynamic keys = JObject.Parse(text_j);
 
-                await ReplyAsync(keys.file_url.ToString());
+                string url = keys.file_url.ToString();
+
+                if (spoiler) url = "|| " + url + " ||";
+
+                await ReplyAsync(url);
                 //string text = client.DownloadString(link);
                 //text = text.Substring(1, text.Length - 2);
                 //await ReplyAsync(text);
@@ -279,7 +288,7 @@ namespace xubot_core.src
             }
         }
 
-        public async Task GetPostFromXML(string inputLink, string tags, ICommandContext Context, string pageIn = "&page=")
+        public async Task GetPostFromXML(string inputLink, string tags, ICommandContext Context, bool spoiler, string pageIn = "&page=")
         {
             if (!(await GeneralTools.ChannelNSFW(Context)))
             {
@@ -333,12 +342,12 @@ namespace xubot_core.src
 
                     if (!imgUrl.Contains("http"))
                     {
-                        await ReplyAsync("http:" + imgUrl);
+                        imgUrl = "http:" + imgUrl;
                     }
-                    else
-                    {
-                        await ReplyAsync(imgUrl);
-                    }
+
+                    if (spoiler) imgUrl = "|| " + imgUrl + " ||";
+
+                    await ReplyAsync(imgUrl);
                 }
                 catch (Exception exp)
                 {
