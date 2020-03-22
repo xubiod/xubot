@@ -88,7 +88,8 @@ namespace xubot_core.src
         [Command("e621", RunMode = RunMode.Async), Summary("Retrives a post from e621 (Currently not working, probs got myself banned lol).")]
         public async Task e621(string tags = "", bool spoiler = false)
         {
-            throw new ICannotBeArsedToFixThisException();
+            await GeneralTools.CommHandler.BuildError(new ICannotBeArsedToFixThisException(), Context);
+            return;
 
             try
             {
@@ -166,12 +167,13 @@ namespace xubot_core.src
         [Command("e926", RunMode = RunMode.Async), Summary("Retrives a post from e926 (Currently not working, probs got myself banned lol).")]
         public async Task e926(string tags = "", bool spoiler = false)
         {
-            throw new ICannotBeArsedToFixThisException();
+            await GeneralTools.CommHandler.BuildError(new ICannotBeArsedToFixThisException(), Context);
 
             //ITextChannel c = Context.Channel as ITextChannel;
 
             //await GetPostFromXML("https://e926.net/post/index.xml?limit=1", tags, Context);
-            await GetPostFromJSON("https://e926.net/post/index.xml?limit=1&page=", "https://e926.net/post/index.json?limit=1&page=", tags, Context, spoiler);
+
+            //await GetPostFromJSON("https://e926.net/post/index.xml?limit=1&page=", "https://e926.net/post/index.json?limit=1&page=", tags, Context, spoiler);
 
             /*
              try
