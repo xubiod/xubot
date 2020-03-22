@@ -88,7 +88,7 @@ namespace xubot_core.src
         [Command("e621", RunMode = RunMode.Async), Summary("Retrives a post from e621 (Currently not working, probs got myself banned lol).")]
         public async Task e621(string tags = "", bool spoiler = false)
         {
-            await GeneralTools.CommHandler.BuildError(new ICannotBeArsedToFixThisException(), Context);
+            await GeneralTools.CommHandler.BuildError(new ICannotBeArsedToFixThisException("prob got banned lol"), Context);
             return;
 
             try
@@ -167,7 +167,7 @@ namespace xubot_core.src
         [Command("e926", RunMode = RunMode.Async), Summary("Retrives a post from e926 (Currently not working, probs got myself banned lol).")]
         public async Task e926(string tags = "", bool spoiler = false)
         {
-            await GeneralTools.CommHandler.BuildError(new ICannotBeArsedToFixThisException(), Context);
+            await GeneralTools.CommHandler.BuildError(new ICannotBeArsedToFixThisException("prob got banned lol"), Context);
 
             //ITextChannel c = Context.Channel as ITextChannel;
 
