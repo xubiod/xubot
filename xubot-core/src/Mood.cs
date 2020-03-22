@@ -36,31 +36,34 @@ namespace xubot_core.src
 
             if (-16 <= mood && mood <= 16)
             {
-                Random rand = new Random();
-                int o = rand.Next(5);
-                if (o == 0) { await ReplyAsync($"Ok..."); }
-                else if (o == 1) { await ReplyAsync($"Thanks... I guess..."); }
-                else if (o == 2) { await ReplyAsync($"!"); }
-                else if (o == 3) { await ReplyAsync($"*flinches a bit, but not a lot*"); }
-                else if (o == 4) { await ReplyAsync($"Okay then..."); }
+                switch (new Random().Next(5))
+                {
+                    case 0: await ReplyAsync($"Ok..."); break;
+                    case 1: await ReplyAsync($"Thanks... I guess..."); break;
+                    case 2: await ReplyAsync($"!"); break;
+                    case 3: await ReplyAsync($"*flinches a bit, but not a lot*"); break;
+                    case 4: await ReplyAsync($"Okay then..."); break;
+                }
             }
             else if (-16 >= mood)
             {
-                Random rand = new Random();
-                int o = rand.Next(5);
-                if (o == 0) { await ReplyAsync($"*hiss*"); }
-                else if (o == 1) { await ReplyAsync($"Can you not?"); }
-                else if (o == 2) { await ReplyAsync($"What do you want? Go away."); }
-                else if (o == 3) { await ReplyAsync($"Your *pet* has been ignored."); }
-                else if (o == 4) { await ReplyAsync($"..."); }
+                switch (new Random().Next(5))
+                {
+                    case 0: await ReplyAsync($"*hiss*"); break;
+                    case 1: await ReplyAsync($"Can you not?"); break;
+                    case 2: await ReplyAsync($"!"); break;
+                    case 3: await ReplyAsync($"What do you want? Go away."); break;
+                    case 4: await ReplyAsync($"..."); break;
+                }
             }
             else if (mood >= 16)
             {
-                Random rand = new Random();
-                int o = rand.Next(3);
-                if (o == 0) { await ReplyAsync($"Thanks!"); }
-                else if (o == 1) { await ReplyAsync($"*(it's quiet, but there is some sound coming out)*"); }
-                else if (o == 2) { await ReplyAsync($"*quiet, happy chuckle*"); }
+                switch (new Random().Next(3))
+                {
+                    case 0: await ReplyAsync($"Thanks!"); break;
+                    case 1: await ReplyAsync($"*(it's quiet, but there is some sound coming out)*"); break;
+                    case 2: await ReplyAsync($"*quiet, happy chuckle*"); break;
+                }
             }
 
             MoodTools.AdjustMood(Context.Message.Author, 0.2);
@@ -75,29 +78,32 @@ namespace xubot_core.src
 
             if (-16 <= mood && mood <= 16)
             {
-                Random rand = new Random();
-                int o = rand.Next(3);
-                if (o == 0) { await ReplyAsync($"*stunned*"); }
-                else if (o == 1) { await ReplyAsync($"!"); }
-                else if (o == 2) { await ReplyAsync($"I... wasn't expecting that."); }
+                switch (new Random().Next(3))
+                {
+                    case 0: await ReplyAsync($"*stunned*"); break;
+                    case 1: await ReplyAsync($"!"); break;
+                    case 2: await ReplyAsync($"I... wasn't expecting that."); break;
+                }
             }
             else if (-16 >= mood)
             {
-                Random rand = new Random();
-                int o = rand.Next(5);
-                if (o == 0) { await ReplyAsync($"I don't want a hug."); }
-                else if (o == 1) { await ReplyAsync($"*awkward silence*"); }
-                else if (o == 2) { await ReplyAsync($"Uhhh... OK?"); }
-                else if (o == 3) { await ReplyAsync($"You are going to make me explode."); }
-                else if (o == 4) { await ReplyAsync($"..."); }
+                switch (new Random().Next(5))
+                {
+                    case 0: await ReplyAsync($"I don't want a hug."); break;
+                    case 1: await ReplyAsync($"*awkward silence*"); break;
+                    case 2: await ReplyAsync($"Uhhh... OK?"); break;
+                    case 3: await ReplyAsync($"You are going to make me explode."); break;
+                    case 4: await ReplyAsync($"..."); break;
+                }
             }
             else if (mood >= 16)
             {
-                Random rand = new Random();
-                int o = rand.Next(3);
-                if (o == 0) { await ReplyAsync($"*accepts the embrace*"); }
-                else if (o == 1) { await ReplyAsync($"*it's faint, but there is some undifferential sound*"); }
-                else if (o == 2) { await ReplyAsync($"*hugs back*"); }
+                switch (new Random().Next(3))
+                {
+                    case 0: await ReplyAsync($"*accepts the embrace*"); break;
+                    case 1: await ReplyAsync($"*it's faint, but there is some undifferential sound*"); break;
+                    case 2: await ReplyAsync($"*hugs back*"); break;
+                }
             }
 
             MoodTools.AdjustMood(Context.Message.Author, 0.4);
@@ -119,29 +125,32 @@ namespace xubot_core.src
 
             if (-16 <= mood && mood <= 16)
             {
-                Random rand = new Random();
-                int o = rand.Next(3);
-                if (o == 0) { await ReplyAsync($"Oh... um... alright..."); }
-                else if (o == 1) { await ReplyAsync($"*surprised*"); }
-                else if (o == 2) { await ReplyAsync($"Uh..."); }
+                switch (new Random().Next(3))
+                {
+                    case 0: await ReplyAsync($"Oh... um... alright..."); break;
+                    case 1: await ReplyAsync($"*surprised*"); break;
+                    case 2: await ReplyAsync($"Uh..."); break;
+                }
             }
             else if (-16 >= mood)
             {
-                Random rand = new Random();
-                int o = rand.Next(5);
-                if (o == 0) { await ReplyAsync($"I don't want to cuddle with you."); }
-                else if (o == 1) { await ReplyAsync($"Isn't this techincally *bot abuse?*"); }
-                else if (o == 2) { await ReplyAsync($"We shall not coexist on the same bed."); }
-                else if (o == 3) { await ReplyAsync($"This isn't fine."); }
-                else if (o == 4) { await ReplyAsync($"*makes a strange noise*"); }
+                switch (new Random().Next(5))
+                {
+                    case 0: await ReplyAsync($"I don't want to cuddle with you."); break;
+                    case 1: await ReplyAsync($"Isn't this techincally *bot abuse?*"); break;
+                    case 2: await ReplyAsync($"We shall not coexist on the same bed."); break;
+                    case 3: await ReplyAsync($"This isn't fine."); break;
+                    case 4: await ReplyAsync($"*makes a strange noise*"); break;
+                }
             }
             else if (mood >= 16)
             {
-                Random rand = new Random();
-                int o = rand.Next(3);
-                if (o == 0) { await ReplyAsync($"OwO"); }
-                else if (o == 1) { await ReplyAsync($"*accepts cuddles*"); }
-                else if (o == 2) { await ReplyAsync($"*you hear a barely audible noise*"); }
+                switch (new Random().Next(3))
+                {
+                    case 0: await ReplyAsync($"uwu"); break;
+                    case 1: await ReplyAsync($"*accepts cuddles*"); break;
+                    case 2: await ReplyAsync($"*you hear a barely audible noise*"); break;
+                }
             }
 
             MoodTools.AdjustMood(Context.Message.Author, 0.5);
@@ -150,13 +159,14 @@ namespace xubot_core.src
         [Command("poke"), Alias("tap"), Summary("attempts to poke the bot")]
         public async Task poke()
         {
-            Random rand = new Random();
-            int o = rand.Next(5);
-            if (o == 0) { await ReplyAsync($"Hmm..?"); }
-            else if (o == 1) { await ReplyAsync($"Stop poking me."); }
-            else if (o == 2) { await ReplyAsync($"I *will* not friend you on Facebook."); }
-            else if (o == 3) { await ReplyAsync($"I swear if you poke me one more time..."); }
-            else if (o == 4) { await ReplyAsync($"..."); }
+            switch (new Random().Next(5))
+            {
+                case 0: await ReplyAsync($"Hmm..?"); break;
+                case 1: await ReplyAsync($"Stop poking me"); break;
+                case 2: await ReplyAsync($"I *will* not friend you on Facebook."); break;
+                case 3: await ReplyAsync($"I swear if you poke me one more time..."); break;
+                case 4: await ReplyAsync($"..."); break;
+            }
 
             MoodTools.AdjustMood(Context.Message.Author, -0.1);
         }
@@ -164,13 +174,15 @@ namespace xubot_core.src
         [Command("highfive"), Alias("high5"), Summary("attempts to highfive the bot")]
         public async Task highfive()
         {
-            Random rand = new Random();
-            int o = rand.Next(5);
-            if (o == 0) { await ReplyAsync($"Get your hand out of my face."); }
-            else if (o == 1) { await ReplyAsync($"I will not slap your hand."); }
-            else if (o == 2) { await ReplyAsync($"I shall not."); }
-            else if (o == 3) { await ReplyAsync($"I will not talk to the hand."); }
-            else if (o == 4) { await ReplyAsync($"..."); }
+            switch (new Random().Next(5))
+            {
+                case 0: await ReplyAsync($"Get your hand out of my face."); break;
+                case 1: await ReplyAsync($"I will not slap your hand."); break;
+                case 2: await ReplyAsync($"I shall not."); break;
+                case 3: await ReplyAsync($"I will not talk to the hand."); break;
+                case 4: await ReplyAsync($"..."); break;
+            }
+
             MoodTools.AdjustMood(Context.Message.Author, -0.01);
         }
     }
