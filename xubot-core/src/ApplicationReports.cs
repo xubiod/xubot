@@ -24,13 +24,13 @@ namespace xubot_core.src
             TimeSpan sub_to_discord = Program.stepTimes[2] - Program.stepTimes[1];
 
             [Command, Summary("Gets application uptime.")]
-            public async Task basic()
+            public async Task Basic()
             {
                 await ReplyAsync("Uptime (from application start) is **" + app_uptime.Days + " days, " + app_uptime.Hours + " hours, " + app_uptime.Minutes + " minutes, " + app_uptime.Seconds + " seconds.**");
             }
 
             [Command("report", RunMode = RunMode.Async), Summary("Gets application and connection uptimes.")]
-            public async Task report()
+            public async Task Report()
             {
                 await BuildReport(Context, new List<EmbedFieldBuilder>()
                         {
@@ -57,7 +57,7 @@ namespace xubot_core.src
             }
 
             [Command("report?human", RunMode = RunMode.Async), Summary("Gets application and connection uptimes in a more friendlier layout.")]
-            public async Task reportHuman()
+            public async Task ReportHuman()
             {
                 await BuildReport(Context, new List<EmbedFieldBuilder>()
                         {
@@ -84,7 +84,7 @@ namespace xubot_core.src
             }
 
             [Command("report?ticks", RunMode = RunMode.Async), Summary("Gets application and connection uptimes into C# ticks.")]
-            public async Task reportTicks()
+            public async Task ReportTicks()
             {
                 await BuildReport(Context,
                     new List<EmbedFieldBuilder>()
@@ -112,7 +112,7 @@ namespace xubot_core.src
             }
 
             [Command("report?doom-tics", RunMode = RunMode.Async), Summary("Gets application and connection uptimes into DOOM realtics (1/35ths of a second).")]
-            public async Task reportDOOMTics()
+            public async Task ReportDOOMTics()
             {
                 float _tic = 35;
 
@@ -142,7 +142,7 @@ namespace xubot_core.src
             }
 
             [Command("report?no-span", RunMode = RunMode.Async), Summary("Gets application and connection starting time.")]
-            public async Task report_date()
+            public async Task ReportDate()
             {
                 await BuildReport(Context,
                     new List<EmbedFieldBuilder>()
@@ -172,7 +172,7 @@ namespace xubot_core.src
         public class Memory : ModuleBase
         {
             [Command, Summary("Gets working set memory for xubot in MB.")]
-            public async Task memory()
+            public async Task BasicMemory()
             {
                 Process currentProcess = System.Diagnostics.Process.GetCurrentProcess();
                 long _used = currentProcess.WorkingSet64;
@@ -181,7 +181,7 @@ namespace xubot_core.src
             }
 
             [Command("report"), Summary("Gets working set memory, virtual memory, paged memory, and their peaks for xubot.")]
-            public async Task report()
+            public async Task Report()
             {
                 Process currentProcess = System.Diagnostics.Process.GetCurrentProcess();
                 double _used_bytes = currentProcess.WorkingSet64;
