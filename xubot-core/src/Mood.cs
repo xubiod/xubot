@@ -14,7 +14,7 @@ namespace xubot_core.src
         public static XDocument xdoc = new XDocument();
 
         [Command("mood"), Summary("Get's your mood/emotion value from xubot.")]
-        public async Task getMoodCMD()
+        public async Task GetMoodCMD()
         {
             MoodTools.AddOrRefreshMood(Context.Message.Author);
             double mood = MoodTools.ReadMood(Context.Message.Author);
@@ -28,7 +28,7 @@ namespace xubot_core.src
         }
 
         [Command("pet"), Alias("stroke"), Summary("why.")]
-        public async Task pet()
+        public async Task Pet()
         {
             MoodTools.AddOrRefreshMood(Context.Message.Author);
 
@@ -70,7 +70,7 @@ namespace xubot_core.src
         }
 
         [Command("hug"), Alias("squeeze"), Summary("attempts to hug the bot")]
-        public async Task hug()
+        public async Task Hug()
         {
             MoodTools.AddOrRefreshMood(Context.Message.Author);
 
@@ -110,14 +110,14 @@ namespace xubot_core.src
         }
 
         [Command("sex"), Alias("fuck"), Summary("attempts to sex the bot")]
-        public async Task sex()
+        public async Task Sex()
         {
             await ReplyAsync($"Don't even think about it.");
             MoodTools.AdjustMood(Context.Message.Author, -2);
         }
 
         [Command("cuddle"), Alias("cud"), Summary("attempts to cuddle the bot")]
-        public async Task cuddle()
+        public async Task Cuddle()
         {
             MoodTools.AddOrRefreshMood(Context.Message.Author);
 
@@ -157,7 +157,7 @@ namespace xubot_core.src
         }
 
         [Command("poke"), Alias("tap"), Summary("attempts to poke the bot")]
-        public async Task poke()
+        public async Task Poke()
         {
             switch (new Random().Next(5))
             {
@@ -172,7 +172,7 @@ namespace xubot_core.src
         }
 
         [Command("highfive"), Alias("high5"), Summary("attempts to highfive the bot")]
-        public async Task highfive()
+        public async Task HighFive()
         {
             switch (new Random().Next(5))
             {
