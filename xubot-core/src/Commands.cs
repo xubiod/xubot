@@ -568,10 +568,10 @@ namespace xubot_core.src
         {
             /// <summary>
             /// this is just a split
-            /// 
+            ///
             /// jokes below
             /// </summary>
-            /// 
+            ///
             [Command("gen"), Summary("Makes a random integer with the number given as maximum.")]
             public async Task RndDefault(int max)
             {
