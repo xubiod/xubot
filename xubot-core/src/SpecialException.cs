@@ -77,5 +77,12 @@ namespace xubot_core.src
             public IfThisExceptionShowsUpMyWillToLiveWillDropByARatherLot(string message) : base(message) { }
             public IfThisExceptionShowsUpMyWillToLiveWillDropByARatherLot(string message, Exception inner) : base(message, inner) { }
         }
+
+        public class ICannotBeArsedToFixThisException : Exception
+        {
+            public ICannotBeArsedToFixThisException() { }
+            public ICannotBeArsedToFixThisException(string message) : base(message) { }
+            public ICannotBeArsedToFixThisException(string message, Exception inner) : base(message, inner) { }
+        }
     }
 }
