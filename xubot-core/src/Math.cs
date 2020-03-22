@@ -12,42 +12,42 @@ namespace xubot_core.src
     {
         // SIMPLE MATH
         [Command("add"), Alias("plus"), Summary("Adds two floats.")]
-        public async Task add([Summary("float 1")] float num1, [Summary("float 2")] float num2)
+        public async Task Add([Summary("float 1")] float num1, [Summary("float 2")] float num2)
         {
             float result = num1 + num2;
             await ReplyAsync("The result is: " + result.ToString());
         }
 
         [Command("sub"), Alias("subtract"), Summary("Subtract two floats.")]
-        public async Task sub([Summary("float 1")] float num1, [Summary("float 2")] float num2)
+        public async Task Sub([Summary("float 1")] float num1, [Summary("float 2")] float num2)
         {
             float result = num1 - num2;
             await ReplyAsync("The result is: " + result.ToString());
         }
 
         [Command("multi"), Alias("multiply"), Summary("Multiplies two floats.")]
-        public async Task multi([Summary("float 1")] float num1, [Summary("float 2")] float num2)
+        public async Task Multi([Summary("float 1")] float num1, [Summary("float 2")] float num2)
         {
             float result = num1 * num2;
             await ReplyAsync("The result is: " + result.ToString());
         }
 
         [Command("divide"), Alias("division"), Summary("Divides two floats.")]
-        public async Task divide([Summary("float 1")] float num1, [Summary("float 2")] float num2)
+        public async Task Divide([Summary("float 1")] float num1, [Summary("float 2")] float num2)
         {
             float result = num1 / num2;
             await ReplyAsync("The result is: " + result.ToString());
         }
 
         [Command("mod"), Alias("modulo"), Summary("Modulos two floats.")]
-        public async Task mod([Summary("float 1")] float num1, [Summary("float 2")] float num2)
+        public async Task Mod([Summary("float 1")] float num1, [Summary("float 2")] float num2)
         {
             float result = num1 % num2;
             await ReplyAsync("The result is: " + result.ToString());
         }
 
         [Command("pow"), Alias("power"), Summary("Takes a number to another number as the power.")]
-        public async Task pow([Summary("double 1")] double num1, [Summary("double 2")] double num2)
+        public async Task Pow([Summary("double 1")] double num1, [Summary("double 2")] double num2)
         {
             double result = System.Math.Pow(num1, num2);
 
@@ -62,7 +62,7 @@ namespace xubot_core.src
         }
 
         [Command("sqrt"), Alias("squareroot"), Summary("Square roots a number.")]
-        public async Task sqrt([Summary("double 1")] double num1)
+        public async Task Sqrt([Summary("double 1")] double num1)
         {
             double result = System.Math.Sqrt(num1);
 
@@ -78,7 +78,7 @@ namespace xubot_core.src
 
         //TRIG
         [Command("sin"), Alias("sine"), Summary("Returns the sine of a number.")]
-        public async Task sin([Summary("double")] double num)
+        public async Task Sine([Summary("double")] double num)
         {
             double result = System.Math.Sin(num);
 
@@ -93,7 +93,7 @@ namespace xubot_core.src
         }
 
         [Command("sinh"), Alias("sineh"), Summary("Returns the hyperbolic sine of a number.")]
-        public async Task sinh([Summary("double")] double num)
+        public async Task HyperbolicSine([Summary("double")] double num)
         {
             double result = System.Math.Sinh(num);
 
@@ -108,7 +108,7 @@ namespace xubot_core.src
         }
 
         [Command("asin"), Alias("asine"), Summary("Gets the asine of a number and returns an angle.")]
-        public async Task asin([Summary("double")] double num)
+        public async Task Asine([Summary("double")] double num)
         {
             double result = System.Math.Asin(num);
 
@@ -123,7 +123,7 @@ namespace xubot_core.src
         }
 
         [Command("cos"), Alias("cosine"), Summary("Returns the cosine of a number.")]
-        public async Task cos([Summary("double")] double num)
+        public async Task Cosine([Summary("double")] double num)
         {
             double result = System.Math.Cos(num);
 
@@ -138,7 +138,7 @@ namespace xubot_core.src
         }
 
         [Command("cosh"), Alias("cosineh"), Summary("Returns the hyperbolic cosine of a number.")]
-        public async Task cosh([Summary("double")] double num)
+        public async Task HyperbolicCosine([Summary("double")] double num)
         {
             double result = System.Math.Cosh(num);
 
@@ -153,7 +153,7 @@ namespace xubot_core.src
         }
 
         [Command("acos"), Alias("acosine"), Summary("Gets the acosine of a number and returns an angle.")]
-        public async Task acos([Summary("double")] double num)
+        public async Task Acosine([Summary("double")] double num)
         {
             double result = System.Math.Acos(num);
 
@@ -168,7 +168,7 @@ namespace xubot_core.src
         }
 
         [Command("tan"), Alias("tangent"), Summary("Returns the tangent of a number.")]
-        public async Task tan([Summary("double")] double num)
+        public async Task Tangent([Summary("double")] double num)
         {
             double result = System.Math.Sin(num);
 
@@ -183,7 +183,7 @@ namespace xubot_core.src
         }
 
         [Command("tanh"), Alias("tangenth"), Summary("Gets the hyperbolic tangent of a number.")]
-        public async Task tanh([Summary("double")] double num)
+        public async Task HyperbolicTangent([Summary("double")] double num)
         {
             double result = System.Math.Tanh(num);
 
@@ -198,7 +198,7 @@ namespace xubot_core.src
         }
 
         [Command("atan"), Alias("atangent"), Summary("Gets the atangent of a number and returns an angle.")]
-        public async Task atan([Summary("double")] double num)
+        public async Task Atangent([Summary("double")] double num)
         {
             double result = System.Math.Atan(num);
 
@@ -214,7 +214,7 @@ namespace xubot_core.src
 
         //OTHER
         [Command("quickeval"), Alias("eval", "quickdo", "do"), Summary("Does quick math operations with integers.")]
-        public async Task evalu([Summary("eval input")] string input)
+        public async Task Evalutare([Summary("eval input")] string input)
         {
             System.Data.DataTable table = new System.Data.DataTable();
             table.Columns.Add("expression", string.Empty.GetType(), input);
@@ -228,7 +228,7 @@ namespace xubot_core.src
         public class convert : ModuleBase
         {
             [Command("temperature"), Alias("temp"), Summary("Converts Celsius or Fahrenheit to the other using `c2f` and `f2c`.")]
-            public async Task temp([Summary("double 1")] double num1, string fromto)
+            public async Task Temp([Summary("double 1")] double num1, string fromto)
             {
                 if (fromto == "c2f")
                 {
@@ -241,7 +241,7 @@ namespace xubot_core.src
             }
 
             [Command("length"), Alias("height"), Summary("Converts feet to meters to the other using `ft2m` and `m2ft`.")]
-            public async Task leng([Summary("double 1")] double num1, string fromto)
+            public async Task Length([Summary("double 1")] double num1, string fromto)
             {
                 if (fromto == "ft2m")
                 {

@@ -23,7 +23,7 @@ namespace xubot_core.src
         //public static ICommandContext _Context;
 
         [Command("collect"), Summary("Collects currency based on the amount of hours since last collection.")]
-        public async Task collect()
+        public async Task Collect()
         {
             try
             {
@@ -54,7 +54,7 @@ namespace xubot_core.src
         }
 
         [Command("balance"), Summary("Returns your balance.")]
-        public async Task balance()
+        public async Task Balance()
         {
             if (EconomyTools.AccountExists(Context.Message.Author))
             {
@@ -67,7 +67,7 @@ namespace xubot_core.src
         }
 
         [Command("transfer", RunMode = RunMode.Async), Summary("Initializes a transfer to someone. Only one transfer is allowed at any given time.")]
-        public async Task transfer(double amount, ulong id)
+        public async Task Transfer(double amount, ulong id)
         {
             //IUser transferTo = await Context.Guild.GetUserAsync(id);
             IUser transferTo = Program.xuClient.GetUser(id);
@@ -101,7 +101,7 @@ namespace xubot_core.src
         }
 
         [Command("confirm"), Summary("Confirms a transfer to someone. Can only be done by the starter of the transfer, and incorrect codes cancel the transfer.")]
-        public async Task confirmTransfer(string pass)
+        public async Task ConfirmTransfer(string pass)
         {
             if (_pass == pass && _pass != "")
             {

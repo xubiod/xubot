@@ -53,7 +53,7 @@ namespace xubot_core.src
         //AssembleURL("en", "", "definitions")
 
         [Command("define", RunMode = RunMode.Async), Summary("Defines a word using the Oxford Dictionary.")]
-        public async Task define(string _word, string _langID = "en")
+        public async Task Define(string _word, string _langID = "en")
         {
             try
             {
@@ -119,7 +119,7 @@ namespace xubot_core.src
 
         //inflections
         [Command("inflection", RunMode = RunMode.Async), Summary("Shows inflections for a word using the Oxford Dictionary.")]
-        public async Task inflections(string _word, string _langID = "en")
+        public async Task Inflections(string _word, string _langID = "en")
         {
             try
             {
@@ -183,7 +183,7 @@ namespace xubot_core.src
 
         //words with same meanings
         [Command("synonyms", RunMode = RunMode.Async), Alias("syn"), Summary("Gives a list of synonyms a word using the Oxford Dictionary.")]
-        public async Task syn(string _word, string _langID = "en")
+        public async Task Syn(string _word, string _langID = "en")
         {
             try
             {
@@ -256,7 +256,7 @@ namespace xubot_core.src
 
         //words with opposite meanings
         [Command("antonyms", RunMode = RunMode.Async), Alias("ant"), Summary("Gives a list of antonyms a word using the Oxford Dictionary.")]
-        public async Task ant(string _word, string _langID = "en")
+        public async Task Ant(string _word, string _langID = "en")
         {
             try
             {
@@ -326,7 +326,7 @@ namespace xubot_core.src
 
         //dictionary list
         [Command("list", RunMode = RunMode.Async), Summary("Gives a list of supported languages for the Oxford Dictionary.")]
-        public async Task list()
+        public async Task List()
         {
             try
             {

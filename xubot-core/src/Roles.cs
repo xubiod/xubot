@@ -19,7 +19,7 @@ namespace xubot_core.src
         public static XDocument xdoc = new XDocument();
 
         [Command("add"), RequireBotPermission(GuildPermission.ManageRoles)]
-        public async Task set(string pro)
+        public async Task Add(string pro)
         {
             RoleTools.Pronoun.AddRefresh(Context.Message.Author);
             RoleTools.Pronoun.Set(Context.Message.Author, pro);
@@ -51,7 +51,7 @@ namespace xubot_core.src
         }
 
         [Command("remove"), RequireBotPermission(GuildPermission.ManageRoles)]
-        public async Task takeoff(string pro)
+        public async Task Remove(string pro)
         {
             RoleTools.Pronoun.AddRefresh(Context.Message.Author);
             RoleTools.Pronoun.Set(Context.Message.Author, pro);
@@ -72,7 +72,7 @@ namespace xubot_core.src
         }
 
         [Command("replace"), RequireBotPermission(GuildPermission.ManageRoles)]
-        public async Task replace(string pro)
+        public async Task Replace(string pro)
         {
             RoleTools.Pronoun.AddRefresh(Context.Message.Author);
             RoleTools.Pronoun.Set(Context.Message.Author, pro);
@@ -110,7 +110,7 @@ namespace xubot_core.src
         public static XDocument xdoc = new XDocument();
 
         [Command("set"), RequireBotPermission(GuildPermission.ManageRoles)]
-        public async Task replace(string first, string second, string third)
+        public async Task Replace(string first, string second, string third)
         {
             //RoleTools.Identity.AddRefresh(Context.Message.Author);
 
@@ -143,7 +143,7 @@ namespace xubot_core.src
         }
 
         [Command("remove"), RequireBotPermission(GuildPermission.ManageRoles)]
-        public async Task remove()
+        public async Task Remove()
         {
             foreach (var _R in (Context.Message.Author as IGuildUser).RoleIds)
             {
@@ -350,7 +350,6 @@ namespace xubot_core.src
 
                 Roles.xdoc.Save("Identity.xml");
             }
-
             public static string Simplify(string input)
             {
                 if (input.Contains("cis")) { return "cis"; }

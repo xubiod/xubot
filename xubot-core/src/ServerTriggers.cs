@@ -16,10 +16,10 @@ namespace xubot_core.src
         public static XDocument xdoc = new XDocument();
 
         [Group("servertriggers"), Summary("Server specific triggers? Wow that sounds hella lame")]
-        public class _base : ModuleBase
+        public class Base : ModuleBase
         {
             [Command("add"), RequireUserPermission(GuildPermission.ManageGuild)]
-            public async Task addServ(string onwake = "", bool nsfwOverride = false, bool useMarkov = false)
+            public async Task AddTrigger(string onwake = "", bool nsfwOverride = false, bool useMarkov = false)
             {
                 //[>servertriggers add "onwake msg" true
                 bool exist = false;
@@ -68,7 +68,7 @@ namespace xubot_core.src
             }
 
             [Command("edit")]
-            public async Task editTrig(string edit, string setTo)
+            public async Task EditTrigger(string edit, string setTo)
             {
                 xdoc = XDocument.Load("PerServTrigg.xml");
 

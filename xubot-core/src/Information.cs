@@ -15,10 +15,10 @@ namespace xubot_core.src
     {
         //INFORMATION ABOUT SERVER/CHANNEL/USER
         [Group("info"), Summary("Gets information about various things.")]
-        public class info : ModuleBase
+        public class Info : ModuleBase
         {
             [Command("server"), Alias("server-info", "si"), Summary("Gets information about the server.")]
-            public async Task serverinfo()
+            public async Task Serverinfo()
             {
                 string verifyLvl = Context.Guild.VerificationLevel.ToString();
                 string afkchannelid = Context.Guild.AFKChannelId.ToString();
@@ -121,7 +121,7 @@ namespace xubot_core.src
             }
 
             [Command("channel"), Alias("channel-info", "ci"), Summary("Gets information about the current channel")]
-            public async Task channelinfo()
+            public async Task Channelinfo()
             {
                 EmbedBuilder embedd = new EmbedBuilder
                 {
@@ -174,7 +174,7 @@ namespace xubot_core.src
             }
 
             [Command("user", RunMode = RunMode.Async), Alias("user-info", "ui"), Summary("Gets information about the user that sent the command.")]
-            public async Task user(ulong id = 0)
+            public async Task User(ulong id = 0)
             {
                 try
                 {
@@ -360,7 +360,7 @@ namespace xubot_core.src
 
         //INFORMATION ABOUT XUBOT
         [Command("about"), Summary("Returns data about the bot.")]
-        public async Task about()
+        public async Task About()
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.Async = true;
@@ -390,7 +390,7 @@ namespace xubot_core.src
         }
 
         [Command("credits"), Summary("Returns people that inspired or helped produce this bot.")]
-        public async Task credits()
+        public async Task Credits()
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.Async = true;
@@ -421,7 +421,7 @@ namespace xubot_core.src
         }
 
         [Command("version"), Summary("Returns the current build via the latest commit.")]
-        public async Task versionCMD()
+        public async Task VersionCMD()
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.Async = true;
@@ -471,13 +471,13 @@ namespace xubot_core.src
         }
 
         [Command("donate"), Summary("Returns a link to donate to the developer.")]
-        public async Task donate()
+        public async Task Donate()
         {
             await ReplyAsync("To donate to the creator of this bot, please visit:\n" + Program.keys.donate_link);
         }
 
         [Command("privacy-policy")]
-        public async Task pp()
+        public async Task PP()
         {
             File.WriteAllText(Path.GetTempPath() + "pripol.txt", Properties.Resources.PrivacyPolicy);
             await Context.Channel.SendFileAsync(Path.GetTempPath() + "pripol.txt");

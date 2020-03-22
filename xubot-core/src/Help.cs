@@ -14,15 +14,15 @@ namespace xubot_core.src
         public int itemsPerPage = 15;
 
         [Command("", RunMode = RunMode.Async)]
-        public async Task _help(int page = 1)
+        public async Task _Help(int page = 1)
         {
-            await help(page);
+            await HelpCmd(page);
         }
 
         [Command("", RunMode = RunMode.Async), Summary("Lists data for one command.")]
-        public async Task help(string lookup, int index = 1)
+        public async Task HelpCmd(string lookup, int index = 1)
         {
-            await helpHandling(lookup, index, true);
+            await HelpHandling(lookup, index, true);
         }
 
         /*[Command, Summary("Lists data for one command.")]
@@ -32,7 +32,7 @@ namespace xubot_core.src
         }*/
 
         [Command("list", RunMode = RunMode.Async), Summary("Lists all commands.")]
-        public async Task help(int page = 1)
+        public async Task HelpCmd(int page = 1)
         {
             List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
 
@@ -82,7 +82,7 @@ namespace xubot_core.src
             await ReplyAsync("", false, embedd.Build());
         }
 
-        public async Task helpHandling(string lookup, int index = 1, bool exact = false)
+        public async Task HelpHandling(string lookup, int index = 1, bool exact = false)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace xubot_core.src
                 catch (System.ArgumentOutOfRangeException aoore)
                 {
                     //not a command
-                    groupHandling(lookup);
+                    GroupHandling(lookup);
                     return;
                 }
 
@@ -231,7 +231,7 @@ namespace xubot_core.src
             }
         }
 
-        public async Task groupHandling(string lookup)
+        public async Task GroupHandling(string lookup)
         {
             try
             {
@@ -269,7 +269,7 @@ namespace xubot_core.src
                         all_alias += alias + "\n";
                     }
                 }
-                
+
                 string parentForm = "Nothing";
 
                 if (group.Parent != null)

@@ -29,7 +29,7 @@ namespace xubot_core.src
         public class gitCommands : ModuleBase
         {
             [Command("repo"), Summary("Returns information about a GitHub repo.")]
-            public async Task repoInfo(string user, string repo)
+            public async Task RepoInfo(string user, string repo)
             {
                 xuRepo_Comm = await xuGitClient.GetRepositoryAsync(user, repo);
                 EmbedBuilder embedd = new EmbedBuilder
@@ -77,7 +77,7 @@ namespace xubot_core.src
             }
 
             [Command("commit"), Summary("Returns information about a GitHub commit based on its SHA.")]
-            public async Task commitInfo(string user, string repo, string sha)
+            public async Task CommitInfo(string user, string repo, string sha)
             {
                 xuCommit_Comm = await xuGitClient.GetCommitAsync(user, repo, sha);
                 EmbedBuilder embedd = new EmbedBuilder
@@ -131,7 +131,7 @@ namespace xubot_core.src
             }
 
             [Command("repo-latest-commit"), Alias("rlc"), Summary("Returns the latest commit on a GitHub repo.")]
-            public async Task repoCommInfo(string user, string repo)
+            public async Task RepoCommInfo(string user, string repo)
             {
                 xuCommitArr_Comm = await xuGitClient.GetRepositoryCommitsAsync(user, repo);
                 EmbedBuilder embedd = new EmbedBuilder
@@ -161,7 +161,7 @@ namespace xubot_core.src
             }
 
             [Command("latest-ref"), Summary("Returns information on a GitHub repo's latest ref.")]
-            public async Task refsInfo(string user, string repo)
+            public async Task RefsInfo(string user, string repo)
             {
                 xuRepo_Refs = await xuGitClient.GetRefsAsync(user, repo);
                 EmbedBuilder embedd = new EmbedBuilder

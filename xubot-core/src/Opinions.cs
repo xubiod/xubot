@@ -13,7 +13,7 @@ namespace xubot_core.src
     public class Opinions : ModuleBase
     {
         [Command("opinion"), Summary("Get's xubot's opinion on something. Was funny but now has been forgotten.")]
-        public async Task opinion(string input)
+        public async Task Opinion(string input)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.Async = true;

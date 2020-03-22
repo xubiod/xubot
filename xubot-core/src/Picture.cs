@@ -22,13 +22,13 @@ namespace xubot_core.src
     public class Picture : ModuleBase
     {
         [Group("pic"), Summary("Does shit with images.")]
-        public class music_comm : ModuleBase
+        public class PictureCMD : ModuleBase
         {
             [Group("manip"), Summary("Manipulates images. Can be used to deepfry.")]
-            public class manipulation : ModuleBase
+            public class Manipulation : ModuleBase
             {
                 [Command("brightness", RunMode = RunMode.Async), Summary("Increases/decreases the brightness of the image.")]
-                public async Task ghost(float amt)
+                public async Task Brightness(float amt)
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
@@ -43,7 +43,7 @@ namespace xubot_core.src
                 }
 
                 [Command("bw", RunMode = RunMode.Async), Summary("Makes an image black and white.")]
-                public async Task bw()
+                public async Task BW()
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
@@ -58,7 +58,7 @@ namespace xubot_core.src
                 }
 
                 [Command("colorblind", RunMode = RunMode.Async), Alias("colourblind"), Summary("Applies a filter to simulate colourblindness.")]
-                public async Task emuColor(string _type)
+                public async Task EmulateColourblindness(string _type)
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
@@ -69,10 +69,6 @@ namespace xubot_core.src
                         {
                             // NO COLOUR
                             case "achromatomaly":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly));
-                                    break;
-                                }
                             case "part-mono":
                                 {
                                     img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly));
@@ -80,10 +76,6 @@ namespace xubot_core.src
                                 }
 
                             case "achromatopsia":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia));
-                                    break;
-                                }
                             case "mono":
                                 {
                                     img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia));
@@ -92,10 +84,6 @@ namespace xubot_core.src
 
                             // GREEN
                             case "deuteranomaly":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly));
-                                    break;
-                                }
                             case "weak-green":
                                 {
                                     img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly));
@@ -103,10 +91,6 @@ namespace xubot_core.src
                                 }
 
                             case "deuteranopia":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia));
-                                    break;
-                                }
                             case "blind-green":
                                 {
                                     img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia));
@@ -115,10 +99,6 @@ namespace xubot_core.src
 
                             // RED
                             case "protanomaly":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly));
-                                    break;
-                                }
                             case "weak-red":
                                 {
                                     img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly));
@@ -126,10 +106,6 @@ namespace xubot_core.src
                                 }
 
                             case "protanopia":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia));
-                                    break;
-                                }
                             case "blind-red":
                                 {
                                     img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia));
@@ -138,10 +114,6 @@ namespace xubot_core.src
 
                             // BLUE
                             case "tritanomaly":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly));
-                                    break;
-                                }
                             case "weak-blue":
                                 {
                                     img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly));
@@ -149,10 +121,6 @@ namespace xubot_core.src
                                 }
 
                             case "tritanopia":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia));
-                                    break;
-                                }
                             case "blind-blue":
                                 {
                                     img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia));
@@ -168,7 +136,7 @@ namespace xubot_core.src
                 }
 
                 [Command("colorblind?list", RunMode = RunMode.Async), Alias("colourblind?list"), Summary("Lists the colourblindness filters.")]
-                public async Task emuColorList()
+                public async Task ColourblindnessList()
                 {
                     EmbedBuilder embedd = new EmbedBuilder
                     {
@@ -215,7 +183,7 @@ namespace xubot_core.src
                 }
 
                 [Command("contrast", RunMode = RunMode.Async), Summary("Increases/decreases the contrast of an image.")]
-                public async Task contrast(float amt)
+                public async Task Contrast(float amt)
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
@@ -230,7 +198,7 @@ namespace xubot_core.src
                 }
 
                 [Command("hue-rotate", RunMode = RunMode.Async), Summary("Shifts/rotates the hues of an image by a given amount of degrees.")]
-                public async Task huerotate(float deg)
+                public async Task RotateHue(float deg)
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
@@ -245,7 +213,7 @@ namespace xubot_core.src
                 }
 
                 [Command("invert", RunMode = RunMode.Async), Summary("iNVERTS THE COLORS OF AN IMAGE.")]
-                public async Task invert()
+                public async Task Invert()
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
@@ -260,7 +228,7 @@ namespace xubot_core.src
                 }
 
                 [Command("kodachrome", RunMode = RunMode.Async), Summary("Applies a kodachrome filter to an image.")]
-                public async Task kodachrome()
+                public async Task Kodachrome()
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
@@ -275,7 +243,7 @@ namespace xubot_core.src
                 }
 
                 [Command("lomograph", RunMode = RunMode.Async), Summary("Applies a lomograph filter to an image.")]
-                public async Task lomo()
+                public async Task Lomograph()
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
@@ -290,7 +258,7 @@ namespace xubot_core.src
                 }
 
                 [Command("polaroid", RunMode = RunMode.Async), Summary("Applies a polaroid filter to an image.")]
-                public async Task polaroid()
+                public async Task Polaroid()
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
@@ -305,7 +273,7 @@ namespace xubot_core.src
                 }
 
                 [Command("saturate", RunMode = RunMode.Async), Summary("Increases/decreases the saturation of an image.")]
-                public async Task sat(float amount)
+                public async Task Saturate(float amount)
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
@@ -320,7 +288,7 @@ namespace xubot_core.src
                 }
 
                 [Command("sepia", RunMode = RunMode.Async), Summary("Applies a sepia filter to an image.")]
-                public async Task sepia()
+                public async Task Sepia()
                 {
                     await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));

@@ -13,7 +13,7 @@ namespace xubot_core.src
 	/*
 	<article name="[article name]" lasteditor="[id]">
 		Article content.
-	</article> 
+	</article>
 	*/
 
 	public class Wiki : ModuleBase
@@ -22,14 +22,14 @@ namespace xubot_core.src
 		public class WikiCmd : ModuleBase
 		{
 			[Command]
-			public async Task get(string article)
+			public async Task Get(string article)
 			{
 				EmbedBuilder embedd = WikiTools.BuildEmbed(WikiTools.ReadArticle(article), WikiTools.ReadLastEdit(article), article);
 				await ReplyAsync("", false, embedd.Build());
 			}
 
 			[Command("edit")]
-			public async Task modify(string article, string content)
+			public async Task Edit(string article, string content)
 			{
 				WikiTools.AddEditArticle(Context, article, content);
 				await ReplyAsync("Article (hopefully) added.");

@@ -81,7 +81,7 @@ namespace xubot_core.src
         public class codeCompile : ModuleBase
         {
             [Command("js", RunMode = RunMode.Async), Summary("Executes JavaScript.")]
-            public async Task js(string eval)
+            public async Task JS(string eval)
             {
                 await ReplyAsync("I'm sorry, but the .NET Core port does not have this yet. I'm trying my best to make it work out, promise! (but don't count on it soon)\n\n- xubiod#0258");
                 /*
@@ -119,11 +119,11 @@ namespace xubot_core.src
             }
 
             [Command("lua", RunMode = RunMode.Async), Summary("Executes Lua with some restrictions.")]
-            public async Task lua(string eval)
+            public async Task Lua(string eval)
             {
                 await ReplyAsync("I'm sorry, but the .NET Core port does not have this yet. I'm trying my best to make it work out, promise! (but don't count on it soon)\n\n- xubiod#0258");
                 /*
-                
+
                 if (!GeneralTools.UserTrusted(Context))
                 {
                     await ReplyAsync("User is not trusted.");
@@ -161,16 +161,16 @@ namespace xubot_core.src
                     }
                 }*/
             }
-            
+
             [Command("deadfish", RunMode = RunMode.Async), Summary("Interperts Deadfish and outputs the results.")]
-            public async Task deadfish(string eval)
+            public async Task Deadfish(string eval)
             {
                 string local_result = SmallLangInterps.Deadfish.Execute(eval);
                 await ReplyAsync("", false, BuildEmbed("Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", "", eval, local_result));
             }
 
             [Command("brainfuck", RunMode = RunMode.Async), Alias("brainf***", "brainf**k", "b****fuck", "bf"), Summary("Interperts Brainfuck and outputs the result.")]
-            public async Task brainfuck(string eval, string ascii_input = "")
+            public async Task Brainfuck(string eval, string ascii_input = "")
             {
                 string temp_eval;
                 if (ascii_input != "")

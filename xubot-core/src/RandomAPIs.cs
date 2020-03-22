@@ -23,10 +23,10 @@ namespace xubot_core.src
         static Random r = new Random();
 
         [Group("number"), Summary("LEARNING AAAAAAAAAAAA")]
-        public class number : ModuleBase
+        public class Number : ModuleBase
         {
             [Command("trivia", RunMode = RunMode.Async)]
-            public async Task trivia(int number)
+            public async Task Trivia(int number)
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/" + number.ToString() + "/trivia");
                 var final = System.Text.Encoding.Default.GetString(trivia);
@@ -35,7 +35,7 @@ namespace xubot_core.src
             }
 
             [Command("trivia", RunMode = RunMode.Async)]
-            public async Task trivia()
+            public async Task Trivia()
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/trivia");
                 var final = System.Text.Encoding.Default.GetString(trivia);
@@ -44,7 +44,7 @@ namespace xubot_core.src
             }
 
             [Command("year", RunMode = RunMode.Async)]
-            public async Task year(int number)
+            public async Task Year(int number)
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/" + number.ToString() + "/year");
                 var final = System.Text.Encoding.Default.GetString(trivia);
@@ -53,7 +53,7 @@ namespace xubot_core.src
             }
 
             [Command("year", RunMode = RunMode.Async)]
-            public async Task year()
+            public async Task Year()
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/year");
                 var final = System.Text.Encoding.Default.GetString(trivia);
@@ -62,7 +62,7 @@ namespace xubot_core.src
             }
 
             [Command("math", RunMode = RunMode.Async)]
-            public async Task math(int number)
+            public async Task Math(int number)
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/" + number.ToString() + "/math");
                 var final = System.Text.Encoding.Default.GetString(trivia);
@@ -71,7 +71,7 @@ namespace xubot_core.src
             }
 
             [Command("math", RunMode = RunMode.Async)]
-            public async Task math()
+            public async Task Math()
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/math");
                 var final = System.Text.Encoding.Default.GetString(trivia);
@@ -81,7 +81,7 @@ namespace xubot_core.src
         }
 
         [Command("email-check", RunMode = RunMode.Async), Summary("Uses API to check if email is a temporary one for sCaMs OoOoOoO")]
-        public async Task check(string email)
+        public async Task ValidEmail(string email)
         {
             string link = "https://www.validator.pizza/email/" + email;
 
@@ -139,9 +139,9 @@ namespace xubot_core.src
 
             await ReplyAsync("", false, embedd.Build());
         }
-        
+
         [Command("cat", RunMode = RunMode.Async), Summary("Gets random cat picture. Best utilized when sad.")]
-        public async Task cat()
+        public async Task CatImage()
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.Async = true;
@@ -169,7 +169,7 @@ namespace xubot_core.src
         }
 
         [Command("shibe", RunMode = RunMode.Async), Summary("Gets random Shibe Inu picture. Best utilized when sad.")]
-        public async Task shibe()
+        public async Task ShibeInuImage()
         {
             //http://shibe.online/api/shibes
 
@@ -193,7 +193,7 @@ namespace xubot_core.src
         }
 
         [Command("bird", RunMode = RunMode.Async), Summary("Gets random bird picture. Best utilized when sad.")]
-        public async Task bird()
+        public async Task BirdImage()
         {
             //http://shibe.online/api/birds
 

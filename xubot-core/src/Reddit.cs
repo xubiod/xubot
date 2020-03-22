@@ -22,19 +22,19 @@ namespace xubot_core.src
                                        "news", "pics", "science", "technology", "television", "todayilearned", "videos", "worldnews", "wtf" };
 
         [Command("reddit?last", RunMode = RunMode.Async), Alias("reddit?l"), Summary("Gets a post from the last subreddit entered.")]
-        public async Task last()
+        public async Task DoLastSubreddit()
         {
             await Operate(Context, previous_sub, previous_query, previous_sorting, previous_hide);
         }
 
         [Command("reddit?nsfwmap"), RequireNsfw, Summary("Returns a URL to a visual map of many NSFW subreddits and how they link.")]
-        public async Task map()
+        public async Task GetNSFWMap()
         {
             await ReplyAsync("Alright... then... " + "http://electronsoup.net/nsfw_subreddits/#");
         }
 
         [Command("reddit?random", RunMode = RunMode.Async), Alias("reddit?r"), Summary("Gets a random post from a random subreddit in a predetermined list.")]
-        public async Task rnd()
+        public async Task GetFromRandomSubreddit()
         {
             Random rnd = new Random();
 
@@ -48,7 +48,7 @@ namespace xubot_core.src
         }
 
         [Command("reddit?sub", RunMode = RunMode.Async), Summary("Returns some details about a subreddit.")]
-        public async Task subreddit(string input)
+        public async Task GetDetailsFromSubreddit(string input)
         {
             Program.subreddit = await Program.reddit.GetSubredditAsync(input);
 
@@ -110,7 +110,7 @@ namespace xubot_core.src
         }
 
         [Command("reddit?wiki", RunMode = RunMode.Async), Summary("Returns the wiki pages for a subreddit.")]
-        public async Task wiki(string input)
+        public async Task GetSubredditWiki(string input)
         {
             Program.subreddit = await Program.reddit.GetSubredditAsync(input);
 
@@ -143,7 +143,7 @@ namespace xubot_core.src
         }
 
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit.")]
-        public async Task reddit_pic(string subreddit)
+        public async Task GetRedditPost(string subreddit)
         {
             previous_sub = subreddit;
             previous_sorting = 0;
@@ -154,7 +154,7 @@ namespace xubot_core.src
         }
 
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and search query.")]
-        public async Task reddit_pic(string subreddit, string query)
+        public async Task GetRedditPost(string subreddit, string query)
         {
             previous_sub = subreddit;
             previous_sorting = 0;
@@ -165,7 +165,7 @@ namespace xubot_core.src
         }
 
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, search query, and sorting method.")]
-        public async Task reddit_pic(string subreddit, string query, int sorting)
+        public async Task GetRedditPost(string subreddit, string query, int sorting)
         {
             previous_sub = subreddit;
             previous_sorting = sorting;
@@ -176,7 +176,7 @@ namespace xubot_core.src
         }
 
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and sorting method.")]
-        public async Task reddit_pic(string subreddit, int sorting)
+        public async Task GetRedditPost(string subreddit, int sorting)
         {
             previous_sub = subreddit;
             previous_sorting = sorting;
@@ -187,7 +187,7 @@ namespace xubot_core.src
         }
 
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, but can prevent previews from showing.")]
-        public async Task reddit_pic(string subreddit, bool hide)
+        public async Task GetRedditPost(string subreddit, bool hide)
         {
             previous_sub = subreddit;
             previous_sorting = 0;
@@ -198,7 +198,7 @@ namespace xubot_core.src
         }
 
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and search query, but can prevent previews from showing.")]
-        public async Task reddit_pic(string subreddit, string query, bool hide)
+        public async Task GetRedditPost(string subreddit, string query, bool hide)
         {
             previous_sub = subreddit;
             previous_sorting = 0;
@@ -209,7 +209,7 @@ namespace xubot_core.src
         }
 
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, search query, sorting method, and can prevent from showing previews.")]
-        public async Task reddit_pic(string subreddit, string query, int sorting, bool hide)
+        public async Task GetRedditPost(string subreddit, string query, int sorting, bool hide)
         {
             previous_sub = subreddit;
             previous_sorting = sorting;
@@ -220,7 +220,7 @@ namespace xubot_core.src
         }
 
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and sorting method, but can prevent previews from showing.")]
-        public async Task reddit_pic(string subreddit, int sorting, bool hide)
+        public async Task GetRedditPost(string subreddit, int sorting, bool hide)
         {
             previous_sub = subreddit;
             previous_sorting = sorting;

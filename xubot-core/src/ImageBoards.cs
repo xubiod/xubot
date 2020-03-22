@@ -25,7 +25,7 @@ namespace xubot_core.src
 
         // (TECHNICALLY) OPTIMIZED
         [Command("danbooru", RunMode = RunMode.Async), Summary("Retrives a post from danbooru.")]
-        public async Task danbooru(string tags = "")
+        public async Task Danbooru(string tags = "")
         {
             // this shouldn't use the methods because of how different it is
 
@@ -142,14 +142,14 @@ namespace xubot_core.src
 
         // OPTIMIZED
         [Command("gelbooru", RunMode = RunMode.Async), Summary("Retrives a post from gelbooru.")]
-        public async Task gelbooru(string tags = "")
+        public async Task Gelbooru(string tags = "")
         {
             await GetPostFromXML("https://www.gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, "&pid=");
         }
 
-        // OPTIMIZED 
+        // OPTIMIZED
         [Command("yandere", RunMode = RunMode.Async), Summary("Retrives a post from yandere.")]
-        public async Task yandere(string tags = "")
+        public async Task Yandere(string tags = "")
         {
             await GetPostFromXML("https://yande.re/post.xml?limit=1", tags, Context);
         }
@@ -203,20 +203,20 @@ namespace xubot_core.src
              */
         }
 
-        // OPTIMIZED 
+        // OPTIMIZED
         [Command("safebooru", RunMode = RunMode.Async), Summary("Retrives a post from safebooru.")]
-        public async Task safebooru(string tags = "")
+        public async Task Safebooru(string tags = "")
         {
             await GetPostFromXML("http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, "&pid=");
         }
 
-        // OPTIMIZED 
+        // OPTIMIZED
         [Command("konachan", RunMode = RunMode.Async), Summary("Retrives a post from konachan.")]
-        public async Task konachan(string tags = "")
+        public async Task Konachan(string tags = "")
         {
             await GetPostFromXML("http://konachan.com/post.xml?limit=1", tags, Context);
         }
-        
+
         public bool CheckTrigger()
         {
             bool ret = false;

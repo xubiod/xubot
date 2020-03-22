@@ -10,7 +10,7 @@ namespace xubot_core.src
     public class React : ModuleBase
     {
         [Command("$"), RequireOwner]
-        public async Task react(string echo)
+        public async Task Speak(string echo)
         {
             await Context.Message.DeleteAsync(new Discord.RequestOptions() { });
             await ReplyAsync(echo);

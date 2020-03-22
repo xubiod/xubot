@@ -21,7 +21,7 @@ namespace xubot_core.src
         public class commands : ModuleBase
         {
             [Command("connect")]
-            public async Task connectSSH(string host, int port, string user, string password)
+            public async Task Connect(string host, int port, string user, string password)
             {
                 xuSSH = new SshClient(host, port, user, password);
                 xuSSH.Connect();
@@ -35,7 +35,7 @@ namespace xubot_core.src
             }
 
             [Command("disconnect")]
-            public async Task unconnectSSH(string code = "0000")
+            public async Task Disconnect(string code = "0000")
             {
                 if (code == disconnectCode)
                 {
@@ -51,7 +51,7 @@ namespace xubot_core.src
             }
 
             [Command("quick-con"), Alias("qc")]
-            public async Task quick(string hostnick)
+            public async Task QuickConnect(string hostnick)
             {
                 string reply = "That quick connection doesn't exist.";
                 bool exists = false;
@@ -73,7 +73,7 @@ namespace xubot_core.src
                     if (item.nick.ToLower() == hostnick.ToLower())
                     {
                         exists = true;
-                        await connectSSH(item.host, item.port, item.user, item.password);
+                        await Connect(item.host, item.port, item.user, item.password);
                     }
                 }
 
@@ -81,7 +81,7 @@ namespace xubot_core.src
             }
 
             [Command("send", RunMode = RunMode.Async)]
-            public async Task sendSSH(string cmd)
+            public async Task SendCommand(string cmd)
             {
                 //adapted from wamwoowam's bot
                 //wamwoowam says hi :wave:
