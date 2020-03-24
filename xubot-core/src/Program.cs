@@ -186,7 +186,7 @@ namespace xubot_core.src
         private static Task XuClient_Connected()
         {
             Util.CMDLine.SetColor(ConsoleColor.Green);
-            Console.Write("]] connection to discord successful");
+            Console.WriteLine("]] connection to discord successful");
 
             connectStart = DateTime.Now;
 
@@ -195,7 +195,7 @@ namespace xubot_core.src
 
         private static Task XuClient_Disconnected(Exception arg)
         {
-            Console.Write("]] connection to discord lost");
+            Console.WriteLine("]] connection to discord lost");
             Console.WriteLine();
             Console.WriteLine("]] exception logged at: " + Environment.CurrentDirectory + "\\Exceptions\\" + DateTime.UtcNow.ToLongTimeString() + ".txt");
             Console.Beep();
