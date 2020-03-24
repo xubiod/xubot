@@ -40,7 +40,7 @@ namespace xubot_core.src
             }
             catch (Exception exp)
             {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
+                await Util.Error.BuildError(exp, Context);
             }
         }
 
@@ -77,7 +77,7 @@ namespace xubot_core.src
             }
             catch (Exception exp)
             {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
+                await Util.Error.BuildError(exp, Context);
             }
         }
 
@@ -86,8 +86,8 @@ namespace xubot_core.src
         {
             try
             {
-                string url = GeneralTools.ReturnAttachmentURL(Context);
-                await GeneralTools.DownloadAttachmentAsync(Path.Combine(Path.GetTempPath(), "markov.txt"), url);
+                string url = Util.ReturnAttachmentURL(Context);
+                await Util.DownloadAttachmentAsync(Path.Combine(Path.GetTempPath(), "markov.txt"), url);
 
                 string input = File.ReadAllText(Path.Combine(Path.GetTempPath(), "markov.txt"));
 
@@ -124,7 +124,7 @@ namespace xubot_core.src
             }
             catch (Exception exp)
             {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
+                await Util.Error.BuildError(exp, Context);
             }
         }
 
@@ -139,7 +139,7 @@ namespace xubot_core.src
             }
             catch (Exception exp)
             {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
+                await Util.Error.BuildError(exp, Context);
             }
         }
 
@@ -161,7 +161,7 @@ namespace xubot_core.src
             }
             catch (Exception exp)
             {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
+                await Util.Error.BuildError(exp, Context);
             }
         }
 
@@ -170,7 +170,7 @@ namespace xubot_core.src
         {
             throw new NotImplementedException();
 
-            if (GeneralTools.UserTrusted(Context))
+            if (Util.UserTrusted(Context))
             {
                 xuMarkov.flush();
                 await ReplyAsync("Markov chain flushed.");

@@ -44,8 +44,8 @@ namespace xubot_core.src
                 DirectUtils.InterpParameters(parameter);
                 if (optional != "") DirectUtils.InterpOptionalParameters(optional);
 
-                await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
-                string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
+                await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
+                string type = Path.GetExtension(Util.ReturnAttachmentURL(Context));
 
                 font = new Font(fontCollect.Find("Roboto"), Size);
 
@@ -79,8 +79,8 @@ namespace xubot_core.src
                 HeaderUtils.InterpParameters(parameter);
                 if (optional != "") HeaderUtils.InterpOptionalParameters(optional);
 
-                await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
-                string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
+                await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
+                string type = Path.GetExtension(Util.ReturnAttachmentURL(Context));
 
                 font = new Font(fontCollect.Find("Roboto"), Size);
 

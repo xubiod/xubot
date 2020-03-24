@@ -25,8 +25,8 @@ namespace xubot_core.src
 {
     public class Program : ModuleBase
     {
-        public static CommandService xuCommand;
-        public static DiscordSocketClient xuClient;
+        public static readonly CommandService xuCommand = new CommandService();
+        public static readonly DiscordSocketClient xuClient = new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Warning });
 
         public static string prefix = "[>";
 
@@ -52,43 +52,26 @@ namespace xubot_core.src
         {
             appStart = DateTime.Now;
 
-            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetWindowSize(80, 25);
-
-            xuClient = new DiscordSocketClient(new DiscordSocketConfig
-            {
-                //WebSocketProvider = WS4NetProvider.Instance,
-                LogLevel = LogSeverity.Warning
-            });
-            xuCommand = new CommandService();
-
-            //ImageTypeReader itr = new ImageTypeReader();
-            //xuCommand.AddTypeReader<Image>(itr);
-
             string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
             keys = JObject.Parse(File.ReadAllText(Path.Combine(currentDir, "Keys.json")));
             apiJson = JObject.Parse(File.ReadAllText(Path.Combine(currentDir, "API.json")));
 
             await commandInitiation();
             await readMessages();
 
-            xuClient.Log += (message) =>
-            {
-                Console.WriteLine($"{message}");
-                return Task.Delay(0);
-            };
+            xuClient.Log += (message) => { Console.WriteLine($"{message}"); return Task.CompletedTask; };
 
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
+            Util.CMDLine.SetColor();
 
-            Console.Write("- - - - - - - - - - - - - - - -  xubot  startup  - - - - - - - - - - - - - - - -");
+            Console.Write("[[ xubot ]]");
             Console.WriteLine();
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Magenta;
+
+            Util.CMDLine.SetColor(ConsoleColor.Magenta);
 
             Console.WriteLine("current build (git): {0}", ThisAssembly.Git.Tag);
 
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
+            Util.CMDLine.SetColor();
             Console.WriteLine();
 
             if (!File.Exists(Path.Combine(currentDir, "Keys.json")))
@@ -152,19 +135,14 @@ namespace xubot_core.src
 
         private static async Task BeginStart()
         {
-            //ALR.Starter();
             await xuClient.StartAsync();
         }
 
         public static Task ClientReady()
         {
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("                                                                                ");
-            Console.Write("                                    ready!!!                                    ");
-            Console.Write("                                                                                ");
+            Util.CMDLine.SetColor(ConsoleColor.Green);
 
-            //await xuClient.SetGameAsync("xubot is alive!");
+            Console.WriteLine("]] ready for action");
             Console.Beep();
 
             return Task.CompletedTask;
@@ -174,8 +152,7 @@ namespace xubot_core.src
         {
             xuClient.MessageReceived += (message) =>
             {
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.White;
+                Util.CMDLine.SetColor();
                 Console.WriteLine($"[{message.Timestamp}] {{{message.Source}}} {message.Author}: {message.Content}");
 
                 return Task.CompletedTask;
@@ -185,90 +162,31 @@ namespace xubot_core.src
             xuClient.Connected += XuClient_Connected;
             xuClient.Disconnected += XuClient_Disconnected;
 
-            xuClient.LoggedIn += XuClient_LoggedIn;
-            xuClient.LoggedOut += XuClient_LoggedOut;
+            xuClient.LoggedIn +=  () => { Console.WriteLine("]] logged into discord");   return Task.CompletedTask; };
+            xuClient.LoggedOut += () => { Console.WriteLine("]] logged out of discord"); return Task.CompletedTask; };
 
             xuClient.JoinedGuild += XuClient_JoinedGuild;
             xuClient.LeftGuild += XuClient_LeftGuild;
-            xuClient.GuildAvailable += XuClient_GuildAvailableAsync;
 
-            return Task.CompletedTask;
-        }
-
-        private static Task XuClient_GuildAvailable(SocketGuild arg)
-        {
-            Console.WriteLine("guild list: " + arg.Name);
             return Task.CompletedTask;
         }
 
         private static Task XuClient_JoinedGuild(SocketGuild arg)
         {
-            Console.BackgroundColor = ConsoleColor.Green;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.WriteLine();
-            Console.Write("                                                                                ");
-            Console.Write("                               added to a guild!!                               ");
-            Console.Write("                                                                                ");
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("the guild name: " + arg.Name);
-            Console.WriteLine();
+            Console.WriteLine("]] added to a guild, " + arg.Name);
             return Task.CompletedTask;
         }
 
         private static Task XuClient_LeftGuild(SocketGuild arg)
         {
-            Console.BackgroundColor = ConsoleColor.Green;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.WriteLine();
-            Console.Write("                                                                                ");
-            Console.Write("                               left a guild... :<                               ");
-            Console.Write("                   probably got kicked/banned which is rude.                    ");
-            Console.Write("                                                                                ");
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("the guild name: " + arg.Name);
-            Console.WriteLine();
-            return Task.CompletedTask;
-        }
-
-        private static Task XuClient_LoggedIn()
-        {
-            Console.BackgroundColor = ConsoleColor.Green;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.WriteLine();
-            Console.Write("                                                                                ");
-            Console.Write("                                   logged in!                                   ");
-            Console.Write("                                                                                ");
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine();
-            return Task.CompletedTask;
-        }
-
-        private static Task XuClient_LoggedOut()
-        {
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.Write("                                                                                ");
-            Console.Write("                                  logged out.                                   ");
-            Console.Write("                                                                                ");
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine();
+            Console.WriteLine("]] left a guild, " + arg.Name);
             return Task.CompletedTask;
         }
 
         private static Task XuClient_Connected()
         {
-            Console.BackgroundColor = ConsoleColor.Green;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.Write("                                                                                ");
-            Console.Write("                              connection successful!                            ");
-            Console.Write("                                                                                ");
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine();
+            Util.CMDLine.SetColor(ConsoleColor.Green);
+            Console.Write("]] connection to discord successful");
 
             connectStart = DateTime.Now;
 
@@ -277,16 +195,9 @@ namespace xubot_core.src
 
         private static Task XuClient_Disconnected(Exception arg)
         {
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.Write("                                                                                ");
-            Console.Write("                                connection lost...                              ");
-            Console.Write("                               probably got dropped                             ");
-            Console.Write("                                                                                ");
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("]] connection to discord lost");
             Console.WriteLine();
-            Console.WriteLine("Exception logged at: " + Environment.CurrentDirectory + "\\Exceptions\\" + DateTime.UtcNow.ToLongTimeString() + ".txt");
+            Console.WriteLine("]] exception logged at: " + Environment.CurrentDirectory + "\\Exceptions\\" + DateTime.UtcNow.ToLongTimeString() + ".txt");
             Console.Beep();
             Console.Beep();
             Console.Beep();
@@ -301,11 +212,6 @@ namespace xubot_core.src
             //await BeginStart();
 
             return Task.CompletedTask;
-        }
-
-        public static async Task XuClient_GuildAvailableAsync(SocketGuild arg)
-        {
-            Console.WriteLine("guild: " + arg.Name);
         }
 
         public static async Task commandInitiation()
@@ -329,7 +235,7 @@ namespace xubot_core.src
             IResult result = await xuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)
             {
-                await GeneralTools.CommHandler.BuildError(result, context);
+                await Util.Error.BuildError(result, context);
             }
         }
     }

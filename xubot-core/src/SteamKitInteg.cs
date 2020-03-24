@@ -67,10 +67,10 @@ namespace xubot_core.src
                 }
 
                 ulong _lastLogOff = playerSummaries["lastlogoff"].AsUnsignedLong(0);
-                DateTime lastLogOff = GeneralTools.UnixTimeStampToDateTime(_lastLogOff);
+                DateTime lastLogOff = Util.UnixTimeStampToDateTime(_lastLogOff);
 
                 ulong _timeCreated = playerSummaries["timecreated"].AsUnsignedLong(0);
-                DateTime timeCreated = GeneralTools.UnixTimeStampToDateTime(_timeCreated);
+                DateTime timeCreated = Util.UnixTimeStampToDateTime(_timeCreated);
 
                 TimeSpan lastLogOffToNow = DateTime.Now - lastLogOff;
                 TimeSpan createdToNow = DateTime.Now - timeCreated;
@@ -180,7 +180,7 @@ namespace xubot_core.src
             }
             catch (Exception ex)
             {
-                await GeneralTools.CommHandler.BuildError(ex, Context);
+                await Util.Error.BuildError(ex, Context);
             }
         }
 
@@ -237,7 +237,7 @@ namespace xubot_core.src
             }
             catch (Exception exp)
             {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
+                await Util.Error.BuildError(exp, Context);
             }
         }
 

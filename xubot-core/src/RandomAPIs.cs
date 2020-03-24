@@ -188,7 +188,7 @@ namespace xubot_core.src
             }
             catch (Exception e)
             {
-                await GeneralTools.CommHandler.BuildError(e, Context);
+                await Util.Error.BuildError(e, Context);
             }
         }
 
@@ -219,7 +219,7 @@ namespace xubot_core.src
             }
             catch (Exception e)
             {
-                await GeneralTools.CommHandler.BuildError(e, Context);
+                await Util.Error.BuildError(e, Context);
             }
         }
     }

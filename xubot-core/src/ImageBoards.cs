@@ -54,7 +54,7 @@ namespace xubot_core.src
                 //await ReplyAsync(text);
                 dynamic keys = JObject.Parse(text);
 
-                if (!(await GeneralTools.ChannelNSFW(Context)) && keys.rating == "e")
+                if (!(await Util.ChannelNSFW(Context)) && keys.rating == "e")
                 {
                     await ReplyAsync("Move to a NSFW channel.");
                 }
@@ -80,7 +80,7 @@ namespace xubot_core.src
             }
             catch (Exception exp)
             {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
+                await Util.Error.BuildError(exp, Context);
             }
         }
 
@@ -88,7 +88,7 @@ namespace xubot_core.src
         [Command("e621", RunMode = RunMode.Async), Summary("Retrives a post from e621 (Currently not working, probs got myself banned lol).")]
         public async Task e621(string tags = "", bool spoiler = false)
         {
-            await GeneralTools.CommHandler.BuildError(new ICannotBeArsedToFixThisException("prob got banned lol"), Context);
+            await Util.Error.BuildError(new ICannotBeArsedToFixThisException("prob got banned lol"), Context);
             return;
 
             try
@@ -121,7 +121,7 @@ namespace xubot_core.src
                 //await ReplyAsync(text);
                 dynamic keys = JObject.Parse(text_j);
 
-                if (!(await GeneralTools.ChannelNSFW(Context)) && keys.rating == "e")
+                if (!(await Util.ChannelNSFW(Context)) && keys.rating == "e")
                 {
                     await ReplyAsync("Move to a NSFW channel.");
                 }
@@ -138,7 +138,7 @@ namespace xubot_core.src
             }
             catch (Exception exp)
             {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
+                await Util.Error.BuildError(exp, Context);
             }
         }
 
@@ -167,7 +167,7 @@ namespace xubot_core.src
         [Command("e926", RunMode = RunMode.Async), Summary("Retrives a post from e926 (Currently not working, probs got myself banned lol).")]
         public async Task e926(string tags = "", bool spoiler = false)
         {
-            await GeneralTools.CommHandler.BuildError(new ICannotBeArsedToFixThisException("prob got banned lol"), Context);
+            await Util.Error.BuildError(new ICannotBeArsedToFixThisException("prob got banned lol"), Context);
 
             //ITextChannel c = Context.Channel as ITextChannel;
 
@@ -291,13 +291,13 @@ namespace xubot_core.src
             }
             catch (Exception exp)
             {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
+                await Util.Error.BuildError(exp, Context);
             }
         }
 
         public async Task GetPostFromXML(string inputLink, string tags, ICommandContext Context, bool spoiler, string pageIn = "&page=")
         {
-            if (!(await GeneralTools.ChannelNSFW(Context)))
+            if (!(await Util.ChannelNSFW(Context)))
             {
                 await ReplyAsync("Move to a NSFW channel.");
             }
@@ -358,7 +358,7 @@ namespace xubot_core.src
                 }
                 catch (Exception exp)
                 {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                    await Util.Error.BuildError(exp, Context);
                 }
             }
         }

@@ -255,7 +255,7 @@ namespace xubot_core.src
                 var post = contents.ElementAt(rnd.Next(contents.Count));
                 //EmbedBuilder embedd;
 
-                bool isNSFW = await GeneralTools.ChannelNSFW(Context);
+                bool isNSFW = await Util.ChannelNSFW(Context);
 
                 //await ReplyAsync((isNSFW && (post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL"))).ToString());
 
@@ -283,7 +283,7 @@ namespace xubot_core.src
             }
             catch (Exception e)
             {
-                await GeneralTools.CommHandler.BuildError(e, Context);
+                await Util.Error.BuildError(e, Context);
             }
         }
 

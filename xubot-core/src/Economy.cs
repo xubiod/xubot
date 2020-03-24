@@ -49,7 +49,7 @@ namespace xubot_core.src
             }
             catch (Exception exp)
             {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
+                await Util.Error.BuildError(exp, Context);
             }
         }
 

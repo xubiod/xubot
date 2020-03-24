@@ -151,11 +151,11 @@ namespace xubot_core.src
                     {
                         if (para.IsOptional)
                         {
-                            all_para += GeneralTools.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + " (optional)\n";
+                            all_para += Util.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + " (optional)\n";
                         }
                         else
                         {
-                            all_para += GeneralTools.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + "\n";
+                            all_para += Util.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + "\n";
                         }
                     }
                 }
@@ -227,7 +227,7 @@ namespace xubot_core.src
             }
             catch (Exception e)
             {
-                await GeneralTools.CommHandler.BuildError(e, Context);
+                await Util.Error.BuildError(e, Context);
             }
         }
 
@@ -363,7 +363,7 @@ namespace xubot_core.src
             }
             catch (Exception e)
             {
-                await GeneralTools.CommHandler.BuildError(e, Context);
+                await Util.Error.BuildError(e, Context);
             }
         }
     }

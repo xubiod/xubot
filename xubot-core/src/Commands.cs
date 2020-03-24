@@ -355,7 +355,7 @@ namespace xubot_core.src
                 }
                 catch (Exception exp)
                 {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                    await Util.Error.BuildError(exp, Context);
                 }
             }
 
@@ -382,9 +382,9 @@ namespace xubot_core.src
             [Command("attachment data")]
             public async Task Test007()
             {
-                string _all = "c: " + Context.Message.Attachments.Count + "\nl: <" + GeneralTools.ReturnAttachmentURL(Context) + ">\nf:";
+                string _all = "c: " + Context.Message.Attachments.Count + "\nl: <" + Util.ReturnAttachmentURL(Context) + ">\nf:";
 
-                await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "/downloadsuccess.data");
+                await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "/downloadsuccess.data");
 
                 await Context.Channel.SendFileAsync(Path.GetTempPath() + "/downloadsuccess.data", _all);
             }
@@ -394,9 +394,9 @@ namespace xubot_core.src
             {
                 try
                 {
-                    await GeneralTools.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
+                    await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     await ReplyAsync("past download");
-                    string type = Path.GetExtension(GeneralTools.ReturnAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnAttachmentURL(Context));
                     await ReplyAsync("type retrieved");
 
                     await ReplyAsync("going into the `using (var img = SLImage.Load(Path.GetTempPath() + \"manip\" + type))` block");
@@ -414,7 +414,7 @@ namespace xubot_core.src
                 }
                 catch (Exception e)
                 {
-                    await GeneralTools.CommHandler.BuildError(e, Context);
+                    await Util.Error.BuildError(e, Context);
                 }
             }
 
@@ -432,7 +432,7 @@ namespace xubot_core.src
                 }
                 catch (Exception e)
                 {
-                    await GeneralTools.CommHandler.BuildError(e, Context);
+                    await Util.Error.BuildError(e, Context);
                 }
             }
 
@@ -441,18 +441,18 @@ namespace xubot_core.src
             {
                 try
                 {
-                    await ReplyAsync((await GeneralTools.ChannelNSFW(Context)).ToString());
+                    await ReplyAsync((await Util.ChannelNSFW(Context)).ToString());
                 }
                 catch (Exception e)
                 {
-                    await GeneralTools.CommHandler.BuildError(e, Context);
+                    await Util.Error.BuildError(e, Context);
                 }
             }
 
             [Command("new error handling")]
             public async Task Test011()
             {
-                await GeneralTools.CommHandler.BuildError("you triggered the debug command\ncongratu-fucking-lations bitch", Context);
+                await Util.Error.BuildError("you triggered the debug command\ncongratu-fucking-lations bitch", Context);
             }
         }
 
@@ -834,7 +834,7 @@ namespace xubot_core.src
                 }
                 catch (Exception exp)
                 {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                    await Util.Error.BuildError(exp, Context);
                 }
             }
 
@@ -1014,7 +1014,7 @@ namespace xubot_core.src
             }
             catch (Exception exp)
             {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
+                await Util.Error.BuildError(exp, Context);
             }
         }
     }
