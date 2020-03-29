@@ -524,7 +524,6 @@ namespace xubot_core.src
                         case "on":
                             {
                                 await Program.xuClient.SetStatusAsync(UserStatus.Online);
-                                await ReplyAsync("*Status* has been set to: **" + new_play + "**");
                                 break;
                             }
 
@@ -532,7 +531,6 @@ namespace xubot_core.src
                         case "offline":
                             {
                                 await Program.xuClient.SetStatusAsync(UserStatus.Invisible);
-                                await ReplyAsync("*Status* has been set to: **" + new_play + "**");
                                 break;
                             }
 
@@ -540,7 +538,6 @@ namespace xubot_core.src
                         case "away":
                             {
                                 await Program.xuClient.SetStatusAsync(UserStatus.AFK);
-                                await ReplyAsync("*Status* has been set to: **" + new_play + "**");
                                 break;
                             }
 
@@ -548,15 +545,17 @@ namespace xubot_core.src
                         case "silence":
                             {
                                 await Program.xuClient.SetStatusAsync(UserStatus.DoNotDisturb);
-                                await ReplyAsync("*Status* has been set to: **" + new_play + "**");
                                 break;
                             }
 
                         default:
                             {
                                 await ReplyAsync("*Status* hasn't been set to: **" + new_play + "**, it's invalid.");
+                                return;
                                 break;
                             }
+
+                        await ReplyAsync("*Status* has been set to: **" + new_play + "**");
                     }
                 }
 
