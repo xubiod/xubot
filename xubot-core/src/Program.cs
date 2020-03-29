@@ -78,7 +78,7 @@ namespace xubot_core.src
                 Console.ReadLine();
             }
 
-            if (args.Contains("no-reddit"))
+            if (!args.Contains("no-reddit"))
             {
                 Console.WriteLine("* setting up bot web agent for reddit use");
                 if (keys.reddit.user.ToString() == "" && keys.reddit.pass.ToString() == "")
