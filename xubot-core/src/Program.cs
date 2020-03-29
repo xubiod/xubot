@@ -48,6 +48,25 @@ namespace xubot_core.src
 
         public static async Task Main(string[] args)
         {
+            BeginStart(args);
+
+            xuClient.Ready += ClientReady;
+            xuClient.UserJoined += XuClient_UserJoined;
+
+            Console.WriteLine();
+
+            Shitpost.Populate();
+
+            await Task.Delay(-1);
+        }
+
+        public static Task XuClient_UserJoined(SocketGuildUser arg)
+        {
+            return Task.CompletedTask;
+        }
+
+        private static async Task BeginStart(string[] args)
+        {
             appStart = DateTime.Now;
 
             string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
@@ -55,8 +74,8 @@ namespace xubot_core.src
             keys = JObject.Parse(File.ReadAllText(Path.Combine(currentDir, "Keys.json")));
             apiJson = JObject.Parse(File.ReadAllText(Path.Combine(currentDir, "API.json")));
 
-            await commandInitiation();
-            await readMessages();
+            await CommandInitiation();
+            await ReadMessages();
 
             xuClient.Log += (message) => { Console.WriteLine($"{message}"); return Task.CompletedTask; };
 
@@ -115,24 +134,7 @@ namespace xubot_core.src
             stepTimes[2] = DateTime.Now;
 
             Console.WriteLine("* setting up discord connection: starting client");
-            await BeginStart();
 
-            xuClient.Ready += ClientReady;
-            xuClient.UserJoined += XuClient_UserJoined;
-            Console.WriteLine();
-
-            Shitpost.Populate();
-
-            await Task.Delay(-1);
-        }
-
-        public static Task XuClient_UserJoined(SocketGuildUser arg)
-        {
-            return Task.CompletedTask;
-        }
-
-        private static async Task BeginStart()
-        {
             await xuClient.StartAsync();
         }
 
@@ -146,7 +148,7 @@ namespace xubot_core.src
             return Task.CompletedTask;
         }
 
-        public static Task readMessages()
+        public static Task ReadMessages()
         {
             xuClient.MessageReceived += (message) =>
             {
@@ -212,7 +214,7 @@ namespace xubot_core.src
             return Task.CompletedTask;
         }
 
-        public static async Task commandInitiation()
+        public static async Task CommandInitiation()
         {
             xuClient.MessageReceived += handleCommands;
             await xuCommand.AddModulesAsync(Assembly.GetEntryAssembly(), null);
