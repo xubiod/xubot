@@ -216,11 +216,11 @@ namespace xubot_core.src
 
         public static async Task CommandInitiation()
         {
-            xuClient.MessageReceived += handleCommands;
+            xuClient.MessageReceived += HandleCommands;
             await xuCommand.AddModulesAsync(Assembly.GetEntryAssembly(), null);
         }
 
-        public static async Task handleCommands(SocketMessage messageParameters)
+        public static async Task HandleCommands(SocketMessage messageParameters)
         {
             var message = messageParameters as SocketUserMessage;
             if (message == null) return;
