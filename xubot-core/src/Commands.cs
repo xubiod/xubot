@@ -280,9 +280,9 @@ namespace xubot_core.src
         }
 
         [Command("discord-api-link-gen"), Alias("discord-bot", "db"), Summary("Generates a bot adding link with a given permission number.")]
-        public async Task DALG(string id, long permission)
+        public async Task DALG(string id, string permission)
         {
-            await ReplyAsync("https://discordapp.com/api/oauth2/authorize?client_id=" + id + "&scope=bot&permissions=" + permission.ToString());
+            await ReplyAsync("https://discordapp.com/api/oauth2/authorize?client_id=" + id + "&scope=bot&permissions=" + permission);
         }
 
 #if (DEBUG)
