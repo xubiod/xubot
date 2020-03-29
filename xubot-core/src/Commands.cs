@@ -552,7 +552,6 @@ namespace xubot_core.src
                             {
                                 await ReplyAsync("*Status* hasn't been set to: **" + new_play + "**, it's invalid.");
                                 return;
-                                break;
                             }
 
                         await ReplyAsync("*Status* has been set to: **" + new_play + "**");
