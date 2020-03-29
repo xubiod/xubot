@@ -280,6 +280,7 @@ namespace xubot_core.src
             await ReplyAsync("https://discordapp.com/api/oauth2/authorize?client_id=" + id + "&scope=bot&permissions=0");
         }
 
+#if (DEBUG)
         [Group("debug"), Summary("A group of debug commands for quick debug work. Cannot be used by anyone except owner."), RequireOwner]
         public class Debug : ModuleBase
         {
@@ -450,7 +451,7 @@ namespace xubot_core.src
                 await Util.Error.BuildError("you triggered the debug command\ncongratu-fucking-lations bitch", Context);
             }
         }
-
+#endif
         public class SettingsComm : ModuleBase
         {
             [Group("settings"), Alias("set"), Summary("Modify some bot stuff. Most of it is restricted.")]
