@@ -46,11 +46,7 @@ namespace xubot_core.src
         public static string[] insult_n = new string[128];
         public static int insult_n_index = 0;
 
-        public static string pattern1 = "01110";
-        public static string pattern2 = "11011";
-        public static string pattern3 = "10001";
-        public static string pattern4 = "11011";
-        public static string pattern5 = "01110";
+        public static string[] pattern = { "01110", "11011", "10001", "11011", "01110" };
 
         [Group("echo"), Alias("m"), Summary("Repeats after you.")]
         public class Echo : ModuleBase
@@ -222,13 +218,12 @@ namespace xubot_core.src
             [Command("generate"), Summary("Generates a premade pattern using a search term.")]
             public async Task GeneratePreset(string searchqueue, string emo1, string emo2)
             {
-                string pattern1_ = Pattern_Presets.Return_Query(searchqueue, 1).Replace("0", emo1).Replace("1", emo2);
-                string pattern2_ = Pattern_Presets.Return_Query(searchqueue, 2).Replace("0", emo1).Replace("1", emo2);
-                string pattern3_ = Pattern_Presets.Return_Query(searchqueue, 3).Replace("0", emo1).Replace("1", emo2);
-                string pattern4_ = Pattern_Presets.Return_Query(searchqueue, 4).Replace("0", emo1).Replace("1", emo2);
-                string pattern5_ = Pattern_Presets.Return_Query(searchqueue, 5).Replace("0", emo1).Replace("1", emo2);
+                for (int i = 0; i < pattern.Length; i++)
+                {
+                    pattern[i] = Pattern_Presets.Return_Query(searchqueue, 1).Replace("0", emo1).Replace("1", emo2);
+                }
 
-                await ReplyAsync(pattern1_ + '\n' + pattern2_ + '\n' + pattern3_ + '\n' + pattern4_ + '\n' + pattern5_);
+                await ReplyAsync(pattern[0] + '\n' + pattern[1] + '\n' + pattern[2] + '\n' + pattern[3] + '\n' + pattern[4]);
             }
         }
 
