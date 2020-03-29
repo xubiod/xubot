@@ -518,29 +518,45 @@ namespace xubot_core.src
                 [Command("status"), Alias("stat"), Summary("Sets the bot's status."), RequireOwner]
                 public async Task Status(string new_play)
                 {
-                    if (new_play.ToLower() == "online" || new_play.ToLower() == "on")
+                    switch (new_play.ToLower())
                     {
-                        await Program.xuClient.SetStatusAsync(UserStatus.Online);
-                        await ReplyAsync("*Status* has been set to: **" + new_play + "**");
-                    }
-                    else if (new_play.ToLower() == "invisible")
-                    {
-                        await Program.xuClient.SetStatusAsync(UserStatus.Invisible);
-                        await ReplyAsync("*Status* has been set to: **" + new_play + "**");
-                    }
-                    else if (new_play.ToLower() == "afk" || new_play.ToLower() == "away")
-                    {
-                        await Program.xuClient.SetStatusAsync(UserStatus.AFK);
-                        await ReplyAsync("*Status* has been set to: **" + new_play + "**");
-                    }
-                    else if (new_play.ToLower() == "dnd" || new_play.ToLower() == "no_notif")
-                    {
-                        await Program.xuClient.SetStatusAsync(UserStatus.DoNotDisturb);
-                        await ReplyAsync("*Status* has been set to: **" + new_play + "**");
-                    }
-                    else
-                    {
-                        await ReplyAsync("*Status* hasn't been set to: **" + new_play + "**, it's invalid.");
+                        case "online":
+                        case "on":
+                            {
+                                await Program.xuClient.SetStatusAsync(UserStatus.Online);
+                                await ReplyAsync("*Status* has been set to: **" + new_play + "**");
+                                break;
+                            }
+
+                        case "invisible":
+                        case "offline":
+                            {
+                                await Program.xuClient.SetStatusAsync(UserStatus.Invisible);
+                                await ReplyAsync("*Status* has been set to: **" + new_play + "**");
+                                break;
+                            }
+
+                        case "afk":
+                        case "away":
+                            {
+                                await Program.xuClient.SetStatusAsync(UserStatus.AFK);
+                                await ReplyAsync("*Status* has been set to: **" + new_play + "**");
+                                break;
+                            }
+
+                        case "dnd":
+                        case "silence":
+                            {
+                                await Program.xuClient.SetStatusAsync(UserStatus.DoNotDisturb);
+                                await ReplyAsync("*Status* has been set to: **" + new_play + "**");
+                                break;
+                            }
+
+                        default:
+                            {
+                                await ReplyAsync("*Status* hasn't been set to: **" + new_play + "**, it's invalid.");
+                                break;
+                            }
                     }
                 }
 
