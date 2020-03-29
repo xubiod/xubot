@@ -30,23 +30,21 @@ namespace xubot_core.src
 
         public static string prefix = "[>";
 
-        public static BotWebAgent webAgent;
-        public static RedditSharp.Reddit reddit;
+        public static BotWebAgent webAgent { get; private set; }
+        public static RedditSharp.Reddit reddit { get; private set; }
         public static RedditSharp.Things.Subreddit subreddit;
 
         public static bool botf_reddit = false;
-        public static dynamic keys;
-        public static dynamic apiJson;
+        public static dynamic keys { get; private set; }
+        public static dynamic apiJson { get; private set; }
         public static bool enableNSFW = false;
 
-        public static bool forceRedditOff = false;
-
-        public static DateTime appStart;
-        public static DateTime connectStart;
+        public static DateTime appStart { get; private set; }
+        public static DateTime connectStart { get; private set; }
 
         public static DateTime[] stepTimes = new DateTime[8];
 
-        public static bool first = true;
+        private static bool first = true;
 
         public static async Task Main(string[] args)
         {
@@ -80,7 +78,7 @@ namespace xubot_core.src
                 Console.ReadLine();
             }
 
-            if (!forceRedditOff)
+            if (args.Contains("no-reddit"))
             {
                 Console.WriteLine("* setting up bot web agent for reddit use");
                 if (keys.reddit.user.ToString() == "" && keys.reddit.pass.ToString() == "")
