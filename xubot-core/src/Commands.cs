@@ -34,7 +34,6 @@ using SLImage = SixLabors.ImageSharp.Image;
 
 using static xubot_core.src.SpecialException;
 
-
 namespace xubot_core.src
 {
     public class Commands : ModuleBase
