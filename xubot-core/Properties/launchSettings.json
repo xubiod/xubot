@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "xubot-core": {
+      "commandName": "Project",
+      "commandLineArgs": "no-reddit"
+    }
+  }
+}
