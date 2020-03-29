@@ -279,6 +279,12 @@ namespace xubot_core.src
             await ReplyAsync("https://discordapp.com/api/oauth2/authorize?client_id=" + id + "&scope=bot&permissions=0");
         }
 
+        [Command("discord-api-link-gen"), Alias("discord-bot", "db"), Summary("Generates a bot adding link with a given permission number.")]
+        public async Task DALG(string id, long permission)
+        {
+            await ReplyAsync("https://discordapp.com/api/oauth2/authorize?client_id=" + id + "&scope=bot&permissions=" + permission.ToString());
+        }
+
 #if (DEBUG)
         [Group("debug"), Summary("A group of debug commands for quick debug work. Cannot be used by anyone except owner."), RequireOwner]
         public class Debug : ModuleBase
