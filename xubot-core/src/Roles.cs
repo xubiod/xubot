@@ -21,6 +21,8 @@ namespace xubot_core.src
         [Command("add"), RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task Add(string pro)
         {
+            await Util.Error.Deprecated(Context);
+
             RoleTools.Pronoun.AddRefresh(Context.Message.Author);
             RoleTools.Pronoun.Set(Context.Message.Author, pro);
 
@@ -53,6 +55,8 @@ namespace xubot_core.src
         [Command("remove"), RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task Remove(string pro)
         {
+            await Util.Error.Deprecated(Context);
+
             RoleTools.Pronoun.AddRefresh(Context.Message.Author);
             RoleTools.Pronoun.Set(Context.Message.Author, pro);
 
@@ -74,6 +78,8 @@ namespace xubot_core.src
         [Command("replace"), RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task Replace(string pro)
         {
+            await Util.Error.Deprecated(Context);
+
             RoleTools.Pronoun.AddRefresh(Context.Message.Author);
             RoleTools.Pronoun.Set(Context.Message.Author, pro);
 
@@ -112,6 +118,8 @@ namespace xubot_core.src
         [Command("set"), RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task Replace(string first, string second, string third)
         {
+            await Util.Error.Deprecated(Context);
+
             //RoleTools.Identity.AddRefresh(Context.Message.Author);
 
             //RoleTools.Identity.Set(Context.Message.Author, first + second + third);
@@ -145,6 +153,8 @@ namespace xubot_core.src
         [Command("remove"), RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task Remove()
         {
+            await Util.Error.Deprecated(Context);
+
             foreach (var _R in (Context.Message.Author as IGuildUser).RoleIds)
             {
                 IRole _role = Context.Guild.GetRole(_R);

@@ -16,6 +16,7 @@ namespace xubot_core.src
 
         //confirm variables for transfer
         public static IUser _auth;
+
         public static IUser _transferTo;
         public static double _amount = 0;
         public static string _pass = "";
@@ -25,6 +26,7 @@ namespace xubot_core.src
         [Command("collect"), Summary("Collects currency based on the amount of hours since last collection.")]
         public async Task Collect()
         {
+            await Util.Error.Deprecated(Context);
             try
             {
                 EconomyTools.AddOrRefreshAsync(Context.Message.Author);
@@ -56,6 +58,7 @@ namespace xubot_core.src
         [Command("balance"), Summary("Returns your balance.")]
         public async Task Balance()
         {
+            await Util.Error.Deprecated(Context);
             if (EconomyTools.AccountExists(Context.Message.Author))
             {
                 await EconomyTools.Build(Context, "Fake money! Woo!", "Amount in your account", EconomyTools.ReadAmount(Context.Message.Author).ToString() + "#");
@@ -69,6 +72,8 @@ namespace xubot_core.src
         [Command("transfer", RunMode = RunMode.Async), Summary("Initializes a transfer to someone. Only one transfer is allowed at any given time.")]
         public async Task Transfer(double amount, ulong id)
         {
+            await Util.Error.Deprecated(Context);
+
             //IUser transferTo = await Context.Guild.GetUserAsync(id);
             IUser transferTo = Program.xuClient.GetUser(id);
 
@@ -103,6 +108,8 @@ namespace xubot_core.src
         [Command("confirm"), Summary("Confirms a transfer to someone. Can only be done by the starter of the transfer, and incorrect codes cancel the transfer.")]
         public async Task ConfirmTransfer(string pass)
         {
+            await Util.Error.Deprecated(Context);
+
             if (_pass == pass && _pass != "")
             {
                 if (_auth == Context.Message.Author)

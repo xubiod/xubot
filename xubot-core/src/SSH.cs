@@ -23,6 +23,8 @@ namespace xubot_core.src
             [Command("connect")]
             public async Task Connect(string host, int port, string user, string password)
             {
+                await Util.Error.Deprecated(Context);
+
                 xuSSH = new SshClient(host, port, user, password);
                 xuSSH.Connect();
 
@@ -37,6 +39,8 @@ namespace xubot_core.src
             [Command("disconnect")]
             public async Task Disconnect(string code = "0000")
             {
+                await Util.Error.Deprecated(Context);
+
                 if (code == disconnectCode)
                 {
                     xuSSH.Disconnect();
@@ -53,6 +57,8 @@ namespace xubot_core.src
             [Command("quick-con"), Alias("qc")]
             public async Task QuickConnect(string hostnick)
             {
+                await Util.Error.Deprecated(Context);
+
                 string reply = "That quick connection doesn't exist.";
                 bool exists = false;
 
@@ -83,6 +89,8 @@ namespace xubot_core.src
             [Command("send", RunMode = RunMode.Async)]
             public async Task SendCommand(string cmd)
             {
+                await Util.Error.Deprecated(Context);
+
                 //adapted from wamwoowam's bot
                 //wamwoowam says hi :wave:
                 xuSSHStream.WriteLine(cmd);
