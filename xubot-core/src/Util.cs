@@ -159,6 +159,24 @@ namespace xubot_core.src
 
                 await context.Channel.SendMessageAsync("", false, embedd.Build());
             }
+
+            public static async Task Deprecated(ICommandContext context)
+            {
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Deprecated!",
+                    Color = Discord.Color.DarkRed,
+                    Description = "This command/feature of xubot is going to be removed in the future.",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow
+                };
+
+                await context.Channel.SendMessageAsync("", false, embedd.Build());
+            }
         }
 
         public class XML

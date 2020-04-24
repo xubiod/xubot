@@ -84,5 +84,11 @@ namespace xubot_core.src
             public ICannotBeArsedToFixThisException(string message) : base(message) { }
             public ICannotBeArsedToFixThisException(string message, Exception inner) : base(message, inner) { }
         }
+
+        public class DeprecatedToBeRemoved : Exception
+        {
+            public DeprecatedToBeRemoved(string message = "This command is going to be removed.") : base(message) { }
+            public DeprecatedToBeRemoved(Exception inner, string message = "This command is going to be removed.") : base(message, inner) { }
+        }
     }
 }
