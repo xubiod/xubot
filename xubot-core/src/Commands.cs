@@ -6,8 +6,6 @@ using Discord.Commands;
 using xubot_core;
 using Tweetinvi;
 using System.Xml;
-
-//unused atm
 using System.IO;
 using System.Net.Sockets;
 using System.Drawing;
@@ -21,7 +19,6 @@ using Newtonsoft.Json.Linq;
 using HtmlAgilityPack;
 using xubot_core.src;
 using System.Web;
-
 using System.Threading;
 using System.IO.Compression;
 using SixLabors.ImageSharp;
