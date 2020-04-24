@@ -184,44 +184,33 @@ namespace xubot_core.src
             public async Task Report()
             {
                 Process currentProcess = System.Diagnostics.Process.GetCurrentProcess();
-                double _used_bytes = currentProcess.WorkingSet64;
-                double _used_kb = _used_bytes / 1000;
-                double _used_mb = _used_bytes / 1000000;
+                double _ws = currentProcess.WorkingSet64 / 1000000;
+                double _pws = currentProcess.PeakWorkingSet64 / 1000000;
 
-                double _peak_bytes = currentProcess.PeakWorkingSet64;
-                double _peak_kb = _peak_bytes / 1000;
-                double _peak_mb = _peak_bytes / 1000000;
+                double _vms = currentProcess.VirtualMemorySize64 / 1000000;
+                double _pvms = currentProcess.PeakVirtualMemorySize64 / 1000000;
 
-                double _vms = currentProcess.VirtualMemorySize64;
-                double _pvms = currentProcess.PeakVirtualMemorySize64;
-
-                double _pm = currentProcess.PagedMemorySize64;
-                double _ppm = currentProcess.PeakPagedMemorySize64;
+                double _pm = currentProcess.PagedMemorySize64 / 1000000;
+                double _ppm = currentProcess.PeakPagedMemorySize64 / 1000000;
 
                 await BuildReport(Context, new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
                                 Name = "Working Set",
-                                Value = "Used (bytes): **" + _used_bytes + "** | Peak (bytes): **" + _peak_bytes + "**\n" +
-                                        "Used (KB): **" + _used_kb + "** | Peak (KB): **" + _peak_kb + "**\n" +
-                                        "Used (MB): **" + _used_mb + "** | Peak (MB): **" + _peak_mb + "**\n\n",
+                                Value = "Used (MB): **" + _ws + "** | Peak (MB): **" + _pws + "**\n\n",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Virtual Memory",
-                                Value = "Virutal (bytes): **" + _vms + "** | Virutal Peak (bytes): **" + _pvms + "**\n" +
-                                        "Virutal (KB): **" + (_vms/1000) + "** | Virutal Peak (KB): **" + (_pvms/1000) + "**\n" +
-                                        "Virutal (MB): **" + (_vms/1000000) + "** | Virutal Peak (MB): **" + (_pvms/1000000) + "**\n\n",
+                                Value = "Virutal (MB): **" + _vms + "** | Virutal Peak (MB): **" + _pvms + "**\n\n",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Paged Memory",
-                                Value = "Paged (bytes): **" + _pm + "** | Paged Peak (bytes): **" + _ppm + "**\n" +
-                                        "Paged (KB): **" + (_pm/1000) + "** | Paged Peak (KB): **" + (_ppm/1000) + "**\n" +
-                                        "Paged (MB): **" + (_pm/1000000) + "** | Paged Peak (MB): **" + (_ppm/1000000) + "**\n\n",
+                                Value = "Paged (MB): **" + _pm + "** | Paged Peak (MB): **" + _ppm + "**\n\n",
                                 IsInline = true
                             }
                         }
