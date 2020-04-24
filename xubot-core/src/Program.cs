@@ -222,7 +222,7 @@ namespace xubot_core.src
 
         public static async Task HandleCommands(SocketMessage messageParameters)
         {
-            var message = messageParameters as SocketUserMessage;
+            SocketUserMessage message = messageParameters as SocketUserMessage;
             if (message == null) return;
 
             int argumentPosition = 0;
@@ -230,7 +230,7 @@ namespace xubot_core.src
             if (!(message.HasStringPrefix(prefix, ref argumentPosition) || message.HasMentionPrefix(xuClient.CurrentUser, ref argumentPosition) || message.HasStringPrefix("xub>", ref argumentPosition)))
                 return;
 
-            var context = new CommandContext(xuClient, message);
+            CommandContext context = new CommandContext(xuClient, message);
 
             IResult result = await xuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)
