@@ -53,43 +53,43 @@ namespace xubot_core.src
         //AssembleURL("en", "", "definitions")
 
         [Command("define", RunMode = RunMode.Async), Summary("Defines a word using the Oxford Dictionary.")]
-        public async Task Define(string _word, string _langID = "en")
+        public async Task Define(string word, string langID = "en")
         {
             try
             {
                 await GetJSON(new DictInputs
                 {
                     get = "entries",
-                    langID = _langID,
-                    word = _word,
+                    langID = langID,
+                    word = word,
                     filters = "/definitions"
                 });
 
                 dynamic keys = JObject.Parse(text);
 
-                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>
+                List<EmbedFieldBuilder> allDefinitions = new List<EmbedFieldBuilder>
                 {
                     new EmbedFieldBuilder
                     {
                         Name = "Word / Region",
-                        Value = _word + " / " + _langID,
+                        Value = word + " / " + langID,
                         IsInline = false
                     }
                 };
 
-                string _all_def_str = "";
-                int _count = 1;
+                string allDefinitionsString = "";
+                int count = 1;
 
-                foreach (var _key in keys.results[0].lexicalEntries[0].entries[0].senses)
+                foreach (var key in keys.results[0].lexicalEntries[0].entries[0].senses)
                 {
-                    _all_def_str += "**" + _count.ToString() + "**. " + _key.definitions[0] + "\n";
-                    _count++;
+                    allDefinitionsString += "**" + count.ToString() + "**. " + key.definitions[0] + "\n";
+                    count++;
                 }
 
-                alldef.Add(new EmbedFieldBuilder
+                allDefinitions.Add(new EmbedFieldBuilder
                 {
                     Name = "Definition(s)",
-                    Value = _all_def_str,
+                    Value = allDefinitionsString,
                     IsInline = false
                 });
 
@@ -106,7 +106,7 @@ namespace xubot_core.src
                         Text = "xubot :p"
                     },
                     Timestamp = DateTime.UtcNow,
-                    Fields = alldef
+                    Fields = allDefinitions
                 };
 
                 await ReplyAsync("", false, embedd.Build());
@@ -119,37 +119,37 @@ namespace xubot_core.src
 
         //inflections
         [Command("inflection", RunMode = RunMode.Async), Summary("Shows inflections for a word using the Oxford Dictionary.")]
-        public async Task Inflections(string _word, string _langID = "en")
+        public async Task Inflections(string word, string langID = "en")
         {
             try
             {
                 await GetJSON(new DictInputs
                 {
                     get = "inflections",
-                    langID = _langID,
-                    word = _word,
+                    langID = langID,
+                    word = word,
                     filters = ""
                 });
 
                 dynamic keys = JObject.Parse(text);
 
-                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>
+                List<EmbedFieldBuilder> allInflections = new List<EmbedFieldBuilder>
                 {
                     new EmbedFieldBuilder
                     {
                         Name = "Word / Region",
-                        Value = _word + " / " + _langID,
+                        Value = word + " / " + langID,
                         IsInline = false
                     }
                 };
 
-                foreach (var _def in keys.results[0].lexicalEntries)
+                foreach (var inflection in keys.results[0].lexicalEntries)
                 {
-                    alldef.Add(new EmbedFieldBuilder
+                    allInflections.Add(new EmbedFieldBuilder
                     {
-                        Name = "Inflection of: " + _def.inflectionOf[0].id,
-                        Value = "Type: " + _def.grammaticalFeatures[0].text + "\n" +
-                                "Kind: " + _def.grammaticalFeatures[0].type,
+                        Name = "Inflection of: " + inflection.inflectionOf[0].id,
+                        Value = "Type: " + inflection.grammaticalFeatures[0].text + "\n" +
+                                "Kind: " + inflection.grammaticalFeatures[0].type,
                         //grammaticalFeatures[0].text
                         //grammaticalFeatures[0].type
                         //inflectionOf[0].id
@@ -170,7 +170,7 @@ namespace xubot_core.src
                         Text = "xubot :p"
                     },
                     Timestamp = DateTime.UtcNow,
-                    Fields = alldef
+                    Fields = allInflections
                 };
 
                 await ReplyAsync("", false, embedd.Build());
@@ -183,49 +183,49 @@ namespace xubot_core.src
 
         //words with same meanings
         [Command("synonyms", RunMode = RunMode.Async), Alias("syn"), Summary("Gives a list of synonyms a word using the Oxford Dictionary.")]
-        public async Task Syn(string _word, string _langID = "en")
+        public async Task Syn(string word, string langID = "en")
         {
             try
             {
                 await GetJSON(new DictInputs
                 {
                     get = "entries",
-                    langID = _langID,
-                    word = _word,
+                    langID = langID,
+                    word = word,
                     filters = "/synonyms"
                 });
 
                 dynamic keys = JObject.Parse(text);
 
-                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>
+                List<EmbedFieldBuilder> allSynonyms = new List<EmbedFieldBuilder>
                 {
                     new EmbedFieldBuilder
                     {
                         Name = "Word / Region",
-                        Value = _word + " / " + _langID,
+                        Value = word + " / " + langID,
                         IsInline = false
                     }
                 };
 
-                string _all_def_str = "";
+                string allSynonymsString = "";
 
-                foreach (var _key in keys.results[0].lexicalEntries[0].entries[0].senses)
+                foreach (var sense in keys.results[0].lexicalEntries[0].entries[0].senses)
                 {
-                    foreach (var _subsenses in _key.subsenses)
+                    foreach (var subsense in sense.subsenses)
                     {
-                        foreach (var _syn in _subsenses.synonyms)
+                        foreach (var synonym in subsense.synonyms)
                         {
-                            _all_def_str += "" + _syn.text + ", ";
+                            allSynonymsString += "" + synonym.text + ", ";
                         }
                     }
                 }
 
-                _all_def_str = _all_def_str.Remove(_all_def_str.Length - 2);
+                allSynonymsString = allSynonymsString.Remove(allSynonymsString.Length - 2);
 
-                alldef.Add(new EmbedFieldBuilder
+                allSynonyms.Add(new EmbedFieldBuilder
                 {
                     Name = "Synonym(s)",
-                    Value = _all_def_str,
+                    Value = allSynonymsString,
                     IsInline = false
                 });
 
@@ -242,7 +242,7 @@ namespace xubot_core.src
                         Text = "xubot :p"
                     },
                     Timestamp = DateTime.UtcNow,
-                    Fields = alldef
+                    Fields = allSynonyms
                 };
 
                 await ReplyAsync("", false, embedd.Build());
@@ -256,46 +256,46 @@ namespace xubot_core.src
 
         //words with opposite meanings
         [Command("antonyms", RunMode = RunMode.Async), Alias("ant"), Summary("Gives a list of antonyms a word using the Oxford Dictionary.")]
-        public async Task Ant(string _word, string _langID = "en")
+        public async Task Ant(string word, string langID = "en")
         {
             try
             {
                 await GetJSON(new DictInputs
                 {
                     get = "entries",
-                    langID = _langID,
-                    word = _word,
+                    langID = langID,
+                    word = word,
                     filters = "/antonyms"
                 });
 
                 dynamic keys = JObject.Parse(text);
 
-                List<EmbedFieldBuilder> alldef = new List<EmbedFieldBuilder>
+                List<EmbedFieldBuilder> allAntonyms = new List<EmbedFieldBuilder>
                 {
                     new EmbedFieldBuilder
                     {
                         Name = "Word / Region",
-                        Value = _word + " / " + _langID,
+                        Value = word + " / " + langID,
                         IsInline = false
                     }
                 };
 
-                string _all_def_str = "";
+                string allAntonymsString = "";
 
-                foreach (var _key in keys.results[0].lexicalEntries[0].entries[0].senses)
+                foreach (var sense in keys.results[0].lexicalEntries[0].entries[0].senses)
                 {
-                    foreach (var _syn in _key.antonyms)
+                    foreach (var antonyms in sense.antonyms)
                     {
-                        _all_def_str += "" + _syn.text + ", ";
+                        allAntonymsString += "" + antonyms.text + ", ";
                     }
                 }
 
-                _all_def_str = _all_def_str.Remove(_all_def_str.Length - 2);
+                allAntonymsString = allAntonymsString.Remove(allAntonymsString.Length - 2);
 
-                alldef.Add(new EmbedFieldBuilder
+                allAntonyms.Add(new EmbedFieldBuilder
                 {
                     Name = "Antonyms(s)",
-                    Value = _all_def_str,
+                    Value = allAntonymsString,
                     IsInline = false
                 });
 
@@ -312,7 +312,7 @@ namespace xubot_core.src
                         Text = "xubot :p"
                     },
                     Timestamp = DateTime.UtcNow,
-                    Fields = alldef
+                    Fields = allAntonyms
                 };
 
                 await ReplyAsync("", false, embedd.Build());
@@ -337,57 +337,57 @@ namespace xubot_core.src
 
                 dynamic keys = JObject.Parse(text);
 
-                List<string> _all_mono = new List<string>();
-                List<string> _all_bi = new List<string>();
+                List<string> allMonolingualDicts = new List<string>();
+                List<string> allBilingualDicts = new List<string>();
 
-                foreach (var _key in keys.results)
+                foreach (var key in keys.results)
                 {
-                    if (_key.targetLanguage != null)
+                    if (key.targetLanguage != null)
                     {
-                        _all_bi.Add((_key.source + " (" + _key.sourceLanguage.language + " (**" + _key.sourceLanguage.id + "**) => " + _key.targetLanguage.language + " (**" + _key.targetLanguage.id + "**))\n").ToString());
+                        allBilingualDicts.Add((key.source + " (" + key.sourceLanguage.language + " (**" + key.sourceLanguage.id + "**) => " + key.targetLanguage.language + " (**" + key.targetLanguage.id + "**))\n").ToString());
                     }
                     else
                     {
-                        _all_mono.Add((_key.source + " (" + _key.sourceLanguage.language + " (**" + _key.sourceLanguage.id + "**))\n").ToString());
+                        allMonolingualDicts.Add((key.source + " (" + key.sourceLanguage.language + " (**" + key.sourceLanguage.id + "**))\n").ToString());
                     }
                 }
 
                 //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
 
-                string _m_01 = "";
-                string _m_02 = "";
+                string monolingualListString0 = "";
+                string monolingualListString1 = "";
 
-                string _b_01 = "";
-                string _b_02 = "";
+                string bilingualListString0 = "";
+                string bilingualListString1 = "";
 
-                int _c = 0;
+                int count = 0;
 
-                foreach (var _q in _all_mono)
+                foreach (var dictionary in allMonolingualDicts)
                 {
-                    if (_c < 10)
+                    if (count < 10)
                     {
-                        _m_01 += _q;
+                        monolingualListString0 += dictionary;
                     }
                     else
                     {
-                        _m_02 += _q;
+                        monolingualListString1 += dictionary;
                     }
-                    _c++;
+                    count++;
                 }
 
-                _c = 0;
+                count = 0;
 
-                foreach (var _q in _all_bi)
+                foreach (var dictionary in allBilingualDicts)
                 {
-                    if (_c < 10)
+                    if (count < 10)
                     {
-                        _b_01 += _q;
+                        bilingualListString0 += dictionary;
                     }
                     else
                     {
-                        _b_02 += _q;
+                        bilingualListString1 += dictionary;
                     }
-                    _c++;
+                    count++;
                 }
 
                 EmbedBuilder embedd = new EmbedBuilder
@@ -404,22 +404,22 @@ namespace xubot_core.src
                     Fields = new List<EmbedFieldBuilder>() {
                             new EmbedFieldBuilder {
                                 Name = "Monolingual (pt 1)",
-                                Value = _m_01,
+                                Value = monolingualListString0,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder {
                                 Name = "Monolingual (pt 2)",
-                                Value = _m_02,
+                                Value = monolingualListString1,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder {
                                 Name = "Bilingual (pt 1)",
-                                Value = _b_01,
+                                Value = bilingualListString0,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder {
                                 Name = "Bilingual (pt 2)",
-                                Value = _b_02,
+                                Value = bilingualListString1,
                                 IsInline = true
                             }
                     }
