@@ -1,35 +1,33 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using xubot_core;
-using Tweetinvi;
-using System.Xml;
-using System.IO;
-using System.Net.Sockets;
-using System.Drawing;
-using System.Net.Http;
-using RedditSharp;
-using System.Xml.Linq;
-using System.Linq;
-using Tweetinvi.Models;
-using System.Net;
-using Newtonsoft.Json.Linq;
 using HtmlAgilityPack;
-using xubot_core.src;
-using System.Web;
-using System.Threading;
-using System.IO.Compression;
+using Newtonsoft.Json.Linq;
+using RedditSharp;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
-
-using SLImage = SixLabors.ImageSharp.Image;
-
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
+using System.Xml;
+using System.Xml.Linq;
+using Tweetinvi;
+using Tweetinvi.Models;
+using xubot_core;
+using xubot_core.src;
 using static xubot_core.src.SpecialException;
+using SLImage = SixLabors.ImageSharp.Image;
 
 namespace xubot_core.src
 {
@@ -283,6 +281,7 @@ namespace xubot_core.src
         }
 
 #if (DEBUG)
+
         [Group("debug"), Summary("A group of debug commands for quick debug work. Cannot be used by anyone except owner."), RequireOwner]
         public class Debug : ModuleBase
         {
@@ -453,7 +452,9 @@ namespace xubot_core.src
                 await Util.Error.BuildError("you triggered the debug command\ncongratu-fucking-lations bitch", Context);
             }
         }
+
 #endif
+
         public class SettingsComm : ModuleBase
         {
             [Group("settings"), Alias("set"), Summary("Modify some bot stuff. Most of it is restricted.")]
@@ -551,7 +552,7 @@ namespace xubot_core.src
                                 return;
                             }
 
-                        await ReplyAsync("*Status* has been set to: **" + new_play + "**");
+                            await ReplyAsync("*Status* has been set to: **" + new_play + "**");
                     }
                 }
 
@@ -794,7 +795,7 @@ namespace xubot_core.src
         [Group("trust"), Summary("Management for trust. Cannot be used by anyone except owner."), RequireOwner]
         public class Trust : ModuleBase
         {
-            XDocument xdoc;
+            private XDocument xdoc;
 
             [Command("add"), Summary("Adds a user the the trusted list.")]
             public async Task Add(string user, string discrim)
