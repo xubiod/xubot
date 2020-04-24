@@ -18,18 +18,11 @@ namespace xubot_core.src
 {
     public class Compile : ModuleBase
     {
-        //public static string _eval = "";
-        //public static string _result = "";
-        public static string _result_input = "";
-
-        /// @param engine interp engine
-        /// @param description erm...
-        /// @param highlight_js_lang lang code for hilighting
-        public static Embed BuildEmbed(string lang, string description, string highlight_js_lang, string _eval, string _result)
+        public static Embed BuildEmbed(string language, string description, string syntax_highlighting, string input, string result)
         {
             EmbedBuilder embedd = new EmbedBuilder
             {
-                Title = "**Language:** `" + lang + "`",
+                Title = "**Language:** `" + language + "`",
                 Color = Discord.Color.Orange,
                 Description = description,
 
@@ -44,14 +37,14 @@ namespace xubot_core.src
                             {
                                 Name = "Input",
 
-                                Value = "```" + highlight_js_lang + "\n" + _eval + "```",
+                                Value = "```" + syntax_highlighting + "\n" + input + "```",
 
                                 IsInline = false
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Result",
-                                Value = "```\n" + _result + "```",
+                                Value = "```\n" + result + "```",
                                 IsInline = false
                             }
                         }
@@ -81,7 +74,7 @@ namespace xubot_core.src
         public class codeCompile : ModuleBase
         {
             [Command("js", RunMode = RunMode.Async), Summary("Executes JavaScript.")]
-            public async Task JS(string eval)
+            public async Task JS(string input)
             {
                 await ReplyAsync("I'm sorry, but the .NET Core port does not have this yet. I'm trying my best to make it work out, promise! (but don't count on it soon)\n\n- xubiod#0258");
                 /*
@@ -119,7 +112,7 @@ namespace xubot_core.src
             }
 
             [Command("lua", RunMode = RunMode.Async), Summary("Executes Lua with some restrictions.")]
-            public async Task Lua(string eval)
+            public async Task Lua(string input)
             {
                 await ReplyAsync("I'm sorry, but the .NET Core port does not have this yet. I'm trying my best to make it work out, promise! (but don't count on it soon)\n\n- xubiod#0258");
                 /*
@@ -163,27 +156,27 @@ namespace xubot_core.src
             }
 
             [Command("deadfish", RunMode = RunMode.Async), Summary("Interperts Deadfish and outputs the results.")]
-            public async Task Deadfish(string eval)
+            public async Task Deadfish(string input)
             {
-                string local_result = SmallLangInterps.Deadfish.Execute(eval);
-                await ReplyAsync("", false, BuildEmbed("Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", "", eval, local_result));
+                string result = SmallLangInterps.Deadfish.Execute(input);
+                await ReplyAsync("", false, BuildEmbed("Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", "", input, result));
             }
 
             [Command("brainfuck", RunMode = RunMode.Async), Alias("brainf***", "brainf**k", "b****fuck", "bf"), Summary("Interperts Brainfuck and outputs the result.")]
-            public async Task Brainfuck(string eval, string ascii_input = "")
+            public async Task Brainfuck(string input, string ascii_input = "")
             {
-                string temp_eval;
+                string embed_input;
                 if (ascii_input != "")
                 {
-                    temp_eval = "Code: " + eval.Replace("\n", String.Empty) + "\n\nASCII Input: " + ascii_input;
+                    embed_input = "Code: " + input.Replace("\n", String.Empty) + "\n\nASCII Input: " + ascii_input;
                 }
                 else
                 {
-                    temp_eval = "Code: " + eval.Replace("\n", String.Empty);
+                    embed_input = "Code: " + input.Replace("\n", String.Empty);
                 }
-                string local_result = SmallLangInterps.Brainfuck.Execute(eval, ascii_input);
+                string result = SmallLangInterps.Brainfuck.Execute(input, ascii_input);
 
-                await ReplyAsync("", false, BuildEmbed("Brainfuck", "using a built-in interpeter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf", temp_eval, local_result));
+                await ReplyAsync("", false, BuildEmbed("Brainfuck", "using a built-in interpeter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf", embed_input, result));
             }
         }
     }
