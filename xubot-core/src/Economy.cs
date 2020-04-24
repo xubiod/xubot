@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using xubot_core.src.Attributes;
 
 namespace xubot_core.src
 {
-    [Group("economy"), Alias("eco"), Summary("Stuff relating to the economics system.")]
+    [Group("economy"), Alias("eco"), Summary("Stuff relating to the economics system."), Deprecated]
     public class Economy : ModuleBase
     {
         public static bool _new_act = false;

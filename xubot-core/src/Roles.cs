@@ -10,10 +10,11 @@ using System.Drawing;
 
 using DColor = Discord.Color;
 using SColor = System.Drawing.Color;
+using xubot_core.src.Attributes;
 
 namespace xubot_core.src
 {
-    [Group("pronoun"), Summary("Stuff relating to the working albeit kinda defunct pronoun system.")]
+    [Group("pronoun"), Summary("Stuff relating to the working albeit kinda defunct pronoun system."), Deprecated]
     public class Roles : ModuleBase
     {
         public static XDocument xdoc = new XDocument();
@@ -110,7 +111,7 @@ namespace xubot_core.src
         }
     }
 
-    [Group("identity"), Summary("Stuff relating to the working albeit kinda defunct identification system.")]
+    [Group("identity"), Summary("Stuff relating to the working albeit kinda defunct identification system."), Deprecated]
     public class Identity : ModuleBase
     {
         public static XDocument xdoc = new XDocument();

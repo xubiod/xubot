@@ -8,9 +8,11 @@ using Renci.SshNet;
 using System.IO;
 using System.Threading;
 using System.Xml.Linq;
+using xubot_core.src.Attributes;
 
 namespace xubot_core.src
 {
+    [Deprecated]
     public class SSH : ModuleBase
     {
         public static SshClient xuSSH;
