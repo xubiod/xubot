@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using xubot_core.src.Attributes;
 
 namespace xubot_core.src
 {
@@ -103,6 +104,7 @@ namespace xubot_core.src
                             if (alias == lookup)
                             {
                                 commList.Add(item);
+                                //item.Attributes.Contains(new DeprecatedAttribute());
                             }
                         }
                     }
@@ -170,6 +172,8 @@ namespace xubot_core.src
                 string trueSumm = "No summary given.";
                 if (comm.Summary != null) trueSumm = comm.Summary;
 
+                bool dep = comm.Attributes.Contains(new DeprecatedAttribute()) || comm.Module.Attributes.Contains(new DeprecatedAttribute());
+
                 EmbedBuilder embedd = new EmbedBuilder
                 {
                     Title = "Help",
@@ -218,7 +222,7 @@ namespace xubot_core.src
                             new EmbedFieldBuilder
                             {
                                 Name = "Miscellanous",
-                                Value = "Runmode: " + comm.RunMode.ToString() + "\nRemarks: " + comm.Remarks + "\nPriority: " + comm.Priority.ToString(),
+                                Value = "Runmode: " + comm.RunMode.ToString() + "\nRemarks: " + comm.Remarks + "\nPriority: " + comm.Priority.ToString() + (dep ? "\n__**Deprecated and going to be removed in a later update.**__" : ""),
                                 IsInline = true
                             }
                         }
@@ -300,6 +304,8 @@ namespace xubot_core.src
                 string trueSumm = "No summary given.";
                 if (group.Summary != null) trueSumm = group.Summary;
 
+                bool dep = group.Attributes.Contains(new DeprecatedAttribute());
+
                 EmbedBuilder embedd = new EmbedBuilder
                 {
                     Title = "Help",
@@ -356,7 +362,12 @@ namespace xubot_core.src
                                 Name = "Subgroups in Group",
                                 Value = "```" + subgroup + "```",
                                 IsInline = true
-                            }
+                            },
+                            (dep ? new EmbedFieldBuilder() {
+                                Name = "Deprecated",
+                                Value = "__**All commands in this group are deprecated. They are going to be removed in a future update.**__",
+                                IsInline = true
+                            } : null)
                         }
                 };
                 await ReplyAsync("", false, embedd.Build());
