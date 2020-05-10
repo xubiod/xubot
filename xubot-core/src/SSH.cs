@@ -12,14 +12,13 @@ using xubot_core.src.Attributes;
 
 namespace xubot_core.src
 {
-    [Deprecated]
     public class SSH : ModuleBase
     {
         public static SshClient xuSSH;
         public static ShellStream xuSSHStream;
         public static string disconnectCode;
 
-        [Group("ssh"), Summary("Stuff relating to the SSH functionality.")]
+        [Group("ssh"), Summary("Stuff relating to the SSH functionality."), Deprecated]
         public class commands : ModuleBase
         {
             [Command("connect")]
