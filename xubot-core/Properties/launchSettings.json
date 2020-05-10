@@ -2,7 +2,8 @@
   "profiles": {
     "xubot-core": {
       "commandName": "Project",
-      "commandLineArgs": "no-reddit"
+      "commandLineArgs": "no-reddit",
+      "nativeDebugging": false
     }
   }
 }
