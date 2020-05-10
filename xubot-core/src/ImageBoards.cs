@@ -14,6 +14,7 @@ using xubot_core.src;
 using Discord;
 using System.Net.Http;
 using static xubot_core.src.SpecialException;
+using xubot_core.src.Attributes;
 
 namespace xubot_core.src
 {
@@ -25,6 +26,7 @@ namespace xubot_core.src
         public HttpClient client = new HttpClient();
 
         // (TECHNICALLY) OPTIMIZED
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
         [Command("danbooru", RunMode = RunMode.Async), Summary("Retrives a post from danbooru.")]
         public async Task Danbooru(string tags = "", bool spoiler = false)
         {
@@ -85,6 +87,7 @@ namespace xubot_core.src
         }
 
         // BROKEN?
+        [NSFWPossibilty("TBD")]
         [Command("e621", RunMode = RunMode.Async), Summary("Retrives a post from e621 (Currently not working, probs got myself banned lol).")]
         public async Task e621(string tags = "", bool spoiler = false)
         {
@@ -143,6 +146,7 @@ namespace xubot_core.src
         }
 
         // OPTIMIZED
+        [NSFWPossibilty("Porn, snuff, whatever gets drawn.")]
         [Command("rule34", RunMode = RunMode.Async), Summary("Retrives a post from rule34, to the bot's dismay.")]
         public async Task r34(string tags = "", bool spoiler = true)
         {
@@ -150,6 +154,7 @@ namespace xubot_core.src
         }
 
         // OPTIMIZED
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
         [Command("gelbooru", RunMode = RunMode.Async), Summary("Retrives a post from gelbooru.")]
         public async Task Gelbooru(string tags = "", bool spoiler = false)
         {
@@ -157,6 +162,7 @@ namespace xubot_core.src
         }
 
         // OPTIMIZED
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
         [Command("yandere", RunMode = RunMode.Async), Summary("Retrives a post from yandere.")]
         public async Task Yandere(string tags = "", bool spoiler = false)
         {
@@ -164,6 +170,7 @@ namespace xubot_core.src
         }
 
         // BROKEN?
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
         [Command("e926", RunMode = RunMode.Async), Summary("Retrives a post from e926 (Currently not working, probs got myself banned lol).")]
         public async Task e926(string tags = "", bool spoiler = false)
         {
@@ -223,6 +230,7 @@ namespace xubot_core.src
         }
 
         // OPTIMIZED
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
         [Command("konachan", RunMode = RunMode.Async), Summary("Retrives a post from konachan.")]
         public async Task Konachan(string tags = "", bool spoiler = false)
         {

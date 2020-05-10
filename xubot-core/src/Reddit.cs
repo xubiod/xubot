@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
+using xubot_core.src.Attributes;
 using static xubot_core.src.RedditTools.ParseSorting;
 using static xubot_core.src.SpecialException;
 
@@ -21,12 +21,13 @@ namespace xubot_core.src
         static string[] randomSubs = { "adviceanimals", "askreddit", "aww", "bestof", "books", "earthporn", "explainlikeimfive", "funny", "gaming", "gifs", "iama", "movies", "music",
                                        "news", "pics", "science", "technology", "television", "todayilearned", "videos", "worldnews", "wtf" };
 
-        [Command("reddit?last", RunMode = RunMode.Async), Alias("reddit?l"), Summary("Gets a post from the last subreddit entered.")]
+        [Command("reddit?last", RunMode = RunMode.Async), Alias("reddit?l"), Summary("Gets a post from the last subreddit entered."), NSFWPossibilty("Anything probably")]
         public async Task DoLastSubreddit()
         {
             await Operate(Context, previous_sub, previous_query, previous_sorting, previous_hide);
         }
 
+        [NSFWPossibilty("Has links to NSFW subreddits")]
         [Command("reddit?nsfwmap"), RequireNsfw, Summary("Returns a URL to a visual map of many NSFW subreddits and how they link.")]
         public async Task GetNSFWMap()
         {
@@ -142,6 +143,7 @@ namespace xubot_core.src
             await ReplyAsync("", false, embedd.Build());
         }
 
+        [NSFWPossibilty("Anything probably")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit.")]
         public async Task GetRedditPost(string subreddit)
         {
@@ -153,6 +155,7 @@ namespace xubot_core.src
             await Operate(Context, subreddit, "", 0, false);
         }
 
+        [NSFWPossibilty("Anything probably")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and search query.")]
         public async Task GetRedditPost(string subreddit, string query)
         {
@@ -164,6 +167,7 @@ namespace xubot_core.src
             await Operate(Context, subreddit, query, 0, false);
         }
 
+        [NSFWPossibilty("Anything probably")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, search query, and sorting method.")]
         public async Task GetRedditPost(string subreddit, string query, int sorting)
         {
@@ -175,6 +179,7 @@ namespace xubot_core.src
             await Operate(Context, subreddit, query, sorting, false);
         }
 
+        [NSFWPossibilty("Anything probably")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and sorting method.")]
         public async Task GetRedditPost(string subreddit, int sorting)
         {
@@ -186,6 +191,7 @@ namespace xubot_core.src
             await Operate(Context, subreddit, "", sorting, false);
         }
 
+        [NSFWPossibilty("Anything probably")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, but can prevent previews from showing.")]
         public async Task GetRedditPost(string subreddit, bool hide)
         {
@@ -197,6 +203,7 @@ namespace xubot_core.src
             await Operate(Context, subreddit, "", 0, hide);
         }
 
+        [NSFWPossibilty("Anything probably")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and search query, but can prevent previews from showing.")]
         public async Task GetRedditPost(string subreddit, string query, bool hide)
         {
@@ -208,6 +215,7 @@ namespace xubot_core.src
             await Operate(Context, subreddit, query, 0, hide);
         }
 
+        [NSFWPossibilty("Anything probably")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, search query, sorting method, and can prevent from showing previews.")]
         public async Task GetRedditPost(string subreddit, string query, int sorting, bool hide)
         {
@@ -219,6 +227,7 @@ namespace xubot_core.src
             await Operate(Context, subreddit, query, sorting, hide);
         }
 
+        [NSFWPossibilty("Anything probably")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and sorting method, but can prevent previews from showing.")]
         public async Task GetRedditPost(string subreddit, int sorting, bool hide)
         {
