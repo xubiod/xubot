@@ -174,6 +174,9 @@ namespace xubot_core.src
 
                 bool dep = comm.Attributes.Contains(new DeprecatedAttribute()) || comm.Module.Attributes.Contains(new DeprecatedAttribute());
 
+                string nsfwPossibility = comm.Attributes.Where(x => x is NSFWPossibiltyAttribute).Count() > 0 ? (comm.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).warnings : "";
+                nsfwPossibility += comm.Module.Attributes.Where(x => x is NSFWPossibiltyAttribute).Count() > 0 ? "Groupwide:\n\n" + (comm.Module.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).warnings : "";
+
                 EmbedBuilder embedd = new EmbedBuilder
                 {
                     Title = "Help",
@@ -218,15 +221,24 @@ namespace xubot_core.src
                                 Name = "Parameters",
                                 Value = "```cs\n" + all_para + "```",
                                 IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Miscellanous",
-                                Value = "Runmode: " + comm.RunMode.ToString() + "\nRemarks: " + comm.Remarks + "\nPriority: " + comm.Priority.ToString() + (dep ? "\n__**Deprecated and going to be removed in a later update.**__" : ""),
-                                IsInline = true
                             }
                         }
                 };
+
+                if (dep) embedd.Fields.Add(new EmbedFieldBuilder()
+                {
+                    Name = "Deprecated",
+                    Value = "__**All commands in this group are deprecated. They are going to be removed in a future update.**__",
+                    IsInline = true
+                });
+
+                if (nsfwPossibility != "") embedd.Fields.Add(new EmbedFieldBuilder()
+                {
+                    Name = "NSFW Possibility",
+                    Value = "This group has the possibility of showing NSFW content. __*NSFW will* ***NOT*** *be shown that is NSFW unless it is in a channel specified as NSFW.*__\nThe following is stated as a warning for what type of content could be shown:\n**" + nsfwPossibility + "**",
+                    IsInline = true
+                });
+
                 await ReplyAsync("", false, embedd.Build());
             }
             catch (Exception e)
@@ -252,7 +264,7 @@ namespace xubot_core.src
                 catch (System.ArgumentOutOfRangeException aoore)
                 {
                     //not a command OR group
-                    await ReplyAsync("This command does not exist. (Trust me, I looked everywhere.)");
+                    await ReplyAsync("This command does not exist. (Trust me, I looked everywhere.)\nMaybe try the full name?");
                     return;
                 }
 
@@ -305,6 +317,7 @@ namespace xubot_core.src
                 if (group.Summary != null) trueSumm = group.Summary;
 
                 bool dep = group.Attributes.Contains(new DeprecatedAttribute());
+                string nsfwPossibility = group.Attributes.Contains(new NSFWPossibiltyAttribute()) ? (group.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).warnings : null;
 
                 EmbedBuilder embedd = new EmbedBuilder
                 {
@@ -362,14 +375,24 @@ namespace xubot_core.src
                                 Name = "Subgroups in Group",
                                 Value = "```" + subgroup + "```",
                                 IsInline = true
-                            },
-                            (dep ? new EmbedFieldBuilder() {
-                                Name = "Deprecated",
-                                Value = "__**All commands in this group are deprecated. They are going to be removed in a future update.**__",
-                                IsInline = true
-                            } : null)
+                            }
                         }
                 };
+
+                if (dep) embedd.Fields.Add(new EmbedFieldBuilder()
+                {
+                    Name = "Deprecated",
+                    Value = "__**All commands in this group are deprecated. They are going to be removed in a future update.**__",
+                    IsInline = true
+                });
+
+                if (nsfwPossibility != null) embedd.Fields.Add(new EmbedFieldBuilder()
+                {
+                    Name = "NSFW Possibility",
+                    Value = "This group has the possibility of showing NSFW content. __*NSFW will* ***NOT*** *be shown that is NSFW unless it is in a channel specified as NSFW.*__\nThe following is stated as a warning for what type of content could be shown:\n**" + nsfwPossibility + "**",
+                    IsInline = true
+                 });
+
                 await ReplyAsync("", false, embedd.Build());
             }
             catch (Exception e)
