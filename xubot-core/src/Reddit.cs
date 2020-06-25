@@ -28,10 +28,11 @@ namespace xubot_core.src
         }
 
         [NSFWPossibilty("Has links to NSFW subreddits")]
-        [Command("reddit?nsfwmap"), RequireNsfw, Summary("Returns a URL to a visual map of many NSFW subreddits and how they link.")]
+        [Command("reddit?nsfwmap"), Summary("Returns a URL to a visual map of many NSFW subreddits and how they link.")]
         public async Task GetNSFWMap()
         {
-            await ReplyAsync("Alright... then... " + "http://electronsoup.net/nsfw_subreddits/#");
+            if (await Util.ChannelNSFW(Context)) await ReplyAsync("Alright... then... " + "http://electronsoup.net/nsfw_subreddits/#");
+            else await ReplyAsync("Move to a NSFW channel.");
         }
 
         [Command("reddit?random", RunMode = RunMode.Async), Alias("reddit?r"), Summary("Gets a random post from a random subreddit in a predetermined list.")]
