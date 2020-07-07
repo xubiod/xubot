@@ -35,7 +35,7 @@ namespace xubot_core.src
                 string mostWeekIn = "";
                 decimal mostWeek = 0;
 
-                EmbedFieldBuilder mostWeekField = new EmbedFieldBuilder { Name = "Most Playtime (last 2 weeks)", Value = "Has not played in last 2 weeks.", IsInline = true };
+                EmbedFieldBuilder mostWeekField = new EmbedFieldBuilder { Name = "Most Playtime (2 wks)", Value = "Has not played in last 2 weeks.", IsInline = true };
                 EmbedFieldBuilder mostTimeField = new EmbedFieldBuilder { Name = "Most Playtime (forever)", Value = "Has not played since account creation (Wha...?)", IsInline = true };
 
                 foreach (KeyValue game in ownedGames["games"].Children)
@@ -58,12 +58,12 @@ namespace xubot_core.src
 
                 if (mostWeekIn != "")
                 {
-                    mostWeekField.Value = "In App\n**" + mostWeekIn + "**: " + string.Format("{0:#,###}", mostWeek) + " minutes\n" + string.Format("{0:#,###0.0}", mostWeek / 60) + " hours";
+                    mostWeekField.Value = "In App\n**__" + mostWeekIn + "__**: " + string.Format("{0:#,###}", mostWeek) + " minutes\n" + string.Format("{0:#,###0.0}", mostWeek / 60) + " hours";
                 }
 
                 if (mostTimeIn != "")
                 {
-                    mostTimeField.Value = "In App\n**" + mostTimeIn + "**: " + string.Format("{0:#,###}", mostTime) + " minutes\n" + string.Format("{0:#,###0.0}", mostTime / 60) + " hours";
+                    mostTimeField.Value = "In App\n**__" + mostTimeIn + "__**: " + string.Format("{0:#,###}", mostTime) + " minutes\n" + string.Format("{0:#,###0.0}", mostTime / 60) + " hours";
                 }
 
                 ulong _lastLogOff = playerSummaries["lastlogoff"].AsUnsignedLong(0);
@@ -100,14 +100,14 @@ namespace xubot_core.src
                                 {
                                     Name = "Current Stats",
                                     Value = "Currently __" + GetStatus(playerSummaries["personastate"].AsInteger()) + "__\n" +
-                                            "Level **" + playerLevel["player_level"].AsString() + "**\n" +
-                                            ownedGames["game_count"].AsString() + " products" +
+                                            "Level **" + playerLevel["player_level"].AsString() + "**\n**" +
+                                            ownedGames["game_count"].AsString() + "** products" +
                                             playing,
                                     IsInline = true
                                 },
                                 new EmbedFieldBuilder
                                 {
-                                    Name = "Playtime (last 2 weeks)",
+                                    Name = "Playtime (2 wks)",
                                     Value = string.Format("{0:#,##0}", twoWeeks) + " minutes\n" + string.Format("{0:#,###0.0}", twoWeeks/60) + " hours",
                                     IsInline = true
                                 },
