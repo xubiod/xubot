@@ -117,10 +117,8 @@ namespace xubot_core.src
                                     Value = string.Format("{0:#,##0}", forever) + " minutes\n" + string.Format("{0:#,###0.0}", forever/60) + " hours\n" + string.Format("{0:#,###0.00}", forever/1440) + " days",
                                     IsInline = true
                                 },
-                                mostWeekField
-                                ,
-                                mostTimeField
-                                ,
+                                mostWeekField,
+                                mostTimeField,
                                 new EmbedFieldBuilder
                                 {
                                     Name = "Last Logoff",
