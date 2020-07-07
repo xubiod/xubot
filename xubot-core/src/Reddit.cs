@@ -52,6 +52,13 @@ namespace xubot_core.src
         [Command("reddit?sub", RunMode = RunMode.Async), Summary("Returns some details about a subreddit.")]
         public async Task GetDetailsFromSubreddit(string input)
         {
+            // is the reddit fuck off?
+            if (!Program.botf_reddit)
+            {
+                Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
+                return;
+            }
+
             Program.subreddit = await Program.reddit.GetSubredditAsync(input);
 
             string display = Program.subreddit.DisplayName;
@@ -114,6 +121,13 @@ namespace xubot_core.src
         [Command("reddit?wiki", RunMode = RunMode.Async), Summary("Returns the wiki pages for a subreddit.")]
         public async Task GetSubredditWiki(string input)
         {
+            // is the reddit fuck off?
+            if (!Program.botf_reddit)
+            {
+                Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
+                return;
+            }
+
             Program.subreddit = await Program.reddit.GetSubredditAsync(input);
 
             string image = Program.subreddit.HeaderImage;
@@ -242,10 +256,15 @@ namespace xubot_core.src
 
         /* operation functions */
 
-        //List<RedditSharp.Things.Post> contents_list = new List<RedditSharp.Things.Post> { };
-
         public async Task Operate(ICommandContext Context, string subreddit, string query, int sorting, bool hide)
         {
+            // is the reddit fuck off?
+            if (!Program.botf_reddit)
+            {
+                Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
+                return;
+            }
+
             try
             {
                 //throw new ItsFuckingBrokenException(message: "Throw 'IHaveNoFuckingIdeaException' because I have no fucking idea.", inner: new IHaveNoFuckingIdeaException());
@@ -267,8 +286,6 @@ namespace xubot_core.src
 
                 bool isNSFW = await Util.ChannelNSFW(Context);
 
-                //await ReplyAsync((isNSFW && (post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL"))).ToString());
-
                 if (post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL"))
                 {
                     if (!isNSFW)
@@ -286,7 +303,6 @@ namespace xubot_core.src
                 else
                 {
                     await msg.DeleteAsync();
-                    //await ReplyAsync("https://reddit.com" + post.Permalink.ToString());
 
                     await ReplyAsync("**" + post.Title + "**\n" + "Posted on *" + post.CreatedUTC.ToShortDateString() + "* by **" + post.AuthorName + "**" + "\n\n" + ReturnCharOnTrue(hide, "<") + post.Url.AbsoluteUri + ReturnCharOnTrue(hide, ">") + "\n<https://www.reddit.com" + post.Permalink.ToString() + ">");
                 }
