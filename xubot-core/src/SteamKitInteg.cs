@@ -101,13 +101,8 @@ namespace xubot_core.src
                                     Name = "Current Stats",
                                     Value = "Currently __" + GetStatus(playerSummaries["personastate"].AsInteger()) + "__\n" +
                                             "Level **" + playerLevel["player_level"].AsString() + "**\n" +
+                                            ownedGames["game_count"].AsString() + " products" +
                                             playing,
-                                    IsInline = true
-                                },
-                                new EmbedFieldBuilder
-                                {
-                                    Name = "Owned Games",
-                                    Value = ownedGames["game_count"].AsString() + " products",
                                     IsInline = true
                                 },
                                 new EmbedFieldBuilder
