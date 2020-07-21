@@ -386,13 +386,13 @@ namespace xubot_core.src
                 await Util.Error.BuildError("No attachments or parameters were given.", Context);
                 return;
             }
-            await GetSauce(Util.ReturnLastAttachmentURL(Context));
+            await GetSauce(Util.Attachment.ReturnLastAttachmentURL(Context));
         }
 
         [Command("sauce", RunMode = RunMode.Async), Summary("Uses SauceNAO to get the \"sauce\" of the given URL.")]
         public async Task GetSauce(string url)
         {
-            if (!Util.ValidateURL(url))
+            if (!Util.Str.ValidateURL(url))
             {
                 await Util.Error.BuildError("Invalid URL", Context);
                 return;

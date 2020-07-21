@@ -310,66 +310,100 @@ namespace xubot_core.src
             }
         }
 
-        public static string ReturnLastAttachmentURL(ICommandContext Context)
+        public class Str
         {
-            var attach = Context.Message.Attachments;
-            IAttachment attached = null;
-
-            foreach (IAttachment _att in attach)
+            public static string StripHTML(string input)
             {
-                attached = _att;
+                return Regex.Replace(input, "<.*?>", String.Empty);
             }
 
-            return attached.Url;
-        }
-
-        public static List<string> ReturnAttachmentURLs(ICommandContext Context)
-        {
-            var attach = Context.Message.Attachments;
-            IAttachment attached = null;
-            List<string> results = new List<string>();
-
-            foreach (IAttachment _att in attach)
+            public static string SyntaxHighlightify(string input)
             {
-                results.Add(_att.Url);
+                switch (input)
+                {
+                    case "System.String": return "string";
+                    case "System.Boolean": return "bool";
+                    case "System.Decimal": return "decimal";
+                    case "System.Single": return "float";
+                    case "System.Double": return "double";
+                    case "System.Int32": return "int";
+                    case "System.UInt32": return "uint";
+                    case "System.Int64": return "long";
+                    case "System.UInt64": return "ulong";
+
+                    default: return input;
+                }
             }
-
-            return results;
-        }
-
-        public static async Task DownloadLastAttachmentAsync(ICommandContext Context, string localurl, bool autoApplyFT = false)
-        {
-            string url = ReturnLastAttachmentURL(Context);
-            using (HttpClient client = new HttpClient())
-            using (HttpResponseMessage response = await client.GetAsync(url))
-            using (HttpContent content = response.Content)
+            public static bool ValidateURL(string url)
             {
-                if (!autoApplyFT)
-                {
-                    File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
-                }
-                else
-                {
-                    string type = Path.GetExtension(url);
-                    File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
-                }
+                Uri result;
+                return Uri.TryCreate(url, UriKind.Absolute, out result) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
             }
         }
 
-        public static async Task DownloadFromURLAsync(string localurl, string url, bool autoApplyFT = false)
+        public class Attachment
         {
-            using (HttpClient client = new HttpClient())
-            using (HttpResponseMessage response = await client.GetAsync(url))
-            using (HttpContent content = response.Content)
+            public static string ReturnLastAttachmentURL(ICommandContext Context)
             {
-                if (!autoApplyFT)
+                var attach = Context.Message.Attachments;
+                IAttachment attached = null;
+
+                foreach (IAttachment _att in attach)
                 {
-                    File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
+                    attached = _att;
                 }
-                else
+
+                return attached.Url;
+            }
+
+            public static List<string> ReturnAttachmentURLs(ICommandContext Context)
+            {
+                var attach = Context.Message.Attachments;
+                IAttachment attached = null;
+                List<string> results = new List<string>();
+
+                foreach (IAttachment _att in attach)
                 {
-                    string type = Path.GetExtension(url);
-                    File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
+                    results.Add(_att.Url);
+                }
+
+                return results;
+            }
+
+            public static async Task DownloadLastAttachmentAsync(ICommandContext Context, string localurl, bool autoApplyFT = false)
+            {
+                string url = ReturnLastAttachmentURL(Context);
+                using (HttpClient client = new HttpClient())
+                using (HttpResponseMessage response = await client.GetAsync(url))
+                using (HttpContent content = response.Content)
+                {
+                    if (!autoApplyFT)
+                    {
+                        File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
+                    }
+                    else
+                    {
+                        string type = Path.GetExtension(url);
+                        File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
+                    }
+                }
+            }
+
+            public static async Task DownloadFromURLAsync(string localurl, string url, bool autoApplyFT = false)
+            {
+                using (HttpClient client = new HttpClient())
+                using (HttpResponseMessage response = await client.GetAsync(url))
+                using (HttpContent content = response.Content)
+                {
+                    if (!autoApplyFT)
+                    {
+                        File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
+                    }
+                    else
+                    {
+                        string type = Path.GetExtension(url);
+                        File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
+                    }
                 }
             }
         }
@@ -410,29 +444,6 @@ namespace xubot_core.src
             }
         }
 
-        public static string StripHTML(string input)
-        {
-            return Regex.Replace(input, "<.*?>", String.Empty);
-        }
-
-        public static string SyntaxHighlightify(string input)
-        {
-            switch (input)
-            {
-                case "System.String":  return "string";
-                case "System.Boolean": return "bool";
-                case "System.Decimal": return "decimal";
-                case "System.Single":  return "float";
-                case "System.Double":  return "double";
-                case "System.Int32":   return "int";
-                case "System.UInt32":  return "uint";
-                case "System.Int64":   return "long";
-                case "System.UInt64":  return "ulong";
-
-                default: return input;
-            }
-        }
-
         public static DateTime UnixTimeStampToDateTime(ulong unixTimeStamp)
         {
             // Unix timestamp is seconds past epoch
@@ -441,10 +452,5 @@ namespace xubot_core.src
             return dtDateTime;
         }
 
-        public static bool ValidateURL(string url)
-        {
-            Uri result;
-            return Uri.TryCreate(url, UriKind.Absolute, out result) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
-        }
     }
 }

@@ -153,11 +153,11 @@ namespace xubot_core.src
                     {
                         if (para.IsOptional)
                         {
-                            all_para += Util.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + " (optional)\n";
+                            all_para += Util.Str.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + " (optional)\n";
                         }
                         else
                         {
-                            all_para += Util.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + "\n";
+                            all_para += Util.Str.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + "\n";
                         }
                     }
                 }
