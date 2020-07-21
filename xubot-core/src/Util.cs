@@ -283,12 +283,12 @@ namespace xubot_core.src
             }
         }
 
-        public static string ReturnAttachmentURL(ICommandContext Context)
+        public static string ReturnLastAttachmentURL(ICommandContext Context)
         {
             var attach = Context.Message.Attachments;
             IAttachment attached = null;
 
-            foreach (var _att in attach)
+            foreach (IAttachment _att in attach)
             {
                 attached = _att;
             }
@@ -296,9 +296,23 @@ namespace xubot_core.src
             return attached.Url;
         }
 
+        public static List<string> ReturnAttachmentURLs(ICommandContext Context)
+        {
+            var attach = Context.Message.Attachments;
+            IAttachment attached = null;
+            List<string> results = new List<string>();
+
+            foreach (IAttachment _att in attach)
+            {
+                results.Add(_att.Url);
+            }
+
+            return results;
+        }
+
         public static async Task DownloadAttachmentAsync(ICommandContext Context, string localurl, bool autoApplyFT = false)
         {
-            string url = ReturnAttachmentURL(Context);
+            string url = ReturnFirstAttachmentURL(Context);
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(url))
             using (HttpContent content = response.Content)

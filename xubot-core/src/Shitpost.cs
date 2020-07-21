@@ -45,7 +45,7 @@ namespace xubot_core.src
                 if (optional != "") DirectUtils.InterpOptionalParameters(optional);
 
                 await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
-                string type = Path.GetExtension(Util.ReturnAttachmentURL(Context));
+                string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
 
                 font = new Font(fontCollect.Find("Roboto"), Size);
 
@@ -80,7 +80,7 @@ namespace xubot_core.src
                 if (optional != "") HeaderUtils.InterpOptionalParameters(optional);
 
                 await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
-                string type = Path.GetExtension(Util.ReturnAttachmentURL(Context));
+                string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
 
                 font = new Font(fontCollect.Find("Roboto"), Size);
 

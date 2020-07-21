@@ -86,7 +86,7 @@ namespace xubot_core.src
         {
             try
             {
-                string url = Util.ReturnAttachmentURL(Context);
+                string url = Util.ReturnFirstAttachmentURL(Context);
                 await Util.DownloadAttachmentAsync(Path.Combine(Path.GetTempPath(), "markov.txt"), url);
 
                 string input = File.ReadAllText(Path.Combine(Path.GetTempPath(), "markov.txt"));
