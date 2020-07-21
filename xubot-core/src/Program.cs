@@ -113,7 +113,7 @@ namespace xubot_core.src
                     stepTimes[0] = DateTime.Now;
 
                     Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
-                    subreddit = await reddit.GetSubredditAsync("/r/xubot_subreddit");
+                    //subreddit = await reddit.GetSubredditAsync("/r/xubot_subreddit");
                     stepTimes[1] = DateTime.Now;
                 }
             }

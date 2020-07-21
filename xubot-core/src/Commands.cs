@@ -232,22 +232,22 @@ namespace xubot_core.src
                 await ReplyAsync("You didn't give me a service... ;<");
             }
 
-            [Command("reddit"), Alias("r", "redd"), Summary("Attempts to post a text post to Reddit.")]
-            public async Task RedditPost(string title, string content)
-            {
-                if (Program.redditEnabled == false)
-                {
-                    await ReplyAsync("Reddit token not provided by bot runner.");
-                }
-                else
-                {
-                    Program.subreddit = await Program.reddit.GetSubredditAsync("/r/xubot_subreddit");
+            //[Command("reddit"), Alias("r", "redd"), Summary("Attempts to post a text post to Reddit.")]
+            //public async Task RedditPost(string title, string content)
+            //{
+            //    if (Program.redditEnabled == false)
+            //    {
+            //        await ReplyAsync("Reddit token not provided by bot runner.");
+            //    }
+            //    else
+            //    {
+            //        Program.subreddit = await Program.reddit.GetSubredditAsync("/r/xubot_subreddit");
 
-                    string result_ = content;
-                    var redditPost = await Program.subreddit.SubmitTextPostAsync(title, Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + " on the Discord server " + Context.Guild.Name + " posted:\n\n" + result_);
-                    await ReplyAsync("<" + redditPost.Url.AbsoluteUri.ToString() + ">");
-                }
-            }
+            //        string result_ = content;
+            //        var redditPost = await Program.subreddit.SubmitTextPostAsync(title, Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + " on the Discord server " + Context.Guild.Name + " posted:\n\n" + result_);
+            //        await ReplyAsync("<" + redditPost.Url.AbsoluteUri.ToString() + ">");
+            //    }
+            //}
 
             [Command("twitter"), Alias("t", "twit"), Summary("Attempts to post a thing to Twitter. Substitute `@` and `#` with [A] and [H] prospectively.")]
             public async Task TweetPost(string content)
