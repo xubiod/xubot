@@ -53,7 +53,7 @@ namespace xubot_core.src
         public async Task GetDetailsFromSubreddit(string input)
         {
             // is the reddit fuck off?
-            if (!Program.botf_reddit)
+            if (!Program.redditEnabled)
             {
                 Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
                 return;
@@ -122,7 +122,7 @@ namespace xubot_core.src
         public async Task GetSubredditWiki(string input)
         {
             // is the reddit fuck off?
-            if (!Program.botf_reddit)
+            if (!Program.redditEnabled)
             {
                 Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
                 return;
@@ -259,7 +259,7 @@ namespace xubot_core.src
         public async Task Operate(ICommandContext Context, string subreddit, string query, int sorting, bool hide)
         {
             // is the reddit fuck off?
-            if (!Program.botf_reddit)
+            if (!Program.redditEnabled)
             {
                 Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
                 return;

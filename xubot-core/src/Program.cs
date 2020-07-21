@@ -34,7 +34,7 @@ namespace xubot_core.src
         public static RedditSharp.Reddit reddit { get; private set; }
         public static RedditSharp.Things.Subreddit subreddit;
 
-        public static bool botf_reddit = false;
+        public static bool redditEnabled = false;
         public static dynamic keys { get; private set; }
         public static dynamic apiJson { get; private set; }
         public static bool enableNSFW = false;
@@ -44,7 +44,7 @@ namespace xubot_core.src
 
         public static DateTime[] stepTimes = new DateTime[8];
 
-        private static bool first = true;
+        private static bool firstLaunch = true;
 
         public static async Task Main(string[] args)
         {
@@ -106,7 +106,7 @@ namespace xubot_core.src
                 }
                 else
                 {
-                    botf_reddit = true;
+                    redditEnabled = true;
                     webAgent = new BotWebAgent(keys.reddit.user.ToString(), keys.reddit.pass.ToString(), keys.reddit.key1.ToString(), keys.reddit.key2.ToString(), "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
                     Console.WriteLine("* setting up reddit client");
                     reddit = new RedditSharp.Reddit(webAgent, true);

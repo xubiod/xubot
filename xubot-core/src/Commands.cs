@@ -233,7 +233,7 @@ namespace xubot_core.src
             [Command("reddit"), Alias("r", "redd"), Summary("Attempts to post a text post to Reddit.")]
             public async Task RedditPost(string title, string content)
             {
-                if (Program.botf_reddit == false)
+                if (Program.redditEnabled == false)
                 {
                     await ReplyAsync("Reddit token not provided by bot runner.");
                 }
