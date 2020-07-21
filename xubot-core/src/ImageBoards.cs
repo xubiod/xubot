@@ -56,7 +56,7 @@ namespace xubot_core.src
                 //await ReplyAsync(text);
                 dynamic keys = JObject.Parse(text);
 
-                if (!(await Util.ChannelNSFW(Context)) && keys.rating == "e")
+                if (!(await Util.IsChannelNSFW(Context)) && keys.rating == "e")
                 {
                     await ReplyAsync("Move to a NSFW channel.");
                 }
@@ -124,7 +124,7 @@ namespace xubot_core.src
                 //await ReplyAsync(text);
                 dynamic keys = JObject.Parse(text_j);
 
-                if (!(await Util.ChannelNSFW(Context)) && keys.rating == "e")
+                if (!(await Util.IsChannelNSFW(Context)) && keys.rating == "e")
                 {
                     await ReplyAsync("Move to a NSFW channel.");
                 }
@@ -305,7 +305,7 @@ namespace xubot_core.src
 
         public async Task GetPostFromXML(string inputLink, string tags, ICommandContext Context, bool spoiler, string pageIn = "&page=")
         {
-            if (!(await Util.ChannelNSFW(Context)))
+            if (!(await Util.IsChannelNSFW(Context)))
             {
                 await ReplyAsync("Move to a NSFW channel.");
             }
@@ -369,6 +369,29 @@ namespace xubot_core.src
                     await Util.Error.BuildError(exp, Context);
                 }
             }
+        }
+    }
+
+    public class SauceNao : ModuleBase
+    {
+        private static readonly string Url = "https://saucenao.com/search.php?db=999&output_type=2&numres=1&api_key=" + Program.keys.saucenao + "&url=";
+
+        [Command("sauce", RunMode = RunMode.Async)]
+        public async Task GetSauce()
+        {
+            if (Context.Message.Attachments.Count == 0)
+            {
+                await Util.Error.BuildError("No attachments or parameters were given.", Context);
+                return;
+            }
+            await GetSauce(Util.ReturnLastAttachmentURL(Context));
+        }
+
+        [Command("sauce", RunMode = RunMode.Async)]
+        public async Task GetSauce(string url)
+        {
+
+            return;
         }
     }
 }
