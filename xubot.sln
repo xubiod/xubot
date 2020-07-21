@@ -15,7 +15,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{B37321F1-CB06-41BA-A9EE-63BF5B7453F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xubot-helper", "xubot-helper\xubot-helper.csproj", "{01CF9CE8-5152-414F-AABB-DEE39C68248E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xubot-helper", "xubot-helper\xubot-helper.csproj", "{01CF9CE8-5152-414F-AABB-DEE39C68248E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "repository", "repository", "{2143028C-A8BB-493E-902B-72E58FAE99E3}"
+	ProjectSection(SolutionItems) = preProject
+		DONATE.md = DONATE.md
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{448B2F32-CCE7-41FB-B011-00AD69D9D4DE}"
+	ProjectSection(SolutionItems) = preProject
+		docs\_config.yml = docs\_config.yml
+		docs\README.md = docs\README.md
+		docs\xublogo.png = docs\xublogo.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config-example", "config-example", "{3C81F374-8EAB-4406-A970-4EDF3EB93413}"
+	ProjectSection(SolutionItems) = preProject
+		config-example\Core\API.json = config-example\Core\API.json
+		config-example\Core\Economy.xml = config-example\Core\Economy.xml
+		config-example\Core\Keys.json = config-example\Core\Keys.json
+		config-example\Core\Moods.xml = config-example\Core\Moods.xml
+		config-example\Core\Opinions.xml = config-example\Core\Opinions.xml
+		config-example\Core\README.md = config-example\Core\README.md
+		config-example\Core\Trusted.xml = config-example\Core\Trusted.xml
+		config-example\Core\Wiki.xml = config-example\Core\Wiki.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +101,8 @@ Global
 		{EE86C344-B4E4-458D-BD02-E1007CC45B1C} = {EF9E033D-9782-4A1B-99A2-399E4E0E26EE}
 		{0F429396-2B0B-468A-88EB-95DA7F8C2BC2} = {B37321F1-CB06-41BA-A9EE-63BF5B7453F4}
 		{01CF9CE8-5152-414F-AABB-DEE39C68248E} = {B37321F1-CB06-41BA-A9EE-63BF5B7453F4}
+		{448B2F32-CCE7-41FB-B011-00AD69D9D4DE} = {2143028C-A8BB-493E-902B-72E58FAE99E3}
+		{3C81F374-8EAB-4406-A970-4EDF3EB93413} = {2143028C-A8BB-493E-902B-72E58FAE99E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74D1A3C1-7342-4110-956B-1E171FD845D5}
