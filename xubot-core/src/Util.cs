@@ -440,5 +440,11 @@ namespace xubot_core.src
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
         }
+
+        public static bool ValidateURL(string url)
+        {
+            Uri result;
+            return Uri.TryCreate(url, UriKind.Absolute, out result) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
+        }
     }
 }
