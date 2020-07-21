@@ -33,12 +33,14 @@ namespace xubot_core.src
 {
     public class Commands : ModuleBase
     {
-        public static string[] insult_v = new string[128];
-        public static int insult_v_index = 0;
-        public static string[] insult_a = new string[128];
-        public static int insult_a_index = 0;
-        public static string[] insult_n = new string[128];
-        public static int insult_n_index = 0;
+        public static string[] insultVictim = new string[128];
+        public static int insultVictimIndex = 0;
+
+        public static string[] insultAdjective = new string[128];
+        public static int insultAdjectiveIndex = 0;
+
+        public static string[] insultNoun = new string[128];
+        public static int insultNounIndex = 0;
 
         public static string[] pattern = { "01110", "11011", "10001", "11011", "01110" };
 
@@ -72,26 +74,26 @@ namespace xubot_core.src
             [Command("init"), Summary("Initalizes the insult choices.")]
             public async Task Init()
             {
-                Array.Clear(insult_v, 0, 128);
-                insult_v[0] = "You are a ";
-                insult_v[1] = "Your face is a ";
-                insult_v[2] = "Your body is a ";
-                insult_v[3] = "Your code is a ";
-                insult_v_index = 3;
+                Array.Clear(insultVictim, 0, 128);
+                insultVictim[0] = "You are a ";
+                insultVictim[1] = "Your face is a ";
+                insultVictim[2] = "Your body is a ";
+                insultVictim[3] = "Your code is a ";
+                insultVictimIndex = 3;
 
-                Array.Clear(insult_a, 0, 128);
-                insult_a[0] = "steaming piece of ";
-                insult_a[1] = "smelly ";
-                insult_a[2] = "small ";
-                insult_a[3] = "fat ";
-                insult_a_index = 3;
+                Array.Clear(insultAdjective, 0, 128);
+                insultAdjective[0] = "steaming piece of ";
+                insultAdjective[1] = "smelly ";
+                insultAdjective[2] = "small ";
+                insultAdjective[3] = "fat ";
+                insultAdjectiveIndex = 3;
 
-                Array.Clear(insult_n, 0, 128);
-                insult_n[0] = "rotting poo.";
-                insult_n[1] = "dick. ";
-                insult_n[2] = "spoiled oatmeal.";
-                insult_n[3] = "arsehole.";
-                insult_n_index = 3;
+                Array.Clear(insultNoun, 0, 128);
+                insultNoun[0] = "rotting poo.";
+                insultNoun[1] = "dick. ";
+                insultNoun[2] = "spoiled oatmeal.";
+                insultNoun[3] = "arsehole.";
+                insultNounIndex = 3;
 
                 await ReplyAsync("Reset the insult arrays.");
             }
@@ -100,9 +102,9 @@ namespace xubot_core.src
             public async Task List()
             {
                 string _v = "**V**(itim): `[";
-                for (int i = 0; i < insult_v_index; i++)
+                for (int i = 0; i < insultVictimIndex; i++)
                 {
-                    _v += insult_v[i];
+                    _v += insultVictim[i];
 
                     if (i != 128)
                     {
@@ -112,9 +114,9 @@ namespace xubot_core.src
                 _v += "]`";
 
                 string _a = "**A**(djective): `[";
-                for (int i = 0; i < insult_a_index; i++)
+                for (int i = 0; i < insultAdjectiveIndex; i++)
                 {
-                    _a += insult_a[i];
+                    _a += insultAdjective[i];
 
                     if (i != 128)
                     {
@@ -124,9 +126,9 @@ namespace xubot_core.src
                 _a += "]`";
 
                 string _n = "**N**(oun): `[";
-                for (int i = 0; i < insult_n_index; i++)
+                for (int i = 0; i < insultNounIndex; i++)
                 {
-                    _n += insult_n[i];
+                    _n += insultNoun[i];
 
                     if (i != 128)
                     {
@@ -166,9 +168,9 @@ namespace xubot_core.src
                 [Command("v"), Summary("Adds a string to the 'victim' list.")]
                 public async Task Vit(String input)
                 {
-                    insult_v_index++;
+                    insultVictimIndex++;
                     if (!input.EndsWith(" ")) { input += " "; }
-                    insult_v[insult_v_index] = input;
+                    insultVictim[insultVictimIndex] = input;
 
                     await ReplyAsync("Added " + '"' + input + '"' + ".");
                 }
@@ -176,9 +178,9 @@ namespace xubot_core.src
                 [Command("a"), Summary("Adds a string to the 'adjective' list.")]
                 public async Task Adj(String input)
                 {
-                    insult_a_index++;
+                    insultAdjectiveIndex++;
                     if (!input.EndsWith(" ")) { input += " "; }
-                    insult_a[insult_a_index] = input;
+                    insultAdjective[insultAdjectiveIndex] = input;
 
                     await ReplyAsync("Added " + '"' + input + '"' + ".");
                 }
@@ -186,9 +188,9 @@ namespace xubot_core.src
                 [Command("n"), Summary("Adds a string to the 'noun' list.")]
                 public async Task Nou(String input)
                 {
-                    insult_n_index++;
+                    insultNounIndex++;
                     if (!input.EndsWith(" ")) { input += " "; }
-                    insult_n[insult_n_index] = input;
+                    insultNoun[insultNounIndex] = input;
 
                     await ReplyAsync("Added " + '"' + input + '"' + ".");
                 }
@@ -198,11 +200,11 @@ namespace xubot_core.src
             public async Task Gen()
             {
                 Random rnd = new Random();
-                int insult_v_use = rnd.Next(insult_v_index);
-                int insult_a_use = rnd.Next(insult_a_index);
-                int insult_n_use = rnd.Next(insult_n_index);
+                int insult_v_use = rnd.Next(insultVictimIndex);
+                int insult_a_use = rnd.Next(insultAdjectiveIndex);
+                int insult_n_use = rnd.Next(insultNounIndex);
 
-                await ReplyAsync(insult_v[insult_v_use] + insult_a[insult_a_use] + insult_n[insult_n_use]);
+                await ReplyAsync(insultVictim[insult_v_use] + insultAdjective[insult_a_use] + insultNoun[insult_n_use]);
             }
         }
 
