@@ -31,7 +31,7 @@ namespace xubot_core.src
                 public async Task Brightness(float amt)
                 {
                     await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
 
                     using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
                     {
@@ -46,7 +46,7 @@ namespace xubot_core.src
                 public async Task BW()
                 {
                     await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
 
                     using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
                     {
@@ -61,7 +61,7 @@ namespace xubot_core.src
                 public async Task EmulateColourblindness(string _type)
                 {
                     await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
 
                     using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
                     {
@@ -186,7 +186,7 @@ namespace xubot_core.src
                 public async Task Contrast(float amt)
                 {
                     await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
 
                     using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
                     {
@@ -201,7 +201,7 @@ namespace xubot_core.src
                 public async Task RotateHue(float deg)
                 {
                     await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
 
                     using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
                     {
@@ -216,7 +216,7 @@ namespace xubot_core.src
                 public async Task Invert()
                 {
                     await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
 
                     using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
                     {
@@ -231,7 +231,7 @@ namespace xubot_core.src
                 public async Task Kodachrome()
                 {
                     await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
 
                     using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
                     {
@@ -246,7 +246,7 @@ namespace xubot_core.src
                 public async Task Lomograph()
                 {
                     await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
 
                     using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
                     {
@@ -261,7 +261,7 @@ namespace xubot_core.src
                 public async Task Polaroid()
                 {
                     await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
 
                     using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
                     {
@@ -276,7 +276,7 @@ namespace xubot_core.src
                 public async Task Saturate(float amount)
                 {
                     await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
 
                     using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
                     {
@@ -291,7 +291,7 @@ namespace xubot_core.src
                 public async Task Sepia()
                 {
                     await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
 
                     using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
                     {

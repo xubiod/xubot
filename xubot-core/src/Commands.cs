@@ -379,7 +379,7 @@ namespace xubot_core.src
             [Command("attachment data")]
             public async Task Test007()
             {
-                string _all = "c: " + Context.Message.Attachments.Count + "\nl: <" + Util.ReturnFirstAttachmentURL(Context) + ">\nf:";
+                string _all = "c: " + Context.Message.Attachments.Count + "\nl: <" + Util.ReturnLastAttachmentURL(Context) + ">\nf:";
 
                 await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "/downloadsuccess.data");
 
@@ -393,7 +393,7 @@ namespace xubot_core.src
                 {
                     await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     await ReplyAsync("past download");
-                    string type = Path.GetExtension(Util.ReturnFirstAttachmentURL(Context));
+                    string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
                     await ReplyAsync("type retrieved");
 
                     await ReplyAsync("going into the `using (var img = SLImage.Load(Path.GetTempPath() + \"manip\" + type))` block");
