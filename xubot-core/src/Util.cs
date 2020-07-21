@@ -83,7 +83,7 @@ namespace xubot_core.src
                 string stack = exp.StackTrace;
                 if (exp.StackTrace.Length > 512)
                 {
-                    File.WriteAllText(Path.Combine(Path.GetTempPath(), "StackTrace.txt"), stack);
+                    System.IO.File.WriteAllText(Path.Combine(Path.GetTempPath(), "StackTrace.txt"), stack);
                     stack = "Stack trace is too big. Reference the provided file.";
                 }
                 EmbedBuilder embedd = new EmbedBuilder
@@ -341,7 +341,7 @@ namespace xubot_core.src
             }
         }
 
-        public class Attachment
+        public class File
         {
             public static string ReturnLastAttachmentURL(ICommandContext Context)
             {
@@ -379,12 +379,12 @@ namespace xubot_core.src
                 {
                     if (!autoApplyFT)
                     {
-                        File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
+                        System.IO.File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
                     }
                     else
                     {
                         string type = Path.GetExtension(url);
-                        File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
+                        System.IO.File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
                     }
                 }
             }
@@ -397,12 +397,12 @@ namespace xubot_core.src
                 {
                     if (!autoApplyFT)
                     {
-                        File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
+                        System.IO.File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
                     }
                     else
                     {
                         string type = Path.GetExtension(url);
-                        File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
+                        System.IO.File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
                     }
                 }
             }
