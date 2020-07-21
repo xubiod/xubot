@@ -10,7 +10,7 @@ using xubot_core.src.Attributes;
 
 namespace xubot_core.src
 {
-    [Group("economy"), Alias("eco"), Summary("Stuff relating to the economics system."), Deprecated]
+    [Group("economy"), Alias("eco"), Summary("Stuff relating to the economics system."), Attributes.Deprecated]
     public class Economy : ModuleBase
     {
         public static bool _new_act = false;

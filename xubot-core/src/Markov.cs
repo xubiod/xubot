@@ -87,7 +87,7 @@ namespace xubot_core.src
             try
             {
                 string url = Util.ReturnLastAttachmentURL(Context);
-                await Util.DownloadAttachmentAsync(Path.Combine(Path.GetTempPath(), "markov.txt"), url);
+                await Util.DownloadFromURLAsync(Path.Combine(Path.GetTempPath(), "markov.txt"), url);
 
                 string input = File.ReadAllText(Path.Combine(Path.GetTempPath(), "markov.txt"));
 
@@ -170,7 +170,7 @@ namespace xubot_core.src
         {
             throw new NotImplementedException();
 
-            if (Util.UserTrusted(Context))
+            if (Util.IsUserTrusted(Context))
             {
                 xuMarkov.flush();
                 await ReplyAsync("Markov chain flushed.");
