@@ -47,7 +47,7 @@ namespace xubot_core.src
         [Group("echo"), Alias("m"), Summary("Repeats after you.")]
         public class Echo : ModuleBase
         {
-            [Command(""), Summary("Repeats a string given once.")]
+            [Command, Summary("Repeats a string given once.")]
             public async Task RepeatOnce(string blegh)
             {
                 await ReplyAsync(blegh);
