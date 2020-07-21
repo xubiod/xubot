@@ -381,7 +381,7 @@ namespace xubot_core.src
             {
                 string _all = "c: " + Context.Message.Attachments.Count + "\nl: <" + Util.ReturnLastAttachmentURL(Context) + ">\nf:";
 
-                await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "/downloadsuccess.data");
+                await Util.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "/downloadsuccess.data");
 
                 await Context.Channel.SendFileAsync(Path.GetTempPath() + "/downloadsuccess.data", _all);
             }
@@ -391,7 +391,7 @@ namespace xubot_core.src
             {
                 try
                 {
-                    await Util.DownloadAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
+                    await Util.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                     await ReplyAsync("past download");
                     string type = Path.GetExtension(Util.ReturnLastAttachmentURL(Context));
                     await ReplyAsync("type retrieved");
@@ -438,7 +438,7 @@ namespace xubot_core.src
             {
                 try
                 {
-                    await ReplyAsync((await Util.ChannelNSFW(Context)).ToString());
+                    await ReplyAsync((await Util.IsChannelNSFW(Context)).ToString());
                 }
                 catch (Exception e)
                 {

@@ -31,7 +31,7 @@ namespace xubot_core.src
         [Command("reddit?nsfwmap"), Summary("Returns a URL to a visual map of many NSFW subreddits and how they link.")]
         public async Task GetNSFWMap()
         {
-            if (await Util.ChannelNSFW(Context)) await ReplyAsync("Alright... then... " + "http://electronsoup.net/nsfw_subreddits/#");
+            if (await Util.IsChannelNSFW(Context)) await ReplyAsync("Alright... then... " + "http://electronsoup.net/nsfw_subreddits/#");
             else await ReplyAsync("Move to a NSFW channel.");
         }
 
@@ -284,7 +284,7 @@ namespace xubot_core.src
                 var post = contents.ElementAt(rnd.Next(contents.Count));
                 //EmbedBuilder embedd;
 
-                bool isNSFW = await Util.ChannelNSFW(Context);
+                bool isNSFW = await Util.IsChannelNSFW(Context);
 
                 if (post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL"))
                 {

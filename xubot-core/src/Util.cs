@@ -133,6 +133,33 @@ namespace xubot_core.src
                 }
             }
 
+            public static async Task BuildError(string problem, ICommandContext context)
+            {
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Problem!",
+                    Color = Discord.Color.Red,
+                    Description = "It's an issue all right! The error builder got *a string!*",
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p"
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Details",
+                                Value = "```" + problem + "```",
+                                IsInline = false
+                            }
+                        }
+                };
+
+                await context.Channel.SendMessageAsync("", false, embedd.Build());
+            }
+
             public static async Task BuildError(object problem, ICommandContext context)
             {
                 EmbedBuilder embedd = new EmbedBuilder
@@ -147,14 +174,14 @@ namespace xubot_core.src
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
+                    {
+                        new EmbedFieldBuilder
                         {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Details",
-                                Value = "```" + problem.ToString() + "```",
-                                IsInline = false
-                            }
+                            Name = "Details",
+                            Value = "```" + problem.ToString() + "```",
+                            IsInline = false
                         }
+                    }
                 };
 
                 await context.Channel.SendMessageAsync("", false, embedd.Build());
@@ -310,9 +337,9 @@ namespace xubot_core.src
             return results;
         }
 
-        public static async Task DownloadAttachmentAsync(ICommandContext Context, string localurl, bool autoApplyFT = false)
+        public static async Task DownloadLastAttachmentAsync(ICommandContext Context, string localurl, bool autoApplyFT = false)
         {
-            string url = ReturnFirstAttachmentURL(Context);
+            string url = ReturnLastAttachmentURL(Context);
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(url))
             using (HttpContent content = response.Content)
@@ -329,7 +356,7 @@ namespace xubot_core.src
             }
         }
 
-        public static async Task DownloadAttachmentAsync(string localurl, string url, bool autoApplyFT = false)
+        public static async Task DownloadFromURLAsync(string localurl, string url, bool autoApplyFT = false)
         {
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(url))
@@ -347,7 +374,7 @@ namespace xubot_core.src
             }
         }
 
-        public static bool UserTrusted(ICommandContext Context)
+        public static bool IsUserTrusted(ICommandContext Context)
         {
             var xdoc = XDocument.Load("Trusted.xml");
 
@@ -368,7 +395,7 @@ namespace xubot_core.src
             return false;
         }
 
-        public static async Task<bool> ChannelNSFW(ICommandContext Context)
+        public static async Task<bool> IsChannelNSFW(ICommandContext Context)
         {
             IDMChannel ifDM = await Context.Message.Author.GetOrCreateDMChannelAsync();
 
