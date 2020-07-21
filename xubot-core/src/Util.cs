@@ -334,6 +334,7 @@ namespace xubot_core.src
                     default: return input;
                 }
             }
+
             public static bool ValidateURL(string url)
             {
                 Uri result;
