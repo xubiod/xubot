@@ -28,6 +28,8 @@
   "oxford_dic_id": "[app id]",
   "oxford_dic_key": "[api key]",
 
-  "update_repository": "[...]",
-  "update_clonehere": "[directory to clone to]"
+  "update_repository": "[the .git for the repo]",
+  "update_clonehere": "[directory to clone to]",
+
+  "saucenao": "[saucenao api key given with an account]"
 }

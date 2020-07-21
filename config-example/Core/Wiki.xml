@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xubotWiki>
-  <!--- these must be added before or during execution --->
-  <!--- use "WikiTools" to read and use this file --->
-  <article name="[article name]" lasteditor="[user]">
+	<!-- these must be added before or during execution -->
+	<!-- use "WikiTools" to read and use this file -->
+	<article name="[article name]" lasteditor="[user]">
 	Article content.
-  </article>
+	</article>
 </xubotWiki>
