@@ -165,7 +165,7 @@ namespace xubot_core.src
                             new EmbedFieldBuilder
                             {
                                 Name = "NSFW?",
-                                Value = (await Util.IsChannelNSFW(Context)),
+                                Value = (await Util.ChannelNSFW(Context)),
                                 IsInline = true
                             }
                         }

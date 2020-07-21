@@ -172,7 +172,7 @@ namespace xubot_core.src
                 string trueSumm = "No summary given.";
                 if (comm.Summary != null) trueSumm = comm.Summary;
 
-                bool dep = comm.Attributes.Contains(new Attributes.DeprecatedAttribute()) || comm.Module.Attributes.Contains(new Attributes.DeprecatedAttribute());
+                bool dep = comm.Attributes.Contains(new DeprecatedAttribute()) || comm.Module.Attributes.Contains(new DeprecatedAttribute());
 
                 string nsfwPossibility = comm.Attributes.Where(x => x is NSFWPossibiltyAttribute).Count() > 0 ? (comm.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).warnings : "";
                 nsfwPossibility += comm.Module.Attributes.Where(x => x is NSFWPossibiltyAttribute).Count() > 0 ? "Groupwide:\n\n" + (comm.Module.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).warnings : "";
@@ -316,7 +316,7 @@ namespace xubot_core.src
                 string trueSumm = "No summary given.";
                 if (group.Summary != null) trueSumm = group.Summary;
 
-                bool dep = group.Attributes.Contains(new Attributes.DeprecatedAttribute());
+                bool dep = group.Attributes.Contains(new DeprecatedAttribute());
                 string nsfwPossibility = group.Attributes.Contains(new NSFWPossibiltyAttribute()) ? (group.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).warnings : null;
 
                 EmbedBuilder embedd = new EmbedBuilder
