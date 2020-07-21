@@ -27,13 +27,13 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.1.1" />
-    <PackageReference Include="GitHub" Version="1.15.0" />
-    <PackageReference Include="GitInfo" Version="2.0.20">
+    <PackageReference Include="GitHub" Version="1.24.0" />
+    <PackageReference Include="GitInfo" Version="2.0.26">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.12" />
-    <PackageReference Include="NLua" Version="1.4.24" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
+    <PackageReference Include="NLua" Version="1.5.0" />
     <PackageReference Include="RedditSharp" Version="2.0.0-CI00075" />
     <PackageReference Include="SixLabors.Core" Version="1.0.0-beta0008" />
     <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta0009" />
@@ -43,8 +43,8 @@
     <PackageReference Include="SixLabors.Shapes.Text" Version="1.0.0-beta0009" />
     <PackageReference Include="SSH.NET" Version="2016.1.0" />
     <PackageReference Include="SshNet.Security.Cryptography" Version="1.2.0" />
-    <PackageReference Include="SteamKit2" Version="2.2.0" />
-    <PackageReference Include="TweetinviAPI" Version="4.0.2" />
+    <PackageReference Include="SteamKit2" Version="2.3.0" />
+    <PackageReference Include="TweetinviAPI" Version="4.0.3" />
   </ItemGroup>
 
   <ItemGroup>
