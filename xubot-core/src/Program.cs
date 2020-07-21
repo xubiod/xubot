@@ -20,7 +20,6 @@ using System.Threading;
 using System.Collections.Generic;
 using xubot_core.src;
 using System.Runtime.InteropServices;
-using SteamKit2.Unified.Internal;
 
 namespace xubot_core.src
 {
@@ -100,41 +99,24 @@ namespace xubot_core.src
 
             if (!args.Contains("no-reddit"))
             {
-                ConnectReddit();
+                Console.WriteLine("* setting up bot web agent for reddit use");
+                if (keys.reddit.user.ToString() == "" && keys.reddit.pass.ToString() == "")
+                {
+                    Console.WriteLine("  > reddit info not provided, disabling reddit");
+                }
+                else
+                {
+                    redditEnabled = true;
+                    webAgent = new BotWebAgent(keys.reddit.user.ToString(), keys.reddit.pass.ToString(), keys.reddit.key1.ToString(), keys.reddit.key2.ToString(), "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
+                    Console.WriteLine("* setting up reddit client");
+                    reddit = new RedditSharp.Reddit(webAgent, true);
+                    stepTimes[0] = DateTime.Now;
+
+                    Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
+                    subreddit = await reddit.GetSubredditAsync("/r/xubot_subreddit");
+                    stepTimes[1] = DateTime.Now;
+                }
             }
-            ConnectDiscord();
-        }
-
-        private static async Task ConnectReddit()
-        {
-            Console.WriteLine("* setting up bot web agent for reddit use");
-            if (keys.reddit.user.ToString() == "" && keys.reddit.pass.ToString() == "")
-            {
-                Console.WriteLine("  > reddit info not provided, disabling reddit");
-            }
-            else
-            {
-                redditEnabled = true;
-                webAgent = new BotWebAgent(keys.reddit.user.ToString(), keys.reddit.pass.ToString(), keys.reddit.key1.ToString(), keys.reddit.key2.ToString(), "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
-                Console.WriteLine("* setting up reddit client");
-                reddit = new RedditSharp.Reddit(webAgent, true);
-                SetupSubreddit();
-            }
-
-            return;
-        }
-
-        private static async Task SetupSubreddit()
-        {
-            stepTimes[0] = DateTime.Now;
-
-            Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
-            subreddit = reddit.GetSubredditAsync("/r/xubot_subreddit").Result;
-            stepTimes[1] = DateTime.Now;
-        }
-
-        private static async Task ConnectDiscord()
-        {
             Console.WriteLine("* setting up discord connection: login");
 
 #if (DEBUG)

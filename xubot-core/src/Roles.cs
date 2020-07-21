@@ -36,7 +36,7 @@ namespace xubot_core.src
             }
             else
             {
-                role = await Context.Guild.CreateRoleAsync(role_name, null, null, false, null);
+                role = await Context.Guild.CreateRoleAsync(role_name);
             }
 
             /*foreach (var _R in (Context.Message.Author as IGuildUser).RoleIds)
@@ -93,7 +93,7 @@ namespace xubot_core.src
             }
             else
             {
-                role = await Context.Guild.CreateRoleAsync(role_name, null, null, false, null);
+                role = await Context.Guild.CreateRoleAsync(role_name);
             }
 
             foreach (var _R in (Context.Message.Author as IGuildUser).RoleIds)
@@ -134,7 +134,7 @@ namespace xubot_core.src
             }
             else
             {
-                role = await Context.Guild.CreateRoleAsync(role_name, null, null, false, null);
+                role = await Context.Guild.CreateRoleAsync(role_name);
             }
 
             foreach (var _R in (Context.Message.Author as IGuildUser).RoleIds)

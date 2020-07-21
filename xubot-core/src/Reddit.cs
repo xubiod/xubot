@@ -1,10 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
-using RedditSharp.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using xubot_core.src.Attributes;
@@ -277,10 +275,10 @@ namespace xubot_core.src
                 await Context.Channel.TriggerTypingAsync();
                 Random rnd = new Random();
 
-                List<Post> contents = (List<Post>) await Program.subreddit.GetPosts(FromIntSort(sorting), -1).Stream().ToList();
+                var contents = await Program.subreddit.GetPosts(FromIntSort(sorting), -1).ToList();
                 if (contents.Count < 10)
                 {
-                    contents = (List<Post>)await Program.subreddit.GetPosts(FromIntSort(sorting), -1).Stream().ToList();
+                    contents = await Program.subreddit.GetPosts(-1).ToList();
                 }
                 //Console.WriteLine(contents.Count);
                 var post = contents.ElementAt(rnd.Next(contents.Count));
