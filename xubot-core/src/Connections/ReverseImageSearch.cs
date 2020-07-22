@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Newtonsoft.Json.Linq;
+using Renci.SshNet.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace xubot_core.src.Connections
         [Group("sauce"), Alias("saucenao"), Summary("Uses the SauceNAO API to reverse image search.")]
         public class SauceNao : ModuleBase
         {
-            private static readonly string SingleResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=1" + APIKey;
+            private static readonly string SingleResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=1" + APIKey + "&url=";
             private static readonly string TopResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=";
             private static readonly string APIKey = "&api_key=" + Program.keys.saucenao + "&url=";
 
@@ -56,6 +57,12 @@ namespace xubot_core.src.Connections
 
                 string assembledURL = SingleResultUrl + HttpUtility.UrlEncode(url);
                 dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
+
+                if (keys.header.status != 0)
+                {
+                    BuildSauceNAOError(keys, Context);
+                    return;
+                }
 
                 string similarity = (keys.results[0].header.similarity ?? "?").ToString();
                 string src = (keys.results[0].data.source ?? "?").ToString();
@@ -99,6 +106,13 @@ namespace xubot_core.src.Connections
 
                 string assembledURL = TopResultUrl + amount.ToString() + APIKey + HttpUtility.UrlEncode(url);
                 dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
+
+                if (keys.header.status != 0)
+                {
+                    BuildSauceNAOError(keys, Context);
+                    return;
+                }
+
                 JArray ext_urls;
 
                 string similarity, src;
@@ -112,13 +126,13 @@ namespace xubot_core.src.Connections
                     src = (keys.results[i].data.source ?? "").ToString();
                     ext_urls = (keys.results[i].data.ext_urls ?? null);
 
-                    if (ext_urls is JArray) extraData = String.Join(", ", ext_urls);
+                    if (ext_urls is JArray) extraData = (src == "" ? "" : ", ") + String.Join(", ", ext_urls);
 
                     embedFields.Add(new EmbedFieldBuilder
                     {
                         Name = "No. " + (i + 1).ToString(),
                         IsInline = false,
-                        Value = similarity + "% - " + src + extraData
+                        Value = similarity + "% (" + GetConfidenceString(float.Parse(similarity)) + ") - " + src + extraData
                     });
 
                     extraData = "";
@@ -158,6 +172,15 @@ namespace xubot_core.src.Connections
                     case 6: return "Match I assume";
                     default: return "???";
                 }
+            }
+
+            private async Task BuildSauceNAOError(dynamic keys, ICommandContext Context)
+            {
+                string requestsLeft = "I have " + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests left for the next 30 seconds, " +
+                 "and " + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests left for the next 24 hours.\n" +
+                 "Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.";
+
+                await Util.Error.BuildError("SauceNAO returned an error:\n\n" + Util.Str.StripHTML(keys.header.message.ToString()) + "\n\n[NOTE]\n" + requestsLeft, Context);
             }
         }
     }
