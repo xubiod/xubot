@@ -274,12 +274,14 @@ namespace xubot_core.src
                 }
 
                 string commands = "None";
+                string str;
                 if (group.Commands.Count != 0)
                 {
                     commands = "";
                     foreach (var cmd in group.Commands)
                     {
-                        commands += group.Name + " " + cmd.Name + "\n";
+                        str = group.Name + " " + cmd.Name + "\n";
+                        if (!commands.Contains(str)) commands += str;
                     }
                 }
 
