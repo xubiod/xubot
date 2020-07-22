@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace xubot_core.src
+namespace xubot_core.src.Connections
 {
     public class ReverseImageSearch
     {
@@ -16,7 +16,7 @@ namespace xubot_core.src
             private static readonly string Url = "https://saucenao.com/search.php?db=999&output_type=2&numres=1&api_key=" + Program.keys.saucenao + "&url=";
             private static HttpClient client = new HttpClient();
 
-            [Command("sauce", RunMode = RunMode.Async), Summary("Uses SauceNAO to get the \"sauce\" of an attached image.")]
+            [Command("sauce", RunMode = RunMode.Async), Alias("saucenao"), Summary("Uses SauceNAO to get the \"sauce\" of an attached image.")]
             public async Task GetSauce()
             {
                 if (Context.Message.Attachments.Count == 0)
@@ -27,7 +27,7 @@ namespace xubot_core.src
                 await GetSauce(Util.File.ReturnLastAttachmentURL(Context));
             }
 
-            [Command("sauce", RunMode = RunMode.Async), Summary("Uses SauceNAO to get the \"sauce\" of the given URL.")]
+            [Command("sauce", RunMode = RunMode.Async), Alias("saucenao"), Summary("Uses SauceNAO to get the \"sauce\" of the given URL.")]
             public async Task GetSauce(string url)
             {
                 if (!Util.Str.ValidateURL(url))
