@@ -75,7 +75,7 @@ namespace xubot_core.src.Connections
                     "> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***");
             }
 
-            [Command("top", RunMode = RunMode.Async), Summary("Uses SauceNAO to get the \"sauce\" of an attached image, returning the top results. Limited from 1 to 5.")]
+            [Command("top", RunMode = RunMode.Async), Summary("Uses SauceNAO to get the \"sauce\" of an attached image, returning the top results. Limited from 1 to 5, defaults to 5.")]
             public async Task GetTop(int amount = 5)
             {
                 if (Context.Message.Attachments.Count == 0)
