@@ -320,8 +320,8 @@ namespace xubot_core.src
             [Command("get_mood")]
             public async Task Test003(ulong id)
             {
-                MoodTools.AddOrRefreshMood(Program.xuClient.GetUser(id));
-                double mood = MoodTools.ReadMood(Program.xuClient.GetUser(id));
+                Globals.MoodTools.AddOrRefreshMood(Program.xuClient.GetUser(id));
+                double mood = Globals.MoodTools.ReadMood(Program.xuClient.GetUser(id));
                 string moodAsStr = "invalid";
 
                 if (-16 <= mood && mood <= 16) { moodAsStr = "neutral"; }
