@@ -49,7 +49,7 @@ namespace xubot_core.src
                             new EmbedFieldBuilder
                             {
                                 Name = "Created (UTC)",
-                                Value = "**" + xuRepo_Comm.CreatedAt.ToUniversalTime() + "**\n",
+                                Value = "**" + xuRepo_Comm.CreatedAt.Value.GetDateTime().ToUniversalTime() + "**\n",
                                 IsInline = false
                             },
                             new EmbedFieldBuilder
@@ -67,7 +67,7 @@ namespace xubot_core.src
                             new EmbedFieldBuilder
                             {
                                 Name = "Latest Push (UTC)",
-                                Value = "**" + xuRepo_Comm.PushedAt.ToUniversalTime() + "**\n",
+                                Value = "**" + xuRepo_Comm.PushedAt.Value.GetDateTime().ToUniversalTime() + "**\n",
                                 IsInline = false
                             }
                         }
