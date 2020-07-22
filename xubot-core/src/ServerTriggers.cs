@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using System.Xml.Linq;
+using xubot_core.src.Attributes;
 
 namespace xubot_core.src
 {
@@ -15,7 +16,7 @@ namespace xubot_core.src
     {
         public static XDocument xdoc = new XDocument();
 
-        [Group("servertriggers"), Summary("Server specific triggers? Wow that sounds hella lame")]
+        [Group("servertriggers"), Summary("Server specific triggers? Wow that sounds hella lame"), Deprecated]
         public class Base : ModuleBase
         {
             [Command("add"), RequireUserPermission(GuildPermission.ManageGuild)]
