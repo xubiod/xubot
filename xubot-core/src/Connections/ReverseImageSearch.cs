@@ -17,7 +17,7 @@ namespace xubot_core.src.Connections
         [Group("sauce"), Alias("saucenao"), Summary("Uses the SauceNAO API to reverse image search.")]
         public class SauceNao : ModuleBase
         {
-            private static readonly string SingleResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=1" + APIKey + "&url=";
+            private static readonly string SingleResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=1";
             private static readonly string TopResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=";
             private static readonly string APIKey = "&api_key=" + Program.keys.saucenao + "&url=";
 
@@ -55,7 +55,7 @@ namespace xubot_core.src.Connections
                     return;
                 }
 
-                string assembledURL = SingleResultUrl + HttpUtility.UrlEncode(url);
+                string assembledURL = SingleResultUrl + APIKey + HttpUtility.UrlEncode(url);
                 dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
 
                 if (keys.header.status != 0)
@@ -65,7 +65,7 @@ namespace xubot_core.src.Connections
                 }
 
                 string similarity = (keys.results[0].header.similarity ?? "?").ToString();
-                string src = (keys.results[0].data.source ?? "?").ToString();
+                string src = (keys.results[0].data.source ?? (keys.results[0].data.ext_urls[0] ?? "?")).ToString();
 
                 if (src == "?")
                 {
