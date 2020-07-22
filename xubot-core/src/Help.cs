@@ -200,12 +200,6 @@ namespace xubot_core.src
                             },
                             new EmbedFieldBuilder
                             {
-                                Name = "Part of",
-                                Value = "```" + parentForm + "```",
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
                                 Name = "Summary",
                                 Value = trueSumm,
                                 IsInline = true
