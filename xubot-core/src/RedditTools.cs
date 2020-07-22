@@ -4,7 +4,7 @@ using RedditSharp.Things;
 
 namespace xubot_core.src
 {
-    class RedditTools : ModuleBase
+    class RedditTools
     {
         public class ParseSorting
         {
