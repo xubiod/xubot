@@ -162,13 +162,6 @@ namespace xubot_core.src
                     }
                 }
 
-                string parentForm = "Nothing";
-
-                if (comm.Module.Parent != null)
-                {
-                    parentForm = comm.Module.Parent.Name;
-                }
-
                 string trueSumm = "No summary given.";
                 if (comm.Summary != null) trueSumm = comm.Summary;
 
@@ -280,13 +273,6 @@ namespace xubot_core.src
                     }
                 }
 
-                string parentForm = "Nothing";
-
-                if (group.Parent != null)
-                {
-                    parentForm = group.Parent.Name;
-                }
-
                 string commands = "None";
                 if (group.Commands.Count != 0)
                 {
@@ -338,12 +324,6 @@ namespace xubot_core.src
                             {
                                 Name = "Group",
                                 Value = group.Group,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Part of",
-                                Value = "```" + parentForm + "```",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
