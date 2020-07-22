@@ -541,6 +541,12 @@ namespace xubot_core.src
                                 break;
                             }
 
+                        case "idle":
+                            {
+                                await Program.xuClient.SetStatusAsync(UserStatus.Idle);
+                                break;
+                            }
+
                         case "dnd":
                         case "silence":
                             {
