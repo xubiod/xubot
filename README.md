@@ -38,18 +38,7 @@ The binary depends on certain files within its directory. These can be found in 
 
 For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog)
 
-**Confirmed working on:** Windows 7 x64, Ubuntu
-
-## Building (.NET Framework) (deprecated)
-**Note: The .NET Framework version of xubot is no longer updated and supported.**
-
-Xubot uses WebSocket4Net to use connectivity on Windows 7.
-
-Xubot is currently 64bit only. You may change it when building, however, you may come across memory issues.
-
-Xubot requires some applications for some functionality. These include [a code interpeter (for the interp command)](xubot-code-compiler), and [a launcher and updater (for the update command and updates in general)](xubot-launcher).
-
-The binary also depends on certain files within its directory. These can be found in the [config example](config-example) folder.
+**Confirmed working on:** Windows 7 x64, Windows 10 x64, Ubuntu LTS
 
 ## Contributing
 To be rewritten.

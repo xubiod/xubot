@@ -9,6 +9,4 @@
 - **Trusted.xml** - Currently used as a pseudo replacement for owner requirement. one current use is `[>markov?flush`
 - **Wiki.xml** - Used for `[>wiki`
 
-- **code-handler/code-compiler** - Used for most of `[>interp`. must be compiled and located like this relative to the bot executable: `/code-handler/xubot-code-compiler.exe`
-
 - A copy of "Roboto-Regular.ttf" is provided for text overlays and future text drawings
