@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/xubot-team/xubot/master/docs/xublogo.png)
+![logo](https://raw.githubusercontent.com/xubiod/xubot/master/docs/xublogo.png)
 
 ### CodeFactor Grade
 [![CodeFactor](https://www.codefactor.io/repository/github/xubiod/xubot/badge)](https://www.codefactor.io/repository/github/xubot-team/xubot)
@@ -22,7 +22,7 @@
 
 
 ## Building (.NET Core)
-*Use xubot-core to build with .NET Core. You need .NET Core 3.1 on the target machine.*
+*Use xubot-core to build with .NET Core. You need .NET Core 3.0 on the target machine.*
 
 In the project directory, run this to compile to DLLs for various platforms:
 ```
