@@ -23,18 +23,6 @@ namespace xubot_core.src.Connections
 
             private static HttpClient client = new HttpClient();
 
-            //[Command("", RunMode = RunMode.Async)]
-            //public async Task NamelessGet()
-            //{
-            //    await GetSauce();
-            //}
-
-            //[Command("", RunMode = RunMode.Async)]
-            //public async Task NamelessGet(string url)
-            //{
-            //    await GetSauce(url);
-            //}
-
             [Command("get", RunMode = RunMode.Async), Alias(""), Summary("Uses SauceNAO to get the \"sauce\" of an attached image, returning the number 1 result.")]
             public async Task GetSauce()
             {
