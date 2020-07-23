@@ -22,7 +22,7 @@
 
 
 ## Building (.NET Core)
-*Use xubot-core to build with .NET Core. You need .NET Core 2.1 on the target machine.*
+*Use xubot-core to build with .NET Core. You need .NET Core 3.1 on the target machine.*
 
 In the project directory, run this to compile to DLLs for various platforms:
 ```
