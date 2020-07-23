@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "xubot-core": {
-      "commandName": "Project",
-      "nativeDebugging": false
-    }
-  }
-}
