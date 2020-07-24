@@ -17,7 +17,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SLImage = SixLabors.ImageSharp.Image;
 using System.Collections.Generic;
 
-namespace xubot.src
+namespace xubot.src.Commands
 {
     public class Picture : ModuleBase
     {

@@ -7,7 +7,7 @@ using Discord;
 using Discord.Commands;
 using GitHub;
 
-namespace xubot.src.Connections
+namespace xubot.src.Commands.Connections
 {
     public class GitHub : ModuleBase
     {

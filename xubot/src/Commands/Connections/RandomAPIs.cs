@@ -15,7 +15,7 @@ using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace xubot.src.Connections
+namespace xubot.src.Commands.Connections
 {
     public class RandomAPIS : ModuleBase
     {

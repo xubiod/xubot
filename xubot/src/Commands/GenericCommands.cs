@@ -29,9 +29,9 @@ using xubot.src;
 using static xubot.src.SpecialException;
 using SLImage = SixLabors.ImageSharp.Image;
 
-namespace xubot.src
+namespace xubot.src.Commands
 {
-    public class Commands : ModuleBase
+    public class GenericCommands : ModuleBase
     {
         public static string[] insultVictim = new string[128];
         public static int insultVictimIndex = 0;

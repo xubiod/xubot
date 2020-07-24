@@ -10,7 +10,7 @@ using Discord;
 using System.Xml.Linq;
 using xubot.src.Attributes;
 
-namespace xubot.src.Globals
+namespace xubot.src.Commands.Globals
 {
     public class ServerTriggers : ModuleBase
     {

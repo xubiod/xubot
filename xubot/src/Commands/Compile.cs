@@ -158,7 +158,7 @@ namespace xubot.src
             [Command("deadfish", RunMode = RunMode.Async), Summary("Interperts Deadfish and outputs the results.")]
             public async Task Deadfish(string input)
             {
-                string result = SmallLangInterps.Deadfish.Execute(input);
+                string result = Commands.SmallLangInterps.Deadfish.Execute(input);
                 await ReplyAsync("", false, BuildEmbed("Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", "", input, result));
             }
 
@@ -174,7 +174,7 @@ namespace xubot.src
                 {
                     embed_input = "Code: " + input.Replace("\n", String.Empty);
                 }
-                string result = SmallLangInterps.Brainfuck.Execute(input, ascii_input);
+                string result = Commands.SmallLangInterps.Brainfuck.Execute(input, ascii_input);
 
                 await ReplyAsync("", false, BuildEmbed("Brainfuck", "using a built-in interpeter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf", embed_input, result));
             }

@@ -13,7 +13,7 @@ using SLImage = SixLabors.ImageSharp.Image;
 using xubot.Properties;
 using SixLabors.ImageSharp;
 
-namespace xubot.src
+namespace xubot.src.Commands
 {
     public class Shitpost : ModuleBase
     {

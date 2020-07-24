@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace xubot.src
+namespace xubot.src.Commands
 {
     public class Information : ModuleBase
     {

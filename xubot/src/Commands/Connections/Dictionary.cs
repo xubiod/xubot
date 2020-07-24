@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using xubot;
 using System.IO;
 
-namespace xubot.src.Connections
+namespace xubot.src.Commands.Connections
 {
     [Group("dictionary"), Alias("dict"), Summary("The mini-wrapper for the Oxford Dictionary API.")]
     public class DictionaryComm : ModuleBase

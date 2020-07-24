@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace xubot.src
+namespace xubot.src.Commands
 {
     public class Miscellanous : ModuleBase
     {

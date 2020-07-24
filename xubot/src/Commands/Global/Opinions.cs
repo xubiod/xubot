@@ -8,7 +8,7 @@ using System.Xml;
 using Discord;
 using System.Xml.Linq;
 
-namespace xubot.src.Globals
+namespace xubot.src.Commands.Globals
 {
     public class Opinions : ModuleBase
     {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using xubot.src.Attributes;
 
-namespace xubot.src.Globals
+namespace xubot.src.Commands.Globals
 {
     [Group("economy"), Alias("eco"), Summary("Stuff relating to the economics system."), Deprecated]
     public class Economy : ModuleBase

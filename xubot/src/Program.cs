@@ -55,7 +55,7 @@ namespace xubot.src
 
             Console.WriteLine();
 
-            Shitpost.Populate();
+            Commands.Shitpost.Populate();
 
             await Task.Delay(-1);
         }

@@ -6,7 +6,7 @@ using Discord;
 using Discord.Commands;
 using SteamKit2;
 
-namespace xubot.src.Connections
+namespace xubot.src.Commands.Connections
 {
     [Group("steam"), Summary("Steam API integration via SteamKit2.")]
     public class SteamKitInteg : ModuleBase

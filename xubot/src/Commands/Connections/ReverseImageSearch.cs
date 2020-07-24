@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace xubot.src.Connections
+namespace xubot.src.Commands.Connections
 {
     public class ReverseImageSearch
     {

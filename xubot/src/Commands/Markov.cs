@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord.Commands;
 
-namespace xubot.src
+namespace xubot.src.Commands
 {
     public class MarkovComm : ModuleBase
     {

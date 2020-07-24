@@ -12,7 +12,7 @@ using DColor = Discord.Color;
 using SColor = System.Drawing.Color;
 using xubot.src.Attributes;
 
-namespace xubot.src
+namespace xubot.src.Commands
 {
     [Group("pronoun"), Summary("Stuff relating to the working albeit kinda defunct pronoun system."), Deprecated]
     public class Roles : ModuleBase

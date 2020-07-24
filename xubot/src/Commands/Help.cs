@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using xubot.src.Attributes;
 
-namespace xubot.src
+namespace xubot.src.Commands
 {
     [Group("help"), Summary("The savior for the lost.")]
     public class Help : ModuleBase

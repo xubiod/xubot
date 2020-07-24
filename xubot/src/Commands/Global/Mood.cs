@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Discord;
 using System.Xml.Linq;
 
-namespace xubot.src.Globals
+namespace xubot.src.Commands.Globals
 {
     public class Mood : ModuleBase
     {

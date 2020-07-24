@@ -9,7 +9,7 @@ using xubot.src.Attributes;
 using static xubot.src.RedditTools.ParseSorting;
 using static xubot.src.SpecialException;
 
-namespace xubot.src.Connections
+namespace xubot.src.Commands.Connections
 {
     public class Reddit : ModuleBase
     {

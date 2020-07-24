@@ -17,7 +17,7 @@ using static xubot.src.SpecialException;
 using xubot.src.Attributes;
 using System.Web;
 
-namespace xubot.src.Connections
+namespace xubot.src.Commands.Connections
 {
     public class ImageBoards : ModuleBase
     {
