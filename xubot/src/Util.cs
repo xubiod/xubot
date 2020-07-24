@@ -11,6 +11,9 @@ using System.Net.Http;
 using System.Xml.Linq;
 using System.Web;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace xubot.src
 {
@@ -298,6 +301,29 @@ namespace xubot.src
                 }
 
                 xdoc.Save(filename);
+            }
+        }
+
+        public class JSON
+        {
+            public static void ProcessFile(string key, string jsonFile)
+            {
+                Program.JSONKeys.Add(key, JObject.Parse(System.IO.File.ReadAllText(jsonFile)));
+            }
+
+            public static void ProcessObject(string key, object toSerialize)
+            {
+                Program.JSONKeys.Add(key, JObject.Parse(JsonConvert.SerializeObject(toSerialize)));
+            }
+
+            public static void SaveKeyAsJSON(string key, string path)
+            {
+                System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(Program.JSONKeys[key]));
+            }
+
+            public static void SaveObjectAsJSON(object save, string path)
+            {
+                System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(save));
             }
         }
 

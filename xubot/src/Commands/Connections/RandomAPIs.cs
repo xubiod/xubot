@@ -147,7 +147,7 @@ namespace xubot.src.Commands.Connections
             settings.Async = true;
 
             string final = "";
-            string link = ("http://thecatapi.com/api/images/get?api_key=" + Program.keys.cat.ToString() + "&format=xml");
+            string link = ("http://thecatapi.com/api/images/get?api_key=" + Program.JSONKeys["keys"].cat.ToString() + "&format=xml");
 
             var xdoc = XDocument.Load(link);
 

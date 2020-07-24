@@ -19,7 +19,7 @@ namespace xubot.src.Commands.Connections
         {
             private static readonly string SingleResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=1";
             private static readonly string TopResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=";
-            private static readonly string APIKey = "&api_key=" + Program.keys.saucenao + "&url=";
+            private static readonly string APIKey = "&api_key=" + Program.JSONKeys["keys"].saucenao + "&url=";
 
             private static HttpClient client = new HttpClient();
 

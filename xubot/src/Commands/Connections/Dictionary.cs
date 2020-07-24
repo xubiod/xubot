@@ -43,8 +43,8 @@ namespace xubot.src.Commands.Connections
             WebClient dicWeb = new WebClient();
 
             dicWeb.Headers.Add("Accept", "application/json");
-            dicWeb.Headers.Add("app_id: " + Program.keys.oxford_dic_id);
-            dicWeb.Headers.Add("app_key: " + Program.keys.oxford_dic_key);
+            dicWeb.Headers.Add("app_id: " + Program.JSONKeys["keys"].oxford_dic_id);
+            dicWeb.Headers.Add("app_key: " + Program.JSONKeys["keys"].oxford_dic_key);
 
             text = dicWeb.DownloadString(AssembleURL(inputs));
             return Task.CompletedTask;

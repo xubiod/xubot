@@ -11,10 +11,10 @@ namespace xubot.src.Commands.Connections
     [Group("steam"), Summary("Steam API integration via SteamKit2.")]
     public class SteamKitInteg : ModuleBase
     {
-        static dynamic steamUserInterface = WebAPI.GetInterface("ISteamUser", Program.keys.steam.ToString());
-        static dynamic playerServiceInterface = WebAPI.GetInterface("IPlayerService", Program.keys.steam.ToString());
-        static dynamic steamAppsInterface = WebAPI.GetInterface("ISteamApps", Program.keys.steam.ToString());
-        static dynamic steamNewsInterface = WebAPI.GetInterface("ISteamNews", Program.keys.steam.ToString());
+        static dynamic steamUserInterface = WebAPI.GetInterface("ISteamUser", Program.JSONKeys["keys"].steam.ToString());
+        static dynamic playerServiceInterface = WebAPI.GetInterface("IPlayerService", Program.JSONKeys["keys"].steam.ToString());
+        static dynamic steamAppsInterface = WebAPI.GetInterface("ISteamApps", Program.JSONKeys["keys"].steam.ToString());
+        static dynamic steamNewsInterface = WebAPI.GetInterface("ISteamNews", Program.JSONKeys["keys"].steam.ToString());
 
         [Command("user", RunMode = RunMode.Async), Summary("Gets information about a Steam user based on their ID.")]
         public async Task User(ulong id)

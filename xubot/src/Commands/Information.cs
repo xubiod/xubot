@@ -380,7 +380,7 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "APIs",
-                                Value = String.Join("", Program.apiJson.apis),
+                                Value = String.Join("", Program.JSONKeys["apis"].apis),
                                 IsInline = false
                             }
                         }
@@ -411,7 +411,7 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "Credits",
-                                Value = String.Join("", Program.apiJson.credits),
+                                Value = String.Join("", Program.JSONKeys["apis"].credits),
                                 IsInline = false
                             }
                         }
@@ -473,7 +473,7 @@ namespace xubot.src.Commands
         [Command("donate"), Summary("Returns a link to donate to the developer.")]
         public async Task Donate()
         {
-            await ReplyAsync("To donate to the creator of this bot, please visit:\n" + Program.keys.donate_link);
+            await ReplyAsync("To donate to the creator of this bot, please visit:\n" + Program.JSONKeys["keys"].donate_link);
         }
 
         [Command("privacy-policy")]
