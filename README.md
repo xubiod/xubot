@@ -1,7 +1,7 @@
 ![logo](https://raw.githubusercontent.com/xubiod/xubot/master/docs/xublogo.png)
 
 ### CodeFactor Grade
-[![CodeFactor](https://www.codefactor.io/repository/github/xubiod/xubot/badge)](https://www.codefactor.io/repository/github/xubot-team/xubot)
+[![CodeFactor](https://www.codefactor.io/repository/github/xubiod/xubot/badge)](https://www.codefactor.io/repository/github/xubiod/xubot)
 
 ### Other Badges
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](https://forthebadge.com)
