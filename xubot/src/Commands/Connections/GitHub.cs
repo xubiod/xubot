@@ -12,7 +12,7 @@ namespace xubot.src.Commands.Connections
     public class GitHub : ModuleBase
     {
         public static GitHub xuGit = new GitHub();
-        public static GitHubClient xuGitClient = new GitHubClient(new OAuth2Token(Program.JSONKeys["keys"].github.ToString()));
+        public static GitHubClient xuGitClient = new GitHubClient(new OAuth2Token(Program.JSONKeys["keys"].Contents.github.ToString()));
         public static GitRepository xuRepo;
         public static GitRepository xuRepo_Comm;
         public static GitRef[] xuRepo_Refs;

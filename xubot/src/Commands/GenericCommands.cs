@@ -254,7 +254,7 @@ namespace xubot.src.Commands
             {
                 string result_ = content.Replace("[A]", "@").Replace("[H]", "#");
 
-                Auth.SetUserCredentials(Program.JSONKeys["keys"].twitter.key1.ToString(), Program.JSONKeys["keys"].twitter.key2.ToString(), Program.JSONKeys["keys"].twitter.key3.ToString(), Program.JSONKeys["keys"].twitter.key4.ToString());
+                Auth.SetUserCredentials(Program.JSONKeys["keys"].Contents.twitter.key1.ToString(), Program.JSONKeys["keys"].Contents.twitter.key2.ToString(), Program.JSONKeys["keys"].Contents.twitter.key3.ToString(), Program.JSONKeys["keys"].Contents.twitter.key4.ToString());
 
                 if ((Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + ": " + result_).Length < 280)
                 {
@@ -959,7 +959,7 @@ namespace xubot.src.Commands
             {
                 var webClient = new WebClient();
                 var webClient2 = new WebClient();
-                string link = "https://www.amdoren.com/api/timezone.php?api_key=" + Program.JSONKeys["keys"].amdoren + "&loc=" + loc;
+                string link = "https://www.amdoren.com/api/timezone.php?api_key=" + Program.JSONKeys["keys"].Contents.amdoren + "&loc=" + loc;
                 string text_j = "";
 
                 text_j = webClient.DownloadString(link);

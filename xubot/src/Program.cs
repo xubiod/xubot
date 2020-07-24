@@ -36,7 +36,7 @@ namespace xubot.src
 
         public static bool redditEnabled = false;
 
-        public readonly static Dictionary<string, dynamic> JSONKeys = new Dictionary<string, dynamic>();
+        public readonly static Dictionary<string, Util.JSON.Entry> JSONKeys = new Dictionary<string, Util.JSON.Entry>();
 
         public static bool enableNSFW = false;
 
@@ -74,6 +74,8 @@ namespace xubot.src
 
             Util.JSON.ProcessFile("keys", Path.Combine(currentDir, "Keys.json"));
             Util.JSON.ProcessFile("apis", Path.Combine(currentDir, "API.json"));
+            Util.JSON.ProcessFile("mood", Path.Combine(currentDir, "Moods.json"));
+            Util.JSON.ProcessFile("opinion", Path.Combine(currentDir, "Opinions.json"));
 
             await CommandInitiation();
             await ReadMessages();
@@ -101,14 +103,20 @@ namespace xubot.src
             if (!args.Contains("no-reddit"))
             {
                 Console.WriteLine("* setting up bot web agent for reddit use");
-                if (JSONKeys["keys"].reddit.user.ToString() == "" && JSONKeys["keys"].reddit.pass.ToString() == "")
+                if (JSONKeys["keys"].Contents.reddit.user.ToString() == "" && JSONKeys["keys"].Contents.reddit.pass.ToString() == "")
                 {
                     Console.WriteLine("  > reddit info not provided, disabling reddit");
                 }
                 else
                 {
                     redditEnabled = true;
-                    webAgent = new BotWebAgent(JSONKeys["keys"].reddit.user.ToString(), JSONKeys["keys"].reddit.pass.ToString(), JSONKeys["keys"].reddit.key1.ToString(), JSONKeys["keys"].reddit.key2.ToString(), "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
+                    webAgent = new BotWebAgent(
+                        JSONKeys["keys"].Contents.reddit.user.ToString(),
+                        JSONKeys["keys"].Contents.reddit.pass.ToString(),
+                        JSONKeys["keys"].Contents.reddit.key1.ToString(),
+                        JSONKeys["keys"].Contents.reddit.key2.ToString(),
+                        "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
+
                     Console.WriteLine("* setting up reddit client");
                     reddit = new RedditSharp.Reddit(webAgent, true);
                     stepTimes[0] = DateTime.Now;
@@ -126,11 +134,11 @@ namespace xubot.src
 #endif
             if (prefix != "d>")
             {
-                await xuClient.LoginAsync(TokenType.Bot, JSONKeys["keys"].discord.ToString());
+                await xuClient.LoginAsync(TokenType.Bot, JSONKeys["keys"].Contents.discord.ToString());
             }
             else
             {
-                await xuClient.LoginAsync(TokenType.Bot, JSONKeys["keys"].discord_dev.ToString());
+                await xuClient.LoginAsync(TokenType.Bot, JSONKeys["keys"].Contents.discord_dev.ToString());
             }
             stepTimes[2] = DateTime.Now;
 

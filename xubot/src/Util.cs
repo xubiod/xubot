@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.IO;
+using SteamKit2.Internal;
 
 namespace xubot.src
 {
@@ -209,116 +210,32 @@ namespace xubot.src
             }
         }
 
-        public class XML
-        {
-            private static XDocument xdoc;
-            public static string filename;
-            public static string element;
-            public static List<string> attrib;
-            public static List<string> attrib_def;
-            public static bool exists = false;
-
-            public static void AddRefresh(IUser arg)
-            {
-                throw new NotImplementedException();
-
-                xdoc = XDocument.Load(filename);
-
-                var items = from i in xdoc.Descendants(element)
-                            select new
-                            {
-                                user = i.Attribute(attrib[0]),
-                                preferred = i.Attribute(attrib[1])
-                            };
-
-                foreach (var item in items)
-                {
-                    if (item.user.Value == arg.Id.ToString())
-                    {
-                        exists = true;
-                    }
-                }
-
-                if (!exists)
-                {
-                    Console.WriteLine("new user found to add to {0}, doing that now", filename);
-
-                    XElement xelm = new XElement(element);
-                    XAttribute user = new XAttribute(attrib[0], arg.Id.ToString());
-                    XAttribute prefer = new XAttribute(attrib[1], attrib_def[1]);
-
-                    xelm.Add(user);
-                    xelm.Add(prefer);
-
-                    xdoc.Root.Add(xelm);
-                    xdoc.Save(filename);
-                }
-            }
-
-            public static string Read(IUser arg)
-            {
-                throw new NotImplementedException();
-
-                xdoc = XDocument.Load(filename);
-
-                var items = from i in xdoc.Descendants(element)
-                            select new
-                            {
-                                user = i.Attribute(attrib[0]),
-                                preferred = i.Attribute(attrib[1])
-                            };
-
-                foreach (var item in items)
-                {
-                    if (item.user.Value == arg.Id.ToString())
-                    {
-                        return item.preferred.Value;
-                    }
-                }
-
-                return "not set!";
-            }
-
-            public static void Set(IUser arg, string newVal)
-            {
-                throw new NotImplementedException();
-
-                xdoc = XDocument.Load(filename);
-
-                var items = from i in xdoc.Descendants(element)
-                            select new
-                            {
-                                user = i.Attribute(attrib[0]),
-                                preferred = i.Attribute(attrib[1])
-                            };
-
-                foreach (var item in items)
-                {
-                    if (item.user.Value == arg.Id.ToString())
-                    {
-                        item.preferred.Value = newVal;
-                    }
-                }
-
-                xdoc.Save(filename);
-            }
-        }
-
         public class JSON
         {
+            public class Entry
+            {
+                public string Filename { get; private set; }
+                public dynamic Contents { get; set; }
+
+                public Entry(string filename, dynamic contents)
+                {
+                    Filename = filename; Contents = contents;
+                }
+            }
+
             public static void ProcessFile(string key, string jsonFile)
             {
-                Program.JSONKeys.Add(key, JObject.Parse(System.IO.File.ReadAllText(jsonFile)));
+                Program.JSONKeys.Add(key, new Entry(jsonFile, JObject.Parse(System.IO.File.ReadAllText(jsonFile))));
             }
 
             public static void ProcessObject(string key, object toSerialize)
             {
-                Program.JSONKeys.Add(key, JObject.Parse(JsonConvert.SerializeObject(toSerialize)));
+                Program.JSONKeys.Add(key, new Entry(null, JObject.Parse(JsonConvert.SerializeObject(toSerialize))));
             }
 
-            public static void SaveKeyAsJSON(string key, string path)
+            public static void SaveKeyAsJSON(string key)
             {
-                System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(Program.JSONKeys[key]));
+                System.IO.File.WriteAllText(Program.JSONKeys[key].Filename, JsonConvert.SerializeObject(Program.JSONKeys[key].Contents));
             }
 
             public static void SaveObjectAsJSON(object save, string path)

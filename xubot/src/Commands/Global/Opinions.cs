@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 using System.Xml;
 using Discord;
 using System.Xml.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace xubot.src.Commands.Globals
 {
+    [Group("opinion")]
     public class Opinions : ModuleBase
     {
-        [Command("opinion"), Summary("Get's xubot's opinion on something. Was funny but now has been forgotten.")]
-        public async Task Opinion(string input)
+        [Command(""), Alias("get"), Summary("Gets xubot's opinion on something. Was funny but now has been forgotten.")]
+        public async Task OpinionGet(string input)
         {
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.Async = true;
             Random _reply_decide = new Random();
 
             string reply = "";
@@ -29,24 +29,20 @@ namespace xubot.src.Commands.Globals
                 case 3: reply = "No opinion for this yet."; break;
             }
 
-            var xdoc = XDocument.Load("Opinions.xml");
-
-            var items = from i in xdoc.Descendants("opinion")
-                        select new
-                        {
-                            Attribute = (string)i.Attribute("on"),
-                            i.Value
-                        };
-
-            foreach (var item in items)
-            {
-                if (item.Attribute.ToLower() == input.ToLower())
-                {
-                    reply = item.Value;
-                }
-            }
+            reply = (Program.JSONKeys["opinion"].Contents as JObject).Value<string>(input) ?? reply;
 
             await ReplyAsync(reply);
+        }
+
+        [Command("set"), Summary("Sets xubot's opinion on something. Owner only."), RequireOwner]
+        public async Task OpinionSet(string input, string output)
+        {
+            if ((Program.JSONKeys["opinion"].Contents as JObject).ContainsKey(input)) (Program.JSONKeys["opinion"].Contents as JObject)[input] = output;
+            else (Program.JSONKeys["opinion"].Contents as JObject).Add(input, output);
+
+            Util.JSON.SaveKeyAsJSON("opinion");
+
+            await ReplyAsync("Opinion set.");
         }
     }
 }

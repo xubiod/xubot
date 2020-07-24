@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using System.Xml.Linq;
+using Newtonsoft.Json.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace xubot.src.Commands.Globals
 {
@@ -191,82 +193,21 @@ namespace xubot.src.Commands.Globals
     {
         public static void AddOrRefreshMood(IUser arg)
         {
-            bool exists = false;
-
-            Mood.xdoc = XDocument.Load("Moods.xml");
-
-            var items = from i in Mood.xdoc.Descendants("mood")
-                        select new
-                        {
-                            user = i.Attribute("user")
-                        };
-
-            foreach (var item in items)
-            {
-                if (item.user.Value == arg.Id.ToString())
-                {
-                    exists = true;
-                }
-            }
-
-            if (!exists)
-            {
-                Console.WriteLine("new user found to add to mood, doing that now");
-
-                XElement xelm = new XElement("mood");
-                XAttribute user = new XAttribute("user", arg.Id.ToString());
-                XAttribute moodval = new XAttribute("moodvalue", "0");
-
-                xelm.Add(user);
-                xelm.Add(moodval);
-
-                Mood.xdoc.Root.Add(xelm);
-                Mood.xdoc.Save("Moods.xml");
+            if (!(Program.JSONKeys["mood"].Contents as JObject).ContainsKey(arg.Id.ToString())) {
+                (Program.JSONKeys["mood"].Contents as JObject).Add(arg.Id.ToString(), 0);
+                Util.JSON.SaveKeyAsJSON("mood");
             }
         }
 
         public static double ReadMood(IUser arg)
         {
-            Mood.xdoc = XDocument.Load("Moods.xml");
-
-            var items = from i in Mood.xdoc.Descendants("mood")
-                        select new
-                        {
-                            user = i.Attribute("user"),
-                            moodval = i.Attribute("moodvalue")
-                        };
-
-            foreach (var item in items)
-            {
-                if (item.user.Value == arg.Id.ToString())
-                {
-                    return Convert.ToDouble(item.moodval.Value);
-                }
-            }
-
-            return 0;
+            return (Program.JSONKeys["mood"].Contents as JObject).Value<double>(arg.Id.ToString());
         }
 
         public static void AdjustMood(IUser arg, double adjust)
         {
-            Mood.xdoc = XDocument.Load("Moods.xml");
-
-            var items = from i in Mood.xdoc.Descendants("mood")
-                        select new
-                        {
-                            user = i.Attribute("user"),
-                            moodval = i.Attribute("moodvalue")
-                        };
-
-            foreach (var item in items)
-            {
-                if (item.user.Value == arg.Id.ToString())
-                {
-                    item.moodval.Value = (Convert.ToDouble(item.moodval.Value) + adjust).ToString();
-                }
-            }
-
-            Mood.xdoc.Save("Moods.xml");
+            (Program.JSONKeys["mood"].Contents as JObject)[arg.Id.ToString()] = ReadMood(arg) + adjust;
+            Util.JSON.SaveKeyAsJSON("mood");
         }
     }
 }
