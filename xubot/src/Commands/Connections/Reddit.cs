@@ -3,6 +3,7 @@ using Discord.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Threading;
 using System.Threading.Tasks;
 using xubot.src.Attributes;
@@ -272,7 +273,7 @@ namespace xubot.src.Commands.Connections
                 Program.subreddit = await Program.reddit.GetSubredditAsync(subreddit);
                 var msg = await ReplyAsync("Subreddit: **" + subreddit + "**\nPlease wait, this takes a while with broad terms and popular subreddits!");
 
-                await Context.Channel.TriggerTypingAsync();
+                //dynamic typing = await Context.Channel.EnterTypingState(null);
                 Random rnd = new Random();
 
                 var contents = await Program.subreddit.GetPosts(FromIntSort(sorting), -1).ToList();
@@ -290,21 +291,18 @@ namespace xubot.src.Commands.Connections
                 {
                     if (!isNSFW)
                     {
-                        await msg.DeleteAsync();
-                        await ReplyAsync("The random post that was selected is NSFW or the subreddit is NSFW. Try again for another random post, with another subreddit, or move to a NSFW channel (needs nsfw in the name).");
+                        await msg.ModifyAsync(x => x.Content = "The random post that was selected is NSFW or the subreddit is NSFW. Try again for another random post, with another subreddit, or move to a NSFW channel (needs nsfw in the name).");
+                        //typing.Dispose();
                         return;
                     }
                     else
                     {
-                        await msg.DeleteAsync();
-                        await ReplyAsync("**" + post.Title + "**\n" + "Posted on *" + post.CreatedUTC.ToShortDateString() + "* by **" + post.AuthorName + "**" + "\n\n" + ReturnCharOnTrue(hide, "<") + post.Url.AbsoluteUri + ReturnCharOnTrue(hide, ">") + "\n<https://www.reddit.com" + post.Permalink.ToString() + ">");
+                        await msg.ModifyAsync(x => x.Content = "**" + post.Title + "**\n" + "Posted on *" + post.CreatedUTC.ToShortDateString() + "* by **" + post.AuthorName + "**" + "\n\n" + ReturnCharOnTrue(hide, "<") + post.Url.AbsoluteUri + ReturnCharOnTrue(hide, ">") + "\n<https://www.reddit.com" + post.Permalink.ToString() + ">");
                     }
                 }
                 else
                 {
-                    await msg.DeleteAsync();
-
-                    await ReplyAsync("**" + post.Title + "**\n" + "Posted on *" + post.CreatedUTC.ToShortDateString() + "* by **" + post.AuthorName + "**" + "\n\n" + ReturnCharOnTrue(hide, "<") + post.Url.AbsoluteUri + ReturnCharOnTrue(hide, ">") + "\n<https://www.reddit.com" + post.Permalink.ToString() + ">");
+                    await msg.ModifyAsync(x => x.Content = "**" + post.Title + "**\n" + "Posted on *" + post.CreatedUTC.ToShortDateString() + "* by **" + post.AuthorName + "**" + "\n\n" + ReturnCharOnTrue(hide, "<") + post.Url.AbsoluteUri + ReturnCharOnTrue(hide, ">") + "\n<https://www.reddit.com" + post.Permalink.ToString() + ">");
                 }
             }
             catch (Exception e)
