@@ -459,7 +459,7 @@ namespace xubot.src.Commands
 
         public class SettingsComm : ModuleBase
         {
-            [Group("settings"), Alias("set"), Summary("Modify some bot stuff. Most of it is restricted.")]
+            [Group("settings"), Alias("set", "~"), Summary("Modify some bot stuff. Most of it is restricted.")]
             public class Settings : ModuleBase
             {
                 [Command("!"), Alias("kill"), Summary("Kills the bot."), RequireOwner]
