@@ -395,6 +395,5 @@ namespace xubot.src
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
         }
-
     }
 }
