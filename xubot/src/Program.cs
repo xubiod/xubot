@@ -54,8 +54,6 @@ namespace xubot.src
             xuClient.Ready += ClientReady;
             xuClient.UserJoined += XuClient_UserJoined;
 
-            Console.WriteLine("should have completed start");
-
             Commands.Shitpost.Populate();
 
             await Task.Delay(-1);
@@ -100,7 +98,7 @@ namespace xubot.src
                 Console.ReadLine();
             }
 
-            if (true)// !args.Contains("no-reddit"))
+            if (false)// !args.Contains("no-reddit"))
             {
                 Console.WriteLine("* setting up bot web agent for reddit use");
                 if (JSONKeys["keys"].Contents.reddit.user.ToString() == "" && JSONKeys["keys"].Contents.reddit.pass.ToString() == "")
