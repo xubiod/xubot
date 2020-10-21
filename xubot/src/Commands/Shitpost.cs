@@ -12,6 +12,7 @@ using SixLabors.Primitives;
 using SLImage = SixLabors.ImageSharp.Image;
 using xubot.Properties;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing.Processing;
 
 namespace xubot.src.Commands
 {
@@ -52,18 +53,19 @@ namespace xubot.src.Commands
                 using (var img = SLImage.Load(Path.GetTempPath() + "textoverlay" + type))
                 using (Image<Rgba32> container = new Image<Rgba32>(img.Width * 5, img.Height * 5))
                 {
-                    container.Mutate(mut => mut.DrawImage(img, new Point(img.Width * 2, img.Height * 2), PixelColorBlendingMode.Normal, 1.0F));
+                    container.Mutate(mut => mut.DrawImage(img, new SixLabors.ImageSharp.Point(img.Width * 2, img.Height * 2), PixelColorBlendingMode.Normal, 1.0F));
+
                     if (optional != "")
                     {
-                        container.Mutate(mut => mut.DrawText(new TextGraphicsOptions() { WrapTextWidth = Wraparound, ColorBlendingMode = PixelColorBlendingMode.Normal }, Text, font, new Rgba32(R / 255, G / 255, B / 255), new PointF((img.Width * 2) + X, (img.Height * 2) + Y)));
+                        container.Mutate(mut => mut.DrawText(new TextGraphicsOptions(new GraphicsOptions() { ColorBlendingMode = PixelColorBlendingMode.Normal }, new TextOptions() { WrapTextWidth = Wraparound }), Text, font, new Rgba32(R / 255, G / 255, B / 255), new SixLabors.ImageSharp.PointF((img.Width * 2) + X, (img.Height * 2) + Y)));
                     }
                     else
                     {
-                        container.Mutate(mut => mut.DrawText(Text, font, Rgba32.Black, new PointF((img.Width * 2) + X, (img.Height * 2) + Y)));
+                        container.Mutate(mut => mut.DrawText(Text, font, Rgba32.ParseHex("000000"), new SixLabors.ImageSharp.PointF((img.Width * 2) + X, (img.Height * 2) + Y)));
                     }
 
                     // proper cropping
-                    container.Mutate(mut => mut.Crop(new Rectangle(img.Width * 2, img.Height * 2, img.Width, img.Height)));
+                    container.Mutate(mut => mut.Crop(new SixLabors.ImageSharp.Rectangle(img.Width * 2, img.Height * 2, img.Width, img.Height)));
 
                     // produces a "bts" result scaled down
                     // container.Mutate(mut => mut.Resize(new ResizeOptions() { Mode = ResizeMode.Crop, Size = new Size(img.Width, img.Height) }));
@@ -92,16 +94,16 @@ namespace xubot.src.Commands
                     Y = TBMargin;
                     Wraparound = img.Width - (2 * LRMargin);
 
-                    container.Mutate(mut => mut.Fill(Rgba32.White));
+                    container.Mutate(mut => mut.Fill(Rgba32.ParseHex("FFFFFF")));
 
-                    container.Mutate(mut => mut.DrawImage(img, new Point(0, HeaderHeight), PixelColorBlendingMode.Normal, 1.0F));
+                    container.Mutate(mut => mut.DrawImage(img, new SixLabors.ImageSharp.Point(0, HeaderHeight), PixelColorBlendingMode.Normal, 1.0F));
                     if (optional != "")
                     {
-                        container.Mutate(mut => mut.DrawText(new TextGraphicsOptions() { WrapTextWidth = Wraparound, ColorBlendingMode = PixelColorBlendingMode.Normal }, Text, font, new Rgba32(R / 255, G / 255, B / 255), new PointF(X, Y)));
+                        container.Mutate(mut => mut.DrawText(new TextGraphicsOptions(new GraphicsOptions() { ColorBlendingMode = PixelColorBlendingMode.Normal }, new TextOptions() { WrapTextWidth = Wraparound }), Text, font, new Rgba32(R / 255, G / 255, B / 255), new SixLabors.ImageSharp.PointF(X, Y)));
                     }
                     else
                     {
-                        container.Mutate(mut => mut.DrawText(new TextGraphicsOptions() { WrapTextWidth = Wraparound, ColorBlendingMode = PixelColorBlendingMode.Normal }, Text, font, Rgba32.Black, new PointF(X, Y)));
+                        container.Mutate(mut => mut.DrawText(new TextGraphicsOptions(new GraphicsOptions() { ColorBlendingMode = PixelColorBlendingMode.Normal }, new TextOptions() { WrapTextWidth = Wraparound }), Text, font, Rgba32.ParseHex("000000"), new SixLabors.ImageSharp.PointF(X, Y)));
                     }
 
                     container.Save(Path.GetTempPath() + "textoverlay_new" + type);

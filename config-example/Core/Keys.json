@@ -5,8 +5,8 @@
   "reddit": {
     "user": "[reddit bot username]",
     "pass": "[reddit bot password]",
-    "key1": "[...]",
-    "key2": "[...]"
+    "id": "[...]",
+    "secret": "[...]"
   },
 
   "twitter": {

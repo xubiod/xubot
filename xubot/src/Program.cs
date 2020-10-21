@@ -54,7 +54,7 @@ namespace xubot.src
             xuClient.Ready += ClientReady;
             xuClient.UserJoined += XuClient_UserJoined;
 
-            Console.WriteLine();
+            Console.WriteLine("should have completed start");
 
             Commands.Shitpost.Populate();
 
@@ -100,7 +100,7 @@ namespace xubot.src
                 Console.ReadLine();
             }
 
-            if (!args.Contains("no-reddit"))
+            if (true)// !args.Contains("no-reddit"))
             {
                 Console.WriteLine("* setting up bot web agent for reddit use");
                 if (JSONKeys["keys"].Contents.reddit.user.ToString() == "" && JSONKeys["keys"].Contents.reddit.pass.ToString() == "")
@@ -113,12 +113,15 @@ namespace xubot.src
                     webAgent = new BotWebAgent(
                         JSONKeys["keys"].Contents.reddit.user.ToString(),
                         JSONKeys["keys"].Contents.reddit.pass.ToString(),
-                        JSONKeys["keys"].Contents.reddit.key1.ToString(),
-                        JSONKeys["keys"].Contents.reddit.key2.ToString(),
+                        JSONKeys["keys"].Contents.reddit.id.ToString(),
+                        JSONKeys["keys"].Contents.reddit.secret.ToString(),
                         "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
 
                     Console.WriteLine("* setting up reddit client");
-                    reddit = new RedditSharp.Reddit(webAgent, true);
+
+                    Task _red = Task.Run(() => { Program.reddit = new RedditSharp.Reddit(webAgent, true); });
+                    _red.Wait();
+
                     stepTimes[0] = DateTime.Now;
 
                     Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
