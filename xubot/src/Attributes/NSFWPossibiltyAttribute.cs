@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Tweetinvi.Logic.DTO;
 
 namespace xubot.src.Attributes
 {
