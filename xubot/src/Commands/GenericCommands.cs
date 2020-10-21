@@ -44,6 +44,13 @@ namespace xubot.src.Commands
 
         public static string[] pattern = { "01110", "11011", "10001", "11011", "01110" };
 
+        private static TwitterClient twitter = new TwitterClient(
+            new TwitterCredentials(
+                Program.JSONKeys["keys"].Contents.twitter.consumer_key.ToString(), Program.JSONKeys["keys"].Contents.twitter.consumer_secret.ToString(),
+                Program.JSONKeys["keys"].Contents.twitter.access_key.ToString(),   Program.JSONKeys["keys"].Contents.twitter.access_secret.ToString()
+            )
+        );
+
         [Group("echo"), Alias("m"), Summary("Repeats after you.")]
         public class Echo : ModuleBase
         {
@@ -254,11 +261,9 @@ namespace xubot.src.Commands
             {
                 string result_ = content.Replace("[A]", "@").Replace("[H]", "#");
 
-                Auth.SetUserCredentials(Program.JSONKeys["keys"].Contents.twitter.key1.ToString(), Program.JSONKeys["keys"].Contents.twitter.key2.ToString(), Program.JSONKeys["keys"].Contents.twitter.key3.ToString(), Program.JSONKeys["keys"].Contents.twitter.key4.ToString());
-
                 if ((Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + ": " + result_).Length < 280)
                 {
-                    ITweet twt = Tweet.PublishTweet(Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + ": " + result_);
+                    ITweet twt = await twitter.Tweets.PublishTweetAsync(Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + ": " + result_);
 
                     await ReplyAsync(twt.Url);
                     //await ReplyAsync("Your post has been submitted to twitter. Go to https://twitter.com/xubot_bot to find it!");
