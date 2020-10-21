@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using Newtonsoft.Json.Linq;
-using Renci.SshNet.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
