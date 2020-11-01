@@ -34,17 +34,15 @@
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.25" />
     <PackageReference Include="NLua" Version="1.5.0" />
-    <PackageReference Include="RedditSharp" Version="2.0.0-CI00075" />
-    <PackageReference Include="SixLabors.Core" Version="1.0.0-beta0008" />
+    <PackageReference Include="Reddit" Version="1.4.0" />
+    <PackageReference Include="Reddit.AuthTokenRetrieverLib" Version="1.4.0" />
     <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta0013" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.1" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0010" />
-    <PackageReference Include="SixLabors.Shapes" Version="1.0.0-beta0009" />
-    <PackageReference Include="SixLabors.Shapes.Text" Version="1.0.0-beta0009" />
     <PackageReference Include="SteamKit2" Version="2.4.0-Alpha.1" />
     <PackageReference Include="System.Interactive" Version="4.1.1" />
     <PackageReference Include="System.Interactive.Async" Version="4.1.1" />
-    <PackageReference Include="TweetinviAPI" Version="5.0.1" />
+    <PackageReference Include="TweetinviAPI" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>

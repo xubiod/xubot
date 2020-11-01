@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.Primitives;
 
 using SLImage = SixLabors.ImageSharp.Image;
 using xubot.Properties;

@@ -2,7 +2,6 @@ using Discord;
 using Discord.Commands;
 using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
-using RedditSharp;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;

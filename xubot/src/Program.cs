@@ -8,8 +8,7 @@ using Discord.Commands;
 using Discord.Rest;
 using Discord.WebSocket;
 using Discord.Audio;
-//using Discord.Net.Providers.WS4Net;
-using RedditSharp;
+
 using Tweetinvi;
 using System.Xml.Linq;
 using System.Linq;
@@ -20,6 +19,11 @@ using System.Threading;
 using System.Collections.Generic;
 using xubot.src;
 using System.Runtime.InteropServices;
+using Reddit;
+using Reddit.Things;
+using Reddit.AuthTokenRetriever;
+using System.Diagnostics;
+using Tweetinvi.Controllers.Auth;
 
 namespace xubot.src
 {
@@ -30,15 +34,16 @@ namespace xubot.src
 
         public static string prefix = "[>";
 
-        public static BotWebAgent webAgent { get; private set; }
-        public static RedditSharp.Reddit reddit { get; private set; }
-        public static RedditSharp.Things.Subreddit subreddit;
+        public static RedditClient reddit { get; private set; }
+        public static Subreddit subreddit;
 
         public static bool redditEnabled = false;
 
         public readonly static Dictionary<string, Util.JSON.Entry> JSONKeys = new Dictionary<string, Util.JSON.Entry>();
 
         public static bool enableNSFW = false;
+
+        public static bool spinning = false;
 
         public static DateTime appStart { get; private set; }
         public static DateTime connectStart { get; private set; }
@@ -100,32 +105,7 @@ namespace xubot.src
 
             if (false)// !args.Contains("no-reddit"))
             {
-                Console.WriteLine("* setting up bot web agent for reddit use");
-                if (JSONKeys["keys"].Contents.reddit.user.ToString() == "" && JSONKeys["keys"].Contents.reddit.pass.ToString() == "")
-                {
-                    Console.WriteLine("  > reddit info not provided, disabling reddit");
-                }
-                else
-                {
-                    redditEnabled = true;
-                    webAgent = new BotWebAgent(
-                        JSONKeys["keys"].Contents.reddit.user.ToString(),
-                        JSONKeys["keys"].Contents.reddit.pass.ToString(),
-                        JSONKeys["keys"].Contents.reddit.id.ToString(),
-                        JSONKeys["keys"].Contents.reddit.secret.ToString(),
-                        "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
 
-                    Console.WriteLine("* setting up reddit client");
-
-                    Task _red = Task.Run(() => { Program.reddit = new RedditSharp.Reddit(webAgent, true); });
-                    _red.Wait();
-
-                    stepTimes[0] = DateTime.Now;
-
-                    Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
-                    //subreddit = await reddit.GetSubredditAsync("/r/xubot_subreddit");
-                    stepTimes[1] = DateTime.Now;
-                }
             }
             Console.WriteLine("* setting up discord connection: login");
 
@@ -146,6 +126,39 @@ namespace xubot.src
             Console.WriteLine("* setting up discord connection: starting client");
 
             await xuClient.StartAsync();
+        }
+
+        public static void ReadyReddit(ICommandContext context = null)
+        {
+            throw new SpecialException.PleaseKillMeException();
+
+            IUserMessage log = Util.Log.PersistLog("setting up bot web agent for reddit use", context).Result;
+
+            if (JSONKeys["keys"].Contents.reddit.user.ToString() == "" && JSONKeys["keys"].Contents.reddit.pass.ToString() == "")
+            {
+                Util.Log.PersistLog("reddit info not provided within keys, aborting", log);
+            }
+            else
+            {
+                redditEnabled = true;
+                //webAgent = new BotWebAgent(
+                //    JSONKeys["keys"].Contents.reddit.user.ToString(),
+                //    JSONKeys["keys"].Contents.reddit.pass.ToString(),
+                //    JSONKeys["keys"].Contents.reddit.id.ToString(),
+                //    JSONKeys["keys"].Contents.reddit.secret.ToString(),
+                //    "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
+
+                Util.Log.PersistLog("setting up reddit client", log);
+
+                Program.reddit = new Reddit.RedditClient(JSONKeys["keys"].Contents.reddit.id.ToString(),);
+                //_red.Wait();
+
+                stepTimes[0] = DateTime.Now;
+
+                // Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
+                // subreddit = await reddit.GetSubredditAsync("/r/xubot_subreddit");
+                stepTimes[1] = DateTime.Now;
+            }
         }
 
         public static Task ClientReady()
