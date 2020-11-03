@@ -4,7 +4,7 @@ using System.Text;
 
 namespace XubotSharedModule
 {
-    public interface BotModule
+    public interface StartModule
     {
         public object Load();
     }

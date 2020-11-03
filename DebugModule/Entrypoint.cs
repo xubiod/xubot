@@ -3,7 +3,7 @@ using XubotSharedModule;
 
 namespace DebugModule
 {
-    public class Entrypoint : BotModule
+    public class Entrypoint : StartModule
     {
         public object Load()
         {

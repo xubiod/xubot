@@ -10,15 +10,15 @@ using XubotSharedModule;
 
 namespace xubot.src.Modular
 {
-    public class ModularBase
+    public class ModularSystem
     {
         public class ModuleEntry
         {
-            public BotModule instance;
+            public StartModule instance;
 
             public ModuleEntry(Assembly assembly)
             {
-                instance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(BotModule))).Select(type => { return (BotModule)Activator.CreateInstance(type); }).FirstOrDefault();
+                instance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(StartModule))).Select(type => { return (StartModule)Activator.CreateInstance(type); }).FirstOrDefault();
             }
 
             public void Reload()
