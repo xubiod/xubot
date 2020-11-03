@@ -60,6 +60,7 @@ namespace xubot.src
             xuClient.UserJoined += XuClient_UserJoined;
 
             Commands.Shitpost.Populate();
+            Modular.ModularBase.Initialize();
 
             await Task.Delay(-1);
         }
