@@ -150,12 +150,12 @@ namespace xubot.src
 
                 Util.Log.PersistLog("setting up reddit client", log);
 
-                Program.reddit = new Reddit.RedditClient(JSONKeys["keys"].Contents.reddit.id.ToString(),);
+                Program.reddit = new Reddit.RedditClient(JSONKeys["keys"].Contents.reddit.id.ToString());
                 //_red.Wait();
 
                 stepTimes[0] = DateTime.Now;
 
-                // Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
+                // Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");0
                 // subreddit = await reddit.GetSubredditAsync("/r/xubot_subreddit");
                 stepTimes[1] = DateTime.Now;
             }
