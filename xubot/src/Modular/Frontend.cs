@@ -1,8 +1,11 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XubotSharedModule;
 
 namespace xubot.src.Modular
 {
@@ -38,7 +41,69 @@ namespace xubot.src.Modular
             [Command("list"), Alias("l"), Summary("Lists commands in a module.")]
             public async Task List(string module)
             {
-                throw new NotImplementedException();
+                string list = "";
+
+                foreach (CommandModule cmd in ModularSystem.modules[module].commandInstances)
+                    list += cmd.GetName() + " - " + cmd.GetSummary() + "\n";
+
+                EmbedBuilder embedd = new EmbedBuilder()
+                {
+                    Title = "Module Command Listing",
+                    Description = "For module **\"" + module.ToLower() + "\"**",
+                    Color = Discord.Color.LightOrange,
+                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+
+                    Footer = new EmbedFooterBuilder()
+                    {
+                        Text = "xubot :p",
+                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                    },
+                    Timestamp = DateTime.Now,
+                    Fields = new List<EmbedFieldBuilder>()
+                    {
+                        new EmbedFieldBuilder()
+                        {
+                            Name = "Listing",
+                            Value = "```" + list + "```"
+                        }
+                    }
+                };
+
+                await ReplyAsync("", false, embedd.Build());
+            }
+
+            [Command("listall"), Alias("la"), Summary("Lists all modules.")]
+            public async Task ListAll()
+            {
+                string list = "";
+
+                foreach (KeyValuePair<string, ModularSystem.ModuleEntry> mod in ModularSystem.modules)
+                    list += mod.Key + " - " + (mod.Value.commandInstances.Count > 0 ? mod.Value.commandInstances.Count + " cmds" : "Not loaded/no cmds") + "\n";
+
+                EmbedBuilder embedd = new EmbedBuilder()
+                {
+                    Title = "Module Listing",
+                    Description = "Note: *some of these might not be loaded*",
+                    Color = Discord.Color.LightOrange,
+                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+
+                    Footer = new EmbedFooterBuilder()
+                    {
+                        Text = "xubot :p",
+                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                    },
+                    Timestamp = DateTime.Now,
+                    Fields = new List<EmbedFieldBuilder>()
+                    {
+                        new EmbedFieldBuilder()
+                        {
+                            Name = "Listing",
+                            Value = "```" + list + "```"
+                        }
+                    }
+                };
+
+                await ReplyAsync("", false, embedd.Build());
             }
         }
     }
