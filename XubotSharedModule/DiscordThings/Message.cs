@@ -21,9 +21,10 @@ namespace XubotSharedModule.DiscordThings
             this.MsgEmbed = embed;
         }
 
-        public Message FileMessage(string filepath, string text = null, bool isTTS = false, Embed embed = null)
+        public Message FileMessage(string filepath, string text = null, bool isTTS = false, Embed embed = null, bool isSpoiler = false)
         {
             this.Filepath = filepath;
+            this.Spoilered = isSpoiler;
 
             this.Text = text;
             this.isTTS = isTTS;

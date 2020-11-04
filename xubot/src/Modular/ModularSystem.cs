@@ -14,12 +14,12 @@ namespace xubot.src.Modular
     {
         public class ModuleEntry
         {
-            public StartModule startInstance;
+            public ModuleEntrypoint startInstance;
             public List<CommandModule> commandInstances;
 
             public ModuleEntry(Assembly assembly)
             {
-                startInstance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(StartModule))).Select(type => { return (StartModule)Activator.CreateInstance(type); }).FirstOrDefault();
+                startInstance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(ModuleEntrypoint))).Select(type => { return (ModuleEntrypoint)Activator.CreateInstance(type); }).FirstOrDefault();
                 commandInstances = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(CommandModule))).Select(type => { return (CommandModule)Activator.CreateInstance(type); }).ToList();
             }
 
