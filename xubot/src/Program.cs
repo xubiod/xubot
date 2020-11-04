@@ -227,7 +227,7 @@ namespace xubot.src
             Console.Beep();
 
             Directory.CreateDirectory(Environment.CurrentDirectory + "\\Exceptions\\");
-            File.WriteAllText(Environment.CurrentDirectory + "\\Exceptions\\" + DateTime.UtcNow.ToLongTimeString() + ".txt", arg.ToString());
+            File.WriteAllText(Environment.CurrentDirectory + "\\Exceptions\\" + DateTime.UtcNow.ToLongTimeString().Replace(':', '_') + ".txt", arg.ToString());
 
             Thread.Sleep(2500);
 
