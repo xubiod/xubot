@@ -14,16 +14,18 @@ namespace xubot.src.Modular
     {
         public class ModuleEntry
         {
-            public StartModule instance;
+            public StartModule startInstance;
+            public List<CommandModule> commandInstances;
 
             public ModuleEntry(Assembly assembly)
             {
-                instance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(StartModule))).Select(type => { return (StartModule)Activator.CreateInstance(type); }).FirstOrDefault();
+                startInstance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(StartModule))).Select(type => { return (StartModule)Activator.CreateInstance(type); }).FirstOrDefault();
+                commandInstances = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(CommandModule))).Select(type => { return (CommandModule)Activator.CreateInstance(type); }).ToList();
             }
 
-            public void Reload()
+            public XubotSharedModule.DiscordThings.Message Execute(string command, string[] parameters = null)
             {
-                /// TODO unfuck
+                return commandInstances.First(x => x.GetName() == command).Execute(parameters);
             }
         }
 
@@ -45,13 +47,13 @@ namespace xubot.src.Modular
 
             modules.Add(name, new ModuleEntry(newModule));
 
-            if (modules[name].instance == null)
+            if (modules[name].startInstance == null)
             {
                 modules.Remove(name);
                 return;
             }
 
-            Util.Log.QuickLog("Module loaded: " + name + "\nLoad msg: " + modules[name].instance.Load().ToString());
+            Util.Log.QuickLog("Module loaded: " + name + "\nLoad msg: " + modules[name].startInstance.Load().ToString());
         }
 
         public static void LoadFromDirectory(string directory = "/Modules", bool isFull = false)

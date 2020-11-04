@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace XubotSharedModule.DiscordThings
+{
+    public class Message
+    {
+        // modeled after Discord.Net
+
+        public string Text;
+        public bool isTTS = false;
+        public Embed MsgEmbed = null;
+        public string Filepath = null;
+        public bool Spoilered = false;
+
+        public Message(string text, bool isTTS = false, Embed embed = null)
+        {
+            this.Text = text;
+            this.isTTS = isTTS;
+            this.MsgEmbed = embed;
+        }
+
+        public Message FileMessage(string filepath, string text = null, bool isTTS = false, Embed embed = null)
+        {
+            this.Filepath = filepath;
+
+            this.Text = text;
+            this.isTTS = isTTS;
+            this.MsgEmbed = embed;
+
+            return this;
+        }
+    }
+}
