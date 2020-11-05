@@ -1,4 +1,5 @@
-﻿using ProtoBuf;
+﻿using Discord.Commands;
+using ProtoBuf;
 using Reddit.Things;
 using SteamKit2;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
+using System.Threading.Tasks;
 using XubotSharedModule;
 
 namespace xubot.src.Modular
@@ -16,17 +18,19 @@ namespace xubot.src.Modular
     {
         public class ModuleEntry
         {
-            public Assembly assemblyToLoad;
-            public Assembly assemblyLoaded;
+            public string assemblyFileName;
+            public Assembly assembly;
             public AssemblyLoadContext moduleContext;
             public string id;
 
             public ModuleEntrypoint startInstance;
             public List<CommandModule> commandInstances;
 
-            public ModuleEntry(Assembly assembly, string id)
+            public ICommandContext context;
+
+            public ModuleEntry(string assemblyFilename, string id)
             {
-                this.assemblyToLoad = assembly;
+                this.assemblyFileName = assemblyFilename;
                 this.id = id;
 
                 Initialize();
@@ -37,15 +41,24 @@ namespace xubot.src.Modular
                 this.moduleContext = new AssemblyLoadContext(id, true);
                 moduleContext.Unloading += ContextUnloaded;
 
-                assemblyLoaded = this.moduleContext.LoadFromAssemblyName(assemblyToLoad.GetName());
+                assembly = this.moduleContext.LoadFromAssemblyPath(this.assemblyFileName);
 
-                startInstance = assemblyLoaded.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(ModuleEntrypoint))).Select(type => { return (ModuleEntrypoint)Activator.CreateInstance(type); }).FirstOrDefault();
-                commandInstances = assemblyLoaded.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(CommandModule))).Select(type => { return (CommandModule)Activator.CreateInstance(type); }).ToList();
+                startInstance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(ModuleEntrypoint))).Select(type => { return (ModuleEntrypoint)Activator.CreateInstance(type); }).FirstOrDefault();
+                commandInstances = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(CommandModule))).Select(type => { return (CommandModule)Activator.CreateInstance(type); }).ToList();
+
+                XubotSharedModule.Events.Messages.OnMessageSend += SendModuleMessage;
             }
 
-            public XubotSharedModule.DiscordThings.Message Execute(string command, string[] parameters = null)
+            private Task SendModuleMessage(XubotSharedModule.DiscordThings.Message message)
             {
-                return commandInstances.First(x => x.GetName() == command).Execute(parameters);
+                if (this.context == null) return Task.CompletedTask;
+                return ModularUtil.SendMessage(this.context, message);
+            }
+
+            public void Execute(ICommandContext context, string command, string[] parameters = null)
+            {
+                this.context = context;
+                commandInstances.First(x => x.GetName() == command).Execute(parameters);
             }
 
             public string Unload()
@@ -53,9 +66,13 @@ namespace xubot.src.Modular
                 string msg = startInstance.Unload().ToString();
 
                 Util.Log.QuickLog("Module unloading: " + id + "\nUnload msg: " + msg);
+
                 moduleContext.Unload();
                 startInstance = null;
                 commandInstances.Clear();
+                commandInstances = null;
+                assembly = null;
+                context = null;
 
                 return msg;
             }
@@ -63,10 +80,13 @@ namespace xubot.src.Modular
             private void ContextUnloaded(AssemblyLoadContext obj)
             {
                 Util.Log.QuickLog("Module unloaded: " + id);
+                moduleContext = null;
             }
 
             public string Reload()
             {
+                if (startInstance != null) Unload();
+
                 Initialize();
                 string msg = startInstance.Reload().ToString();
                 Util.Log.QuickLog("Module reloaded: " + id + "\nReload msg: " + msg);
@@ -88,9 +108,9 @@ namespace xubot.src.Modular
             if (Path.GetExtension(filename).ToLower() != ".dll") return;
 
             string name = Path.GetFileNameWithoutExtension(filename).ToLower();
-            Assembly newModule = Assembly.LoadFrom(filename);
+            //Assembly newModule = Assembly.LoadFrom(filename);
 
-            modules.Add(name, new ModuleEntry(newModule, name));
+            modules.Add(name, new ModuleEntry(filename, name));
 
             if (modules[name].startInstance == null)
             {
@@ -110,9 +130,9 @@ namespace xubot.src.Modular
                 LoadFromFile(filename);
         }
 
-        public static void Execute(string id, string method, object[] parameters = null)
+        public static async Task Execute(ICommandContext context, string module, string command, string[] parameters = null)
         {
-            //modules[id].instance.
+            Modular.ModularSystem.modules[module].Execute(context, command, parameters);
         }
     }
 }

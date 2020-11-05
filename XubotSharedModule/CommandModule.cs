@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using XubotSharedModule.DiscordThings;
 
 namespace XubotSharedModule
@@ -30,6 +31,6 @@ namespace XubotSharedModule
         /// </summary>
         /// <param name="parameters">A single dimensional array of strings</param>
         /// <returns>A Message object the bot uses to send a messages</returns>
-        public Message Execute(string[] parameters);
+        public Task Execute(string[] parameters);
     }
 }

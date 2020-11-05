@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using XubotSharedModule;
 using XubotSharedModule.DiscordThings;
+using XubotSharedModule.Events;
 
 namespace DebugModule
 {
@@ -13,9 +15,9 @@ namespace DebugModule
         public static string Summary = "Test embed";
         public static string[] Aliases = { "ExampleAlias" };
 
-        public Message Execute(string[] parameters)
+        public async Task Execute(string[] parameters)
         {
-            return new Message("", false, new Embed() {
+            Message msg = new Message("", false, new Embed() {
                 Title = "Embed title",
                 Description = "Embed description",
                 Fields = new List<EmbedField>()
@@ -32,9 +34,18 @@ namespace DebugModule
                         Name = "Other",
                         Value = "More test stuff",
                         IsInline = true
+                    },
+
+                    new EmbedField()
+                    {
+                        Name = "Other",
+                        Value = "New test stuff",
+                        IsInline = true
                     }
                 }
             });
+
+            await Messages.Send(msg);
         }
 
         public string GetName()

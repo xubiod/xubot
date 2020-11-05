@@ -18,7 +18,7 @@ namespace xubot.src.Modular
             [Command("run"), Alias("~", ""), Summary("Runs a command from a module.")]
             public async Task Execute(string module, string command, params string[] parameters)
             {
-                await ModularUtil.SendMessage(Context, Modular.ModularSystem.modules[module].Execute(command, parameters));
+                await ModularSystem.Execute(Context, module, command, parameters);
             }
         }
 

@@ -8,9 +8,9 @@ using XubotSharedModule.Events;
 
 namespace DebugModule
 {
-    public class ExampleCommand : CommandModule
+    public class ExampleMultiMsgCommand : CommandModule
     {
-        public static string Name = "Example";
+        public static string Name = "ExampleM";
         public static string Summary = "ExampleSumm";
         public static string[] Aliases = { "ExampleAlias" };
 
@@ -18,6 +18,8 @@ namespace DebugModule
         {
             // new Message("Test success\nParam count " + parameters.Length)
             await Messages.Send(new Message("Test success\nParam count " + parameters.Length));
+            await Messages.Send(new Message("New message"));
+            await Messages.Send(new Message("Oh wow another message"));
         }
 
         public string GetName()
