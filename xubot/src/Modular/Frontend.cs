@@ -43,7 +43,7 @@ namespace xubot.src.Modular
             {
                 string list = "";
 
-                foreach (CommandModule cmd in ModularSystem.modules[module].commandInstances)
+                foreach (ICommandModule cmd in ModularSystem.modules[module].commandInstances)
                     list += cmd.GetName() + " - " + cmd.GetSummary() + "\n";
 
                 EmbedBuilder embedd = new EmbedBuilder()

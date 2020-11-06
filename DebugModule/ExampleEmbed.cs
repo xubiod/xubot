@@ -9,7 +9,7 @@ using XubotSharedModule.Events;
 
 namespace DebugModule
 {
-    class ExampleEmbed : CommandModule
+    class ExampleEmbed : ICommandModule
     {
         public static string Name = "Embed";
         public static string Summary = "Test embed";

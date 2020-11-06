@@ -4,7 +4,7 @@ using System.Text;
 
 namespace XubotSharedModule
 {
-    public interface ModuleEntrypoint
+    public interface IModuleEntrypoint
     {
         /// <summary>
         /// Gets called on the first load of the module.

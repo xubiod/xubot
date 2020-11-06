@@ -6,7 +6,7 @@ using XubotSharedModule.DiscordThings;
 
 namespace XubotSharedModule
 {
-    public interface CommandModule
+    public interface ICommandModule
     {
         /// <summary>
         /// Returns the name of the command, used to call it through Discord.

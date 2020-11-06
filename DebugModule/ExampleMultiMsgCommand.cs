@@ -8,7 +8,7 @@ using XubotSharedModule.Events;
 
 namespace DebugModule
 {
-    public class ExampleMultiMsgCommand : CommandModule
+    public class ExampleMultiMsgCommand : ICommandModule
     {
         public static string Name = "ExampleM";
         public static string Summary = "ExampleSumm";

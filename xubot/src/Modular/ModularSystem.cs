@@ -23,8 +23,8 @@ namespace xubot.src.Modular
             public AssemblyLoadContext moduleContext;
             public string id;
 
-            public ModuleEntrypoint startInstance;
-            public List<CommandModule> commandInstances;
+            public IModuleEntrypoint startInstance;
+            public List<ICommandModule> commandInstances;
 
             public ICommandContext context;
 
@@ -43,8 +43,8 @@ namespace xubot.src.Modular
 
                 assembly = this.moduleContext.LoadFromAssemblyPath(this.assemblyFileName);
 
-                startInstance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(ModuleEntrypoint))).Select(type => { return (ModuleEntrypoint)Activator.CreateInstance(type); }).FirstOrDefault();
-                commandInstances = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(CommandModule))).Select(type => { return (CommandModule)Activator.CreateInstance(type); }).ToList();
+                startInstance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IModuleEntrypoint))).Select(type => { return (IModuleEntrypoint)Activator.CreateInstance(type); }).FirstOrDefault();
+                commandInstances = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(ICommandModule))).Select(type => { return (ICommandModule)Activator.CreateInstance(type); }).ToList();
 
                 XubotSharedModule.Events.Messages.OnMessageSend += SendModuleMessage;
             }
