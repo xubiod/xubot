@@ -67,6 +67,8 @@ namespace xubot.src.Modular
 
                 Util.Log.QuickLog("Module unloading: " + id + "\nUnload msg: " + msg);
 
+                XubotSharedModule.Events.Messages.OnMessageSend -= SendModuleMessage;
+
                 moduleContext.Unload();
                 startInstance = null;
                 commandInstances.Clear();
