@@ -4,7 +4,7 @@ using System.Text;
 
 namespace XubotSharedModule.DiscordThings
 {
-    public class Message
+    public class SendableMsg
     {
         // modeled after Discord.Net
 
@@ -14,14 +14,14 @@ namespace XubotSharedModule.DiscordThings
         public string Filepath = null;
         public bool Spoilered = false;
 
-        public Message(string text, bool isTTS = false, Embed embed = null)
+        public SendableMsg(string text, bool isTTS = false, Embed embed = null)
         {
             this.Text = text;
             this.isTTS = isTTS;
             this.MsgEmbed = embed;
         }
 
-        public Message FileMessage(string filepath, string text = null, bool isTTS = false, Embed embed = null, bool isSpoiler = false)
+        public SendableMsg FileMessage(string filepath, string text = null, bool isTTS = false, Embed embed = null, bool isSpoiler = false)
         {
             this.Filepath = filepath;
             this.Spoilered = isSpoiler;

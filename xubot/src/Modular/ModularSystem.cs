@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using NLua;
 using ProtoBuf;
 using Reddit.Things;
 using SteamKit2;
@@ -10,6 +11,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
 using System.Threading.Tasks;
+using xubot.src.Attributes;
 using XubotSharedModule;
 
 namespace xubot.src.Modular
@@ -46,10 +48,16 @@ namespace xubot.src.Modular
                 startInstance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IModuleEntrypoint))).Select(type => { return (IModuleEntrypoint)Activator.CreateInstance(type); }).FirstOrDefault();
                 commandInstances = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(ICommandModule))).Select(type => { return (ICommandModule)Activator.CreateInstance(type); }).ToList();
 
-                XubotSharedModule.Events.Messages.OnMessageSend += SendModuleMessage;
+                XubotSharedModule.Events.Messages.OnMessageSend += SendModuleMessage; Util.Log.QuickLog("Sub.MsgSend");
+                XubotSharedModule.Events.Requestor.OnRequest += SendRequestedThing; Util.Log.QuickLog("Sub.OnReq");
             }
 
-            private Task SendModuleMessage(XubotSharedModule.DiscordThings.Message message)
+            private object SendRequestedThing(XubotSharedModule.Events.Requestor.RequestType what, XubotSharedModule.Events.Requestor.RequestProperty want)
+            {
+                return Requestee.Get(context, what, want);
+            }
+
+            private Task SendModuleMessage(XubotSharedModule.DiscordThings.SendableMsg message)
             {
                 if (this.context == null) return Task.CompletedTask;
                 return ModularUtil.SendMessage(this.context, message);
@@ -58,16 +66,19 @@ namespace xubot.src.Modular
             public void Execute(ICommandContext context, string command, string[] parameters = null)
             {
                 this.context = context;
-                commandInstances.First(x => x.GetName() == command).Execute(parameters);
+
+                var temp = commandInstances.First(x => x.GetType().GetMethods().Where(x => (x.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name == command).Count() > 0);
+                temp.GetType().GetMethods().Where(x => (x.GetCustomAttributes<CmdNameAttribute>().First().Name == command)).First().Invoke(temp, new object[] { parameters }); //.Where(x => x is CmdNameAttribute).First() as CmdNameAttribute).name == command) //.GetMethods("Execute").Invoke(temp, new object[]{ parameters });
             }
 
             public string Unload()
             {
-                string msg = startInstance.Unload().ToString();
+                string msg = (startInstance != null) ? (startInstance.Unload() ?? "No unload message").ToString() : "No startInstance";
 
                 Util.Log.QuickLog("Module unloading: " + id + "\nUnload msg: " + msg);
 
-                XubotSharedModule.Events.Messages.OnMessageSend -= SendModuleMessage;
+                XubotSharedModule.Events.Messages.OnMessageSend -= SendModuleMessage; Util.Log.QuickLog("Unsub.MsgSend");
+                XubotSharedModule.Events.Requestor.OnRequest -= SendRequestedThing; Util.Log.QuickLog("Unsub.OnReq");
 
                 moduleContext.Unload();
                 startInstance = null;
@@ -116,6 +127,7 @@ namespace xubot.src.Modular
 
             if (modules[name].startInstance == null)
             {
+                modules[name].Unload();
                 modules.Remove(name);
                 return;
             }

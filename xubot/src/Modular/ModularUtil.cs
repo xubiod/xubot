@@ -39,7 +39,7 @@ namespace xubot.src.Modular
             return to.Build();
         }
 
-        public static async Task<IUserMessage> SendMessage(ICommandContext context, XubotSharedModule.DiscordThings.Message message)
+        public static async Task<IUserMessage> SendMessage(ICommandContext context, XubotSharedModule.DiscordThings.SendableMsg message)
         {
             if (message.Filepath != null)
             {

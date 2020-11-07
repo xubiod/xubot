@@ -8,12 +8,13 @@ namespace XubotSharedModule.Events
 {
     public static class Messages
     {
-        public delegate Task MessageHandler(Message message);
+        public delegate Task MessageHandler(SendableMsg message);
         public static event MessageHandler OnMessageSend;
 
-        public static async Task Send(Message message)
+        public static async Task Send(SendableMsg message)
         {
-            await OnMessageSend?.Invoke(message);
+            OnMessageSend?.Invoke(message);
+            return;
         }
     }
 }

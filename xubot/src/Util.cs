@@ -46,7 +46,7 @@ namespace xubot.src
                             new EmbedFieldBuilder
                             {
                                 Name = "What it is",
-                                Value = "```" + result.Error + "```",
+                                Value = "```" + result.Error.GetType() + "```",
                                 IsInline = false
                             }
                         }

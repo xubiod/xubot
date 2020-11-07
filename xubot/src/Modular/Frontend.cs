@@ -15,7 +15,7 @@ namespace xubot.src.Modular
 
         public class Running : ModuleBase
         {
-            [Command("run"), Alias("~", ""), Summary("Runs a command from a module.")]
+            [Command("run", RunMode = RunMode.Async), Alias("~", ""), Summary("Runs a command from a module.")]
             public async Task Execute(string module, string command, params string[] parameters)
             {
                 await ModularSystem.Execute(Context, module, command, parameters);
@@ -26,25 +26,25 @@ namespace xubot.src.Modular
         public class Utilities : ModuleBase
         {
 
-            [Command("reload"), Alias("r"), Summary("Reloads a module.")]
+            [Command("reload", RunMode = RunMode.Async), Alias("r"), Summary("Reloads a module.")]
             public async Task Reload(string module)
             {
                 await ReplyAsync(ModularSystem.modules[module].Reload());
             }
 
-            [Command("unload"), Alias("u"), Summary("Unloads a module.")]
+            [Command("unload", RunMode = RunMode.Async), Alias("u"), Summary("Unloads a module.")]
             public async Task Unload(string module)
             {
                 await ReplyAsync(ModularSystem.modules[module].Unload());
             }
 
-            [Command("list"), Alias("l"), Summary("Lists commands in a module.")]
+            [Command("list", RunMode = RunMode.Async), Alias("l"), Summary("Lists commands in a module.")]
             public async Task List(string module)
             {
                 string list = "";
 
-                foreach (ICommandModule cmd in ModularSystem.modules[module].commandInstances)
-                    list += cmd.GetName() + " - " + cmd.GetSummary() + "\n";
+                //foreach (ICommandModule cmd in ModularSystem.modules[module].commandInstances)
+                //    list += cmd.GetName() + " - " + cmd.GetSummary() + "\n";
 
                 EmbedBuilder embedd = new EmbedBuilder()
                 {
@@ -72,7 +72,7 @@ namespace xubot.src.Modular
                 await ReplyAsync("", false, embedd.Build());
             }
 
-            [Command("listall"), Alias("la"), Summary("Lists all modules.")]
+            [Command("listall", RunMode = RunMode.Async), Alias("la"), Summary("Lists all modules.")]
             public async Task ListAll()
             {
                 string list = "";
