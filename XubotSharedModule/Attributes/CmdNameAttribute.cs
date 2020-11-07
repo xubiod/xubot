@@ -5,7 +5,7 @@ using System.Text;
 namespace xubot.src.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    public class CmdNameAttribute : Attribute
+    public sealed class CmdNameAttribute : Attribute
     {
         public string Name { get; }
 

@@ -12,14 +12,14 @@ namespace DebugModule
     public class ExampleCommands : ICommandModule
     {
         [CmdName("example"), CmdSummary("Sends one message")]
-        public async Task SingleMessage(string[] parameters)
+        public static async Task SingleMessage(string[] parameters)
         {
             // new Message("Test success\nParam count " + parameters.Length)
             await Messages.Send(new SendableMsg("Test success\nParam count " + parameters.Length));
         }
 
         [CmdName("examplem"), CmdSummary("Sends three messages")]
-        public async Task MultipleMessages(string[] parameters)
+        public static async Task MultipleMessages(string[] parameters)
         {
             // new Message("Test success\nParam count " + parameters.Length)
             await Messages.Send(new SendableMsg("Test success\nParam count " + parameters.Length));
@@ -28,7 +28,7 @@ namespace DebugModule
         }
 
         [CmdName("embed"), CmdSummary("Sends a message wtih embed")]
-        public async Task Embed(string[] parameters)
+        public static async Task Embed(string[] parameters)
         {
             SendableMsg msg = new SendableMsg("", false, new Embed()
             {
@@ -62,8 +62,9 @@ namespace DebugModule
             await Messages.Send(msg);
         }
 
+#pragma warning disable IDE0060 // Remove unused parameter
         [CmdName("request"), CmdSummary("Sends one message after getting some data")]
-        public async Task Request(string[] parameters)
+        public static async Task Request(string[] parameters)
         {
             string msg = "";
 
@@ -73,5 +74,6 @@ namespace DebugModule
 
             await Messages.Send(new SendableMsg(msg));
         }
+#pragma warning restore IDE0060 // Remove unused parameter
     }
 }
