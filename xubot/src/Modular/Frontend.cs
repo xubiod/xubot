@@ -3,8 +3,10 @@ using Discord.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using xubot.src.Attributes;
 using XubotSharedModule;
 
 namespace xubot.src.Modular
@@ -43,8 +45,10 @@ namespace xubot.src.Modular
             {
                 string list = "";
 
-                //foreach (ICommandModule cmd in ModularSystem.modules[module].commandInstances)
-                //    list += cmd.GetName() + " - " + cmd.GetSummary() + "\n";
+                foreach (ICommandModule cmd in ModularSystem.modules[module].commandInstances)
+                    foreach (MethodInfo item in cmd.GetType().GetMethods().Where(x => (x.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name != ""))
+                        list += item.GetCustomAttribute<CmdNameAttribute>().Name + " - " + (item.GetCustomAttribute<CmdSummaryAttribute>() != null ? item.GetCustomAttribute<CmdSummaryAttribute>().Summary : "Not set in module") + "\n";
+                    //list += cmd.GetType().getM + " - " + "NotImplement" + "\n";
 
                 EmbedBuilder embedd = new EmbedBuilder()
                 {

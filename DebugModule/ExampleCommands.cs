@@ -11,14 +11,14 @@ namespace DebugModule
 {
     public class ExampleCommands : ICommandModule
     {
-        [CmdName("example")]
+        [CmdName("example"), CmdSummary("Sends one message")]
         public async Task SingleMessage(string[] parameters)
         {
             // new Message("Test success\nParam count " + parameters.Length)
             await Messages.Send(new SendableMsg("Test success\nParam count " + parameters.Length));
         }
 
-        [CmdName("examplem")]
+        [CmdName("examplem"), CmdSummary("Sends three messages")]
         public async Task MultipleMessages(string[] parameters)
         {
             // new Message("Test success\nParam count " + parameters.Length)
@@ -27,7 +27,7 @@ namespace DebugModule
             await Messages.Send(new SendableMsg("Oh wow another message"));
         }
 
-        [CmdName("embed")]
+        [CmdName("embed"), CmdSummary("Sends a message wtih embed")]
         public async Task Embed(string[] parameters)
         {
             SendableMsg msg = new SendableMsg("", false, new Embed()
@@ -62,7 +62,7 @@ namespace DebugModule
             await Messages.Send(msg);
         }
 
-        [CmdName("request")]
+        [CmdName("request"), CmdSummary("Sends one message after getting some data")]
         public async Task Request(string[] parameters)
         {
             string msg = "";
