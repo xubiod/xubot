@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using SteamKit2.GC.Dota.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,28 @@ namespace xubot.src.Commands
     {
         public int itemsPerPage = 15;
 
-        [Command("", RunMode = RunMode.Async)]
+        [Command("get", RunMode = RunMode.Async), Alias("")]
         public async Task _Help(int page = 1)
         {
             await HelpCmd(page);
         }
 
-        [Command("", RunMode = RunMode.Async), Summary("Lists data for one command.")]
-        public async Task HelpCmd(string lookup, int index = 1)
+        [Command("get", RunMode = RunMode.Async), Alias(""), Summary("Lists data for one command.")]
+        public async Task HelpCmd(params string[] lookupAsAll)
         {
-            await HelpHandling(lookup, index, true);
+            string all = "";
+            int page, count;
+            count = lookupAsAll.Length;
+
+            if (Int32.TryParse(lookupAsAll[count - 1], out page))
+                count--;
+            else
+                page = 1;
+
+            for (int i = 0; i < count; i++)
+                all += lookupAsAll[i] + (i == count - 1 ? "" : " ");
+
+            await HelpHandling(all, page, true);
         }
 
         /*[Command, Summary("Lists data for one command.")]
