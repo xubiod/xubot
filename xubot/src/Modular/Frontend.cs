@@ -28,13 +28,13 @@ namespace xubot.src.Modular
         public class Utilities : ModuleBase
         {
 
-            [Command("reload", RunMode = RunMode.Async), Alias("r"), Summary("Reloads a module.")]
+            [Command("reload", RunMode = RunMode.Async), Alias("r"), Summary("Reloads a module."), RequireOwner]
             public async Task Reload(string module)
             {
                 await ReplyAsync(ModularSystem.modules[module].Reload());
             }
 
-            [Command("unload", RunMode = RunMode.Async), Alias("u"), Summary("Unloads a module.")]
+            [Command("unload", RunMode = RunMode.Async), Alias("u"), Summary("Unloads a module."), RequireOwner]
             public async Task Unload(string module)
             {
                 await ReplyAsync(ModularSystem.modules[module].Unload());
