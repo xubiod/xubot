@@ -164,14 +164,7 @@ namespace xubot.src.Commands
                     all_para = "";
                     foreach (var para in comm.Parameters)
                     {
-                        if (para.IsOptional)
-                        {
-                            all_para += Util.Str.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + " (optional)\n";
-                        }
-                        else
-                        {
-                            all_para += Util.Str.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + "\n";
-                        }
+                        all_para += (para.IsMultiple ? "params " : "") + Util.Str.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + (para.IsOptional ? " (optional)" : "") +"\n";
                     }
                 }
 
