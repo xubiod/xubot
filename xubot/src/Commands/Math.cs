@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using SteamKit2.GC.TF2.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,38 +12,53 @@ namespace xubot.src.Commands
     public class Math : ModuleBase
     {
         // SIMPLE MATH
-        [Command("add"), Alias("plus"), Summary("Adds two floats.")]
-        public async Task Add([Summary("float 1")] float num1, [Summary("float 2")] float num2)
+        [Command("add"), Alias("plus"), Summary("Adds the floats given.")]
+        public async Task Add(params float[] inputs)
         {
-            float result = num1 + num2;
+            float result = 0;
+            foreach (float num in inputs)
+                result += num;
+
             await ReplyAsync("The result is: " + result.ToString());
         }
 
-        [Command("sub"), Alias("subtract"), Summary("Subtract two floats.")]
-        public async Task Sub([Summary("float 1")] float num1, [Summary("float 2")] float num2)
+        [Command("sub"), Alias("subtract"), Summary("Subtracts the floats given.")]
+        public async Task Sub(params float[] inputs)
         {
-            float result = num1 - num2;
+            float result = 0;
+            foreach (float num in inputs)
+                result -= num;
+
             await ReplyAsync("The result is: " + result.ToString());
         }
 
-        [Command("multi"), Alias("multiply"), Summary("Multiplies two floats.")]
-        public async Task Multi([Summary("float 1")] float num1, [Summary("float 2")] float num2)
+        [Command("multi"), Alias("multiply"), Summary("Multiplies the floats given.")]
+        public async Task Multi(params float[] inputs)
         {
-            float result = num1 * num2;
+            float result = 0;
+            foreach (float num in inputs)
+                result *= num;
+
             await ReplyAsync("The result is: " + result.ToString());
         }
 
-        [Command("divide"), Alias("division"), Summary("Divides two floats.")]
-        public async Task Divide([Summary("float 1")] float num1, [Summary("float 2")] float num2)
+        [Command("divide"), Alias("division"), Summary("Divides the floats given.")]
+        public async Task Divide(params float[] inputs)
         {
-            float result = num1 / num2;
+            float result = 0;
+            foreach (float num in inputs)
+                result /= num;
+
             await ReplyAsync("The result is: " + result.ToString());
         }
 
-        [Command("mod"), Alias("modulo"), Summary("Modulos two floats.")]
-        public async Task Mod([Summary("float 1")] float num1, [Summary("float 2")] float num2)
+        [Command("mod"), Alias("modulo"), Summary("Modulos the floats given.")]
+        public async Task Mod(params float[] inputs)
         {
-            float result = num1 % num2;
+            float result = 0;
+            foreach (float num in inputs)
+                result %= num;
+
             await ReplyAsync("The result is: " + result.ToString());
         }
 
