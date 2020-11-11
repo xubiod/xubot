@@ -134,5 +134,11 @@ namespace xubot.src.Commands
         {
             await ReplyAsync("https://youtu.be/HG2F3hMcBrs");
         }
+
+        [Command("lil-bitch"), Alias("stop-being-such-a-lil-bitch"), Summary("lil bitch")]
+        public async Task LilBitch()
+        {
+            await ReplyAsync("https://youtu.be/kTzKZDvQhBI");
+        }
     }
 }
