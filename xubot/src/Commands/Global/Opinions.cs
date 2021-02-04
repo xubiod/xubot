@@ -9,7 +9,7 @@ using Discord;
 using System.Xml.Linq;
 using Newtonsoft.Json.Linq;
 
-namespace xubot.src.Commands.Globals
+namespace xubot.src.Commands.Global
 {
     [Group("opinion")]
     public class Opinions : ModuleBase

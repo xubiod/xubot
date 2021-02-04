@@ -8,8 +8,9 @@ using Discord;
 using System.Xml.Linq;
 using Newtonsoft.Json.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using xubot.src.Commands.Global;
 
-namespace xubot.src.Commands.Globals
+namespace xubot.src.Commands.Global
 {
     public class Mood : ModuleBase
     {
@@ -186,28 +187,6 @@ namespace xubot.src.Commands.Globals
             }
 
             MoodTools.AdjustMood(Context.Message.Author, -0.01);
-        }
-    }
-
-    public class MoodTools : ModuleBase
-    {
-        public static void AddOrRefreshMood(IUser arg)
-        {
-            if (!(Program.JSONKeys["mood"].Contents as JObject).ContainsKey(arg.Id.ToString())) {
-                (Program.JSONKeys["mood"].Contents as JObject).Add(arg.Id.ToString(), 0);
-                Util.JSON.SaveKeyAsJSON("mood");
-            }
-        }
-
-        public static double ReadMood(IUser arg)
-        {
-            return (Program.JSONKeys["mood"].Contents as JObject).Value<double>(arg.Id.ToString());
-        }
-
-        public static void AdjustMood(IUser arg, double adjust)
-        {
-            (Program.JSONKeys["mood"].Contents as JObject)[arg.Id.ToString()] = ReadMood(arg) + adjust;
-            Util.JSON.SaveKeyAsJSON("mood");
         }
     }
 }

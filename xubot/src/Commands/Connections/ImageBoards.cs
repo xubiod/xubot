@@ -13,12 +13,13 @@ using System.Xml.Linq;
 using xubot.src;
 using Discord;
 using System.Net.Http;
-using static xubot.src.SpecialException;
 using xubot.src.Attributes;
 using System.Web;
 
 namespace xubot.src.Commands.Connections
 {
+    using static xubot.src.SpecialException;
+
     public class ImageBoards : ModuleBase
     {
         //public JObject jsonInt = new JObject();

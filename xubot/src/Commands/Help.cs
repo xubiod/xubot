@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using SteamKit2.GC.Dota.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,28 @@ namespace xubot.src.Commands
     {
         public int itemsPerPage = 15;
 
-        [Command("", RunMode = RunMode.Async)]
+        [Command("get", RunMode = RunMode.Async), Alias("")]
         public async Task _Help(int page = 1)
         {
             await HelpCmd(page);
         }
 
-        [Command("", RunMode = RunMode.Async), Summary("Lists data for one command.")]
-        public async Task HelpCmd(string lookup, int index = 1)
+        [Command("get", RunMode = RunMode.Async), Alias(""), Summary("Lists data for one command.")]
+        public async Task HelpCmd(params string[] lookupAsAll)
         {
-            await HelpHandling(lookup, index, true);
+            string all = "";
+            int page, count;
+            count = lookupAsAll.Length;
+
+            if (Int32.TryParse(lookupAsAll[count - 1], out page))
+                count--;
+            else
+                page = 1;
+
+            for (int i = 0; i < count; i++)
+                all += lookupAsAll[i] + (i == count - 1 ? "" : " ");
+
+            await HelpHandling(all, page, true);
         }
 
         /*[Command, Summary("Lists data for one command.")]
@@ -44,7 +57,7 @@ namespace xubot.src.Commands
 
             for (int i = 0; i < limit; i++)
             {
-                int index = i + (page - 1) * itemsPerPage;
+                int index = (i + (page - 1)) * itemsPerPage;
 
                 if (index > commList.Count) { break; }
 
@@ -151,14 +164,7 @@ namespace xubot.src.Commands
                     all_para = "";
                     foreach (var para in comm.Parameters)
                     {
-                        if (para.IsOptional)
-                        {
-                            all_para += Util.Str.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + " (optional)\n";
-                        }
-                        else
-                        {
-                            all_para += Util.Str.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + "\n";
-                        }
+                        all_para += (para.IsMultiple ? "params " : "") + Util.Str.SyntaxHighlightify(para.Type.ToString()) + " " + para.Name + (para.IsOptional ? " (optional)" : "") +"\n";
                     }
                 }
 
