@@ -20,7 +20,7 @@ namespace xubot.src.Modular
                     {
                         case RequestProperty.Name:       return context.Guild.Name; break;
                         case RequestProperty.ID:         return context.Guild.Id; break;
-                        default:                    return null; break;
+                        default:                         return null; break;
                     }
 
                 case RequestType.Channel:
@@ -28,7 +28,7 @@ namespace xubot.src.Modular
                     {
                         case RequestProperty.Name:       return context.Channel.Name; break;
                         case RequestProperty.ID:         return context.Channel.Id; break;
-                        default:                    return null; break;
+                        default:                         return null; break;
                     }
 
                 case RequestType.User:
@@ -37,7 +37,7 @@ namespace xubot.src.Modular
                         case RequestProperty.Name:       return context.User.Username; break;
                         case RequestProperty.ID:         return context.User.Id; break;
                         case RequestProperty.Discrim:    return context.User.Discriminator; break;
-                        default:                    return null; break;
+                        default:                         return null; break;
                     }
 
                 case RequestType.Client:
@@ -47,7 +47,7 @@ namespace xubot.src.Modular
                         case RequestProperty.Name:       return Program.xuClient.CurrentUser.Username; break;
                         case RequestProperty.ID:         return Program.xuClient.CurrentUser.Id; break;
                         case RequestProperty.Discrim:    return Program.xuClient.CurrentUser.DiscriminatorValue; break;
-                        default:                    return null;
+                        default:                         return null;
                     }
 
                 case RequestType.Message:
@@ -55,7 +55,7 @@ namespace xubot.src.Modular
                     {
                         case RequestProperty.ID:         return context.Message.Id; break;
                         case RequestProperty.Content:    return context.Message.Content; break;
-                        default:                    return null; break;
+                        default:                         return null; break;
                     }
 
                 default: break;
