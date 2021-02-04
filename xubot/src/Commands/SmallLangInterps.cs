@@ -118,10 +118,7 @@ namespace xubot.src.Commands
                                 memory[memory_pointer] = inputs[input_pointer];
                                 input_pointer++;
                             }
-                            catch (Exception e)
-                            {
-                                // do nothing
-                            }
+                            catch (Exception e) {}
                             break;
                         case '[':
                             if (memory[memory_pointer] == 0)
