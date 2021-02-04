@@ -28,5 +28,10 @@ namespace xubot.src.Commands.Global
             (Program.JSONKeys["mood"].Contents as JObject)[arg.Id.ToString()] = ReadMood(arg) + adjust;
             Util.JSON.SaveKeyAsJSON("mood");
         }
+
+        public static string RandomResponse(params string[] any)
+        {
+            return any[new Random().Next(any.Length)];
+        }
     }
 }

@@ -195,7 +195,6 @@ namespace xubot.src.Commands.Connections
 
                 await ReplyAsync("", false, embedd.Build());
             }
-
         }
     }
 }

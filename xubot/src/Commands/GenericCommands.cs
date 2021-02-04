@@ -222,7 +222,7 @@ namespace xubot.src.Commands
             {
                 for (int i = 0; i < pattern.Length; i++)
                 {
-                    pattern[i] = Pattern_Presets.Return_Query(searchqueue, 1).Replace("0", emo1).Replace("1", emo2);
+                    pattern[i] = PatternPresets.ReturnQuery(searchqueue, 1).Replace("0", emo1).Replace("1", emo2);
                 }
 
                 await ReplyAsync(pattern[0] + '\n' + pattern[1] + '\n' + pattern[2] + '\n' + pattern[3] + '\n' + pattern[4]);

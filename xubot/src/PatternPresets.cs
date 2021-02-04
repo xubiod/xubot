@@ -6,209 +6,203 @@ using System.Threading.Tasks;
 
 namespace xubot.src
 {
-    class Pattern_Presets
+    class PatternPresets
     {
-        public static string Return_Query(string searchterm, int patternID)
+        public static string ReturnQuery(string searchterm, int patternID)
         {
-            if (searchterm.Contains("checker"))
+            switch (searchterm)
             {
-                if (patternID == 1) { return "10101"; }
-                else if (patternID == 2) { return "01010"; }
-                else if (patternID == 3) { return "10101"; }
-                else if (patternID == 4) { return "01010"; }
-                else if (patternID == 5) { return "10101"; }
-                else { return "FAILURE"; }
+                case "checker":
+                    {
+                        if (patternID == 1) { return "10101"; }
+                        if (patternID == 2) { return "01010"; }
+                        if (patternID == 3) { return "10101"; }
+                        if (patternID == 4) { return "01010"; }
+                        if (patternID == 5) { return "10101"; }
+                        { return "FAILURE"; }
+                    }
+                case "carrot-r":
+                    {
+                        if (patternID == 1) { return "01100"; }
+                        if (patternID == 2) { return "00110"; }
+                        if (patternID == 3) { return "00011"; }
+                        if (patternID == 4) { return "00110"; }
+                        if (patternID == 5) { return "01100"; }
+                        { return "FAILURE"; }
+                    }
+                case "carrot-l":
+                    {
+                        if (patternID == 1) { return "00011"; }
+                        if (patternID == 2) { return "00110"; }
+                        if (patternID == 3) { return "01100"; }
+                        if (patternID == 4) { return "00110"; }
+                        if (patternID == 5) { return "00011"; }
+                        { return "FAILURE"; }
+                    }
+                case "power":
+                    {
+                        if (patternID == 1) { return "00100"; }
+                        if (patternID == 2) { return "10101"; }
+                        if (patternID == 3) { return "10101"; }
+                        if (patternID == 4) { return "10001"; }
+                        if (patternID == 5) { return "01110"; }
+                        { return "FAILURE"; }
+                    }
+                case "pico":
+                    {
+                        if (patternID == 1) { return "00100"; }
+                        if (patternID == 2) { return "01010"; }
+                        if (patternID == 3) { return "10001"; }
+                        if (patternID == 4) { return "01010"; }
+                        if (patternID == 5) { return "00100"; }
+                        { return "FAILURE"; }
+                    }
+                case "cross-hair":
+                    {
+                        if (patternID == 1) { return "01010"; }
+                        if (patternID == 2) { return "10001"; }
+                        if (patternID == 3) { return "00100"; }
+                        if (patternID == 4) { return "10001"; }
+                        if (patternID == 5) { return "01010"; }
+                        { return "FAILURE"; }
+                    }
+                case "ship":
+                    {
+                        if (patternID == 1) { return "00100"; }
+                        if (patternID == 2) { return "01010"; }
+                        if (patternID == 3) { return "11011"; }
+                        if (patternID == 4) { return "11111"; }
+                        if (patternID == 5) { return "10101"; }
+                        { return "FAILURE"; }
+                    }
+                case "smile-c":
+                    {
+                        if (patternID == 1) { return "00000"; }
+                        if (patternID == 2) { return "01010"; }
+                        if (patternID == 3) { return "00000"; }
+                        if (patternID == 4) { return "10001"; }
+                        if (patternID == 5) { return "01110"; }
+                        { return "FAILURE"; }
+                    }
+                case "smile-o":
+                    {
+                        if (patternID == 1) { return "00000"; }
+                        if (patternID == 2) { return "01010"; }
+                        if (patternID == 3) { return "00000"; }
+                        if (patternID == 4) { return "11111"; }
+                        if (patternID == 5) { return "01110"; }
+                        { return "FAILURE"; }
+                    }
+                case "sad-c":
+                    {
+                        if (patternID == 1) { return "00000"; }
+                        if (patternID == 2) { return "01010"; }
+                        if (patternID == 3) { return "00000"; }
+                        if (patternID == 4) { return "01110"; }
+                        if (patternID == 5) { return "10001"; }
+                        { return "FAILURE"; }
+                    }
+                case "sad-o":
+                    {
+                        if (patternID == 1) { return "00000"; }
+                        if (patternID == 2) { return "01010"; }
+                        if (patternID == 3) { return "00000"; }
+                        if (patternID == 4) { return "01110"; }
+                        if (patternID == 5) { return "11111"; }
+                        { return "FAILURE"; }
+                    }
+                case "spade":
+                    {
+                        if (patternID == 1) { return "00100"; }
+                        if (patternID == 2) { return "01110"; }
+                        if (patternID == 3) { return "11111"; }
+                        if (patternID == 4) { return "11111"; }
+                        if (patternID == 5) { return "00100"; }
+                        { return "FAILURE"; }
+                    }
+                case "club":
+                    {
+                        if (patternID == 1) { return "11011"; }
+                        if (patternID == 2) { return "11011"; }
+                        if (patternID == 3) { return "00100"; }
+                        if (patternID == 4) { return "01011"; }
+                        if (patternID == 5) { return "10011"; }
+                        { return "FAILURE"; }
+                    }
+                case "heart":
+                    {
+                        if (patternID == 1) { return "01010"; }
+                        if (patternID == 2) { return "11111"; }
+                        if (patternID == 3) { return "11111"; }
+                        if (patternID == 4) { return "01110"; }
+                        if (patternID == 5) { return "00100"; }
+                        { return "FAILURE"; }
+                    }
+                case "diamond":
+                    {
+                        if (patternID == 1) { return "00100"; }
+                        if (patternID == 2) { return "01110"; }
+                        if (patternID == 3) { return "11111"; }
+                        if (patternID == 4) { return "01110"; }
+                        if (patternID == 5) { return "00100"; }
+                        { return "FAILURE"; }
+                    }
+                case "eighth-note":
+                    {
+                        if (patternID == 1) { return "00110"; }
+                        if (patternID == 2) { return "00100"; }
+                        if (patternID == 3) { return "00100"; }
+                        if (patternID == 4) { return "01100"; }
+                        if (patternID == 5) { return "01100"; }
+                        { return "FAILURE"; }
+                    }
+                case "sixteenth-note":
+                    {
+                        if (patternID == 1) { return "00110"; }
+                        if (patternID == 2) { return "00110"; }
+                        if (patternID == 3) { return "00100"; }
+                        if (patternID == 4) { return "01100"; }
+                        if (patternID == 5) { return "01100"; }
+                        { return "FAILURE"; }
+                    }
+                case "double-eighth-note":
+                    {
+                        if (patternID == 1) { return "01111"; }
+                        if (patternID == 2) { return "01001"; }
+                        if (patternID == 3) { return "01001"; }
+                        if (patternID == 4) { return "11011"; }
+                        if (patternID == 5) { return "11011"; }
+                        { return "FAILURE"; }
+                    }
+                case "double-sixteenth-note":
+                    {
+                        if (patternID == 1) { return "01111"; }
+                        if (patternID == 2) { return "01111"; }
+                        if (patternID == 3) { return "01001"; }
+                        if (patternID == 4) { return "11011"; }
+                        if (patternID == 5) { return "11011"; }
+                        { return "FAILURE"; }
+                    }
+                case "hammer":
+                    {
+                        if (patternID == 1) { return "01101"; }
+                        if (patternID == 2) { return "11111"; }
+                        if (patternID == 3) { return "10101"; }
+                        if (patternID == 4) { return "00100"; }
+                        if (patternID == 5) { return "00100"; }
+                        { return "FAILURE"; }
+                    }
+                case "paper":
+                    {
+                        if (patternID == 1) { return "11111"; }
+                        if (patternID == 2) { return "10001"; }
+                        if (patternID == 3) { return "11111"; }
+                        if (patternID == 4) { return "10001"; }
+                        if (patternID == 5) { return "11111"; }
+                        { return "FAILURE"; }
+                    }
+                default: { return "FAILURE"; }
             }
-            else if (searchterm.Contains("carrot-r"))
-            {
-                if (patternID == 1) { return "01100"; }
-                else if (patternID == 2) { return "00110"; }
-                else if (patternID == 3) { return "00011"; }
-                else if (patternID == 4) { return "00110"; }
-                else if (patternID == 5) { return "01100"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("carrot-l"))
-            {
-                if (patternID == 1) { return "00011"; }
-                else if (patternID == 2) { return "00110"; }
-                else if (patternID == 3) { return "01100"; }
-                else if (patternID == 4) { return "00110"; }
-                else if (patternID == 5) { return "00011"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("power"))
-            {
-                if (patternID == 1) { return "00100"; }
-                else if (patternID == 2) { return "10101"; }
-                else if (patternID == 3) { return "10101"; }
-                else if (patternID == 4) { return "10001"; }
-                else if (patternID == 5) { return "01110"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("pico"))
-            {
-                if (patternID == 1) { return "00100"; }
-                else if (patternID == 2) { return "01010"; }
-                else if (patternID == 3) { return "10001"; }
-                else if (patternID == 4) { return "01010"; }
-                else if (patternID == 5) { return "00100"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("power"))
-            {
-                if (patternID == 1) { return "00100"; }
-                else if (patternID == 2) { return "00110"; }
-                else if (patternID == 3) { return "01100"; }
-                else if (patternID == 4) { return "00110"; }
-                else if (patternID == 5) { return "00011"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("cross-hair"))
-            {
-                if (patternID == 1) { return "01010"; }
-                else if (patternID == 2) { return "10001"; }
-                else if (patternID == 3) { return "00100"; }
-                else if (patternID == 4) { return "10001"; }
-                else if (patternID == 5) { return "01010"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("ship"))
-            {
-                if (patternID == 1) { return "00100"; }
-                else if (patternID == 2) { return "01010"; }
-                else if (patternID == 3) { return "11011"; }
-                else if (patternID == 4) { return "11111"; }
-                else if (patternID == 5) { return "10101"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("smile-c"))
-            {
-                if (patternID == 1) { return "00000"; }
-                else if (patternID == 2) { return "01010"; }
-                else if (patternID == 3) { return "00000"; }
-                else if (patternID == 4) { return "10001"; }
-                else if (patternID == 5) { return "01110"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("smile-o"))
-            {
-                if (patternID == 1) { return "00000"; }
-                else if (patternID == 2) { return "01010"; }
-                else if (patternID == 3) { return "00000"; }
-                else if (patternID == 4) { return "11111"; }
-                else if (patternID == 5) { return "01110"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("sad-c"))
-            {
-                if (patternID == 1) { return "00000"; }
-                else if (patternID == 2) { return "01010"; }
-                else if (patternID == 3) { return "00000"; }
-                else if (patternID == 4) { return "01110"; }
-                else if (patternID == 5) { return "10001"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("sad-o"))
-            {
-                if (patternID == 1) { return "00000"; }
-                else if (patternID == 2) { return "01010"; }
-                else if (patternID == 3) { return "00000"; }
-                else if (patternID == 4) { return "01110"; }
-                else if (patternID == 5) { return "11111"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("spade"))
-            {
-                if (patternID == 1) { return "00100"; }
-                else if (patternID == 2) { return "01110"; }
-                else if (patternID == 3) { return "11111"; }
-                else if (patternID == 4) { return "11111"; }
-                else if (patternID == 5) { return "00100"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("club"))
-            {
-                if (patternID == 1) { return "11011"; }
-                else if (patternID == 2) { return "11011"; }
-                else if (patternID == 3) { return "00100"; }
-                else if (patternID == 4) { return "01011"; }
-                else if (patternID == 5) { return "10011"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("heart"))
-            {
-                if (patternID == 1) { return "01010"; }
-                else if (patternID == 2) { return "11111"; }
-                else if (patternID == 3) { return "11111"; }
-                else if (patternID == 4) { return "01110"; }
-                else if (patternID == 5) { return "00100"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("diamond"))
-            {
-                if (patternID == 1) { return "00100"; }
-                else if (patternID == 2) { return "01110"; }
-                else if (patternID == 3) { return "11111"; }
-                else if (patternID == 4) { return "01110"; }
-                else if (patternID == 5) { return "00100"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("eighth-note"))
-            {
-                if (patternID == 1) { return "00110"; }
-                else if (patternID == 2) { return "00100"; }
-                else if (patternID == 3) { return "00100"; }
-                else if (patternID == 4) { return "01100"; }
-                else if (patternID == 5) { return "01100"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("sixteenth-note"))
-            {
-                if (patternID == 1) { return "00110"; }
-                else if (patternID == 2) { return "00110"; }
-                else if (patternID == 3) { return "00100"; }
-                else if (patternID == 4) { return "01100"; }
-                else if (patternID == 5) { return "01100"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("double-eighth-note"))
-            {
-                if (patternID == 1) { return "01111"; }
-                else if (patternID == 2) { return "01001"; }
-                else if (patternID == 3) { return "01001"; }
-                else if (patternID == 4) { return "11011"; }
-                else if (patternID == 5) { return "11011"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("double-sixteenth-note"))
-            {
-                if (patternID == 1) { return "01111"; }
-                else if (patternID == 2) { return "01111"; }
-                else if (patternID == 3) { return "01001"; }
-                else if (patternID == 4) { return "11011"; }
-                else if (patternID == 5) { return "11011"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("hammer"))
-            {
-                if (patternID == 1) { return "01101"; }
-                else if (patternID == 2) { return "11111"; }
-                else if (patternID == 3) { return "10101"; }
-                else if (patternID == 4) { return "00100"; }
-                else if (patternID == 5) { return "00100"; }
-                else { return "FAILURE"; }
-            }
-            else if (searchterm.Contains("paper"))
-            {
-                if (patternID == 1) { return "11111"; }
-                else if (patternID == 2) { return "10001"; }
-                else if (patternID == 3) { return "11111"; }
-                else if (patternID == 4) { return "10001"; }
-                else if (patternID == 5) { return "11111"; }
-                else { return "FAILURE"; }
-            }
-            else { return "FAILURE"; }
         }
     }
 }
