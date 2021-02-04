@@ -19,7 +19,7 @@ namespace xubot.src
                         if (patternID == 3) { return "10101"; }
                         if (patternID == 4) { return "01010"; }
                         if (patternID == 5) { return "10101"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "carrot-r":
                     {
@@ -28,7 +28,7 @@ namespace xubot.src
                         if (patternID == 3) { return "00011"; }
                         if (patternID == 4) { return "00110"; }
                         if (patternID == 5) { return "01100"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "carrot-l":
                     {
@@ -37,7 +37,7 @@ namespace xubot.src
                         if (patternID == 3) { return "01100"; }
                         if (patternID == 4) { return "00110"; }
                         if (patternID == 5) { return "00011"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "power":
                     {
@@ -46,7 +46,7 @@ namespace xubot.src
                         if (patternID == 3) { return "10101"; }
                         if (patternID == 4) { return "10001"; }
                         if (patternID == 5) { return "01110"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "pico":
                     {
@@ -55,7 +55,7 @@ namespace xubot.src
                         if (patternID == 3) { return "10001"; }
                         if (patternID == 4) { return "01010"; }
                         if (patternID == 5) { return "00100"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "cross-hair":
                     {
@@ -64,7 +64,7 @@ namespace xubot.src
                         if (patternID == 3) { return "00100"; }
                         if (patternID == 4) { return "10001"; }
                         if (patternID == 5) { return "01010"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "ship":
                     {
@@ -73,7 +73,7 @@ namespace xubot.src
                         if (patternID == 3) { return "11011"; }
                         if (patternID == 4) { return "11111"; }
                         if (patternID == 5) { return "10101"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "smile-c":
                     {
@@ -82,7 +82,7 @@ namespace xubot.src
                         if (patternID == 3) { return "00000"; }
                         if (patternID == 4) { return "10001"; }
                         if (patternID == 5) { return "01110"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "smile-o":
                     {
@@ -91,7 +91,7 @@ namespace xubot.src
                         if (patternID == 3) { return "00000"; }
                         if (patternID == 4) { return "11111"; }
                         if (patternID == 5) { return "01110"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "sad-c":
                     {
@@ -100,7 +100,7 @@ namespace xubot.src
                         if (patternID == 3) { return "00000"; }
                         if (patternID == 4) { return "01110"; }
                         if (patternID == 5) { return "10001"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "sad-o":
                     {
@@ -109,7 +109,7 @@ namespace xubot.src
                         if (patternID == 3) { return "00000"; }
                         if (patternID == 4) { return "01110"; }
                         if (patternID == 5) { return "11111"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "spade":
                     {
@@ -118,7 +118,7 @@ namespace xubot.src
                         if (patternID == 3) { return "11111"; }
                         if (patternID == 4) { return "11111"; }
                         if (patternID == 5) { return "00100"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "club":
                     {
@@ -127,7 +127,7 @@ namespace xubot.src
                         if (patternID == 3) { return "00100"; }
                         if (patternID == 4) { return "01011"; }
                         if (patternID == 5) { return "10011"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "heart":
                     {
@@ -136,7 +136,7 @@ namespace xubot.src
                         if (patternID == 3) { return "11111"; }
                         if (patternID == 4) { return "01110"; }
                         if (patternID == 5) { return "00100"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "diamond":
                     {
@@ -145,7 +145,7 @@ namespace xubot.src
                         if (patternID == 3) { return "11111"; }
                         if (patternID == 4) { return "01110"; }
                         if (patternID == 5) { return "00100"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "eighth-note":
                     {
@@ -154,7 +154,7 @@ namespace xubot.src
                         if (patternID == 3) { return "00100"; }
                         if (patternID == 4) { return "01100"; }
                         if (patternID == 5) { return "01100"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "sixteenth-note":
                     {
@@ -163,7 +163,7 @@ namespace xubot.src
                         if (patternID == 3) { return "00100"; }
                         if (patternID == 4) { return "01100"; }
                         if (patternID == 5) { return "01100"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "double-eighth-note":
                     {
@@ -172,7 +172,7 @@ namespace xubot.src
                         if (patternID == 3) { return "01001"; }
                         if (patternID == 4) { return "11011"; }
                         if (patternID == 5) { return "11011"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "double-sixteenth-note":
                     {
@@ -181,7 +181,7 @@ namespace xubot.src
                         if (patternID == 3) { return "01001"; }
                         if (patternID == 4) { return "11011"; }
                         if (patternID == 5) { return "11011"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "hammer":
                     {
@@ -190,7 +190,7 @@ namespace xubot.src
                         if (patternID == 3) { return "10101"; }
                         if (patternID == 4) { return "00100"; }
                         if (patternID == 5) { return "00100"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
                 case "paper":
                     {
@@ -199,9 +199,9 @@ namespace xubot.src
                         if (patternID == 3) { return "11111"; }
                         if (patternID == 4) { return "10001"; }
                         if (patternID == 5) { return "11111"; }
-                        { return "FAILURE"; }
+                        return "FAILURE";
                     }
-                default: { return "FAILURE"; }
+                default: return "FAILURE";
             }
         }
     }

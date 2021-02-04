@@ -134,7 +134,6 @@ namespace xubot.src.Commands.Global
             }
             else if (mood >= 16)
             {
-
                 await ReplyAsync(MoodTools.RandomResponse(
                     "uwu",
                     "*accepts cuddles*",
