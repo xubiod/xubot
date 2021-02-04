@@ -188,6 +188,8 @@ namespace xubot.src.Commands
 
                     if (id != ulong.MaxValue) { _user0 = Program.xuClient.GetUser(id); }
 
+                    if (_user0 == null) { await ReplyAsync("You either messed up the ID, or I don't share a server with this person."); return; }
+
                     string act = (_user0.Activity == null) ? "Nothing." : _user0.Activity.Type + " " + _user0.Activity.Name + " " + _user0.Activity.Details;
 
                     EmbedBuilder embedd = new EmbedBuilder
@@ -301,12 +303,20 @@ namespace xubot.src.Commands
             [Command("user", RunMode = RunMode.Async), Alias("user-info", "ui"), Summary("Gets information about the user that sent the command.")]
             public async Task User(params string[] username)
             {
-                string complete = "";
-                foreach (string part in username) { complete += part + (username.Last() != part ? " " : ""); }
+                string complete = username.Length == 1 ? username[0] : "";
+                if (username.Length > 1) foreach (string part in username) { complete += part + (username.Last() != part ? " " : ""); }
 
                 if (Regex.Match(complete, DISCORD_REGEX).Success)
                 {
-                    User(Program.xuClient.GetUser(complete.Split("#")[0], complete.Split("#")[1]).Id);
+                    var _ = Program.xuClient.GetUser(complete.Split("#")[0], complete.Split("#")[1]);
+
+                    if (_ == null)
+                    {
+                        await ReplyAsync("It appears that's an user that doesn't exist, or I don't share a server with them. Either check, or use their ID.");
+                        return;
+                    }
+
+                    User(_.Id);
                 }
                 else
                 {
