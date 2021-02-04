@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace xubot.src.Commands.Globals
+namespace xubot.src.Commands.Global
 {
 	/*
 	<article name="[article name]" lasteditor="[id]">

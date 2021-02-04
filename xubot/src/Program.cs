@@ -104,10 +104,7 @@ namespace xubot.src
                 Console.ReadLine();
             }
 
-            if (false)// !args.Contains("no-reddit"))
-            {
-
-            }
+            // if (false) { } // !args.Contains("no-reddit"))
             Console.WriteLine("* setting up discord connection: login");
 
 #if (DEBUG)

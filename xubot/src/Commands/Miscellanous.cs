@@ -60,9 +60,9 @@ namespace xubot.src.Commands
         [Command("anon", RunMode = RunMode.Async), RequireContext(ContextType.DM), Summary("Sends someone an anonymous message. They must have a DM of the bot open to work.")]
         public async Task AnonMsg(ulong id, string msg)
         {
-            if (Globals.Economy.EconomyTools.ReadAmount(Context.Message.Author) > 10)
+            if (Global.Economy.EconomyTools.ReadAmount(Context.Message.Author) > 10)
             {
-                Globals.Economy.EconomyTools.Adjust(Context.Message.Author, -10);
+                Global.Economy.EconomyTools.Adjust(Context.Message.Author, -10);
             }
             else
             {
@@ -78,9 +78,9 @@ namespace xubot.src.Commands
         [Command("anon"), RequireContext(ContextType.DM), Summary("Sends someone an anonymous message. They must have a DM of the bot open to work.")]
         public async Task AnonMsg(string user, string discrm, string msg)
         {
-            if (Globals.Economy.EconomyTools.ReadAmount(Context.Message.Author) > 10)
+            if (Global.Economy.EconomyTools.ReadAmount(Context.Message.Author) > 10)
             {
-                Globals.Economy.EconomyTools.Adjust(Context.Message.Author, -10);
+                Global.Economy.EconomyTools.Adjust(Context.Message.Author, -10);
             }
             else
             {

@@ -258,7 +258,6 @@ namespace xubot.src.Commands.Connections
         //}
 
         ///* operation functions */
-
         //public async Task Operate(ICommandContext Context, string subreddit, string query, int sorting, bool hide)
         //{
         //    // is the reddit fuck off?

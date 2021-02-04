@@ -57,7 +57,7 @@ namespace xubot.src.Commands
 
             for (int i = 0; i < limit; i++)
             {
-                int index = i + (page - 1) * itemsPerPage;
+                int index = (i + (page - 1)) * itemsPerPage;
 
                 if (index > commList.Count) { break; }
 

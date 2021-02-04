@@ -247,7 +247,6 @@ namespace xubot.src.Commands
 
                     if (Context.Guild != null)
                     {
-
                         IGuildUser _user1 = await Context.Guild.GetUserAsync(_user0.Id);
 
                         string _role_list = "";

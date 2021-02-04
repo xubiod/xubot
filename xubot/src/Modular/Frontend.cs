@@ -27,7 +27,6 @@ namespace xubot.src.Modular
         [Group("module-util"), Alias(";;"), Summary("Commands relating to modules themselves.")]
         public class Utilities : ModuleBase
         {
-
             [Command("reload", RunMode = RunMode.Async), Alias("r"), Summary("Reloads a module."), RequireOwner]
             public async Task Reload(string module)
             {
