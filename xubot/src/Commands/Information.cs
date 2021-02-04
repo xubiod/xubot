@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -13,6 +14,9 @@ namespace xubot.src.Commands
 {
     public class Information : ModuleBase
     {
+        private static readonly string[] DISCORD_COLOR = { "Blue", "Grey", "Green", "Yellow", "Red" };
+        private static readonly string DISCORD_REGEX = "(.+[^#])*(#{1}([0-9]{4})){1}";
+
         //INFORMATION ABOUT SERVER/CHANNEL/USER
         [Group("info"), Summary("Gets information about various things.")]
         public class Info : ModuleBase
@@ -174,45 +178,17 @@ namespace xubot.src.Commands
             }
 
             [Command("user", RunMode = RunMode.Async), Alias("user-info", "ui"), Summary("Gets information about the user that sent the command.")]
-            public async Task User(ulong id = 0)
+            public async Task User(ulong id = ulong.MaxValue)
             {
                 try
                 {
                     //throw new SpecialException.IHaveNoFuckingIdeaException();
 
                     Discord.IUser _user0 = Context.Message.Author;
-                    IGuildUser _user1 = await Context.Guild.GetUserAsync(_user0.Id);
 
-                    if (id == 0)
-                    {
-                        _user0 = Context.Message.Author;
-                        _user1 = await Context.Guild.GetUserAsync(_user0.Id);
-                    }
-                    else
-                    {
-                        _user0 = Program.xuClient.GetUser(id);
-                        _user1 = await Context.Guild.GetUserAsync(_user0.Id);
-                    }
+                    if (id != ulong.MaxValue) { _user0 = Program.xuClient.GetUser(id); }
 
-                    string _role_list = "";
-
-                    foreach (var role in _user1.RoleIds)
-                    {
-                        var _role = Context.Guild.GetRole(role);
-
-                        _role_list += _role.Mention + " ";
-                    }
-
-                    string act = "";
-
-                    if (_user0.Activity == null)
-                    {
-                        act = "Nothing.";
-                    }
-                    else
-                    {
-                        act = _user0.Activity.Type + " " + _user0.Activity.Name;
-                    }
+                    string act = (_user0.Activity == null) ? "Nothing." : _user0.Activity.Type + " " + _user0.Activity.Name + " " + _user0.Activity.Details;
 
                     EmbedBuilder embedd = new EmbedBuilder
                     {
@@ -242,14 +218,8 @@ namespace xubot.src.Commands
                             },
                             new EmbedFieldBuilder
                             {
-                                Name = "Bot?",
-                                Value = _user0.IsBot,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Webhook?",
-                                Value = _user0.IsWebhook,
+                                Name = "Automation",
+                                Value = (_user0.Id != 198146693672337409) ? _user0.IsBot || _user0.IsWebhook ? "Yes (" + ((_user0.IsBot ? "bot" : "") + (_user0.IsWebhook ? "webhook" : "") + ")") : "No (Human probably)" : "Indeterminate",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
@@ -260,26 +230,39 @@ namespace xubot.src.Commands
                             },
                             new EmbedFieldBuilder
                             {
-                                Name = "Deafened?",
-                                Value = _user1.IsDeafened,
+                                Name = "Created on",
+                                Value = _user0.CreatedAt,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
-                                Name = "Self Deafened?",
-                                Value = _user1.IsSelfDeafened,
+                                Name = "Random Fact(s)",
+                                Value = "Default Icon Color: **" + DISCORD_COLOR[_user0.DiscriminatorValue % 5] + "**",
+                                IsInline = true
+                            }
+                        }
+                    };
+
+                    if (Context.Guild != null)
+                    {
+
+                        IGuildUser _user1 = await Context.Guild.GetUserAsync(_user0.Id);
+
+                        string _role_list = "";
+
+                        foreach (var role in _user1.RoleIds) { _role_list += Context.Guild.GetRole(role).Mention + " "; }
+
+                        List<EmbedFieldBuilder> guildData = new List<EmbedFieldBuilder>(){
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Deafened?",
+                                Value = (_user1.IsDeafened ? "Yes" : "No") + (_user1.IsSelfDeafened ? " (self)" : ""),
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Muted?",
-                                Value = _user1.IsMuted,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Self Muted?",
-                                Value = _user1.IsSelfMuted,
+                                Value = (_user1.IsMuted ? "Yes" : "No") + (_user1.IsSelfMuted ? " (self)" : ""),
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
@@ -300,19 +283,34 @@ namespace xubot.src.Commands
                                 Value = _role_list,
                                 IsInline = true
                             },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Created on",
-                                Value = _user0.CreatedAt,
-                                IsInline = true
-                            }
-                        }
-                    };
+                        };
+
+                        foreach (EmbedFieldBuilder item in guildData) { embedd.Fields.Add(item); }
+
+                        guildData.Clear();
+                    }
+
                     await ReplyAsync("", false, embedd.Build());
                 }
                 catch (Exception e)
                 {
                     await Util.Error.BuildError(e, Context);
+                }
+            }
+
+            [Command("user", RunMode = RunMode.Async), Alias("user-info", "ui"), Summary("Gets information about the user that sent the command.")]
+            public async Task User(params string[] username)
+            {
+                string complete = "";
+                foreach (string part in username) { complete += part + (username.Last() != part ? " " : ""); }
+
+                if (Regex.Match(complete, DISCORD_REGEX).Success)
+                {
+                    User(Program.xuClient.GetUser(complete.Split("#")[0], complete.Split("#")[1]).Id);
+                }
+                else
+                {
+                    await ReplyAsync("I have determined that username isn't correct.");
                 }
             }
 
