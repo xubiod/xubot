@@ -13,7 +13,7 @@ namespace xubot.src.Commands
     [Group("help"), Summary("The savior for the lost.")]
     public class Help : ModuleBase
     {
-        public int itemsPerPage = 15;
+        public readonly int itemsPerPage = 15;
 
         [Command("get", RunMode = RunMode.Async), Alias("")]
         public async Task _Help(int page = 1)
@@ -55,26 +55,35 @@ namespace xubot.src.Commands
             int limit = System.Math.Min(commList.Count - ((page - 1) * itemsPerPage), itemsPerPage);
             //await ReplyAsync((limit).ToString());
 
+            int index;
+
             for (int i = 0; i < limit; i++)
             {
-                int index = (i + (page - 1)) * itemsPerPage;
+                index = i + (itemsPerPage * (page - 1));
 
-                if (index > commList.Count) { break; }
+                if (index > commList.Count - 1) { break; }
 
-                string parentForm = "No parent";
-                if (commList[index].Module.Parent != null)
+                string parentForm = "";
+                if (commList[index].Module.Group != null)
                 {
-                    parentForm = commList[index].Module.Parent.Name;
+                    if (commList[index].Module.Parent != null && commList[index].Module.Parent.Group != null)
+                    {
+                        parentForm = commList[index].Module.Parent.Group + " ";
+                    }
+
+                    parentForm += commList[index].Module.Group + " ";
                 }
 
-                items += "(" + parentForm + ") " + commList[index].Name + "\n";
+                items += parentForm + commList[index].Name + "\n";
             }
+
+            if (items == "") items = "There's nothing here, I think you went out of bounds.";
 
             EmbedBuilder embedd = new EmbedBuilder
             {
                 Title = "Help",
                 Color = Discord.Color.Magenta,
-                Description = "Showing page #" + (page).ToString() + " out of " + ((commList.Count / itemsPerPage) + 1).ToString() + " pages.\nShowing a few of the **" + commList.Count.ToString() + "** cmds.",
+                Description = "Showing page #" + (page).ToString() + " out of " + (System.Math.Ceiling((float)commList.Count / itemsPerPage)).ToString() + " pages.\nShowing a few of the **" + commList.Count.ToString() + "** cmds.",
                 ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
                 Footer = new EmbedFooterBuilder
