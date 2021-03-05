@@ -260,7 +260,7 @@ namespace xubot.src
                 return Regex.Replace(input, "<.*?>", String.Empty);
             }
 
-            public static string SyntaxHighlightify(string input)
+            public static string SimplifyTypes(string input)
             {
                 switch (input)
                 {
