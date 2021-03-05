@@ -48,6 +48,8 @@ namespace xubot.src.Commands
         [Command("list", RunMode = RunMode.Async), Summary("Lists all commands.")]
         public async Task HelpCmd(int page = 1)
         {
+            if (page < 1) page = 1;
+
             List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
 
             string items = "";
@@ -63,16 +65,7 @@ namespace xubot.src.Commands
 
                 if (index > commList.Count - 1) { break; }
 
-                string parentForm = "";
-                if (commList[index].Module.Group != null)
-                {
-                    if (commList[index].Module.Parent != null && commList[index].Module.Parent.Group != null)
-                    {
-                        parentForm = commList[index].Module.Parent.Group + " ";
-                    }
-
-                    parentForm += commList[index].Module.Group + " ";
-                }
+                string parentForm = GetAllGroups(commList[index].Module);
 
                 items += parentForm + commList[index].Name + "\n";
             }
@@ -390,6 +383,23 @@ namespace xubot.src.Commands
             {
                 await Util.Error.BuildError(e, Context);
             }
+        }
+
+        private string GetAllGroups(ModuleInfo module)
+        {
+            if (module == null) return "";
+            if (module.Group == null) return "";
+
+            string output = "";
+            ModuleInfo check = module;
+
+            do
+            {
+                output = output + check.Group + " ";
+                check = check.Parent;
+            } while (check != null);
+
+            return output;
         }
     }
 }
