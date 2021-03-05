@@ -395,7 +395,7 @@ namespace xubot.src.Commands
 
             do
             {
-                output = output + check.Group + " ";
+                output = output + check.Group + (check.Group != null ? " " : "");
                 check = check.Parent;
             } while (check != null);
 
