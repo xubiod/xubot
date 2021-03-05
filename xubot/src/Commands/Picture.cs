@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace xubot.src.Commands
 {
-    public class Picture
+    public class Picture : ModuleBase
     {
         [Group("pic"), Summary("Does shit with images.")]
         public class PictureCMD : ModuleBase
