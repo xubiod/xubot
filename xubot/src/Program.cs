@@ -186,21 +186,9 @@ namespace xubot.src
             xuClient.LoggedIn +=  () => { Console.WriteLine("]] logged into discord");   return Task.CompletedTask; };
             xuClient.LoggedOut += () => { Console.WriteLine("]] logged out of discord"); return Task.CompletedTask; };
 
-            xuClient.JoinedGuild += XuClient_JoinedGuild;
-            xuClient.LeftGuild += XuClient_LeftGuild;
+            xuClient.JoinedGuild += (SocketGuild arg) => { Console.WriteLine("]] added to a guild, " + arg.Name); return Task.CompletedTask; };
+            xuClient.LeftGuild +=   (SocketGuild arg) => { Console.WriteLine("]] left a guild, " + arg.Name);     return Task.CompletedTask; };
 
-            return Task.CompletedTask;
-        }
-
-        private static Task XuClient_JoinedGuild(SocketGuild arg)
-        {
-            Console.WriteLine("]] added to a guild, " + arg.Name);
-            return Task.CompletedTask;
-        }
-
-        private static Task XuClient_LeftGuild(SocketGuild arg)
-        {
-            Console.WriteLine("]] left a guild, " + arg.Name);
             return Task.CompletedTask;
         }
 
