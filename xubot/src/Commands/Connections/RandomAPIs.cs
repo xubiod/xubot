@@ -20,7 +20,6 @@ namespace xubot.src.Commands.Connections
     public class RandomAPIS : ModuleBase
     {
         public static HttpClient httpClient = new HttpClient();
-        static Random r = new Random();
 
         [Group("number"), Summary("LEARNING AAAAAAAAAAAA")]
         public class Number : ModuleBase
@@ -208,7 +207,7 @@ namespace xubot.src.Commands.Connections
                 cont = cont.Trim('[', ']', '"');
                 Console.WriteLine(cont);
 
-                if (r.Next(100) == 0)
+                if (Util.Globals.GlobalRandom.Next(100) == 0)
                 {
                     await ReplyAsync("Birb.\n" + cont);
                 }

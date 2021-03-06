@@ -31,7 +31,7 @@ namespace xubot.src.Commands.Global
 
         public static string RandomResponse(params string[] any)
         {
-            return any[new Random().Next(any.Length)];
+            return any[Util.Globals.GlobalRandom.Next(any.Length)];
         }
     }
 }

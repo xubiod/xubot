@@ -375,6 +375,11 @@ namespace xubot.src
             }
         }
 
+        public class Globals
+        {
+            public static Random GlobalRandom = new Random();
+        }
+
         public static bool IsUserTrusted(ICommandContext Context)
         {
             var xdoc = XDocument.Load("Trusted.xml");

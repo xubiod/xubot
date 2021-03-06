@@ -98,7 +98,7 @@ namespace xubot.src.Commands.Connections
 
             try
             {
-                Random rnd = new Random();
+                Random rnd = Util.Globals.GlobalRandom;
                 //var client = new HttpClient();
                 var webClient2 = new HttpClient();
                 string link = "https://e621.net/post/index.xml?limit=1&page=&tags=" + tags;
@@ -187,7 +187,7 @@ namespace xubot.src.Commands.Connections
             /*
              try
             {
-                Random rnd = new Random();
+                Random rnd = Util.Globals.GlobalRandom;
                 //var client = new HttpClient();
                 var webClient2 = new HttpClient();
                 string link = "https://e926.net/post/index.xml?limit=1&page=&tags=" + tags;
@@ -265,7 +265,7 @@ namespace xubot.src.Commands.Connections
         {
             try
             {
-                Random rnd = new Random();
+                Random rnd = Util.Globals.GlobalRandom;
                 //var client = new HttpClient();
                 var webClient2 = new HttpClient();
                 string link = xmlLink + "&tags=" + tags;
@@ -329,7 +329,7 @@ namespace xubot.src.Commands.Connections
 
                     string imgUrl = "";
                     int count = 0;
-                    Random rnd = new Random();
+                    Random rnd = Util.Globals.GlobalRandom;
 
                     var xdoc = XDocument.Load(link);
                     var items = from i in xdoc.Descendants("posts")

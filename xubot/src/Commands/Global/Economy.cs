@@ -22,7 +22,7 @@ namespace xubot.src.Commands.Global
         public static IUser _transferTo;
         public static double _amount = 0;
         public static string _pass = "";
-        public Random _r = new Random();
+        public Random _r = Util.Globals.GlobalRandom;
         //public static ICommandContext _Context;
 
         [Command("collect"), Summary("Collects currency based on the amount of hours since last collection.")]

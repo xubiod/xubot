@@ -41,7 +41,7 @@ namespace xubot.src.Commands.Connections
         //[Command("reddit?random", RunMode = RunMode.Async), Alias("reddit?r"), Summary("Gets a random post from a random subreddit in a predetermined list.")]
         //public async Task GetFromRandomSubreddit()
         //{
-        //    Random rnd = new Random();
+        //    Random rnd = Util.Globals.GlobalRandom;
 
         //    previous_sub = randomSubs[rnd.Next(randomSubs.Length)];
 
@@ -275,7 +275,7 @@ namespace xubot.src.Commands.Connections
         //        var msg = await ReplyAsync("Subreddit: **" + subreddit + "**\nPlease wait, this takes a while with broad terms and popular subreddits!");
 
         //        //dynamic typing = await Context.Channel.EnterTypingState(null);
-        //        Random rnd = new Random();
+        //        Random rnd = Util.Globals.GlobalRandom;
 
         //        List<Post> contents = (List<Post>)Program.subreddit.GetPosts(FromIntSort(sorting), -1).Stream().ToList();
         //        if (contents.Count < 10)
