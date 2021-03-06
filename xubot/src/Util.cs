@@ -392,6 +392,22 @@ namespace xubot.src
         {
             public readonly static Random RNG = new Random();
             public readonly static char[] HexadecimalChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+            public readonly static Emoji Working = new Emoji("💭");
+            public readonly static Emoji Completed = new Emoji("✅");
+        }
+
+        public class StatusReactions
+        {
+            public static async void Begin(ICommandContext Context)
+            {
+                await Context.Message.AddReactionAsync(Util.Globals.Working);
+            }
+
+            public static async void End(ICommandContext Context)
+            {
+                await Context.Message.RemoveReactionAsync(Util.Globals.Working, Program.xuClient.CurrentUser);
+                await Context.Message.AddReactionAsync(Util.Globals.Completed);
+            }
         }
 
         public static bool IsUserTrusted(ICommandContext Context)
