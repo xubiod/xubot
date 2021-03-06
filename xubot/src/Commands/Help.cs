@@ -355,7 +355,7 @@ namespace xubot.src.Commands
                     commands = "";
                     foreach (var cmd in group.Commands)
                     {
-                        str = group.Name + " " + cmd.Name + "\n";
+                        str = /* group.Name + " " + */ cmd.Name + "\n";
                         if (!commands.Contains(str)) commands += str;
                     }
                 }
