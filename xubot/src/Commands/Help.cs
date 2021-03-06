@@ -10,7 +10,7 @@ using xubot.src.Attributes;
 
 namespace xubot.src.Commands
 {
-    [Group("help"), Summary("The savior for the lost.")]
+    [Group("help"), Alias("?"), Summary("The savior for the lost.")]
     public class Help : ModuleBase
     {
         public readonly int itemsPerPage = 15;
@@ -90,12 +90,81 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "List",
-                                Value = "```" + items + "```" ,
+                                Value = "```\n" + items + "```" ,
                                 IsInline = true
                             }
                         }
             };
             await ReplyAsync("", false, embedd.Build());
+        }
+
+        [Command("search", RunMode = RunMode.Async), Summary("Searches all commands with a search term. Deep enables searching the aliases as well, but this takes longer.")]
+        public async Task Search(string lookup, bool deep, int page = 1)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+            {
+                wb.Start();
+
+                if (page < 1) page = 1;
+
+                List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
+                List<CommandInfo> compatibles = new List<CommandInfo>();
+
+                bool add;
+                foreach (CommandInfo cmd in commList)
+                {
+                    add = false;
+
+                    add |= cmd.Name.Contains(lookup);
+
+                    if (cmd.Aliases != null && deep)
+                    {
+                        foreach (string alias in cmd.Aliases)
+                            add |= alias.Contains(lookup);
+                    }
+
+                    if (add) compatibles.Add(cmd);
+                }
+
+                int limit = System.Math.Min(commList.Count - ((page - 1) * itemsPerPage), itemsPerPage);
+                int index;
+
+                string cmds = "";
+                for (int i = 0; i < limit; i++)
+                {
+                    index = i + (itemsPerPage * (page - 1));
+
+                    if (index > commList.Count - 1) { break; }
+
+                    cmds += GetAllGroups(compatibles[index].Module) + compatibles[index].Name + "\n";
+                }
+                if (cmds == "") cmds = "I don't think any command called that exists...";
+
+                EmbedBuilder embedd = new EmbedBuilder
+                {
+                    Title = "Help - Search",
+                    Color = Discord.Color.Magenta,
+                    Description = "Showing page #" + (page).ToString() + " out of " + (System.Math.Ceiling((float)compatibles.Count / itemsPerPage)).ToString() + " pages.\nShowing a few of the **" + compatibles.Count.ToString() + "** cmds with the lookup.",
+                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = "xubot :p",
+                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Search Results",
+                                Value = "```\n" + cmds + "```" ,
+                                IsInline = true
+                            }
+                        }
+                };
+                await ReplyAsync("", false, embedd.Build());
+            }
         }
 
         public async Task HelpHandling(string lookup, int index = 1, bool exact = false)
@@ -208,7 +277,7 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "Known Aliases",
-                                Value = "```" + all_alias + "```",
+                                Value = "```\n" + all_alias + "```",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
