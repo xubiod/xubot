@@ -103,8 +103,6 @@ namespace xubot.src.Commands
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
             {
-                wb.Start();
-
                 if (page < 1) page = 1;
 
                 List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
