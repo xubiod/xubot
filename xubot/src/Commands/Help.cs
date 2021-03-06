@@ -276,7 +276,7 @@ namespace xubot.src.Commands
                             {
                                 Name = "Known Aliases",
                                 Value = "```\n" + all_alias + "```",
-                                IsInline = true
+                                IsInline = false
                             },
                             new EmbedFieldBuilder
                             {
@@ -393,20 +393,8 @@ namespace xubot.src.Commands
                         {
                             new EmbedFieldBuilder
                             {
-                                Name = "Module Name",
-                                Value = "`" + trueName + "`" ,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Group",
-                                Value = group.Group,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Summary",
-                                Value = trueSumm,
+                                Name = "Module Name and Summary",
+                                Value = "`" + trueName + "`\n*" + trueSumm + "*",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
@@ -417,15 +405,15 @@ namespace xubot.src.Commands
                             },
                             new EmbedFieldBuilder
                             {
-                                Name = "Commands in Group",
-                                Value = "```" + commands + "```",
+                                Name = "Subgroups in Group",
+                                Value = "```" + subgroup + "```",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
-                                Name = "Subgroups in Group",
-                                Value = "```" + subgroup + "```",
-                                IsInline = true
+                                Name = "Commands in Group",
+                                Value = "```" + commands + "```",
+                                IsInline = false
                             }
                         }
                 };
