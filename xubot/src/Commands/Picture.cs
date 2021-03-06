@@ -224,50 +224,47 @@ namespace xubot.src.Commands
                 [Command("vignette", RunMode = RunMode.Async), Summary("Applies a vignette to an image.")]
                 public async Task Vignette(float radiusX, float radiusY) { HandleFilter(Context, mut => mut.Vignette(radiusX, radiusY)); }
 
-                private static IQuantizer[] all_quantizers = { KnownQuantizers.Octree, KnownQuantizers.WebSafe, KnownQuantizers.Werner, KnownQuantizers.Wu };
+                private static Dictionary<string, IQuantizer> all_quantizers = new Dictionary<string, IQuantizer>() {
+                    { "websafe", KnownQuantizers.WebSafe }, { "web", KnownQuantizers.WebSafe }, { "web-safe", KnownQuantizers.WebSafe },
+                    { "werner", KnownQuantizers.Werner }, { "1821", KnownQuantizers.Werner },
+                    { "wu", KnownQuantizers.Wu },{ "xiaolin-wu", KnownQuantizers.Wu },{ "high", KnownQuantizers.Wu },{ "highquality", KnownQuantizers.Wu },{ "high-quality", KnownQuantizers.Wu },
+                    { "octree", KnownQuantizers.Octree },{ "fast", KnownQuantizers.Octree },{ "adaptive", KnownQuantizers.Octree },{ "f", KnownQuantizers.Octree }
+                };//{ KnownQuantizers.Octree, KnownQuantizers.WebSafe, KnownQuantizers.Werner, KnownQuantizers.Wu };
 
                 [Command("quantize", RunMode = RunMode.Async), Summary("Applies a quantize filter to an image. 4 are available, accessible with 0 - 3 which is modulo'd with 4.")]
-                public async Task Quantize(int quantizer = 0) { HandleFilter(Context, mut => mut.Quantize(all_quantizers[quantizer % all_quantizers.Length])); }
+                public async Task Quantize(string name) { HandleFilter(Context, mut => mut.Quantize(all_quantizers[name])); }
 
-                [Command("quantize", RunMode = RunMode.Async), Summary("Applies a quantize filter to an image. 4 are available, accessible with strings.\n\"fast\", \"web-safe\", \"werner\", and \"high-quality\" are *some* examples.")]
-                public async Task Quantize(string quantizer) {
-                    switch (quantizer.ToLower())
+                [Command("quantizers", RunMode = RunMode.Async), Summary("Returns all valid inputs for quantizers.")]
+                public async Task QuantizerListing()
+                {
+                    string list = "";
+
+                    foreach (string item in all_quantizers.Keys)
+                        list += item + "\n";
+
+                    EmbedBuilder embedd = new EmbedBuilder
                     {
-                        case "websafe":
-                        case "web":
-                        case "web-safe":
-                            {
-                                Quantize(1);
-                                break;
-                            }
+                        Title = "Quantizer Methods",
+                        Color = Discord.Color.Blue,
+                        Description = "So you don't need to look at the source!",
 
-                        case "werner":
-                        case "1821":
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = "xubot :p"
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
                             {
-                                Quantize(2);
-                                break;
+                                Name = "Valid Ditherings",
+                                Value = "```" + list + "```",
+                                IsInline = false
                             }
+                        }
+                    };
 
-                        case "wu":
-                        case "xiaolin-wu":
-                        case "high":
-                        case "highquality":
-                        case "high-quality":
-                            {
-                                Quantize(3);
-                                break;
-                            }
-
-                        case "octree":
-                        case "fast":
-                        case "adaptive":
-                        case "f":
-                        default:
-                            {
-                                Quantize(0);
-                                break;
-                            }
-                    }
+                    await Context.Channel.SendMessageAsync("", false, embedd.Build());
                 }
 
                 [Command("glow", RunMode = RunMode.Async), Summary("Applies a basic glow to an image.")]
@@ -284,15 +281,16 @@ namespace xubot.src.Commands
                         { "floydsteinberg", KnownDitherings.FloydSteinberg }, {"jarvisjudiceninke", KnownDitherings.JarvisJudiceNinke}, { "ordered3", KnownDitherings.Ordered3x3}, { "sierra2", KnownDitherings.Sierra2}, { "sierra3", KnownDitherings.Sierra3},
                         { "sierralite", KnownDitherings.SierraLite}, { "stevensonarce", KnownDitherings.StevensonArce}, { "stucki", KnownDitherings.Stucki } };
 
-                [Command("basic-dither", RunMode = RunMode.Async), Summary("Applies a binary dithering effect to an image. 13 are available, accessible with it's name.")]
+                [Command("basic-dither", RunMode = RunMode.Async), Summary("Applies a binary dithering effect to an image. 13 are available, accessible with its name. Use `pic manip ditherings` to get all valid names.")]
                 public async Task BinaryDither(string name)
                 {
                     if (!all_dithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
                     HandleFilter(Context, mut => mut.BinaryDither(all_dithering[name.ToLower()]));
                 }
 
-                [Command("dither", RunMode = RunMode.Async), Summary("Applies a dithering effect to an image. 13 are available, accessible with its name. The full palette is RGBA32 colors as hexadecimal strings.")]
-                public async Task Dither(string name, params string[] palette) {
+                [Command("dither", RunMode = RunMode.Async), Summary("Applies a dithering effect to an image. 13 are available, accessible with its name (use `pic manip ditherings` to get all valid names). The full palette is RGBA32 colors as hexadecimal strings.")]
+                public async Task Dither(string name, params string[] palette)
+                {
                     SixLabors.ImageSharp.Color[] colors = new SixLabors.ImageSharp.Color[palette.Length];
                     for (int i = 0; i < palette.Length; i++)
                         colors[i] = new SixLabors.ImageSharp.Color(new Rgba32(uint.Parse(palette[i].ToLower().Replace("0x", "").Replace("&h", ""), System.Globalization.NumberStyles.AllowHexSpecifier)));
@@ -301,6 +299,39 @@ namespace xubot.src.Commands
 
                     if (!all_dithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
                     HandleFilter(Context, mut => mut.Dither(all_dithering[name.ToLower()], rom_palette));
+                }
+
+                [Command("ditherings", RunMode = RunMode.Async), Summary("Returns all ditherings names.")]
+                public async Task DitherListing()
+                {
+                    string list = "";
+
+                    foreach (string item in all_dithering.Keys)
+                        list += item + "\n";
+
+                    EmbedBuilder embedd = new EmbedBuilder
+                    {
+                        Title = "Dithering Methods",
+                        Color = Discord.Color.Blue,
+                        Description = "So you don't need to look at the source!",
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = "xubot :p"
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Valid Ditherings",
+                                Value = "```" + list + "```",
+                                IsInline = false
+                            }
+                        }
+                    };
+
+                    await Context.Channel.SendMessageAsync("", false, embedd.Build());
                 }
 
                 private static string ApplyFilter(string load, string type, System.Action<IImageProcessingContext> mutation)
