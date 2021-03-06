@@ -176,14 +176,17 @@ namespace xubot.src.Commands
                 [Command("sepia", RunMode = RunMode.Async), Summary("Applies a sepia filter to an image.")]
                 public async Task Sepia() { HandleFilter(Context, mut => mut.Sepia()); }
 
+                [Command("threshold", RunMode = RunMode.Async), Summary("Applies a binary threshold to an image.")]
+                public async Task BinaryThreshold(float threshold) { HandleFilter(Context, mut => mut.BinaryThreshold(threshold)); }
+
                 private static string ApplyFilter(string load, string type, System.Action<IImageProcessingContext> mutation)
                 {
                     string filename = Util.Str.RandomFilename() + type;
 
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
+                    using (var img = SLImage.Load(load + type))
                     {
                         img.Mutate(mutation);
-                        img.Save(Util.Str.RandomFilename() + type);
+                        img.Save(filename);
                     }
 
                     return filename;
