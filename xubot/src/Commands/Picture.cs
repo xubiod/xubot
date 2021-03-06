@@ -293,7 +293,7 @@ namespace xubot.src.Commands
                 {
                     SixLabors.ImageSharp.Color[] colors = new SixLabors.ImageSharp.Color[palette.Length];
                     for (int i = 0; i < palette.Length; i++)
-                        colors[i] = new SixLabors.ImageSharp.Color(new Rgba32(uint.Parse(palette[i].ToLower().Replace("0x", "").Replace("&h", ""), System.Globalization.NumberStyles.AllowHexSpecifier)));
+                        colors[i] = new SixLabors.ImageSharp.Color(Tools.ColorFromHexString(palette[i]));
 
                     ReadOnlyMemory<SixLabors.ImageSharp.Color> rom_palette = colors;
 
@@ -361,6 +361,57 @@ namespace xubot.src.Commands
                     await Context.Channel.SendFileAsync(filename);
 
                     Util.StatusReactions.End(Context);
+                }
+            }
+
+            [Group("tools"), Summary("Tools for quickie things.")]
+            public class Tools : ModuleBase
+            {
+                [Command("rgba"), Summary("Gets RGBA elements from a hex string representing an RGBA32 value.")]
+                public async Task GetComponents(string hex)
+                {
+                    Rgba32 color = ColorFromHexString(hex);
+
+                    EmbedBuilder embedd = new EmbedBuilder
+                    {
+                        Title = "Color",
+                        Color = new Discord.Color(color.R, color.G, color.B),
+                        Description = "Colors!",
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = "xubot :p"
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "RGB",
+                                Value = color.R.ToString() + ", " + color.G.ToString() + ", " + color.B.ToString() + " (" + color.R.ToString("X") + color.G.ToString("X") + color.B.ToString("X") + ")",
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "RGBA",
+                                Value = color.R.ToString() + ", " + color.G.ToString() + ", " + color.B.ToString() + ", " + color.A.ToString() + " (" + color.R.ToString("X") + color.G.ToString("X") + color.B.ToString("X") + color.A.ToString("X") + ")",
+                                IsInline = false
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Unpacked RGBA",
+                                Value = color.Rgba.ToString() + " (" + color.Rgba.ToString("X") + ")",
+                                IsInline = false
+                            }
+                        }
+                    };
+
+                    await Context.Channel.SendMessageAsync("", false, embedd.Build());
+                }
+
+                public static Rgba32 ColorFromHexString(string hexstring)
+                {
+                    return new Rgba32(uint.Parse(hexstring.ToLower().Replace("0x", "").Replace("&h", ""), System.Globalization.NumberStyles.AllowHexSpecifier));
                 }
             }
         }
