@@ -16,6 +16,8 @@ using SixLabors.ImageSharp.Formats.Png;
 
 using SLImage = SixLabors.ImageSharp.Image;
 using System.Collections.Generic;
+using SixLabors.ImageSharp.Processing.Processors.Quantization;
+using SixLabors.ImageSharp.Processing.Processors.Dithering;
 
 namespace xubot.src.Commands
 {
@@ -205,6 +207,100 @@ namespace xubot.src.Commands
 
                     [Command("gaussian-sharp", RunMode = RunMode.Async), Summary("Applies a basic Gaussian sharpen to an image.")]
                     public async Task GaussianSharp(float weight) { HandleFilter(Context, mut => mut.GaussianSharpen(weight)); }
+                }
+
+                [Command("oilpaint", RunMode = RunMode.Async), Summary("Applies a basic oilpaint filter to an image.")]
+                public async Task OilPaint() { HandleFilter(Context, mut => mut.OilPaint()); }
+
+                [Command("oilpaint", RunMode = RunMode.Async), Summary("Applies an oilpaint filter to an image.")]
+                public async Task OilPaint(int levels, int brushSize) { HandleFilter(Context, mut => mut.OilPaint(levels, brushSize)); }
+
+                [Command("pixelate", RunMode = RunMode.Async), Summary("Applies a pixelation filter to an image.")]
+                public async Task Pixelate(int pixelSize) { HandleFilter(Context, mut => mut.Pixelate(pixelSize)); }
+
+                [Command("vignette", RunMode = RunMode.Async), Summary("Applies a basic vignette to an image.")]
+                public async Task Vignette() { HandleFilter(Context, mut => mut.Vignette()); }
+
+                [Command("vignette", RunMode = RunMode.Async), Summary("Applies a vignette to an image.")]
+                public async Task Vignette(float radiusX, float radiusY) { HandleFilter(Context, mut => mut.Vignette(radiusX, radiusY)); }
+
+                private static IQuantizer[] all_quantizers = { KnownQuantizers.Octree, KnownQuantizers.WebSafe, KnownQuantizers.Werner, KnownQuantizers.Wu };
+
+                [Command("quantize", RunMode = RunMode.Async), Summary("Applies a quantize filter to an image. 4 are available, accessible with 0 - 3 which is modulo'd with 4.")]
+                public async Task Quantize(int quantizer = 0) { HandleFilter(Context, mut => mut.Quantize(all_quantizers[quantizer % all_quantizers.Length])); }
+
+                [Command("quantize", RunMode = RunMode.Async), Summary("Applies a quantize filter to an image. 4 are available, accessible with strings.\n\"fast\", \"web-safe\", \"werner\", and \"high-quality\" are *some* examples.")]
+                public async Task Quantize(string quantizer) {
+                    switch (quantizer.ToLower())
+                    {
+                        case "websafe":
+                        case "web":
+                        case "web-safe":
+                            {
+                                Quantize(1);
+                                break;
+                            }
+
+                        case "werner":
+                        case "1821":
+                            {
+                                Quantize(2);
+                                break;
+                            }
+
+                        case "wu":
+                        case "xiaolin-wu":
+                        case "high":
+                        case "highquality":
+                        case "high-quality":
+                            {
+                                Quantize(3);
+                                break;
+                            }
+
+                        case "octree":
+                        case "fast":
+                        case "adaptive":
+                        case "f":
+                        default:
+                            {
+                                Quantize(0);
+                                break;
+                            }
+                    }
+                }
+
+                [Command("glow", RunMode = RunMode.Async), Summary("Applies a basic glow to an image.")]
+                public async Task Glow() { HandleFilter(Context, mut => mut.Glow()); }
+
+                [Command("glow", RunMode = RunMode.Async), Summary("Applies a glow to an image.")]
+                public async Task Glow(float radius) { HandleFilter(Context, mut => mut.Glow(radius)); }
+
+                [Command("entroycrop", RunMode = RunMode.Async), Alias("entropy-crop"), Summary("Crops an image to the area of greatest entropy using a given threshold. Defaults to 0.5.")]
+                public async Task EntropyCrop(float threshold = 0.5F) { HandleFilter(Context, mut => mut.EntropyCrop(threshold)); }
+
+                private static Dictionary<string, IDither> all_dithering =
+                    new Dictionary<string, IDither>() { { "atkinson", KnownDitherings.Atkinson }, { "bayer2", KnownDitherings.Bayer2x2 }, { "bayer4", KnownDitherings.Bayer4x4}, { "bayer8", KnownDitherings.Bayer8x8}, { "burks", KnownDitherings.Burks},
+                        { "floydsteinberg", KnownDitherings.FloydSteinberg }, {"jarvisjudiceninke", KnownDitherings.JarvisJudiceNinke}, { "ordered3", KnownDitherings.Ordered3x3}, { "sierra2", KnownDitherings.Sierra2}, { "sierra3", KnownDitherings.Sierra3},
+                        { "sierralite", KnownDitherings.SierraLite}, { "stevensonarce", KnownDitherings.StevensonArce}, { "stucki", KnownDitherings.Stucki } };
+
+                [Command("basic-dither", RunMode = RunMode.Async), Summary("Applies a binary dithering effect to an image. 13 are available, accessible with it's name.")]
+                public async Task BinaryDither(string name)
+                {
+                    if (!all_dithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
+                    HandleFilter(Context, mut => mut.BinaryDither(all_dithering[name.ToLower()]));
+                }
+
+                [Command("dither", RunMode = RunMode.Async), Summary("Applies a dithering effect to an image. 13 are available, accessible with it's name. The full palette is RGBA32 colors as hexadecimal strings.")]
+                public async Task Dither(string name, params string[] palette) {
+                    SixLabors.ImageSharp.Color[] colors = new SixLabors.ImageSharp.Color[palette.Length];
+                    for (int i = 0; i < palette.Length; i++)
+                        colors[i] = new SixLabors.ImageSharp.Color(new Rgba32(uint.Parse(palette[i].ToLower().Replace("0x", "").Replace("&h", ""), System.Globalization.NumberStyles.AllowHexSpecifier)));
+
+                    ReadOnlyMemory<SixLabors.ImageSharp.Color> rom_palette = colors;
+
+                    if (!all_dithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
+                    HandleFilter(Context, mut => mut.Dither(all_dithering[name.ToLower()], rom_palette));
                 }
 
                 private static string ApplyFilter(string load, string type, System.Action<IImageProcessingContext> mutation)
