@@ -132,7 +132,7 @@ namespace xubot.src.Commands
                 {
                     index = i + (itemsPerPage * (page - 1));
 
-                    if (index > commList.Count - 1) { break; }
+                    if (index > compatibles.Count - 1) { break; }
 
                     cmds += GetAllGroups(compatibles[index].Module) + compatibles[index].Name + "\n";
                 }
