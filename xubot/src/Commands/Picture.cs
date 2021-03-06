@@ -349,18 +349,17 @@ namespace xubot.src.Commands
 
                 private static async void HandleFilter(ICommandContext Context, System.Action<IImageProcessingContext> mutation)
                 {
-                    Util.StatusReactions.Begin(Context);
+                    using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                    {
+                        string loadas = Path.GetTempPath() + "manip";
 
-                    string loadas = Path.GetTempPath() + "manip";
+                        await Util.File.DownloadLastAttachmentAsync(Context, loadas, true);
+                        string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
 
-                    await Util.File.DownloadLastAttachmentAsync(Context, loadas, true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
+                        string filename = ApplyFilter(loadas, type, mutation);
 
-                    string filename = ApplyFilter(loadas, type, mutation);
-
-                    await Context.Channel.SendFileAsync(filename);
-
-                    Util.StatusReactions.End(Context);
+                        await Context.Channel.SendFileAsync(filename);
+                    }
                 }
             }
 

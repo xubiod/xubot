@@ -396,17 +396,33 @@ namespace xubot.src
             public readonly static Emoji Completed = new Emoji("✅");
         }
 
-        public class StatusReactions
+        public class WorkingBlock : IDisposable
         {
-            public static async void Begin(ICommandContext Context)
+            private ICommandContext Context;
+            private bool started;
+            private bool completed;
+
+            public WorkingBlock(ICommandContext ctx)
             {
-                await Context.Message.AddReactionAsync(Util.Globals.Working);
+                Context = ctx;
+                started = false;
+                Start();
             }
 
-            public static async void End(ICommandContext Context)
+            public void Start()
             {
-                await Context.Message.RemoveReactionAsync(Util.Globals.Working, Program.xuClient.CurrentUser);
-                await Context.Message.AddReactionAsync(Util.Globals.Completed);
+                if (started || completed) return;
+                Context.Message.AddReactionAsync(Util.Globals.Working);
+                started = true;
+            }
+
+            public void Dispose()
+            {
+                completed = true;
+                if (!started) return;
+
+                Context.Message.RemoveReactionAsync(Util.Globals.Working, Program.xuClient.CurrentUser);
+                Context.Message.AddReactionAsync(Util.Globals.Completed);
             }
         }
 
