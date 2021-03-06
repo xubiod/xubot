@@ -29,136 +29,20 @@ namespace xubot.src.Commands
             [Group("manip"), Summary("Manipulates images. Can be used to deepfry.")]
             public class Manipulation : ModuleBase
             {
-                [Command("brightness", RunMode = RunMode.Async), Summary("Increases/decreases the brightness of the image.")]
-                public async Task Brightness(float amt) { HandleFilter(Context, mut => mut.Brightness(amt)); }
+                private static Dictionary<string, IQuantizer> all_quantizers = new Dictionary<string, IQuantizer>() {
+                    { "websafe", KnownQuantizers.WebSafe }, { "web", KnownQuantizers.WebSafe }, { "web-safe", KnownQuantizers.WebSafe },
+                    { "werner", KnownQuantizers.Werner }, { "1821", KnownQuantizers.Werner },
+                    { "wu", KnownQuantizers.Wu },{ "xiaolin-wu", KnownQuantizers.Wu },{ "high", KnownQuantizers.Wu },{ "highquality", KnownQuantizers.Wu },{ "high-quality", KnownQuantizers.Wu },
+                    { "octree", KnownQuantizers.Octree },{ "fast", KnownQuantizers.Octree },{ "adaptive", KnownQuantizers.Octree },{ "f", KnownQuantizers.Octree }
+                };
+
+                private static Dictionary<string, IDither> all_dithering =
+                    new Dictionary<string, IDither>() { { "atkinson", KnownDitherings.Atkinson }, { "bayer2", KnownDitherings.Bayer2x2 }, { "bayer4", KnownDitherings.Bayer4x4}, { "bayer8", KnownDitherings.Bayer8x8}, { "burks", KnownDitherings.Burks},
+                        { "floydsteinberg", KnownDitherings.FloydSteinberg }, {"jarvisjudiceninke", KnownDitherings.JarvisJudiceNinke}, { "ordered3", KnownDitherings.Ordered3x3}, { "sierra2", KnownDitherings.Sierra2}, { "sierra3", KnownDitherings.Sierra3},
+                        { "sierralite", KnownDitherings.SierraLite}, { "stevensonarce", KnownDitherings.StevensonArce}, { "stucki", KnownDitherings.Stucki } };
 
                 [Command("bw", RunMode = RunMode.Async), Summary("Makes an image black and white.")]
                 public async Task BW() { HandleFilter(Context, mut => mut.BlackWhite()); }
-
-                [Command("colorblind", RunMode = RunMode.Async), Alias("colourblind"), Summary("Applies a filter to simulate colourblindness.")]
-                public async Task EmulateColourblindness(string _type)
-                {
-                    switch (_type.ToLower())
-                        {
-                        // NO COLOUR
-                        case "achromatomaly":
-                        case "part-mono":
-                        {
-                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly));
-                            break;
-                        }
-
-                        case "achromatopsia":
-                        case "mono":
-                        {
-                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia));
-                            break;
-                        }
-
-                        // GREEN
-                        case "deuteranomaly":
-                        case "weak-green":
-                        {
-                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly));
-                            break;
-                        }
-
-                        case "deuteranopia":
-                        case "blind-green":
-                        {
-                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia));
-                            break;
-                        }
-
-                        // RED
-                        case "protanomaly":
-                        case "weak-red":
-                        {
-                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly));
-                            break;
-                        }
-
-                        case "protanopia":
-                        case "blind-red":
-                        {
-                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia));
-                            break;
-                        }
-
-                        // BLUE
-                        case "tritanomaly":
-                        case "weak-blue":
-                        {
-                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly));
-                            break;
-                        }
-
-                        case "tritanopia":
-                        case "blind-blue":
-                        {
-                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia));
-                            break;
-                        }
-                        default:
-                        {
-                            await ReplyAsync("I wasn't given a valid filter name...");
-                            break;
-                        }
-                    }
-                }
-
-                [Command("colorblind?list", RunMode = RunMode.Async), Alias("colourblind?list"), Summary("Lists the colourblindness filters.")]
-                public async Task ColourblindnessList()
-                {
-                    EmbedBuilder embedd = new EmbedBuilder
-                    {
-                        Title = "Colourblind Filter List",
-                        Color = Discord.Color.Magenta,
-                        Description = "All the filters for the colourblindness emulation.",
-                        ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = "xubot :p",
-                            IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Total Colour Blindness",
-                                Value = "**Achromatomaly** (part-mono)\n**Achromatopsia** (mono)" ,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Red-Green Colour Deficiency (Low/No Green Cones)",
-                                Value = "**Deuteranomaly** (weak-green)\n**Deuteranopia** (blind-green)" ,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Red-Green Colour Deficiency (Low/No Red Cones)",
-                                Value = "**Protanomaly** (weak-red)\n**Protanopia** (blind-red)" ,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Blue-Yellow Colour Deficiency (Low/No Blue Cones)",
-                                Value = "**Tritanomaly** (weak-blue)\n**Tritanopia** (blind-blue)" ,
-                                IsInline = true
-                            }
-                        }
-                    };
-                    await ReplyAsync("", false, embedd.Build());
-                }
-
-                [Command("contrast", RunMode = RunMode.Async), Summary("Increases/decreases the contrast of an image.")]
-                public async Task Contrast(float amt) { HandleFilter(Context, mut => mut.Contrast(amt)); }
-
-                [Command("hue-rotate", RunMode = RunMode.Async), Summary("Shifts/rotates the hues of an image by a given amount of degrees.")]
-                public async Task RotateHue(float deg) { HandleFilter(Context, mut => mut.Hue(deg)); }
 
                 [Command("invert", RunMode = RunMode.Async), Summary("iNVERTS THE COLORS OF AN IMAGE.")]
                 public async Task Invert() { HandleFilter(Context, mut => mut.Invert()); }
@@ -167,19 +51,22 @@ namespace xubot.src.Commands
                 public async Task Kodachrome() { HandleFilter(Context, mut => mut.Kodachrome()); }
 
                 [Command("lomograph", RunMode = RunMode.Async), Summary("Applies a lomograph filter to an image.")]
-                public async Task Lomograph() {  HandleFilter(Context, mut => mut.Lomograph()); }
+                public async Task Lomograph() { HandleFilter(Context, mut => mut.Lomograph()); }
 
                 [Command("polaroid", RunMode = RunMode.Async), Summary("Applies a polaroid filter to an image.")]
                 public async Task Polaroid() { HandleFilter(Context, mut => mut.Polaroid()); }
 
-                [Command("saturate", RunMode = RunMode.Async), Summary("Increases/decreases the saturation of an image.")]
-                public async Task Saturate(float amount) { HandleFilter(Context, mut => mut.Saturate(amount)); }
-
                 [Command("sepia", RunMode = RunMode.Async), Summary("Applies a sepia filter to an image.")]
                 public async Task Sepia() { HandleFilter(Context, mut => mut.Sepia()); }
 
-                [Command("threshold", RunMode = RunMode.Async), Summary("Applies a binary threshold to an image.")]
-                public async Task BinaryThreshold(float threshold) { HandleFilter(Context, mut => mut.BinaryThreshold(threshold)); }
+                [Command("oilpaint", RunMode = RunMode.Async), Summary("Applies a basic oilpaint filter to an image.")]
+                public async Task OilPaint() { HandleFilter(Context, mut => mut.OilPaint()); }
+
+                [Command("vignette", RunMode = RunMode.Async), Summary("Applies a basic vignette to an image.")]
+                public async Task Vignette() { HandleFilter(Context, mut => mut.Vignette()); }
+
+                [Command("glow", RunMode = RunMode.Async), Summary("Applies a basic glow to an image.")]
+                public async Task Glow() { HandleFilter(Context, mut => mut.Glow()); }
 
                 [Group("blur"), Summary("Differnet blur and sharpen effects.")]
                 public class Blur : ModuleBase
@@ -209,51 +96,175 @@ namespace xubot.src.Commands
                     public async Task GaussianSharp(float weight) { HandleFilter(Context, mut => mut.GaussianSharpen(weight)); }
                 }
 
-                [Command("oilpaint", RunMode = RunMode.Async), Summary("Applies a basic oilpaint filter to an image.")]
-                public async Task OilPaint() { HandleFilter(Context, mut => mut.OilPaint()); }
-
-                [Command("oilpaint", RunMode = RunMode.Async), Summary("Applies an oilpaint filter to an image.")]
-                public async Task OilPaint(int levels, int brushSize) { HandleFilter(Context, mut => mut.OilPaint(levels, brushSize)); }
-
-                [Command("pixelate", RunMode = RunMode.Async), Summary("Applies a pixelation filter to an image.")]
-                public async Task Pixelate(int pixelSize) { HandleFilter(Context, mut => mut.Pixelate(pixelSize)); }
-
-                [Command("vignette", RunMode = RunMode.Async), Summary("Applies a basic vignette to an image.")]
-                public async Task Vignette() { HandleFilter(Context, mut => mut.Vignette()); }
-
-                [Command("vignette", RunMode = RunMode.Async), Summary("Applies a vignette to an image.")]
-                public async Task Vignette(float radiusX, float radiusY) { HandleFilter(Context, mut => mut.Vignette(radiusX, radiusY)); }
-
-                private static Dictionary<string, IQuantizer> all_quantizers = new Dictionary<string, IQuantizer>() {
-                    { "websafe", KnownQuantizers.WebSafe }, { "web", KnownQuantizers.WebSafe }, { "web-safe", KnownQuantizers.WebSafe },
-                    { "werner", KnownQuantizers.Werner }, { "1821", KnownQuantizers.Werner },
-                    { "wu", KnownQuantizers.Wu },{ "xiaolin-wu", KnownQuantizers.Wu },{ "high", KnownQuantizers.Wu },{ "highquality", KnownQuantizers.Wu },{ "high-quality", KnownQuantizers.Wu },
-                    { "octree", KnownQuantizers.Octree },{ "fast", KnownQuantizers.Octree },{ "adaptive", KnownQuantizers.Octree },{ "f", KnownQuantizers.Octree }
-                };//{ KnownQuantizers.Octree, KnownQuantizers.WebSafe, KnownQuantizers.Werner, KnownQuantizers.Wu };
-
-                [Command("quantize", RunMode = RunMode.Async), Summary("Applies a quantize filter to an image. 4 are available, accessible with 0 - 3 which is modulo'd with 4.")]
-                public async Task Quantize(string name) { HandleFilter(Context, mut => mut.Quantize(all_quantizers[name])); }
-
-                [Command("quantizers", RunMode = RunMode.Async), Summary("Returns all valid inputs for quantizers.")]
-                public async Task QuantizerListing()
+                [Group("params"), Alias("p"), Summary("Filters with parameters.")]
+                public class Advanced : ModuleBase
                 {
-                    string list = "";
+                    [Command("brightness", RunMode = RunMode.Async), Summary("Increases/decreases the brightness of the image.")]
+                    public async Task Brightness(float amt) { HandleFilter(Context, mut => mut.Brightness(amt)); }
 
-                    foreach (string item in all_quantizers.Keys)
-                        list += item + "\n";
-
-                    EmbedBuilder embedd = new EmbedBuilder
+                    [Command("colorblind", RunMode = RunMode.Async), Alias("colourblind"), Summary("Applies a filter to simulate colourblindness.")]
+                    public async Task EmulateColourblindness(string _type)
                     {
-                        Title = "Quantizer Methods",
-                        Color = Discord.Color.Blue,
-                        Description = "So you don't need to look at the source!",
-
-                        Footer = new EmbedFooterBuilder
+                        switch (_type.ToLower())
                         {
-                            Text = "xubot :p"
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = new List<EmbedFieldBuilder>()
+                            // NO COLOUR
+                            case "achromatomaly":
+                            case "part-mono":
+                                {
+                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly));
+                                    break;
+                                }
+
+                            case "achromatopsia":
+                            case "mono":
+                                {
+                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia));
+                                    break;
+                                }
+
+                            // GREEN
+                            case "deuteranomaly":
+                            case "weak-green":
+                                {
+                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly));
+                                    break;
+                                }
+
+                            case "deuteranopia":
+                            case "blind-green":
+                                {
+                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia));
+                                    break;
+                                }
+
+                            // RED
+                            case "protanomaly":
+                            case "weak-red":
+                                {
+                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly));
+                                    break;
+                                }
+
+                            case "protanopia":
+                            case "blind-red":
+                                {
+                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia));
+                                    break;
+                                }
+
+                            // BLUE
+                            case "tritanomaly":
+                            case "weak-blue":
+                                {
+                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly));
+                                    break;
+                                }
+
+                            case "tritanopia":
+                            case "blind-blue":
+                                {
+                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia));
+                                    break;
+                                }
+                            default:
+                                {
+                                    await ReplyAsync("I wasn't given a valid filter name...");
+                                    break;
+                                }
+                        }
+                    }
+
+                    [Command("colorblind?list", RunMode = RunMode.Async), Alias("colourblind?list"), Summary("Lists the colourblindness filters.")]
+                    public async Task ColourblindnessList()
+                    {
+                        EmbedBuilder embedd = new EmbedBuilder
+                        {
+                            Title = "Colourblind Filter List",
+                            Color = Discord.Color.Magenta,
+                            Description = "All the filters for the colourblindness emulation.",
+                            ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+
+                            Footer = new EmbedFooterBuilder
+                            {
+                                Text = "xubot :p",
+                                IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                            },
+                            Timestamp = DateTime.UtcNow,
+                            Fields = new List<EmbedFieldBuilder>()
+                        {
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Total Colour Blindness",
+                                Value = "**Achromatomaly** (part-mono)\n**Achromatopsia** (mono)" ,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Red-Green Colour Deficiency (Low/No Green Cones)",
+                                Value = "**Deuteranomaly** (weak-green)\n**Deuteranopia** (blind-green)" ,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Red-Green Colour Deficiency (Low/No Red Cones)",
+                                Value = "**Protanomaly** (weak-red)\n**Protanopia** (blind-red)" ,
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Blue-Yellow Colour Deficiency (Low/No Blue Cones)",
+                                Value = "**Tritanomaly** (weak-blue)\n**Tritanopia** (blind-blue)" ,
+                                IsInline = true
+                            }
+                        }
+                        };
+                        await ReplyAsync("", false, embedd.Build());
+                    }
+
+                    [Command("contrast", RunMode = RunMode.Async), Summary("Increases/decreases the contrast of an image.")]
+                    public async Task Contrast(float amt) { HandleFilter(Context, mut => mut.Contrast(amt)); }
+
+                    [Command("hue-rotate", RunMode = RunMode.Async), Summary("Shifts/rotates the hues of an image by a given amount of degrees.")]
+                    public async Task RotateHue(float deg) { HandleFilter(Context, mut => mut.Hue(deg)); }
+
+                    [Command("saturate", RunMode = RunMode.Async), Summary("Increases/decreases the saturation of an image.")]
+                    public async Task Saturate(float amount) { HandleFilter(Context, mut => mut.Saturate(amount)); }
+
+                    [Command("threshold", RunMode = RunMode.Async), Summary("Applies a binary threshold to an image.")]
+                    public async Task BinaryThreshold(float threshold) { HandleFilter(Context, mut => mut.BinaryThreshold(threshold)); }
+
+                    [Command("oilpaint", RunMode = RunMode.Async), Summary("Applies an oilpaint filter to an image.")]
+                    public async Task OilPaint(int levels, int brushSize) { HandleFilter(Context, mut => mut.OilPaint(levels, brushSize)); }
+
+                    [Command("pixelate", RunMode = RunMode.Async), Summary("Applies a pixelation filter to an image.")]
+                    public async Task Pixelate(int pixelSize) { HandleFilter(Context, mut => mut.Pixelate(pixelSize)); }
+
+                    [Command("vignette", RunMode = RunMode.Async), Summary("Applies a vignette to an image.")]
+                    public async Task Vignette(float radiusX, float radiusY) { HandleFilter(Context, mut => mut.Vignette(radiusX, radiusY)); }
+
+                    [Command("quantize", RunMode = RunMode.Async), Summary("Applies a quantize filter to an image. 4 are available, accessible with 0 - 3 which is modulo'd with 4.")]
+                    public async Task Quantize(string name) { HandleFilter(Context, mut => mut.Quantize(all_quantizers[name])); }
+
+                    [Command("quantizers", RunMode = RunMode.Async), Summary("Returns all valid inputs for quantizers.")]
+                    public async Task QuantizerListing()
+                    {
+                        string list = "";
+
+                        foreach (string item in all_quantizers.Keys)
+                            list += item + "\n";
+
+                        EmbedBuilder embedd = new EmbedBuilder
+                        {
+                            Title = "Quantizer Methods",
+                            Color = Discord.Color.Blue,
+                            Description = "So you don't need to look at the source!",
+
+                            Footer = new EmbedFooterBuilder
+                            {
+                                Text = "xubot :p"
+                            },
+                            Timestamp = DateTime.UtcNow,
+                            Fields = new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -262,65 +273,57 @@ namespace xubot.src.Commands
                                 IsInline = false
                             }
                         }
-                    };
+                        };
 
-                    await Context.Channel.SendMessageAsync("", false, embedd.Build());
-                }
+                        await Context.Channel.SendMessageAsync("", false, embedd.Build());
+                    }
 
-                [Command("glow", RunMode = RunMode.Async), Summary("Applies a basic glow to an image.")]
-                public async Task Glow() { HandleFilter(Context, mut => mut.Glow()); }
+                    [Command("glow", RunMode = RunMode.Async), Summary("Applies a glow to an image.")]
+                    public async Task Glow(float radius) { HandleFilter(Context, mut => mut.Glow(radius)); }
 
-                [Command("glow", RunMode = RunMode.Async), Summary("Applies a glow to an image.")]
-                public async Task Glow(float radius) { HandleFilter(Context, mut => mut.Glow(radius)); }
+                    [Command("entroycrop", RunMode = RunMode.Async), Alias("entropy-crop"), Summary("Crops an image to the area of greatest entropy using a given threshold. Defaults to 0.5.")]
+                    public async Task EntropyCrop(float threshold = 0.5F) { HandleFilter(Context, mut => mut.EntropyCrop(threshold)); }
 
-                [Command("entroycrop", RunMode = RunMode.Async), Alias("entropy-crop"), Summary("Crops an image to the area of greatest entropy using a given threshold. Defaults to 0.5.")]
-                public async Task EntropyCrop(float threshold = 0.5F) { HandleFilter(Context, mut => mut.EntropyCrop(threshold)); }
-
-                private static Dictionary<string, IDither> all_dithering =
-                    new Dictionary<string, IDither>() { { "atkinson", KnownDitherings.Atkinson }, { "bayer2", KnownDitherings.Bayer2x2 }, { "bayer4", KnownDitherings.Bayer4x4}, { "bayer8", KnownDitherings.Bayer8x8}, { "burks", KnownDitherings.Burks},
-                        { "floydsteinberg", KnownDitherings.FloydSteinberg }, {"jarvisjudiceninke", KnownDitherings.JarvisJudiceNinke}, { "ordered3", KnownDitherings.Ordered3x3}, { "sierra2", KnownDitherings.Sierra2}, { "sierra3", KnownDitherings.Sierra3},
-                        { "sierralite", KnownDitherings.SierraLite}, { "stevensonarce", KnownDitherings.StevensonArce}, { "stucki", KnownDitherings.Stucki } };
-
-                [Command("basic-dither", RunMode = RunMode.Async), Summary("Applies a binary dithering effect to an image. 13 are available, accessible with its name. Use `pic manip ditherings` to get all valid names.")]
-                public async Task BinaryDither(string name)
-                {
-                    if (!all_dithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
-                    HandleFilter(Context, mut => mut.BinaryDither(all_dithering[name.ToLower()]));
-                }
-
-                [Command("dither", RunMode = RunMode.Async), Summary("Applies a dithering effect to an image. 13 are available, accessible with its name (use `pic manip ditherings` to get all valid names). The full palette is RGBA32 colors as hexadecimal strings.")]
-                public async Task Dither(string name, params string[] palette)
-                {
-                    SixLabors.ImageSharp.Color[] colors = new SixLabors.ImageSharp.Color[palette.Length];
-                    for (int i = 0; i < palette.Length; i++)
-                        colors[i] = new SixLabors.ImageSharp.Color(Tools.ColorFromHexString(palette[i]));
-
-                    ReadOnlyMemory<SixLabors.ImageSharp.Color> rom_palette = colors;
-
-                    if (!all_dithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
-                    HandleFilter(Context, mut => mut.Dither(all_dithering[name.ToLower()], rom_palette));
-                }
-
-                [Command("ditherings", RunMode = RunMode.Async), Summary("Returns all ditherings names.")]
-                public async Task DitherListing()
-                {
-                    string list = "";
-
-                    foreach (string item in all_dithering.Keys)
-                        list += item + "\n";
-
-                    EmbedBuilder embedd = new EmbedBuilder
+                    [Command("basic-dither", RunMode = RunMode.Async), Summary("Applies a binary dithering effect to an image. 13 are available, accessible with its name. Use `pic manip ditherings` to get all valid names.")]
+                    public async Task BinaryDither(string name)
                     {
-                        Title = "Dithering Methods",
-                        Color = Discord.Color.Blue,
-                        Description = "So you don't need to look at the source!",
+                        if (!all_dithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
+                        HandleFilter(Context, mut => mut.BinaryDither(all_dithering[name.ToLower()]));
+                    }
 
-                        Footer = new EmbedFooterBuilder
+                    [Command("dither", RunMode = RunMode.Async), Summary("Applies a dithering effect to an image. 13 are available, accessible with its name (use `pic manip ditherings` to get all valid names). The full palette is RGBA32 colors as hexadecimal strings.")]
+                    public async Task Dither(string name, params string[] palette)
+                    {
+                        SixLabors.ImageSharp.Color[] colors = new SixLabors.ImageSharp.Color[palette.Length];
+                        for (int i = 0; i < palette.Length; i++)
+                            colors[i] = new SixLabors.ImageSharp.Color(Tools.ColorFromHexString(palette[i]));
+
+                        ReadOnlyMemory<SixLabors.ImageSharp.Color> rom_palette = colors;
+
+                        if (!all_dithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
+                        HandleFilter(Context, mut => mut.Dither(all_dithering[name.ToLower()], rom_palette));
+                    }
+
+                    [Command("ditherings", RunMode = RunMode.Async), Summary("Returns all ditherings names.")]
+                    public async Task DitherListing()
+                    {
+                        string list = "";
+
+                        foreach (string item in all_dithering.Keys)
+                            list += item + "\n";
+
+                        EmbedBuilder embedd = new EmbedBuilder
                         {
-                            Text = "xubot :p"
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = new List<EmbedFieldBuilder>()
+                            Title = "Dithering Methods",
+                            Color = Discord.Color.Blue,
+                            Description = "So you don't need to look at the source!",
+
+                            Footer = new EmbedFooterBuilder
+                            {
+                                Text = "xubot :p"
+                            },
+                            Timestamp = DateTime.UtcNow,
+                            Fields = new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -329,9 +332,10 @@ namespace xubot.src.Commands
                                 IsInline = false
                             }
                         }
-                    };
+                        };
 
-                    await Context.Channel.SendMessageAsync("", false, embedd.Build());
+                        await Context.Channel.SendMessageAsync("", false, embedd.Build());
+                    }
                 }
 
                 private static string ApplyFilter(string load, string type, System.Action<IImageProcessingContext> mutation)
