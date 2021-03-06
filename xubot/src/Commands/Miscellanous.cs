@@ -140,5 +140,11 @@ namespace xubot.src.Commands
         {
             await ReplyAsync("https://youtu.be/kTzKZDvQhBI");
         }
+
+        [Command("wake-up"), Alias("bro-wake-up", "2006"), Summary("Bro wake up Its 2006!")]
+        public async Task Its2006()
+        {
+            await ReplyAsync("https://youtu.be/NNJ21Gzp79E");
+        }
     }
 }
