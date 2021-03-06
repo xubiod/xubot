@@ -205,7 +205,7 @@ namespace xubot.src.Commands
             [Command("generate"), Summary("Generates an insult.")]
             public async Task Gen()
             {
-                Random rnd = Util.Globals.GlobalRandom;
+                Random rnd = Util.Globals.RNG;
                 int insult_v_use = rnd.Next(insultVictimIndex);
                 int insult_a_use = rnd.Next(insultAdjectiveIndex);
                 int insult_n_use = rnd.Next(insultNounIndex);
@@ -407,12 +407,12 @@ namespace xubot.src.Commands
                     {
                         img.Mutate(mut => mut.Invert());
                         await ReplyAsync("img manipulated");
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
+                        img.Save(Util.Str.RandomFilename() + type);
                         await ReplyAsync("img save");
                     }
 
                     await ReplyAsync("begin send");
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
+                    await Context.Channel.SendFileAsync(Util.Str.RandomFilename() + type);
                     await ReplyAsync("end send");
                 }
                 catch (Exception e)
@@ -600,7 +600,7 @@ namespace xubot.src.Commands
             [Command("gen"), Summary("Makes a random integer with the number given as maximum.")]
             public async Task RndDefault(int max)
             {
-                Random rnd = Util.Globals.GlobalRandom;
+                Random rnd = Util.Globals.RNG;
 
                 await ReplyAsync("Random number generated: **" + rnd.Next(max) + "**");
             }
@@ -610,7 +610,7 @@ namespace xubot.src.Commands
             [Command("existental_crisis"), Alias("ext_crisis", "ext_cri"), Summary("Give the bot an existential crisis.")]
             public async Task Crisis()
             {
-                Random rand = Util.Globals.GlobalRandom;
+                Random rand = Util.Globals.RNG;
                 int o = rand.Next(5);
                 if (o == 0) { await ReplyAsync($"Do we exist?"); }
                 else if (o == 1) { await ReplyAsync($"WHO AM I?!?!?!??!?!?!??!"); }
@@ -622,7 +622,7 @@ namespace xubot.src.Commands
             [Command("bake_cake"), Alias("make_cake"), Summary("Makes a cake.")]
             public async Task BakeCake()
             {
-                Random rand = Util.Globals.GlobalRandom;
+                Random rand = Util.Globals.RNG;
                 int o = rand.Next(5);
                 if (o == 0) { await ReplyAsync($"Red velvet or green velvet?"); }
                 else if (o == 1) { await ReplyAsync($"The last time it was burnt and raw, so hehhehehe!"); }
@@ -634,7 +634,7 @@ namespace xubot.src.Commands
             [Command("read_me_a_story"), Alias("rmas"), Summary("Reads a story.")]
             public async Task Story()
             {
-                Random rand = Util.Globals.GlobalRandom;
+                Random rand = Util.Globals.RNG;
                 int o = rand.Next(5);
                 if (o == 0) { await ReplyAsync($"Jack and Jill went up a hill. Then they died."); }
                 else if (o == 1) { await ReplyAsync($"A prince turned into a frog. Then an eagle eat him."); }

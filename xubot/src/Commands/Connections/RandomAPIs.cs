@@ -207,7 +207,7 @@ namespace xubot.src.Commands.Connections
                 cont = cont.Trim('[', ']', '"');
                 Console.WriteLine(cont);
 
-                if (Util.Globals.GlobalRandom.Next(100) == 0)
+                if (Util.Globals.RNG.Next(100) == 0)
                 {
                     await ReplyAsync("Birb.\n" + cont);
                 }

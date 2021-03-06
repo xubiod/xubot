@@ -283,6 +283,19 @@ namespace xubot.src
                 Uri result;
                 return Uri.TryCreate(url, UriKind.Absolute, out result) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
             }
+
+            public static string RandomHexadecimal(int length = 32)
+            {
+                string output = "";
+                for (int i = 0; i < length; i++) output += Globals.HexadecimalChars[Globals.RNG.Next(Globals.HexadecimalChars.Length)];
+
+                return output;
+            }
+
+            public static string RandomFilename()
+            {
+                return Path.GetTempPath() + RandomHexadecimal();
+            }
         }
 
         public class File
@@ -377,7 +390,8 @@ namespace xubot.src
 
         public class Globals
         {
-            public static Random GlobalRandom = new Random();
+            public readonly static Random RNG = new Random();
+            public readonly static char[] HexadecimalChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
         }
 
         public static bool IsUserTrusted(ICommandContext Context)
