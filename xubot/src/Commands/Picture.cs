@@ -28,111 +28,81 @@ namespace xubot.src.Commands
             public class Manipulation : ModuleBase
             {
                 [Command("brightness", RunMode = RunMode.Async), Summary("Increases/decreases the brightness of the image.")]
-                public async Task Brightness(float amt)
-                {
-                    await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
-
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
-                    {
-                        img.Mutate(mut => mut.Brightness(amt));
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
-                    }
-
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
-                }
+                public async Task Brightness(float amt) { HandleFilter(Context, mut => mut.Brightness(amt)); }
 
                 [Command("bw", RunMode = RunMode.Async), Summary("Makes an image black and white.")]
-                public async Task BW()
-                {
-                    await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
-
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
-                    {
-                        img.Mutate(mut => mut.BlackWhite());
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
-                    }
-
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
-                }
+                public async Task BW() { HandleFilter(Context, mut => mut.BlackWhite()); }
 
                 [Command("colorblind", RunMode = RunMode.Async), Alias("colourblind"), Summary("Applies a filter to simulate colourblindness.")]
                 public async Task EmulateColourblindness(string _type)
                 {
-                    await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
-
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
-                    {
-                        switch (_type.ToLower())
+                    switch (_type.ToLower())
                         {
-                            // NO COLOUR
-                            case "achromatomaly":
-                            case "part-mono":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly));
-                                    break;
-                                }
-
-                            case "achromatopsia":
-                            case "mono":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia));
-                                    break;
-                                }
-
-                            // GREEN
-                            case "deuteranomaly":
-                            case "weak-green":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly));
-                                    break;
-                                }
-
-                            case "deuteranopia":
-                            case "blind-green":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia));
-                                    break;
-                                }
-
-                            // RED
-                            case "protanomaly":
-                            case "weak-red":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly));
-                                    break;
-                                }
-
-                            case "protanopia":
-                            case "blind-red":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia));
-                                    break;
-                                }
-
-                            // BLUE
-                            case "tritanomaly":
-                            case "weak-blue":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly));
-                                    break;
-                                }
-
-                            case "tritanopia":
-                            case "blind-blue":
-                                {
-                                    img.Mutate(mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia));
-                                    break;
-                                }
-                            default: break;
+                        // NO COLOUR
+                        case "achromatomaly":
+                        case "part-mono":
+                        {
+                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly));
+                            break;
                         }
 
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
-                    }
+                        case "achromatopsia":
+                        case "mono":
+                        {
+                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia));
+                            break;
+                        }
 
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
+                        // GREEN
+                        case "deuteranomaly":
+                        case "weak-green":
+                        {
+                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly));
+                            break;
+                        }
+
+                        case "deuteranopia":
+                        case "blind-green":
+                        {
+                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia));
+                            break;
+                        }
+
+                        // RED
+                        case "protanomaly":
+                        case "weak-red":
+                        {
+                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly));
+                            break;
+                        }
+
+                        case "protanopia":
+                        case "blind-red":
+                        {
+                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia));
+                            break;
+                        }
+
+                        // BLUE
+                        case "tritanomaly":
+                        case "weak-blue":
+                        {
+                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly));
+                            break;
+                        }
+
+                        case "tritanopia":
+                        case "blind-blue":
+                        {
+                            HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia));
+                            break;
+                        }
+                        default:
+                        {
+                            await ReplyAsync("I wasn't given a valid filter name...");
+                            break;
+                        }
+                    }
                 }
 
                 [Command("colorblind?list", RunMode = RunMode.Async), Alias("colourblind?list"), Summary("Lists the colourblindness filters.")]
@@ -183,123 +153,52 @@ namespace xubot.src.Commands
                 }
 
                 [Command("contrast", RunMode = RunMode.Async), Summary("Increases/decreases the contrast of an image.")]
-                public async Task Contrast(float amt)
-                {
-                    await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
-
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
-                    {
-                        img.Mutate(mut => mut.Contrast(amt));
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
-                    }
-
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
-                }
+                public async Task Contrast(float amt) { HandleFilter(Context, mut => mut.Contrast(amt)); }
 
                 [Command("hue-rotate", RunMode = RunMode.Async), Summary("Shifts/rotates the hues of an image by a given amount of degrees.")]
-                public async Task RotateHue(float deg)
-                {
-                    await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
-
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
-                    {
-                        img.Mutate(mut => mut.Hue(deg));
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
-                    }
-
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
-                }
+                public async Task RotateHue(float deg) { HandleFilter(Context, mut => mut.Hue(deg)); }
 
                 [Command("invert", RunMode = RunMode.Async), Summary("iNVERTS THE COLORS OF AN IMAGE.")]
-                public async Task Invert()
-                {
-                    await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
-
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
-                    {
-                        img.Mutate(mut => mut.Invert());
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
-                    }
-
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
-                }
+                public async Task Invert() { HandleFilter(Context, mut => mut.Invert()); }
 
                 [Command("kodachrome", RunMode = RunMode.Async), Summary("Applies a kodachrome filter to an image.")]
-                public async Task Kodachrome()
-                {
-                    await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
-
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
-                    {
-                        img.Mutate(mut => mut.Kodachrome());
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
-                    }
-
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
-                }
+                public async Task Kodachrome() { HandleFilter(Context, mut => mut.Kodachrome()); }
 
                 [Command("lomograph", RunMode = RunMode.Async), Summary("Applies a lomograph filter to an image.")]
-                public async Task Lomograph()
-                {
-                    await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
-
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
-                    {
-                        img.Mutate(mut => mut.Lomograph());
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
-                    }
-
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
-                }
+                public async Task Lomograph() {  HandleFilter(Context, mut => mut.Lomograph()); }
 
                 [Command("polaroid", RunMode = RunMode.Async), Summary("Applies a polaroid filter to an image.")]
-                public async Task Polaroid()
-                {
-                    await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
-
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
-                    {
-                        img.Mutate(mut => mut.Polaroid());
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
-                    }
-
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
-                }
+                public async Task Polaroid() { HandleFilter(Context, mut => mut.Polaroid()); }
 
                 [Command("saturate", RunMode = RunMode.Async), Summary("Increases/decreases the saturation of an image.")]
-                public async Task Saturate(float amount)
-                {
-                    await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
-
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
-                    {
-                        img.Mutate(mut => mut.Saturate(amount));
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
-                    }
-
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
-                }
+                public async Task Saturate(float amount) { HandleFilter(Context, mut => mut.Saturate(amount)); }
 
                 [Command("sepia", RunMode = RunMode.Async), Summary("Applies a sepia filter to an image.")]
-                public async Task Sepia()
+                public async Task Sepia() { HandleFilter(Context, mut => mut.Sepia()); }
+
+                private static string ApplyFilter(string load, string type, System.Action<IImageProcessingContext> mutation)
                 {
-                    await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
+                    string filename = Util.Str.RandomFilename() + type;
 
                     using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
                     {
-                        img.Mutate(mut => mut.Sepia());
-                        img.Save(Path.GetTempPath() + "manip_new" + type);
+                        img.Mutate(mutation);
+                        img.Save(Util.Str.RandomFilename() + type);
                     }
 
-                    await Context.Channel.SendFileAsync(Path.GetTempPath() + "manip_new" + type);
+                    return filename;
+                }
+
+                private static async void HandleFilter(ICommandContext Context, System.Action<IImageProcessingContext> mutation)
+                {
+                    string loadas = Path.GetTempPath() + "manip";
+
+                    await Util.File.DownloadLastAttachmentAsync(Context, loadas, true);
+                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
+
+                    string filename = ApplyFilter(loadas, type, mutation);
+
+                    await Context.Channel.SendFileAsync(filename);
                 }
             }
         }
