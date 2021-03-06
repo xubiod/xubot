@@ -179,6 +179,34 @@ namespace xubot.src.Commands
                 [Command("threshold", RunMode = RunMode.Async), Summary("Applies a binary threshold to an image.")]
                 public async Task BinaryThreshold(float threshold) { HandleFilter(Context, mut => mut.BinaryThreshold(threshold)); }
 
+                [Group("blur"), Summary("Differnet blur and sharpen effects.")]
+                public class Blur : ModuleBase
+                {
+                    [Command("bokeh", RunMode = RunMode.Async), Summary("Applies a basic bokeh blur to an image.")]
+                    public async Task Bokeh() { HandleFilter(Context, mut => mut.BokehBlur()); }
+
+                    [Command("bokeh", RunMode = RunMode.Async), Summary("Applies bokeh blur to an image.")]
+                    public async Task Bokeh(int radius, int kernel_count, float gamma) { HandleFilter(Context, mut => mut.BokehBlur(radius, kernel_count, gamma)); }
+
+                    [Command("box", RunMode = RunMode.Async), Summary("Applies a basic box blur to an image.")]
+                    public async Task Box() { HandleFilter(Context, mut => mut.BoxBlur()); }
+
+                    [Command("box", RunMode = RunMode.Async), Summary("Applies box blur to an image.")]
+                    public async Task Box(int radius) { HandleFilter(Context, mut => mut.BoxBlur(radius)); }
+
+                    [Command("gaussian", RunMode = RunMode.Async), Summary("Applies a basic Gaussian blur to an image.")]
+                    public async Task Gaussian() { HandleFilter(Context, mut => mut.GaussianBlur()); }
+
+                    [Command("gaussian", RunMode = RunMode.Async), Summary("Applies Gaussian blur to an image.")]
+                    public async Task Gaussian(float weight) { HandleFilter(Context, mut => mut.GaussianBlur(weight)); }
+
+                    [Command("gaussian-sharp", RunMode = RunMode.Async), Summary("Applies a basic Gaussian sharpen to an image.")]
+                    public async Task GaussianSharp() { HandleFilter(Context, mut => mut.GaussianSharpen()); }
+
+                    [Command("gaussian-sharp", RunMode = RunMode.Async), Summary("Applies a basic Gaussian sharpen to an image.")]
+                    public async Task GaussianSharp(float weight) { HandleFilter(Context, mut => mut.GaussianSharpen(weight)); }
+                }
+
                 private static string ApplyFilter(string load, string type, System.Action<IImageProcessingContext> mutation)
                 {
                     string filename = Util.Str.RandomFilename() + type;
@@ -194,6 +222,8 @@ namespace xubot.src.Commands
 
                 private static async void HandleFilter(ICommandContext Context, System.Action<IImageProcessingContext> mutation)
                 {
+                    Util.StatusReactions.Begin(Context);
+
                     string loadas = Path.GetTempPath() + "manip";
 
                     await Util.File.DownloadLastAttachmentAsync(Context, loadas, true);
@@ -202,6 +232,8 @@ namespace xubot.src.Commands
                     string filename = ApplyFilter(loadas, type, mutation);
 
                     await Context.Channel.SendFileAsync(filename);
+
+                    Util.StatusReactions.End(Context);
                 }
             }
         }
