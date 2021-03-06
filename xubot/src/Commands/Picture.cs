@@ -291,7 +291,7 @@ namespace xubot.src.Commands
                     HandleFilter(Context, mut => mut.BinaryDither(all_dithering[name.ToLower()]));
                 }
 
-                [Command("dither", RunMode = RunMode.Async), Summary("Applies a dithering effect to an image. 13 are available, accessible with it's name. The full palette is RGBA32 colors as hexadecimal strings.")]
+                [Command("dither", RunMode = RunMode.Async), Summary("Applies a dithering effect to an image. 13 are available, accessible with its name. The full palette is RGBA32 colors as hexadecimal strings.")]
                 public async Task Dither(string name, params string[] palette) {
                     SixLabors.ImageSharp.Color[] colors = new SixLabors.ImageSharp.Color[palette.Length];
                     for (int i = 0; i < palette.Length; i++)
