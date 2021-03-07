@@ -281,7 +281,7 @@ namespace xubot.src.Commands
                     [Command("glow", RunMode = RunMode.Async), Summary("Applies a glow to an image.")]
                     public async Task Glow(float radius) { HandleFilter(Context, mut => mut.Glow(radius)); }
 
-                    [Command("entroycrop", RunMode = RunMode.Async), Alias("entropy-crop"), Summary("Crops an image to the area of greatest entropy using a given threshold. Defaults to 0.5.")]
+                    [Command("entropycrop", RunMode = RunMode.Async), Alias("entropy-crop"), Summary("Crops an image to the area of greatest entropy using a given threshold. Defaults to 0.5.")]
                     public async Task EntropyCrop(float threshold = 0.5F) { HandleFilter(Context, mut => mut.EntropyCrop(threshold)); }
 
                     [Command("basic-dither", RunMode = RunMode.Async), Summary("Applies a binary dithering effect to an image. 13 are available, accessible with its name. Use `pic manip ditherings` to get all valid names.")]
