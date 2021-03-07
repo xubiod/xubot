@@ -35,7 +35,6 @@ namespace xubot.src.Commands.Connections
             // this shouldn't use the methods because of how different it is
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
             {
-
                 try
                 {
                     //var client = new HttpClient();

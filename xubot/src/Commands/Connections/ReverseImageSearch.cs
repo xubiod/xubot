@@ -95,7 +95,6 @@ namespace xubot.src.Commands.Connections
                 }
                 using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 {
-
                     string assembledURL = TopResultUrl + amount.ToString() + APIKey + HttpUtility.UrlEncode(url);
                     dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
 
