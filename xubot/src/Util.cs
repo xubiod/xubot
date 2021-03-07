@@ -447,7 +447,6 @@ namespace xubot.src
                 cancelToken.Cancel();
 
                 System.Threading.Thread.Sleep(TaskPollLength);
-                UntilLonger.Dispose();
                 cancelToken.Dispose();
             }
         }
