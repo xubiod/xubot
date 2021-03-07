@@ -16,7 +16,7 @@ using xubot.src;
 
 namespace xubot.src
 {
-    public class Compile : ModuleBase
+    public class InterpLanguages : ModuleBase
     {
         public static Embed BuildEmbed(string language, string description, string syntax_highlighting, string input, string result)
         {
