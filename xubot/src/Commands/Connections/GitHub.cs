@@ -22,7 +22,7 @@ namespace xubot.src.Commands.Connections
 
         public async void GetGitHubUpdatesAsync()
         {
-            xuRepo = await xuGitClient.GetRepositoryAsync("xubot-team", "xubot");
+            xuRepo = await xuGitClient.GetRepositoryAsync("xubiod", "xubot");
         }
 
         [Group("github"), Summary("The wrapper for the Github API.")]
