@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using SteamKit2.Internal;
+using System.Threading;
 
 namespace xubot.src
 {
@@ -394,6 +395,7 @@ namespace xubot.src
             public readonly static char[] HexadecimalChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
             public readonly static Emoji Working = new Emoji("💭");
             public readonly static Emoji Completed = new Emoji("✅");
+            public readonly static Emoji LongerThanExpected = new Emoji("🕒");
             public readonly static string EmbedFooter = "xubot :p";
         }
 
@@ -402,6 +404,10 @@ namespace xubot.src
             private ICommandContext Context;
             private bool started;
             private bool completed;
+            private Task UntilLonger;
+            private readonly int Delay = 5000;
+            private readonly int TaskPollLength = 50;
+            private readonly CancellationTokenSource cancelToken = new CancellationTokenSource();
 
             public WorkingBlock(ICommandContext ctx)
             {
@@ -414,6 +420,17 @@ namespace xubot.src
             {
                 if (started || completed) return;
                 Context.Message.AddReactionAsync(Util.Globals.Working);
+
+                UntilLonger = Task.Factory.StartNew(() =>
+                {
+                    for (int i = 0; i < (Delay / TaskPollLength); i++) {
+                        System.Threading.Thread.Sleep(TaskPollLength);
+                        if (cancelToken.IsCancellationRequested)
+                            return;
+                    }
+                    Context.Message.AddReactionAsync(Util.Globals.LongerThanExpected);
+                }, cancelToken.Token);
+
                 started = true;
             }
 
@@ -423,7 +440,15 @@ namespace xubot.src
                 if (!started) return;
 
                 Context.Message.RemoveReactionAsync(Util.Globals.Working, Program.xuClient.CurrentUser);
+                Context.Message.RemoveReactionAsync(Util.Globals.LongerThanExpected, Program.xuClient.CurrentUser);
+
                 Context.Message.AddReactionAsync(Util.Globals.Completed);
+
+                cancelToken.Cancel();
+
+                System.Threading.Thread.Sleep(TaskPollLength);
+                UntilLonger.Dispose();
+                cancelToken.Dispose();
             }
         }
 
