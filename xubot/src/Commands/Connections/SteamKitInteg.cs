@@ -19,82 +19,85 @@ namespace xubot.src.Commands.Connections
         [Command("user", RunMode = RunMode.Async), Summary("Gets information about a Steam user based on their ID.")]
         public async Task User(ulong id)
         {
-            try {
-                KeyValue ownedGames = playerServiceInterface.GetOwnedGames(steamid: id, include_appinfo: 1);
-                KeyValue playerSummaries = steamUserInterface.GetPlayerSummaries002(steamids: id);
-                KeyValue playerLevel = playerServiceInterface.GetSteamLevel(steamid: id);
-
-                playerSummaries = playerSummaries["players"].Children[0];
-
-                decimal twoWeeks = 0;
-                decimal forever = 0;
-
-                string mostTimeIn = "";
-                decimal mostTime = 0;
-
-                string mostWeekIn = "";
-                decimal mostWeek = 0;
-
-                EmbedFieldBuilder mostWeekField = new EmbedFieldBuilder { Name = "Most Playtime (2 wks)", Value = "Has not played in last 2 weeks.", IsInline = true };
-                EmbedFieldBuilder mostTimeField = new EmbedFieldBuilder { Name = "Most Playtime (forever)", Value = "Has not played since account creation (Wha...?)", IsInline = true };
-
-                foreach (KeyValue game in ownedGames["games"].Children)
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+            {
+                try
                 {
-                    forever += game["playtime_forever"].AsInteger(0);
-                    twoWeeks += game["playtime_2weeks"].AsInteger(0);
+                    KeyValue ownedGames = playerServiceInterface.GetOwnedGames(steamid: id, include_appinfo: 1);
+                    KeyValue playerSummaries = steamUserInterface.GetPlayerSummaries002(steamids: id);
+                    KeyValue playerLevel = playerServiceInterface.GetSteamLevel(steamid: id);
 
-                    if (game["playtime_forever"].AsInteger(0) > mostTime)
+                    playerSummaries = playerSummaries["players"].Children[0];
+
+                    decimal twoWeeks = 0;
+                    decimal forever = 0;
+
+                    string mostTimeIn = "";
+                    decimal mostTime = 0;
+
+                    string mostWeekIn = "";
+                    decimal mostWeek = 0;
+
+                    EmbedFieldBuilder mostWeekField = new EmbedFieldBuilder { Name = "Most Playtime (2 wks)", Value = "Has not played in last 2 weeks.", IsInline = true };
+                    EmbedFieldBuilder mostTimeField = new EmbedFieldBuilder { Name = "Most Playtime (forever)", Value = "Has not played since account creation (Wha...?)", IsInline = true };
+
+                    foreach (KeyValue game in ownedGames["games"].Children)
                     {
-                        mostTime = game["playtime_forever"].AsInteger(0);
-                        mostTimeIn = game["name"].AsString();
-                    }
+                        forever += game["playtime_forever"].AsInteger(0);
+                        twoWeeks += game["playtime_2weeks"].AsInteger(0);
 
-                    if (game["playtime_2weeks"].AsInteger(0) > mostWeek)
-                    {
-                        mostWeek = game["playtime_2weeks"].AsInteger(0);
-                        mostWeekIn = game["name"].AsString();
-                    }
-                }
-
-                if (mostWeekIn != "")
-                {
-                    mostWeekField.Value = "In App\n**__" + mostWeekIn + "__**: " + string.Format("{0:#,###}", mostWeek) + " minutes\n" + string.Format("{0:#,###0.0}", mostWeek / 60) + " hours";
-                }
-
-                if (mostTimeIn != "")
-                {
-                    mostTimeField.Value = "In App\n**__" + mostTimeIn + "__**: " + string.Format("{0:#,###}", mostTime) + " minutes\n" + string.Format("{0:#,###0.0}", mostTime / 60) + " hours";
-                }
-
-                ulong _lastLogOff = playerSummaries["lastlogoff"].AsUnsignedLong(0);
-                DateTime lastLogOff = Util.UnixTimeStampToDateTime(_lastLogOff);
-
-                ulong _timeCreated = playerSummaries["timecreated"].AsUnsignedLong(0);
-                DateTime timeCreated = Util.UnixTimeStampToDateTime(_timeCreated);
-
-                TimeSpan lastLogOffToNow = DateTime.Now - lastLogOff;
-                TimeSpan createdToNow = DateTime.Now - timeCreated;
-
-                string playing = "";
-                if (playerSummaries["gameid"].AsInteger(0) != 0) playing = "Currently playing **" + ReturnAppName(playerSummaries["gameid"].AsInteger()) + "**";
-
-                EmbedBuilder embedd = new EmbedBuilder();
-
-                if (playerSummaries["communityvisibilitystate"].AsInteger(1) == 3 /* public, don't ask why */)
-                {
-                    embedd = new EmbedBuilder
-                    {
-                        Title = "Steam User: " + playerSummaries["personaname"].AsString(),
-                        Color = Discord.Color.DarkBlue,
-                        Description = "Data obtained Steam WebAPI using SteamKit2",
-                        ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
-
-                        Footer = new EmbedFooterBuilder
+                        if (game["playtime_forever"].AsInteger(0) > mostTime)
                         {
-                            Text = Util.Globals.EmbedFooter
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = new List<EmbedFieldBuilder>()
+                            mostTime = game["playtime_forever"].AsInteger(0);
+                            mostTimeIn = game["name"].AsString();
+                        }
+
+                        if (game["playtime_2weeks"].AsInteger(0) > mostWeek)
+                        {
+                            mostWeek = game["playtime_2weeks"].AsInteger(0);
+                            mostWeekIn = game["name"].AsString();
+                        }
+                    }
+
+                    if (mostWeekIn != "")
+                    {
+                        mostWeekField.Value = "In App\n**__" + mostWeekIn + "__**: " + string.Format("{0:#,###}", mostWeek) + " minutes\n" + string.Format("{0:#,###0.0}", mostWeek / 60) + " hours";
+                    }
+
+                    if (mostTimeIn != "")
+                    {
+                        mostTimeField.Value = "In App\n**__" + mostTimeIn + "__**: " + string.Format("{0:#,###}", mostTime) + " minutes\n" + string.Format("{0:#,###0.0}", mostTime / 60) + " hours";
+                    }
+
+                    ulong _lastLogOff = playerSummaries["lastlogoff"].AsUnsignedLong(0);
+                    DateTime lastLogOff = Util.UnixTimeStampToDateTime(_lastLogOff);
+
+                    ulong _timeCreated = playerSummaries["timecreated"].AsUnsignedLong(0);
+                    DateTime timeCreated = Util.UnixTimeStampToDateTime(_timeCreated);
+
+                    TimeSpan lastLogOffToNow = DateTime.Now - lastLogOff;
+                    TimeSpan createdToNow = DateTime.Now - timeCreated;
+
+                    string playing = "";
+                    if (playerSummaries["gameid"].AsInteger(0) != 0) playing = "Currently playing **" + ReturnAppName(playerSummaries["gameid"].AsInteger()) + "**";
+
+                    EmbedBuilder embedd = new EmbedBuilder();
+
+                    if (playerSummaries["communityvisibilitystate"].AsInteger(1) == 3 /* public, don't ask why */)
+                    {
+                        embedd = new EmbedBuilder
+                        {
+                            Title = "Steam User: " + playerSummaries["personaname"].AsString(),
+                            Color = Discord.Color.DarkBlue,
+                            Description = "Data obtained Steam WebAPI using SteamKit2",
+                            ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
+
+                            Footer = new EmbedFooterBuilder
+                            {
+                                Text = Util.Globals.EmbedFooter
+                            },
+                            Timestamp = DateTime.UtcNow,
+                            Fields = new List<EmbedFieldBuilder>()
                             {
                                 new EmbedFieldBuilder
                                 {
@@ -134,23 +137,23 @@ namespace xubot.src.Commands.Connections
                                     IsInline = true
                                 }
                             }
-                    };
-                }
-                else
-                {
-                    embedd = new EmbedBuilder
+                        };
+                    }
+                    else
                     {
-                        Title = "Steam User: " + playerSummaries["personaname"].AsString(),
-                        Color = Discord.Color.DarkBlue,
-                        Description = "Data obtained Steam WebAPI using SteamKit2",
-                        ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
-
-                        Footer = new EmbedFooterBuilder
+                        embedd = new EmbedBuilder
                         {
-                            Text = Util.Globals.EmbedFooter
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = new List<EmbedFieldBuilder>()
+                            Title = "Steam User: " + playerSummaries["personaname"].AsString(),
+                            Color = Discord.Color.DarkBlue,
+                            Description = "Data obtained Steam WebAPI using SteamKit2",
+                            ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
+
+                            Footer = new EmbedFooterBuilder
+                            {
+                                Text = Util.Globals.EmbedFooter
+                            },
+                            Timestamp = DateTime.UtcNow,
+                            Fields = new List<EmbedFieldBuilder>()
                             {
                                 new EmbedFieldBuilder
                                 {
@@ -166,14 +169,15 @@ namespace xubot.src.Commands.Connections
                                     IsInline = false
                                 }
                             }
-                    };
-                }
+                        };
+                    }
 
-                await ReplyAsync("", false, embedd.Build());
-            }
-            catch (Exception ex)
-            {
-                await Util.Error.BuildError(ex, Context);
+                    await ReplyAsync("", false, embedd.Build());
+                }
+                catch (Exception ex)
+                {
+                    await Util.Error.BuildError(ex, Context);
+                }
             }
         }
 
@@ -188,49 +192,53 @@ namespace xubot.src.Commands.Connections
         [Command("news", RunMode = RunMode.Async), Summary("Gets news for a game via it's ID.")]
         public async Task News(int appid, int cap = 5)
         {
-            try
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
             {
-                KeyValue news = steamNewsInterface.GetNewsForApp0002(appid: appid);
-
-                news = news["newsitems"];
-                int amount = System.Math.Min(System.Math.Min(news.Children.Count, cap), 5);
-
-                List<EmbedFieldBuilder> article_details = new List<EmbedFieldBuilder>();
-
-                for (int i = 0; i < amount; i++)
+                try
                 {
-                    Uri article_URI = new Uri(news.Children[i]["url"].AsString());
+                    KeyValue news = steamNewsInterface.GetNewsForApp0002(appid: appid);
 
-                    string label = "";
-                    if (news.Children[i]["feedlabel"].AsString() != "Community Announcements") label = "\n*(" + news.Children[i]["feedlabel"].AsString() + ")*";
+                    news = news["newsitems"];
+                    int amount = System.Math.Min(System.Math.Min(news.Children.Count, cap), 5);
 
-                    article_details.Add(new EmbedFieldBuilder {
-                        Name = news.Children[i]["title"].AsString() + label,
-                        Value = "[Go to article (" + article_URI.Host + ")](" +
-                                news.Children[i]["url"].AsString() + ")"
-                    });
-                }
+                    List<EmbedFieldBuilder> article_details = new List<EmbedFieldBuilder>();
 
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Latest " + amount.ToString() + " news articles for the app: " + ReturnAppName(appid),
-                    Color = Discord.Color.DarkBlue,
-                    Description = "Data obtained Steam WebAPI using SteamKit2",
-                    //ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
-
-                    Footer = new EmbedFooterBuilder
+                    for (int i = 0; i < amount; i++)
                     {
-                        Text = Util.Globals.EmbedFooter
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = article_details
-                };
+                        Uri article_URI = new Uri(news.Children[i]["url"].AsString());
 
-                await ReplyAsync("", false, embedd.Build());
-            }
-            catch (Exception exp)
-            {
-                await Util.Error.BuildError(exp, Context);
+                        string label = "";
+                        if (news.Children[i]["feedlabel"].AsString() != "Community Announcements") label = "\n*(" + news.Children[i]["feedlabel"].AsString() + ")*";
+
+                        article_details.Add(new EmbedFieldBuilder
+                        {
+                            Name = news.Children[i]["title"].AsString() + label,
+                            Value = "[Go to article (" + article_URI.Host + ")](" +
+                                    news.Children[i]["url"].AsString() + ")"
+                        });
+                    }
+
+                    EmbedBuilder embedd = new EmbedBuilder
+                    {
+                        Title = "Latest " + amount.ToString() + " news articles for the app: " + ReturnAppName(appid),
+                        Color = Discord.Color.DarkBlue,
+                        Description = "Data obtained Steam WebAPI using SteamKit2",
+                        //ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = Util.Globals.EmbedFooter
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = article_details
+                    };
+
+                    await ReplyAsync("", false, embedd.Build());
+                }
+                catch (Exception exp)
+                {
+                    await Util.Error.BuildError(exp, Context);
+                }
             }
         }
 

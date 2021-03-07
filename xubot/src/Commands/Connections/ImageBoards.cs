@@ -33,58 +33,61 @@ namespace xubot.src.Commands.Connections
         public async Task Danbooru(string tags = "", bool spoiler = false)
         {
             // this shouldn't use the methods because of how different it is
-
-            try
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
             {
-                //var client = new HttpClient();
-                string link = "http://danbooru.donmai.us/posts.json?limit=1&random=true&tags=" + tags;
-                string text = "";
 
-                var request = new HttpRequestMessage()
+                try
                 {
-                    RequestUri = new Uri(link),
-                    Method = HttpMethod.Get,
-                };
+                    //var client = new HttpClient();
+                    string link = "http://danbooru.donmai.us/posts.json?limit=1&random=true&tags=" + tags;
+                    string text = "";
 
-                request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
-
-                await client.SendAsync(request).ContinueWith(async (res) =>
-                {
-                    var response = res.Result;
-                    text = await response.Content.ReadAsStringAsync();
-                });
-
-                text = text.Substring(1, text.Length - 2);
-                //await ReplyAsync(text);
-                dynamic keys = JObject.Parse(text);
-
-                if (!(await Util.IsChannelNSFW(Context)) && keys.rating == "e")
-                {
-                    await ReplyAsync("Move to a NSFW channel.");
-                }
-                else
-                {
-                    string url;
-                    if (keys.large_file_url.ToString().Contains("http"))
+                    var request = new HttpRequestMessage()
                     {
-                        url = keys.large_file_url.ToString();
+                        RequestUri = new Uri(link),
+                        Method = HttpMethod.Get,
+                    };
+
+                    request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
+
+                    await client.SendAsync(request).ContinueWith(async (res) =>
+                    {
+                        var response = res.Result;
+                        text = await response.Content.ReadAsStringAsync();
+                    });
+
+                    text = text.Substring(1, text.Length - 2);
+                    //await ReplyAsync(text);
+                    dynamic keys = JObject.Parse(text);
+
+                    if (!(await Util.IsChannelNSFW(Context)) && keys.rating == "e")
+                    {
+                        await ReplyAsync("Move to a NSFW channel.");
                     }
                     else
                     {
-                        url = "http://danbooru.donmai.us" + keys.large_file_url.ToString();
+                        string url;
+                        if (keys.large_file_url.ToString().Contains("http"))
+                        {
+                            url = keys.large_file_url.ToString();
+                        }
+                        else
+                        {
+                            url = "http://danbooru.donmai.us" + keys.large_file_url.ToString();
+                        }
+
+                        if (spoiler) url = "|| " + url + " ||";
+
+                        await ReplyAsync(url);
                     }
 
-                    if (spoiler) url = "|| " + url + " ||";
-
-                    await ReplyAsync(url);
+                    client.Dispose();
+                    request.Dispose();
                 }
-
-                client.Dispose();
-                request.Dispose();
-            }
-            catch (Exception exp)
-            {
-                await Util.Error.BuildError(exp, Context);
+                catch (Exception exp)
+                {
+                    await Util.Error.BuildError(exp, Context);
+                }
             }
         }
 
@@ -93,57 +96,60 @@ namespace xubot.src.Commands.Connections
         [Command("e621", RunMode = RunMode.Async), Summary("Retrives a post from e621 (Currently not working, probs got myself banned lol).")]
         public async Task e621(string tags = "", bool spoiler = false)
         {
-            await Util.Error.BuildError(new ICannotBeArsedToFixThisException("prob got banned lol"), Context);
-            return;
-
-            try
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
             {
-                Random rnd = Util.Globals.RNG;
-                //var client = new HttpClient();
-                var webClient2 = new HttpClient();
-                string link = "https://e621.net/post/index.xml?limit=1&page=&tags=" + tags;
-                string text_j = "";
+                await Util.Error.BuildError(new ICannotBeArsedToFixThisException("prob got banned lol"), Context);
+                return;
 
-                var request = new HttpRequestMessage()
+                try
                 {
-                    RequestUri = new Uri(link),
-                    Method = HttpMethod.Get,
-                };
+                    Random rnd = Util.Globals.RNG;
+                    //var client = new HttpClient();
+                    var webClient2 = new HttpClient();
+                    string link = "https://e621.net/post/index.xml?limit=1&page=&tags=" + tags;
+                    string text_j = "";
 
-                request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = new Uri(link),
+                        Method = HttpMethod.Get,
+                    };
 
-                string linkJson = "https://e621.net/post/index.json?limit=1&page=" + rnd.Next(751).ToString() + "&tags=" + tags + "";
+                    request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
 
-                await client.SendAsync(request).ContinueWith(async (res) =>
-                {
-                    var response = res.Result;
-                    text_j = await response.Content.ReadAsStringAsync();
-                });
+                    string linkJson = "https://e621.net/post/index.json?limit=1&page=" + rnd.Next(751).ToString() + "&tags=" + tags + "";
 
-                text_j = await client.GetStringAsync(link);
-                text_j = text_j.Substring(1, text_j.Length - 2);
+                    await client.SendAsync(request).ContinueWith(async (res) =>
+                    {
+                        var response = res.Result;
+                        text_j = await response.Content.ReadAsStringAsync();
+                    });
 
-                //await ReplyAsync(text);
-                dynamic keys = JObject.Parse(text_j);
+                    text_j = await client.GetStringAsync(link);
+                    text_j = text_j.Substring(1, text_j.Length - 2);
 
-                if (!(await Util.IsChannelNSFW(Context)) && keys.rating == "e")
-                {
-                    await ReplyAsync("Move to a NSFW channel.");
-                }
-                else
-                {
-                    await ReplyAsync(keys.file_url.ToString());
-                    //string text = client.DownloadString(link);
-                    //text = text.Substring(1, text.Length - 2);
                     //await ReplyAsync(text);
-                    //dynamic keys = JObject.Parse(text);
+                    dynamic keys = JObject.Parse(text_j);
 
-                    //await ReplyAsync(keys.file_url.ToString());
+                    if (!(await Util.IsChannelNSFW(Context)) && keys.rating == "e")
+                    {
+                        await ReplyAsync("Move to a NSFW channel.");
+                    }
+                    else
+                    {
+                        await ReplyAsync(keys.file_url.ToString());
+                        //string text = client.DownloadString(link);
+                        //text = text.Substring(1, text.Length - 2);
+                        //await ReplyAsync(text);
+                        //dynamic keys = JObject.Parse(text);
+
+                        //await ReplyAsync(keys.file_url.ToString());
+                    }
                 }
-            }
-            catch (Exception exp)
-            {
-                await Util.Error.BuildError(exp, Context);
+                catch (Exception exp)
+                {
+                    await Util.Error.BuildError(exp, Context);
+                }
             }
         }
 
@@ -152,7 +158,8 @@ namespace xubot.src.Commands.Connections
         [Command("rule34", RunMode = RunMode.Async), Summary("Retrives a post from rule34, to the bot's dismay.")]
         public async Task r34(string tags = "", bool spoiler = true)
         {
-            await GetPostFromXML("https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, spoiler, "&pid=");
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                await GetPostFromXML("https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, spoiler, "&pid=");
         }
 
         // OPTIMIZED
@@ -160,7 +167,8 @@ namespace xubot.src.Commands.Connections
         [Command("gelbooru", RunMode = RunMode.Async), Summary("Retrives a post from gelbooru.")]
         public async Task Gelbooru(string tags = "", bool spoiler = false)
         {
-            await GetPostFromXML("https://www.gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, spoiler, "&pid=");
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                await GetPostFromXML("https://www.gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, spoiler, "&pid=");
         }
 
         // OPTIMIZED
@@ -168,7 +176,8 @@ namespace xubot.src.Commands.Connections
         [Command("yandere", RunMode = RunMode.Async), Summary("Retrives a post from yandere.")]
         public async Task Yandere(string tags = "", bool spoiler = false)
         {
-            await GetPostFromXML("https://yande.re/post.xml?limit=1", tags, Context, spoiler);
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                await GetPostFromXML("https://yande.re/post.xml?limit=1", tags, Context, spoiler);
         }
 
         // BROKEN?
@@ -176,59 +185,63 @@ namespace xubot.src.Commands.Connections
         [Command("e926", RunMode = RunMode.Async), Summary("Retrives a post from e926 (Currently not working, probs got myself banned lol).")]
         public async Task e926(string tags = "", bool spoiler = false)
         {
-            await Util.Error.BuildError(new ICannotBeArsedToFixThisException("prob got banned lol"), Context);
-
-            //ITextChannel c = Context.Channel as ITextChannel;
-
-            //await GetPostFromXML("https://e926.net/post/index.xml?limit=1", tags, Context);
-
-            //await GetPostFromJSON("https://e926.net/post/index.xml?limit=1&page=", "https://e926.net/post/index.json?limit=1&page=", tags, Context, spoiler);
-
-            /*
-             try
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
             {
-                Random rnd = Util.Globals.GlobalRandom;
-                //var client = new HttpClient();
-                var webClient2 = new HttpClient();
-                string link = "https://e926.net/post/index.xml?limit=1&page=&tags=" + tags;
-                string text_j = "";
+                await Util.Error.BuildError(new ICannotBeArsedToFixThisException("prob got banned lol"), Context);
 
-                var request = new HttpRequestMessage()
+                //ITextChannel c = Context.Channel as ITextChannel;
+
+                //await GetPostFromXML("https://e926.net/post/index.xml?limit=1", tags, Context);
+
+                //await GetPostFromJSON("https://e926.net/post/index.xml?limit=1&page=", "https://e926.net/post/index.json?limit=1&page=", tags, Context, spoiler);
+
+                /*
+                 try
                 {
-                    RequestUri = new Uri(link),
-                    Method = HttpMethod.Get,
-                };
+                    Random rnd = Util.Globals.GlobalRandom;
+                    //var client = new HttpClient();
+                    var webClient2 = new HttpClient();
+                    string link = "https://e926.net/post/index.xml?limit=1&page=&tags=" + tags;
+                    string text_j = "";
 
-                request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = new Uri(link),
+                        Method = HttpMethod.Get,
+                    };
 
-                string linkJson = "https://e926.net/post/index.json?limit=1&page=" + rnd.Next(751).ToString() + "&tags=" + tags + "";
+                    request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
 
-                text_j = await client.GetStringAsync(link);
-                text_j = text_j.Substring(1, text_j.Length - 2);
+                    string linkJson = "https://e926.net/post/index.json?limit=1&page=" + rnd.Next(751).ToString() + "&tags=" + tags + "";
 
-                //await ReplyAsync(text);
-                dynamic keys = JObject.Parse(text_j);
+                    text_j = await client.GetStringAsync(link);
+                    text_j = text_j.Substring(1, text_j.Length - 2);
 
-                await ReplyAsync(keys.file_url.ToString());
-                //string text = client.DownloadString(link);
-                //text = text.Substring(1, text.Length - 2);
-                //await ReplyAsync(text);
-                //dynamic keys = JObject.Parse(text);
+                    //await ReplyAsync(text);
+                    dynamic keys = JObject.Parse(text_j);
 
-                //await ReplyAsync(keys.file_url.ToString());
+                    await ReplyAsync(keys.file_url.ToString());
+                    //string text = client.DownloadString(link);
+                    //text = text.Substring(1, text.Length - 2);
+                    //await ReplyAsync(text);
+                    //dynamic keys = JObject.Parse(text);
+
+                    //await ReplyAsync(keys.file_url.ToString());
+                }
+                catch (Exception exp)
+                {
+                    await GeneralTools.CommHandler.BuildError(exp, Context);
+                }
+                 */
             }
-            catch (Exception exp)
-            {
-                await GeneralTools.CommHandler.BuildError(exp, Context);
-            }
-             */
         }
 
         // OPTIMIZED
         [Command("safebooru", RunMode = RunMode.Async), Summary("Retrives a post from safebooru.")]
         public async Task Safebooru(string tags = "", bool spoiler = false)
         {
-            await GetPostFromXML("http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, spoiler, "&pid=");
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                await GetPostFromXML("http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, spoiler, "&pid=");
         }
 
         // OPTIMIZED
@@ -236,7 +249,8 @@ namespace xubot.src.Commands.Connections
         [Command("konachan", RunMode = RunMode.Async), Summary("Retrives a post from konachan.")]
         public async Task Konachan(string tags = "", bool spoiler = false)
         {
-            await GetPostFromXML("http://konachan.com/post.xml?limit=1", tags, Context, spoiler);
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                await GetPostFromXML("http://konachan.com/post.xml?limit=1", tags, Context, spoiler);
         }
 
         public bool CheckTrigger()

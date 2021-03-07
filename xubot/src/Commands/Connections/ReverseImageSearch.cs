@@ -42,31 +42,34 @@ namespace xubot.src.Commands.Connections
                     return;
                 }
 
-                string assembledURL = SingleResultUrl + APIKey + HttpUtility.UrlEncode(url);
-                dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
-
-                if (keys.header.status != 0)
+                using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 {
-                    BuildSauceNAOError(keys, Context);
-                    return;
-                }
+                    string assembledURL = SingleResultUrl + APIKey + HttpUtility.UrlEncode(url);
+                    dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
 
-                string similarity = (keys.results[0].header.similarity ?? "?").ToString();
-                string src = (keys.results[0].data.source ?? (keys.results[0].data.ext_urls[0] ?? "?")).ToString();
+                    if (keys.header.status != 0)
+                    {
+                        BuildSauceNAOError(keys, Context);
+                        return;
+                    }
 
-                if (src == "?")
-                {
-                    await ReplyAsync("SauceNAO didn't give me a source...\n" +
+                    string similarity = (keys.results[0].header.similarity ?? "?").ToString();
+                    string src = (keys.results[0].data.source ?? (keys.results[0].data.ext_urls[0] ?? "?")).ToString();
+
+                    if (src == "?")
+                    {
+                        await ReplyAsync("SauceNAO didn't give me a source...\n" +
+                            "> *I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
+                            "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.*\n\n" +
+                            "> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***");
+
+                        return;
+                    }
+                    await ReplyAsync("I am **" + similarity + "%** confident it is **" + src + "** thanks to SauceNAO.\n" +
                         "> *I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
                         "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.*\n\n" +
                         "> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***");
-
-                    return;
                 }
-                await ReplyAsync("I am **" + similarity + "%** confident it is **" + src + "** thanks to SauceNAO.\n" +
-                    "> *I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
-                    "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.*\n\n" +
-                    "> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***");
             }
 
             [Command("top", RunMode = RunMode.Async), Summary("Uses SauceNAO to get the \"sauce\" of an attached image, returning the top results. Limited from 1 to 5, defaults to 5.")]
@@ -90,60 +93,63 @@ namespace xubot.src.Commands.Connections
                     await Util.Error.BuildError("Invalid URL", Context);
                     return;
                 }
-
-                string assembledURL = TopResultUrl + amount.ToString() + APIKey + HttpUtility.UrlEncode(url);
-                dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
-
-                if (keys.header.status != 0)
+                using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 {
-                    BuildSauceNAOError(keys, Context);
-                    return;
-                }
 
-                JArray ext_urls;
+                    string assembledURL = TopResultUrl + amount.ToString() + APIKey + HttpUtility.UrlEncode(url);
+                    dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
 
-                string similarity, src;
-                string extraData = "";
-
-                List<EmbedFieldBuilder> embedFields = new List<EmbedFieldBuilder>();
-
-                for (int i = 0; i < amount; i++)
-                {
-                    similarity = (keys.results[i].header.similarity ?? "No similarity given").ToString();
-                    src = (keys.results[i].data.source ?? "").ToString();
-                    ext_urls = (keys.results[i].data.ext_urls ?? null);
-
-                    if (ext_urls is JArray) extraData = (src == "" ? "" : ", ") + String.Join(", ", ext_urls);
-
-                    embedFields.Add(new EmbedFieldBuilder
+                    if (keys.header.status != 0)
                     {
-                        Name = "No. " + (i + 1).ToString(),
-                        IsInline = false,
-                        Value = similarity + "% (" + GetConfidenceString(float.Parse(similarity)) + ") - " + src + extraData
-                    });
+                        BuildSauceNAOError(keys, Context);
+                        return;
+                    }
 
-                    extraData = "";
-                }
+                    JArray ext_urls;
 
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "SauceNAO of given image - Top " + amount.ToString(),
-                    Description = "*I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
-                                  "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.* " +
-                                  "***__Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.__***",
-                    Color = Discord.Color.LighterGrey,
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+                    string similarity, src;
+                    string extraData = "";
 
-                    Footer = new EmbedFooterBuilder
+                    List<EmbedFieldBuilder> embedFields = new List<EmbedFieldBuilder>();
+
+                    for (int i = 0; i < amount; i++)
                     {
-                        Text = Util.Globals.EmbedFooter,
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = embedFields
-                };
+                        similarity = (keys.results[i].header.similarity ?? "No similarity given").ToString();
+                        src = (keys.results[i].data.source ?? "").ToString();
+                        ext_urls = (keys.results[i].data.ext_urls ?? null);
 
-                await ReplyAsync("", false, embedd.Build());
+                        if (ext_urls is JArray) extraData = (src == "" ? "" : ", ") + String.Join(", ", ext_urls);
+
+                        embedFields.Add(new EmbedFieldBuilder
+                        {
+                            Name = "No. " + (i + 1).ToString(),
+                            IsInline = false,
+                            Value = similarity + "% (" + GetConfidenceString(float.Parse(similarity)) + ") - " + src + extraData
+                        });
+
+                        extraData = "";
+                    }
+
+                    EmbedBuilder embedd = new EmbedBuilder
+                    {
+                        Title = "SauceNAO of given image - Top " + amount.ToString(),
+                        Description = "*I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
+                                      "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.* " +
+                                      "***__Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.__***",
+                        Color = Discord.Color.LighterGrey,
+                        ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = Util.Globals.EmbedFooter,
+                            IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = embedFields
+                    };
+
+                    await ReplyAsync("", false, embedd.Build());
+                }
             }
 
             [Command("details", RunMode = RunMode.Async), Alias("detail", "full"), Summary("Uses SauceNAO to get the \"sauce\" of an attached image, returning a detailed report on it.")]
@@ -166,56 +172,59 @@ namespace xubot.src.Commands.Connections
                     return;
                 }
 
-                string assembledURL = SingleResultUrl + APIKey + HttpUtility.UrlEncode(url);
-                dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
-
-                if (keys.header.status != 0)
+                using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 {
-                    BuildSauceNAOError(keys, Context);
-                    return;
-                }
+                    string assembledURL = SingleResultUrl + APIKey + HttpUtility.UrlEncode(url);
+                    dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
 
-                string src = (keys.results[0].data.source ?? (keys.results[0].data.ext_urls[0] ?? "?")).ToString();
-
-                if (src == "?")
-                {
-                    await ReplyAsync("SauceNAO didn't give me a source...\n" +
-                        "> *I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
-                        "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.*\n\n" +
-                        "> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***");
-
-                    return;
-                }
-
-                List<EmbedFieldBuilder> embedFields = new List<EmbedFieldBuilder>();
-
-                embedFields.Add(new EmbedFieldBuilder { Name = "Similarity", IsInline = true, Value = (keys.results[0].header.similarity ?? "Not given").ToString() });
-                embedFields.Add(new EmbedFieldBuilder { Name = "Source", IsInline = true, Value = (keys.results[0].data.source ?? "Not given").ToString() });
-                embedFields.Add(new EmbedFieldBuilder { Name = "Thumbnail", IsInline = true, Value = (keys.results[0].header.thumbnail ?? "Not given").ToString() });
-                embedFields.Add(new EmbedFieldBuilder { Name = "Index", IsInline = true, Value = (keys.results[0].header.index_id ?? "ID Not given").ToString() + "\n" + (keys.results[0].header.index_name ?? "Name Not given").ToString() });
-
-                embedFields.Add(new EmbedFieldBuilder { Name = "Title", IsInline = true, Value = (keys.results[0].data.title ?? "Not given").ToString() });
-                embedFields.Add(new EmbedFieldBuilder { Name = "Extra Links", IsInline = true, Value = (String.Join(", ", (JArray)keys.results[0].data.ext_urls) ?? "Not given").ToString() });
-
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "SauceNAO of given image - Detailed output",
-                    Description = "*I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
-                                  "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.* " +
-                                  "***__Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.__***",
-                    Color = Discord.Color.LighterGrey,
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder
+                    if (keys.header.status != 0)
                     {
-                        Text = Util.Globals.EmbedFooter,
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = embedFields
-                };
+                        BuildSauceNAOError(keys, Context);
+                        return;
+                    }
 
-                await ReplyAsync("", false, embedd.Build());
+                    string src = (keys.results[0].data.source ?? (keys.results[0].data.ext_urls[0] ?? "?")).ToString();
+
+                    if (src == "?")
+                    {
+                        await ReplyAsync("SauceNAO didn't give me a source...\n" +
+                            "> *I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
+                            "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.*\n\n" +
+                            "> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***");
+
+                        return;
+                    }
+
+                    List<EmbedFieldBuilder> embedFields = new List<EmbedFieldBuilder>();
+
+                    embedFields.Add(new EmbedFieldBuilder { Name = "Similarity", IsInline = true, Value = (keys.results[0].header.similarity ?? "Not given").ToString() });
+                    embedFields.Add(new EmbedFieldBuilder { Name = "Source", IsInline = true, Value = (keys.results[0].data.source ?? "Not given").ToString() });
+                    embedFields.Add(new EmbedFieldBuilder { Name = "Thumbnail", IsInline = true, Value = (keys.results[0].header.thumbnail ?? "Not given").ToString() });
+                    embedFields.Add(new EmbedFieldBuilder { Name = "Index", IsInline = true, Value = (keys.results[0].header.index_id ?? "ID Not given").ToString() + "\n" + (keys.results[0].header.index_name ?? "Name Not given").ToString() });
+
+                    embedFields.Add(new EmbedFieldBuilder { Name = "Title", IsInline = true, Value = (keys.results[0].data.title ?? "Not given").ToString() });
+                    embedFields.Add(new EmbedFieldBuilder { Name = "Extra Links", IsInline = true, Value = (String.Join(", ", (JArray)keys.results[0].data.ext_urls) ?? "Not given").ToString() });
+
+                    EmbedBuilder embedd = new EmbedBuilder
+                    {
+                        Title = "SauceNAO of given image - Detailed output",
+                        Description = "*I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
+                                      "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.* " +
+                                      "***__Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.__***",
+                        Color = Discord.Color.LighterGrey,
+                        ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = Util.Globals.EmbedFooter,
+                            IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = embedFields
+                    };
+
+                    await ReplyAsync("", false, embedd.Build());
+                }
             }
 
             private string GetConfidenceString(float confidence)

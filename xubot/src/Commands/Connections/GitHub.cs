@@ -31,20 +31,22 @@ namespace xubot.src.Commands.Connections
             [Command("repo"), Summary("Returns information about a GitHub repo.")]
             public async Task RepoInfo(string user, string repo)
             {
-                xuRepo_Comm = await xuGitClient.GetRepositoryAsync(user, repo);
-                EmbedBuilder embedd = new EmbedBuilder
+                using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 {
-                    Title = "Information about: " + user + "/" + repo,
-                    Color = Discord.Color.Red,
-                    Description = "GitHub repo details",
-                    ThumbnailUrl = Context.Guild.IconUrl,
-
-                    Footer = new EmbedFooterBuilder
+                    xuRepo_Comm = await xuGitClient.GetRepositoryAsync(user, repo);
+                    EmbedBuilder embedd = new EmbedBuilder
                     {
-                        Text = Util.Globals.EmbedFooter
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                        Title = "Information about: " + user + "/" + repo,
+                        Color = Discord.Color.Red,
+                        Description = "GitHub repo details",
+                        ThumbnailUrl = Context.Guild.IconUrl,
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = Util.Globals.EmbedFooter
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -71,28 +73,31 @@ namespace xubot.src.Commands.Connections
                                 IsInline = false
                             }
                         }
-                };
+                    };
 
-                await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embedd.Build());
+                }
             }
 
             [Command("commit"), Summary("Returns information about a GitHub commit based on its SHA.")]
             public async Task CommitInfo(string user, string repo, string sha)
             {
-                xuCommit_Comm = await xuGitClient.GetCommitAsync(user, repo, sha);
-                EmbedBuilder embedd = new EmbedBuilder
+                using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 {
-                    Title = "Information about: " + user + "/" + repo + " commit:" + sha,
-                    Color = Discord.Color.Red,
-                    Description = "GitHub commit details",
-                    ThumbnailUrl = Context.Guild.IconUrl,
-
-                    Footer = new EmbedFooterBuilder
+                    xuCommit_Comm = await xuGitClient.GetCommitAsync(user, repo, sha);
+                    EmbedBuilder embedd = new EmbedBuilder
                     {
-                        Text = Util.Globals.EmbedFooter
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                        Title = "Information about: " + user + "/" + repo + " commit:" + sha,
+                        Color = Discord.Color.Red,
+                        Description = "GitHub commit details",
+                        ThumbnailUrl = Context.Guild.IconUrl,
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = Util.Globals.EmbedFooter
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -125,28 +130,31 @@ namespace xubot.src.Commands.Connections
                                 IsInline = false
                             }
                         }
-                };
+                    };
 
-                await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embedd.Build());
+                }
             }
 
             [Command("repo-latest-commit"), Alias("rlc"), Summary("Returns the latest commit on a GitHub repo.")]
             public async Task RepoCommInfo(string user, string repo)
             {
-                xuCommitArr_Comm = await xuGitClient.GetRepositoryCommitsAsync(user, repo);
-                EmbedBuilder embedd = new EmbedBuilder
+                using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 {
-                    Title = "Information about: " + user + "/" + repo,
-                    Color = Discord.Color.Red,
-                    Description = "GitHub repo latest commit details",
-                    ThumbnailUrl = Context.Guild.IconUrl,
-
-                    Footer = new EmbedFooterBuilder
+                    xuCommitArr_Comm = await xuGitClient.GetRepositoryCommitsAsync(user, repo);
+                    EmbedBuilder embedd = new EmbedBuilder
                     {
-                        Text = Util.Globals.EmbedFooter
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                        Title = "Information about: " + user + "/" + repo,
+                        Color = Discord.Color.Red,
+                        Description = "GitHub repo latest commit details",
+                        ThumbnailUrl = Context.Guild.IconUrl,
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = Util.Globals.EmbedFooter
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -155,28 +163,31 @@ namespace xubot.src.Commands.Connections
                                 IsInline = false
                             }
                         }
-                };
+                    };
 
-                await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embedd.Build());
+                }
             }
 
             [Command("latest-ref"), Summary("Returns information on a GitHub repo's latest ref.")]
             public async Task RefsInfo(string user, string repo)
             {
-                xuRepo_Refs = await xuGitClient.GetRefsAsync(user, repo);
-                EmbedBuilder embedd = new EmbedBuilder
+                using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 {
-                    Title = "Information about: " + user + "/" + repo,
-                    Color = Discord.Color.Red,
-                    Description = "GitHub refs details",
-                    ThumbnailUrl = Context.Guild.IconUrl,
-
-                    Footer = new EmbedFooterBuilder
+                    xuRepo_Refs = await xuGitClient.GetRefsAsync(user, repo);
+                    EmbedBuilder embedd = new EmbedBuilder
                     {
-                        Text = Util.Globals.EmbedFooter
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                        Title = "Information about: " + user + "/" + repo,
+                        Color = Discord.Color.Red,
+                        Description = "GitHub refs details",
+                        ThumbnailUrl = Context.Guild.IconUrl,
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = Util.Globals.EmbedFooter
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -191,9 +202,10 @@ namespace xubot.src.Commands.Connections
                                 IsInline = false
                             }
                         }
-                };
+                    };
 
-                await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embedd.Build());
+                }
             }
         }
     }
