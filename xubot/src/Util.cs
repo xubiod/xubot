@@ -32,7 +32,7 @@ namespace xubot.src
 
                     Footer = new EmbedFooterBuilder
                     {
-                        Text = "xubot :p"
+                        Text = Util.Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
@@ -65,7 +65,7 @@ namespace xubot.src
 
                     Footer = new EmbedFooterBuilder
                     {
-                        Text = "xubot :p"
+                        Text = Util.Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
@@ -98,7 +98,7 @@ namespace xubot.src
 
                     Footer = new EmbedFooterBuilder
                     {
-                        Text = "xubot :p"
+                        Text = Util.Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
@@ -147,7 +147,7 @@ namespace xubot.src
 
                     Footer = new EmbedFooterBuilder
                     {
-                        Text = "xubot :p"
+                        Text = Util.Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
@@ -174,7 +174,7 @@ namespace xubot.src
 
                     Footer = new EmbedFooterBuilder
                     {
-                        Text = "xubot :p"
+                        Text = Util.Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
@@ -201,7 +201,7 @@ namespace xubot.src
 
                     Footer = new EmbedFooterBuilder
                     {
-                        Text = "xubot :p"
+                        Text = Util.Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow
                 };
@@ -394,6 +394,7 @@ namespace xubot.src
             public readonly static char[] HexadecimalChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
             public readonly static Emoji Working = new Emoji("💭");
             public readonly static Emoji Completed = new Emoji("✅");
+            public readonly static string EmbedFooter = "xubot :p";
         }
 
         public class WorkingBlock : IDisposable

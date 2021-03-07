@@ -22,7 +22,7 @@ namespace xubot.src.Commands.Global
 
 				Footer = new EmbedFooterBuilder
 				{
-					Text = "xubot :p"
+					Text = Util.Globals.EmbedFooter
 				},
 				Timestamp = DateTime.UtcNow,
 				Fields = new List<EmbedFieldBuilder>()

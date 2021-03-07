@@ -23,7 +23,7 @@ namespace xubot.src.Modular
 
                 Footer = new EmbedFooterBuilder()
                 {
-                    Text = "xubot :p",
+                    Text = Util.Globals.EmbedFooter,
                     IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
                 },
                 Timestamp = DateTime.Now,

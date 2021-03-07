@@ -41,7 +41,7 @@ namespace xubot.src.Commands.Connections
 
                     Footer = new EmbedFooterBuilder
                     {
-                        Text = "xubot :p"
+                        Text = Util.Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
@@ -89,7 +89,7 @@ namespace xubot.src.Commands.Connections
 
                     Footer = new EmbedFooterBuilder
                     {
-                        Text = "xubot :p"
+                        Text = Util.Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
@@ -143,7 +143,7 @@ namespace xubot.src.Commands.Connections
 
                     Footer = new EmbedFooterBuilder
                     {
-                        Text = "xubot :p"
+                        Text = Util.Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
@@ -173,7 +173,7 @@ namespace xubot.src.Commands.Connections
 
                     Footer = new EmbedFooterBuilder
                     {
-                        Text = "xubot :p"
+                        Text = Util.Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
