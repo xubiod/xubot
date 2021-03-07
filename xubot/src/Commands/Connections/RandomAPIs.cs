@@ -27,7 +27,7 @@ namespace xubot.src.Commands.Connections
             [Command("trivia", RunMode = RunMode.Async)]
             public async Task Trivia(int number)
             {
-                byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/" + number.ToString() + "/trivia");
+                byte[] trivia = await httpClient.GetByteArrayAsync($"http://numbersapi.com/{number}/trivia");
                 var final = System.Text.Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
@@ -45,7 +45,7 @@ namespace xubot.src.Commands.Connections
             [Command("year", RunMode = RunMode.Async)]
             public async Task Year(int number)
             {
-                byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/" + number.ToString() + "/year");
+                byte[] trivia = await httpClient.GetByteArrayAsync($"http://numbersapi.com/{number}/year");
                 var final = System.Text.Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
@@ -63,7 +63,7 @@ namespace xubot.src.Commands.Connections
             [Command("math", RunMode = RunMode.Async)]
             public async Task Math(int number)
             {
-                byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/" + number.ToString() + "/math");
+                byte[] trivia = await httpClient.GetByteArrayAsync($"http://numbersapi.com/{number}/math");
                 var final = System.Text.Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
@@ -100,7 +100,7 @@ namespace xubot.src.Commands.Connections
             {
                 Title = "Validator.pizza Email Validator",
                 Color = Discord.Color.Orange,
-                Description = "**" + parsedTxt.remaining_requests.ToString() + "** requests left for the hour",
+                Description = $"**{parsedTxt.remaining_requests}** requests left for the hour",
 
                 Footer = new EmbedFooterBuilder
                 {
@@ -146,7 +146,7 @@ namespace xubot.src.Commands.Connections
             settings.Async = true;
 
             string final = "";
-            string link = ("http://thecatapi.com/api/images/get?api_key=" + Program.JSONKeys["keys"].Contents.cat.ToString() + "&format=xml");
+            string link = "http://thecatapi.com/api/images/get?api_key=" + $"{Program.JSONKeys["keys"].Contents.cat}&format=xml";
 
             var xdoc = XDocument.Load(link);
 

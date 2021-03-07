@@ -80,7 +80,7 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "AFK Timeout",
-                                Value = Context.Guild.AFKTimeout.ToString() + " seconds",
+                                Value = $"{Context.Guild.AFKTimeout} seconds",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
@@ -163,7 +163,7 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "Amount of Pinned Messages",
-                                Value = (await Context.Channel.GetPinnedMessagesAsync()).Count.ToString() + "/50",
+                                Value = $"{(await Context.Channel.GetPinnedMessagesAsync()).Count}/50",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder

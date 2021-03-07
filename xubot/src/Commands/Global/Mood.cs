@@ -27,7 +27,7 @@ namespace xubot.src.Commands.Global
             else if (-16 >= mood) { moodAsStr = "negative"; }
             else if (mood >= 16) { moodAsStr = "positive"; }
 
-            await ReplyAsync("Your mood value is " + mood.ToString() + " (aka " + moodAsStr + ")", false);
+            await ReplyAsync($"Your mood value is {mood} (aka {moodAsStr})", false);
         }
 
         [Command("pet"), Alias("stroke"), Summary("why.")]

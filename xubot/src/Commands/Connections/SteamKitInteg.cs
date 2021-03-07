@@ -220,7 +220,7 @@ namespace xubot.src.Commands.Connections
 
                     EmbedBuilder embedd = new EmbedBuilder
                     {
-                        Title = "Latest " + amount.ToString() + " news articles for the app: " + ReturnAppName(appid),
+                        Title = $"Latest {amount} news articles for the app: {ReturnAppName(appid)}",
                         Color = Discord.Color.DarkBlue,
                         Description = "Data obtained Steam WebAPI using SteamKit2",
                         //ThumbnailUrl = playerSummaries["avatarfull"].AsString(),

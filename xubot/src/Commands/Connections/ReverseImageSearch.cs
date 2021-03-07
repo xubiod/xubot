@@ -18,7 +18,7 @@ namespace xubot.src.Commands.Connections
         {
             private static readonly string SingleResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=1";
             private static readonly string TopResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=";
-            private static readonly string APIKey = "&api_key=" + Program.JSONKeys["keys"].Contents.saucenao + "&url=";
+            private static readonly string APIKey = $"&api_key={Program.JSONKeys["keys"].Contents.saucenao}&url=";
 
             private static HttpClient client = new HttpClient();
 
@@ -59,16 +59,16 @@ namespace xubot.src.Commands.Connections
                     if (src == "?")
                     {
                         await ReplyAsync("SauceNAO didn't give me a source...\n" +
-                            "> *I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
-                            "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.*\n\n" +
-                            "> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***");
+                            $"> *I have __{((JObject)keys.header).Value<int>("short_remaining")} requests__ left for the next __30 seconds__, " +
+                            $"and __{((JObject)keys.header).Value<int>("long_remaining")} requests__ left for the next __24 hours__.*\n\n" +
+                            $"> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***");
 
                         return;
                     }
-                    await ReplyAsync("I am **" + similarity + "%** confident it is **" + src + "** thanks to SauceNAO.\n" +
-                        "> *I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
-                        "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.*\n\n" +
-                        "> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***");
+                    await ReplyAsync($"I am **{similarity}%** confident it is **{src}** thanks to SauceNAO.\n" +
+                        $"> *I have __{((JObject)keys.header).Value<int>("short_remaining")} requests__ left for the next __30 seconds__, " +
+                        $"and __{((JObject)keys.header).Value<int>("long_remaining")} requests__ left for the next __24 hours__.*\n\n" +
+                        $"> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***");
                 }
             }
 
@@ -132,9 +132,9 @@ namespace xubot.src.Commands.Connections
                     EmbedBuilder embedd = new EmbedBuilder
                     {
                         Title = "SauceNAO of given image - Top " + amount.ToString(),
-                        Description = "*I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
-                                      "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.* " +
-                                      "***__Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.__***",
+                        Description = $"*I have __{((JObject)keys.header).Value<int>("short_remaining")} requests__ left for the next __30 seconds__, " +
+                                      $"and __{((JObject)keys.header).Value<int>("long_remaining")} requests__ left for the next __24 hours__.* " +
+                                      $"***__Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.__***",
                         Color = Discord.Color.LighterGrey,
                         ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
@@ -187,9 +187,9 @@ namespace xubot.src.Commands.Connections
                     if (src == "?")
                     {
                         await ReplyAsync("SauceNAO didn't give me a source...\n" +
-                            "> *I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
-                            "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.*\n\n" +
-                            "> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***");
+                            $"> *I have __{((JObject)keys.header).Value<int>("short_remaining")} requests__ left for the next __30 seconds__, " +
+                            $"and __{((JObject)keys.header).Value<int>("long_remaining")} requests__ left for the next __24 hours__.*\n\n" +
+                            $"> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***");
 
                         return;
                     }
@@ -207,9 +207,9 @@ namespace xubot.src.Commands.Connections
                     EmbedBuilder embedd = new EmbedBuilder
                     {
                         Title = "SauceNAO of given image - Detailed output",
-                        Description = "*I have __" + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests__ left for the next __30 seconds__, " +
-                                      "and __" + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests__ left for the next __24 hours__.* " +
-                                      "***__Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.__***",
+                        Description = $"*I have __{((JObject)keys.header).Value<int>("short_remaining")} requests__ left for the next __30 seconds__, " +
+                                      $"and __{((JObject)keys.header).Value<int>("long_remaining")} requests__ left for the next __24 hours__.* " +
+                                      $"***__Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.__***",
                         Color = Discord.Color.LighterGrey,
                         ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
@@ -243,9 +243,9 @@ namespace xubot.src.Commands.Connections
 
             private async Task BuildSauceNAOError(dynamic keys, ICommandContext Context)
             {
-                string requestsLeft = "I have " + ((JObject)keys.header).Value<int>("short_remaining").ToString() + " requests left for the next 30 seconds, " +
-                 "and " + ((JObject)keys.header).Value<int>("long_remaining").ToString() + " requests left for the next 24 hours.\n" +
-                 "Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.";
+                string requestsLeft = $"I have {((JObject)keys.header).Value<int>("short_remaining")} requests left for the next 30 seconds, " +
+                 $"and {((JObject)keys.header).Value<int>("long_remaining")} requests left for the next 24 hours.\n" +
+                 $"Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.";
 
                 await Util.Error.BuildError("SauceNAO returned an error:\n\n" + Util.Str.StripHTML(keys.header.message.ToString()) + "\n\n[NOTE]\n" + requestsLeft, Context);
             }

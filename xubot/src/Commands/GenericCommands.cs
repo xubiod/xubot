@@ -251,7 +251,7 @@ namespace xubot.src.Commands
 
             //        string result_ = content;
             //        var redditPost = await Program.subreddit.SubmitTextPostAsync(title, Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + " on the Discord server " + Context.Guild.Name + " posted:\n\n" + result_);
-            //        await ReplyAsync("<" + redditPost.Url.AbsoluteUri.ToString() + ">");
+            //        await ReplyAsync("<" + redditPost.Url.AbsoluteUri}>");
             //    }
             //}
 
@@ -302,7 +302,7 @@ namespace xubot.src.Commands
                     attached = tempAttachment;
                 }
 
-                await ReplyAsync(attach.ToString() + "\nURL:" + attached.Url, false);
+                await ReplyAsync($"{attach}\nURL:{attached.Url}", false);
             }
 
             [Command("return_source")]
@@ -332,7 +332,7 @@ namespace xubot.src.Commands
                 else if (-16 >= mood) { moodAsStr = "negative"; }
                 else if (mood >= 16) { moodAsStr = "positive"; }
 
-                await ReplyAsync(mood.ToString() + " / " + moodAsStr, false);
+                await ReplyAsync($"{mood} / {moodAsStr}", false);
             }
 
             [Command("throw_new")]
@@ -963,7 +963,7 @@ namespace xubot.src.Commands
             {
                 var webClient = new WebClient();
                 var webClient2 = new WebClient();
-                string link = "https://www.amdoren.com/api/timezone.php?api_key=" + Program.JSONKeys["keys"].Contents.amdoren + "&loc=" + loc;
+                string link = $"https://www.amdoren.com/api/timezone.php?api_key=" + $"{Program.JSONKeys["keys"].Contents.amdoren}&loc={loc}";
                 string text_j = "";
 
                 text_j = webClient.DownloadString(link);
@@ -990,7 +990,7 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "The API returned: ",
-                                Value = "**" + keys.error_message.ToString() + "**",
+                                Value = $"**{keys.error_message}**",
                                 IsInline = false
                             }
                         }
@@ -1004,7 +1004,7 @@ namespace xubot.src.Commands
                     {
                         Title = "Timezone Location",
                         Color = Discord.Color.Red,
-                        Description = "Timezone and time for " + loc,
+                        Description = $"Timezone and time for {loc}",
 
                         Footer = new EmbedFooterBuilder
                         {
@@ -1016,13 +1016,13 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "Timezone: ",
-                                Value = "**" + keys.timezone.ToString() + "**",
+                                Value = $"**{keys.timezone}**",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Current Time: ",
-                                Value = "**" + keys.time.ToString() + "**",
+                                Value = $"**{keys.time}**",
                                 IsInline = true
                             }
                         }

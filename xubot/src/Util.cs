@@ -183,7 +183,7 @@ namespace xubot.src
                         new EmbedFieldBuilder
                         {
                             Name = "Details",
-                            Value = "```" + problem.ToString() + "```",
+                            Value = $"```{problem.ToString()}```",
                             IsInline = false
                         }
                     }
@@ -375,17 +375,17 @@ namespace xubot.src
 
             public static async Task<IUserMessage> PersistLog(string message, ICommandContext context)
             {
-                string logas = "[" + DateTime.Now.ToLongTimeString() + "]: " + message;
+                string logas = $"{DateTime.Now.ToLongTimeString()}]: {message}";
                 Console.WriteLine(logas);
-                if (context != null) return await context.Channel.SendMessageAsync("`" + logas + "`");
+                if (context != null) return await context.Channel.SendMessageAsync($"`{logas}`");
                 return null;
             }
 
             public static async Task PersistLog(string message, IUserMessage append)
             {
-                string logas = "[" + DateTime.Now.ToLongTimeString() + "]: " + message;
+                string logas = $"[{DateTime.Now.ToLongTimeString()}]: {message};
                 Console.WriteLine(logas);
-                await append.ModifyAsync(x => x.Content = append.Content.ToString() + "\n`" + logas + "`");
+                await append.ModifyAsync(x => x.Content = $"{append.Content}\n`{logas}`");
             }
         }
 

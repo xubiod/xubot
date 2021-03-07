@@ -63,7 +63,7 @@ namespace xubot.src.Commands.Global
             await Util.Error.Deprecated(Context);
             if (EconomyTools.AccountExists(Context.Message.Author))
             {
-                await EconomyTools.Build(Context, "Fake money! Woo!", "Amount in your account", EconomyTools.ReadAmount(Context.Message.Author).ToString() + "#");
+                await EconomyTools.Build(Context, "Fake money! Woo!", "Amount in your account", $"{EconomyTools.ReadAmount(Context.Message.Author)}#");
             }
             else
             {
@@ -300,7 +300,7 @@ namespace xubot.src.Commands.Global
                 {
                     Title = "Economy",
                     Color = Discord.Color.Green,
-                    Description = "Transfer: Complete Cost is `" + (System.Math.Round((_amount * 1.1) * 100) / 100) + "#`",
+                    Description = $"Transfer: Complete Cost is `{System.Math.Round((_amount * 1.1) * 100) / 100}#`",
 
                     Footer = new EmbedFooterBuilder
                     {
@@ -311,20 +311,20 @@ namespace xubot.src.Commands.Global
                         {
                             new EmbedFieldBuilder
                             {
-                                Name = "Transfer Amount to **" + transferTo.Username + "#" + transferTo.Discriminator + "**",
-                                Value = "```" + amount + "#```",
+                                Name = $"Transfer Amount to **{transferTo.Username}#{transferTo.Discriminator}**",
+                                Value = $"```{amount}#```",
                                 IsInline = false
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Transfer Fee",
-                                Value = "```" + (System.Math.Round((_amount * .1) * 100)/100).ToString() + "#```",
+                                Value = $"```{System.Math.Round((_amount * .1) * 100)/100}#```",
                                 IsInline = false
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Transfer Confirmation Code",
-                                Value = "Your confirmation is `" + _code + "`.\nUse `[>eco confirm` to confirm this transaction.",
+                                Value = $"Your confirmation is `{_code}`.\nUse `[>eco confirm` to confirm this transaction.",
                                 IsInline = false
                             }
                         }

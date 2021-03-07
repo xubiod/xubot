@@ -19,7 +19,7 @@ namespace xubot.src.Commands
             foreach (float num in inputs)
                 result += num;
 
-            await ReplyAsync("The result is: " + result.ToString());
+            await ReplyAsync($"The result is: {result}");
         }
 
         [Command("sub"), Alias("subtract"), Summary("Subtracts the floats given.")]
@@ -29,7 +29,7 @@ namespace xubot.src.Commands
             foreach (float num in inputs)
                 result -= num;
 
-            await ReplyAsync("The result is: " + result.ToString());
+            await ReplyAsync($"The result is: {result}");
         }
 
         [Command("multi"), Alias("multiply"), Summary("Multiplies the floats given.")]
@@ -39,7 +39,7 @@ namespace xubot.src.Commands
             foreach (float num in inputs)
                 result *= num;
 
-            await ReplyAsync("The result is: " + result.ToString());
+            await ReplyAsync($"The result is: {result}");
         }
 
         [Command("divide"), Alias("division"), Summary("Divides the floats given.")]
@@ -49,7 +49,7 @@ namespace xubot.src.Commands
             foreach (float num in inputs)
                 result /= num;
 
-            await ReplyAsync("The result is: " + result.ToString());
+            await ReplyAsync($"The result is: {result}");
         }
 
         [Command("mod"), Alias("modulo"), Summary("Modulos the floats given.")]
@@ -59,7 +59,7 @@ namespace xubot.src.Commands
             foreach (float num in inputs)
                 result %= num;
 
-            await ReplyAsync("The result is: " + result.ToString());
+            await ReplyAsync($"The result is: {result}");
         }
 
         [Command("pow"), Alias("power"), Summary("Takes a number to another number as the power.")]
@@ -69,11 +69,11 @@ namespace xubot.src.Commands
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync("The result is: " + result.ToString());
+                await ReplyAsync($"The result is: {result}");
             }
             else
             {
-                await ReplyAsync("The result was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync($"The result was changed to Infinty or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -84,11 +84,11 @@ namespace xubot.src.Commands
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync("The result is: " + result.ToString());
+                await ReplyAsync($"The result is: {result}");
             }
             else
             {
-                await ReplyAsync("The result was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync($"The result was changed to Infinty or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -100,11 +100,11 @@ namespace xubot.src.Commands
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync("The sine of " + num + " is: " + result.ToString() + ".");
+                await ReplyAsync($"The sine of {num} is: {result}.");
             }
             else
             {
-                await ReplyAsync("The sine was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync($"The sine was changed to Infinty or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -115,11 +115,11 @@ namespace xubot.src.Commands
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync("The hyperbolic sine of " + num + " is: " + result.ToString() + ".");
+                await ReplyAsync($"The hyperbolic sine of {num} is: {result}.");
             }
             else
             {
-                await ReplyAsync("The hyperbolic sine was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync($"The hyperbolic sine was changed to Infinty or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -130,11 +130,11 @@ namespace xubot.src.Commands
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync("The asine of " + num + " is: " + result.ToString() + ".");
+                await ReplyAsync($"The asine of {num} is: {result}.");
             }
             else
             {
-                await ReplyAsync("The asine was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync($"The asine was changed to Infinty or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -145,11 +145,11 @@ namespace xubot.src.Commands
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync("The cosine of " + num + " is: " + result.ToString() + ".");
+                await ReplyAsync($"The cosine of {num} is: {result}.");
             }
             else
             {
-                await ReplyAsync("The cosine was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync($"The cosine was changed to Infinty or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -160,11 +160,11 @@ namespace xubot.src.Commands
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync("The hyperbolic cosine of " + num + " is: " + result.ToString() + ".");
+                await ReplyAsync($"The hyperbolic cosine of {num} is: {result}.");
             }
             else
             {
-                await ReplyAsync("The hyperbolic cosine was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync($"The hyperbolic cosine was changed to Infinty or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -175,11 +175,11 @@ namespace xubot.src.Commands
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync("The acosine of " + num + " is: " + result.ToString() + ".");
+                await ReplyAsync($"The acosine of {num} is: {result}.");
             }
             else
             {
-                await ReplyAsync("The acosine was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync($"The acosine was changed to Infinty or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -190,11 +190,11 @@ namespace xubot.src.Commands
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync("The tangent of " + num + " is: " + result.ToString() + ".");
+                await ReplyAsync($"The tangent of {num} is: {result}.");
             }
             else
             {
-                await ReplyAsync("The tanget was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync($"The tanget was changed to Infinty or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -205,11 +205,11 @@ namespace xubot.src.Commands
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync("The hyperbolic tangent of " + num + " is: " + result.ToString() + ".");
+                await ReplyAsync($"The hyperbolic tangent of {num} is: {result}.");
             }
             else
             {
-                await ReplyAsync("The hyperbolic tangent was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync($"The hyperbolic tangent was changed to Infinty or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -220,11 +220,11 @@ namespace xubot.src.Commands
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync("The atangent of " + num + " is: " + result.ToString() + ".");
+                await ReplyAsync($"The atangent of {num} is: {result}.");
             }
             else
             {
-                await ReplyAsync("The atangent was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync($"The atangent was changed to Infinty or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -237,7 +237,7 @@ namespace xubot.src.Commands
             System.Data.DataRow row = table.NewRow();
             table.Rows.Add(row);
             int result = int.Parse((string)row["expression"]);
-            await ReplyAsync("The equation was evaluated and returned **" + result.ToString() + "**.");
+            await ReplyAsync($"The equation was evaluated and returned **{result}**.");
         }
 
         [Group("convert"), Alias("c"), Summary("converts some stuff")]
@@ -248,11 +248,11 @@ namespace xubot.src.Commands
             {
                 if (fromto == "c2f")
                 {
-                    await ReplyAsync("*Celsius to Fahrenheit:* " + ((num1 / 9) * (5 + 32)).ToString());
+                    await ReplyAsync($"*Celsius to Fahrenheit:* {(num1 / 9) * (5 + 32)}");
                 }
                 else if (fromto == "f2c")
                 {
-                    await ReplyAsync("*Fahrenheit to Celsius:* " + ((num1 - 32) * (9 / 5)).ToString());
+                    await ReplyAsync($"*Fahrenheit to Celsius:* {(num1 - 32) * (9 / 5)}");
                 }
             }
 
@@ -261,11 +261,11 @@ namespace xubot.src.Commands
             {
                 if (fromto == "ft2m")
                 {
-                    await ReplyAsync("*Feet to Meters:* " + (num1 * 0.3048).ToString());
+                    await ReplyAsync($"*Feet to Meters:* {num1 * 0.3048}");
                 }
                 else if (fromto == "m2ft")
                 {
-                    await ReplyAsync("*Meters to Feet:* " + (num1 / 0.3048).ToString());
+                    await ReplyAsync($"*Meters to Feet:* {num1 / 0.3048}");
                 }
             }
         }

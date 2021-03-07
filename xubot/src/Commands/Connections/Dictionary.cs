@@ -84,7 +84,7 @@ namespace xubot.src.Commands.Connections
 
                     foreach (var key in keys.results[0].lexicalEntries[0].entries[0].senses)
                     {
-                        allDefinitionsString += "**" + count.ToString() + "**. " + key.definitions[0] + "\n";
+                        allDefinitionsString += $"**{count}**. {key.definitions[0]}\n";
                         count++;
                     }
 

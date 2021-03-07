@@ -82,7 +82,7 @@ namespace xubot.src.Commands
             {
                 Title = "Help",
                 Color = Discord.Color.Magenta,
-                Description = "Showing page #" + (page).ToString() + " out of " + (System.Math.Ceiling((float)commList.Count / itemsPerPage)).ToString() + " pages.\nShowing a few of the **" + commList.Count.ToString() + "** cmds.",
+                Description = $"Showing page #{page} out of {System.Math.Ceiling((float)commList.Count / itemsPerPage)} pages.\nShowing a few of the **{commList.Count}** cmds.",
                 ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
                 Footer = new EmbedFooterBuilder
@@ -96,7 +96,7 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "List",
-                                Value = "```\n" + items + "```" ,
+                                Value = $"```\n{items}```" ,
                                 IsInline = true
                             }
                         }
@@ -148,7 +148,7 @@ namespace xubot.src.Commands
                 {
                     Title = "Help - Search",
                     Color = Discord.Color.Magenta,
-                    Description = "Showing page #" + (page).ToString() + " out of " + (System.Math.Ceiling((float)compatibles.Count / itemsPerPage)).ToString() + " pages.\nShowing a few of the **" + compatibles.Count.ToString() + "** cmds with the lookup.",
+                    Description = $"Showing page #{page} out of {System.Math.Ceiling((float)compatibles.Count / itemsPerPage)} pages.\nShowing a few of the **{compatibles.Count}** cmds with the lookup.",
                     ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
                     Footer = new EmbedFooterBuilder
@@ -162,7 +162,7 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "Search Results",
-                                Value = "```\n" + cmds + "```" ,
+                                Value = $"```\n{cmds}```" ,
                                 IsInline = true
                             }
                         }
@@ -255,7 +255,7 @@ namespace xubot.src.Commands
                 {
                     Title = "Help",
                     Color = Discord.Color.Magenta,
-                    Description = "The newer *better* help. Showing result #" + (index).ToString() + " out of " + allMatchs.ToString() + " match(s).",
+                    Description = $"The newer *better* help. Showing result #{index} out of {allMatchs} match(s).",
                     ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
                     Footer = new EmbedFooterBuilder
@@ -269,7 +269,7 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "Command Name",
-                                Value = "`" + trueName + "`" ,
+                                Value = $"`{trueName}`" ,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
@@ -281,13 +281,13 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "Known Aliases",
-                                Value = "```\n" + all_alias + "```",
+                                Value = $"```\n{all_alias}```",
                                 IsInline = false
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Parameters",
-                                Value = "```cs\n" + all_para + "```",
+                                Value = $"```cs\n{all_para}```",
                                 IsInline = true
                             }
                         }
@@ -303,7 +303,7 @@ namespace xubot.src.Commands
                 if (nsfwPossibility != "") embedd.Fields.Add(new EmbedFieldBuilder()
                 {
                     Name = "NSFW Possibility",
-                    Value = "This group has the possibility of showing NSFW content. __*NSFW will* ***NOT*** *be shown that is NSFW unless it is in a channel specified as NSFW.*__\nThe following is stated as a warning for what type of content could be shown:\n**" + nsfwPossibility + "**",
+                    Value = $"This group has the possibility of showing NSFW content. __*NSFW will* ***NOT*** *be shown that is NSFW unless it is in a channel specified as NSFW.*__\nThe following is stated as a warning for what type of content could be shown:\n**{nsfwPossibility}**",
                     IsInline = true
                 });
 
@@ -400,25 +400,25 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "Module Name and Summary",
-                                Value = "`" + trueName + "`\n*" + trueSumm + "*",
+                                Value = $"`{trueName}`\n*{trueSumm}*",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Known Aliases",
-                                Value = "```" + all_alias + "```",
+                                Value = $"```{all_alias}```",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Subgroups in Group",
-                                Value = "```" + subgroup + "```",
+                                Value = $"```{subgroup}```",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Commands in Group",
-                                Value = "```" + commands + "```",
+                                Value = $"```{commands}```",
                                 IsInline = false
                             }
                         }
@@ -434,7 +434,7 @@ namespace xubot.src.Commands
                 if (nsfwPossibility != null) embedd.Fields.Add(new EmbedFieldBuilder()
                 {
                     Name = "NSFW Possibility",
-                    Value = "This group has the possibility of showing NSFW content. __*NSFW will* ***NOT*** *be shown that is NSFW unless it is in a channel specified as NSFW.*__\nThe following is stated as a warning for what type of content could be shown:\n**" + nsfwPossibility + "**",
+                    Value = $"This group has the possibility of showing NSFW content. __*NSFW will* ***NOT*** *be shown that is NSFW unless it is in a channel specified as NSFW.*__\nThe following is stated as a warning for what type of content could be shown:\n**{nsfwPossibility}**",
                     IsInline = true
                  });
 

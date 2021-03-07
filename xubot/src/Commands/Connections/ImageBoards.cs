@@ -116,7 +116,7 @@ namespace xubot.src.Commands.Connections
 
                     request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
 
-                    string linkJson = "https://e621.net/post/index.json?limit=1&page=" + rnd.Next(751).ToString() + "&tags=" + tags + "";
+                    string linkJson = $"https://e621.net/post/index.json?limit=1&page=" + $"{rnd.Next(751)}&tags={tags}";
 
                     await client.SendAsync(request).ContinueWith(async (res) =>
                     {
@@ -292,7 +292,7 @@ namespace xubot.src.Commands.Connections
 
                 request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
 
-                string linkJson = jsonLink + rnd.Next(751).ToString() + "&tags=" + tags + "";
+                string linkJson = $"{jsonLink}{rnd.Next(751)}&tags={tags}";
 
                 text_j = await client.GetStringAsync(link);
                 text_j = text_j.Substring(1, text_j.Length - 2);

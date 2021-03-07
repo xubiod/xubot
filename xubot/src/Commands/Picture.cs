@@ -391,19 +391,19 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "RGB",
-                                Value = color.R.ToString() + ", " + color.G.ToString() + ", " + color.B.ToString() + " (" + color.R.ToString("X") + color.G.ToString("X") + color.B.ToString("X") + ")",
+                                Value = $"{color.R}, {color.G}, {color.B} ({color.R.ToString("X")}{color.G.ToString("X")}{color.B.ToString("X")})",
                                 IsInline = false
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "RGBA",
-                                Value = color.R.ToString() + ", " + color.G.ToString() + ", " + color.B.ToString() + ", " + color.A.ToString() + " (" + color.R.ToString("X") + color.G.ToString("X") + color.B.ToString("X") + color.A.ToString("X") + ")",
+                                Value = $"{color.R}, {color.G}, {color.B}, {color.A} ({color.R.ToString("X")}{color.G.ToString("X")}{color.B.ToString("X")}{color.A.ToString("X")})",
                                 IsInline = false
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Unpacked RGBA",
-                                Value = color.Rgba.ToString() + " (" + color.Rgba.ToString("X") + ")",
+                                Value = $"{color.Rgba} ({color.Rgba.ToString("X")})",
                                 IsInline = false
                             }
                         }
