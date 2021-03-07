@@ -36,6 +36,12 @@ namespace xubot.src.Commands
             for (int i = 0; i < count; i++)
                 all += lookupAsAll[i] + (i == count - 1 ? "" : " ");
 
+            if (lookupAsAll[0].ToLower() == "search")
+            {
+                Search(all.Replace("search ", ""), true, page);
+                return;
+            }
+
             await HelpHandling(all, page, true);
         }
 
@@ -99,7 +105,7 @@ namespace xubot.src.Commands
         }
 
         [Command("search", RunMode = RunMode.Async), Summary("Searches all commands with a search term. Deep enables searching the aliases as well, but this takes longer.")]
-        public async Task Search(string lookup, bool deep, int page = 1)
+        public async Task Search(string lookup, bool deep = true, int page = 1)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
             {
