@@ -42,10 +42,12 @@ namespace xubot.src.Commands
 
             private readonly static Dictionary<string, ColorBlindnessMode> color_blindness_map =
                 new Dictionary<string, ColorBlindnessMode>() {
-                    { "achromatomaly", ColorBlindnessMode.Achromatomaly }, { "part-mono",   ColorBlindnessMode.Achromatomaly },
-                    { "weak-color",    ColorBlindnessMode.Achromatomaly }, { "color-weak",  ColorBlindnessMode.Achromatomaly },
-                    { "achromatopsia", ColorBlindnessMode.Achromatopsia }, { "mono",        ColorBlindnessMode.Achromatopsia },
-                    { "no-color",      ColorBlindnessMode.Achromatopsia }, { "blind-color", ColorBlindnessMode.Achromatopsia }, { "color-blind", ColorBlindnessMode.Achromatopsia },
+                    { "achromatomaly", ColorBlindnessMode.Achromatomaly }, { "part-mono",    ColorBlindnessMode.Achromatomaly },
+                    { "weak-color",    ColorBlindnessMode.Achromatomaly }, { "color-weak",   ColorBlindnessMode.Achromatomaly },
+                    { "weak-colour",   ColorBlindnessMode.Achromatomaly }, { "colour-weak",  ColorBlindnessMode.Achromatomaly },
+                    { "achromatopsia", ColorBlindnessMode.Achromatopsia }, { "mono",         ColorBlindnessMode.Achromatopsia },
+                    { "no-color",      ColorBlindnessMode.Achromatopsia }, { "blind-color",  ColorBlindnessMode.Achromatopsia }, { "color-blind", ColorBlindnessMode.Achromatopsia },
+                    { "no-colour",     ColorBlindnessMode.Achromatopsia }, { "blind-colour", ColorBlindnessMode.Achromatopsia }, { "colour-blind", ColorBlindnessMode.Achromatopsia },
 
                     { "deuteranomaly", ColorBlindnessMode.Deuteranomaly }, { "weak-green",  ColorBlindnessMode.Deuteranomaly }, { "green-weak",  ColorBlindnessMode.Deuteranomaly },
                     { "deuteranopia",  ColorBlindnessMode.Deuteranopia },  { "blind-green", ColorBlindnessMode.Deuteranopia },  { "green-blind", ColorBlindnessMode.Deuteranopia },
