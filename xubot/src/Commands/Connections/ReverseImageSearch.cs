@@ -16,8 +16,8 @@ namespace xubot.src.Commands.Connections
         [Group("sauce"), Alias("saucenao"), Summary("Uses the SauceNAO API to reverse image search.")]
         public class SauceNao : ModuleBase
         {
-            private static readonly string SingleResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=1";
-            private static readonly string TopResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=";
+            private const string SingleResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=1";
+            private const string TopResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=";
             private static readonly string APIKey = $"&api_key={Program.JSONKeys["keys"].Contents.saucenao}&url=";
 
             private static HttpClient client = new HttpClient();
