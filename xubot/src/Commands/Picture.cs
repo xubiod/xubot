@@ -253,29 +253,7 @@ namespace xubot.src.Commands
                         foreach (string item in all_quantizers.Keys)
                             list += item + "\n";
 
-                        EmbedBuilder embedd = new EmbedBuilder
-                        {
-                            Title = "Quantizer Methods",
-                            Color = Discord.Color.Blue,
-                            Description = "So you don't need to look at the source!",
-
-                            Footer = new EmbedFooterBuilder
-                            {
-                                Text = Util.Globals.EmbedFooter
-                            },
-                            Timestamp = DateTime.UtcNow,
-                            Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Valid Ditherings",
-                                Value = "```" + list + "```",
-                                IsInline = false
-                            }
-                        }
-                        };
-
-                        await Context.Channel.SendMessageAsync("", false, embedd.Build());
+                        await Context.Channel.SendMessageAsync("", false, GetListEmbed("Quantizer Methods", "Valid Methods", list).Build());
                     }
 
                     [Command("glow", RunMode = RunMode.Async), Summary("Applies a glow to an image.")]
@@ -312,29 +290,7 @@ namespace xubot.src.Commands
                         foreach (string item in all_dithering.Keys)
                             list += item + "\n";
 
-                        EmbedBuilder embedd = new EmbedBuilder
-                        {
-                            Title = "Dithering Methods",
-                            Color = Discord.Color.Blue,
-                            Description = "So you don't need to look at the source!",
-
-                            Footer = new EmbedFooterBuilder
-                            {
-                                Text = Util.Globals.EmbedFooter
-                            },
-                            Timestamp = DateTime.UtcNow,
-                            Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Valid Ditherings",
-                                Value = "```" + list + "```",
-                                IsInline = false
-                            }
-                        }
-                        };
-
-                        await Context.Channel.SendMessageAsync("", false, embedd.Build());
+                        await Context.Channel.SendMessageAsync("", false, GetListEmbed("Dithering Methods", "Valid Ditherings", list).Build());
                     }
                 }
 
@@ -364,6 +320,31 @@ namespace xubot.src.Commands
 
                         await Context.Channel.SendFileAsync(filename);
                     }
+                }
+
+                private static EmbedBuilder GetListEmbed(string title, string name, string list)
+                {
+                    return new EmbedBuilder
+                    {
+                        Title = title,
+                        Color = Discord.Color.Blue,
+                        Description = "So you don't need to look at the source!",
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = Util.Globals.EmbedFooter
+                        },
+                        Timestamp = DateTime.UtcNow,
+                        Fields = new List<EmbedFieldBuilder>()
+                            {
+                                new EmbedFieldBuilder
+                                {
+                                    Name = name,
+                                    Value = "```" + list + "```",
+                                    IsInline = false
+                                }
+                            }
+                    };
                 }
             }
 
