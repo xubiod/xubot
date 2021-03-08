@@ -137,6 +137,12 @@ namespace xubot.src.Modular
 
         public static void LoadFromDirectory(string directory = "/Modules", bool isFull = false)
         {
+            if (!Directory.Exists((isFull ? "" : Directory.GetCurrentDirectory()) + directory))
+            {
+                Util.Log.QuickLog("there's no modules, skipping");
+                return;
+            }
+
             foreach (string filename in Directory.GetDirectories((isFull ? "" : Directory.GetCurrentDirectory()) + directory))
                 LoadFromDirectory(filename, true);
 
