@@ -87,7 +87,7 @@ namespace xubot.src.Modular
                 {
                     Title = "Module Listing",
                     Description = "Note: *some of these might not be loaded*",
-                    Color = Discord.Color.LightOrange,
+                    Color = Discord.Color.Orange,
                     ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
                     Footer = new EmbedFooterBuilder()
