@@ -195,6 +195,11 @@ namespace xubot.src
 
             public static void ProcessFile(string key, string jsonFile)
             {
+                if (!System.IO.File.Exists(jsonFile))
+                {
+                    Log.QuickLog($"a json file was missing: {Path.GetFileName(jsonFile)}");
+                    return;
+                }
                 Program.JSONKeys.Add(key, new Entry(jsonFile, JObject.Parse(System.IO.File.ReadAllText(jsonFile))));
             }
 
