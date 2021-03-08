@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xubotEcomony>
-  <!-- these elements are added automagically -->
-  <!-- they are used by the commands in Economy.cs -->
-  <reserve user="[userid]" amount="[amount]" lastupdate="[time]" />
-</xubotEcomony>

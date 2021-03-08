@@ -26,7 +26,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config-example", "config-example", "{3C81F374-8EAB-4406-A970-4EDF3EB93413}"
 	ProjectSection(SolutionItems) = preProject
 		config-example\Core\API.json = config-example\Core\API.json
-		config-example\Core\Economy.xml = config-example\Core\Economy.xml
 		config-example\Core\Keys.json = config-example\Core\Keys.json
 		config-example\Core\Moods.json = config-example\Core\Moods.json
 		config-example\Core\Opinions.json = config-example\Core\Opinions.json
@@ -39,11 +38,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{C65B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "debug", "debug", "{709A220C-3266-479E-BC96-A8A489FA4104}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugModule", "DebugModule\DebugModule.csproj", "{3DCB0E32-2D91-4E6B-885E-EB36B28DB2C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DebugModule", "DebugModule\DebugModule.csproj", "{3DCB0E32-2D91-4E6B-885E-EB36B28DB2C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "share", "share", "{ACA25B79-AE20-4F78-A4FF-08DD28F1897E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XubotSharedModule", "XubotSharedModule\XubotSharedModule.csproj", "{8666B699-403F-4D8A-82A0-989FFCD39702}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XubotSharedModule", "XubotSharedModule\XubotSharedModule.csproj", "{8666B699-403F-4D8A-82A0-989FFCD39702}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
