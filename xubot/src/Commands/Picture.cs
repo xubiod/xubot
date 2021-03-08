@@ -46,17 +46,14 @@ namespace xubot.src.Commands
                     { "weak-color",    ColorBlindnessMode.Achromatomaly }, { "color-weak",   ColorBlindnessMode.Achromatomaly },
                     { "weak-colour",   ColorBlindnessMode.Achromatomaly }, { "colour-weak",  ColorBlindnessMode.Achromatomaly },
                     { "achromatopsia", ColorBlindnessMode.Achromatopsia }, { "mono",         ColorBlindnessMode.Achromatopsia },
-                    { "no-color",      ColorBlindnessMode.Achromatopsia }, { "blind-color",  ColorBlindnessMode.Achromatopsia }, { "color-blind", ColorBlindnessMode.Achromatopsia },
+                    { "no-color",      ColorBlindnessMode.Achromatopsia }, { "blind-color",  ColorBlindnessMode.Achromatopsia }, { "color-blind",  ColorBlindnessMode.Achromatopsia },
                     { "no-colour",     ColorBlindnessMode.Achromatopsia }, { "blind-colour", ColorBlindnessMode.Achromatopsia }, { "colour-blind", ColorBlindnessMode.Achromatopsia },
-
-                    { "deuteranomaly", ColorBlindnessMode.Deuteranomaly }, { "weak-green",  ColorBlindnessMode.Deuteranomaly }, { "green-weak",  ColorBlindnessMode.Deuteranomaly },
-                    { "deuteranopia",  ColorBlindnessMode.Deuteranopia },  { "blind-green", ColorBlindnessMode.Deuteranopia },  { "green-blind", ColorBlindnessMode.Deuteranopia },
-
-                    { "protanomaly",   ColorBlindnessMode.Protanomaly },   { "weak-red",    ColorBlindnessMode.Protanomaly },   { "red-weak",    ColorBlindnessMode.Protanomaly },
-                    { "protanopia",    ColorBlindnessMode.Protanopia },    { "blind-red",   ColorBlindnessMode.Protanopia },    { "red-blind",   ColorBlindnessMode.Protanopia },
-
-                    { "tritanomaly",   ColorBlindnessMode.Tritanomaly },   { "weak-blue",   ColorBlindnessMode.Tritanomaly },   { "blue-weak",   ColorBlindnessMode.Tritanomaly },
-                    { "tritanopia",    ColorBlindnessMode.Tritanopia },    { "blind-blue",  ColorBlindnessMode.Tritanopia },    { "blue-blind",  ColorBlindnessMode.Tritanopia }
+                    { "deuteranomaly", ColorBlindnessMode.Deuteranomaly }, { "weak-green",   ColorBlindnessMode.Deuteranomaly }, { "green-weak",   ColorBlindnessMode.Deuteranomaly },
+                    { "deuteranopia",  ColorBlindnessMode.Deuteranopia },  { "blind-green",  ColorBlindnessMode.Deuteranopia },  { "green-blind",  ColorBlindnessMode.Deuteranopia },
+                    { "protanomaly",   ColorBlindnessMode.Protanomaly },   { "weak-red",     ColorBlindnessMode.Protanomaly },   { "red-weak",     ColorBlindnessMode.Protanomaly },
+                    { "protanopia",    ColorBlindnessMode.Protanopia },    { "blind-red",    ColorBlindnessMode.Protanopia },    { "red-blind",    ColorBlindnessMode.Protanopia },
+                    { "tritanomaly",   ColorBlindnessMode.Tritanomaly },   { "weak-blue",    ColorBlindnessMode.Tritanomaly },   { "blue-weak",    ColorBlindnessMode.Tritanomaly },
+                    { "tritanopia",    ColorBlindnessMode.Tritanopia },    { "blind-blue",   ColorBlindnessMode.Tritanopia },    { "blue-blind",   ColorBlindnessMode.Tritanopia }
                 };
 
             [Command("bw", RunMode = RunMode.Async), Summary("Makes an image black and white.")]
