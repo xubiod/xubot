@@ -383,7 +383,7 @@ namespace xubot.src
 
             public static async Task PersistLog(string message, IUserMessage append)
             {
-                string logas = $"[{DateTime.Now.ToLongTimeString()}]: {message};
+                string logas = $"[{DateTime.Now.ToLongTimeString()}]: {message}";
                 Console.WriteLine(logas);
                 await append.ModifyAsync(x => x.Content = $"{append.Content}\n`{logas}`");
             }
