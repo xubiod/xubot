@@ -784,26 +784,6 @@ namespace xubot.src.Commands
             }
         }
 
-        [Group("base65536"), Summary("Encodes or decodes strings into Base65536.")]
-        public class Base65536Comm : ModuleBase
-        {
-            [Command("encode"), Summary("Encodes a string into Base65536.")]
-            public async Task Encode(string input)
-            {
-                System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
-                byte[] bytes = encoding.GetBytes(input);
-
-                await ReplyAsync(Base65536.Encode(bytes));
-            }
-
-            [Command("decode"), Summary("Decodes a string into Base65536.")]
-            public async Task Decode(string input)
-            {
-                System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
-                await ReplyAsync(encoding.GetString(Base65536.Decode(input)));
-            }
-        }
-
         [Group("trust"), Summary("Management for trust. Cannot be used by anyone except owner."), RequireOwner]
         public class Trust : ModuleBase
         {
