@@ -57,42 +57,6 @@ namespace xubot.src.Commands
             await ReplyAsync("no u");
         }
 
-        [Command("anon", RunMode = RunMode.Async), RequireContext(ContextType.DM), Summary("Sends someone an anonymous message. They must have a DM of the bot open to work.")]
-        public async Task AnonMsg(ulong id, string msg)
-        {
-            if (Global.Economy.EconomyTools.ReadAmount(Context.Message.Author) > 10)
-            {
-                Global.Economy.EconomyTools.Adjust(Context.Message.Author, -10);
-            }
-            else
-            {
-                await ReplyAsync("You need at least 10# from the economy to use this command.");
-                return;
-            }
-            IUser sendTo = Program.xuClient.GetUser(id);
-
-            IDMChannel dm = await sendTo.GetOrCreateDMChannelAsync();
-            await dm.SendMessageAsync(msg);
-        }
-
-        [Command("anon"), RequireContext(ContextType.DM), Summary("Sends someone an anonymous message. They must have a DM of the bot open to work.")]
-        public async Task AnonMsg(string user, string discrm, string msg)
-        {
-            if (Global.Economy.EconomyTools.ReadAmount(Context.Message.Author) > 10)
-            {
-                Global.Economy.EconomyTools.Adjust(Context.Message.Author, -10);
-            }
-            else
-            {
-                await ReplyAsync("You need at least 10# from the economy to use this command.");
-                return;
-            }
-            IUser sendTo = Program.xuClient.GetUser(user, discrm);
-
-            IDMChannel dm = await sendTo.GetOrCreateDMChannelAsync();
-            await dm.SendMessageAsync(msg);
-        }
-
         [Command("yritwh"), Alias("you-reposted-in-the-wrong-neighborhood"), Summary("Use as a reaction to a meme that has been reposted inappropriately.")]
         public async Task YRITWH()
         {
