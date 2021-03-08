@@ -23,9 +23,9 @@ namespace xubot.src
     {
         public class Error //(SocketMessage messageParameters)
         {
-            public static async Task BuildError(IResult result, CommandContext context)
+            private static EmbedBuilder GetErrorBoilerplate()
             {
-                EmbedBuilder embedd = new EmbedBuilder
+                return new EmbedBuilder
                 {
                     Title = "Error!",
                     Color = Discord.Color.Red,
@@ -35,22 +35,28 @@ namespace xubot.src
                     {
                         Text = Util.Globals.EmbedFooter
                     },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Error Reason",
-                                Value = "```" + result.ErrorReason + "```",
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "What it is",
-                                Value = "```" + result.Error.GetType() + "```",
-                                IsInline = false
-                            }
-                        }
+                    Timestamp = DateTime.UtcNow
+                };
+            }
+
+            public static async Task BuildError(IResult result, CommandContext context)
+            {
+                EmbedBuilder embedd = GetErrorBoilerplate();
+
+                embedd.Fields = new List<EmbedFieldBuilder>()
+                {
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Error Reason",
+                        Value = "```" + result.ErrorReason + "```",
+                        IsInline = false
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "What it is",
+                        Value = "```" + result.Error.GetType() + "```",
+                        IsInline = false
+                    }
                 };
 
                 await context.Channel.SendMessageAsync("", false, embedd.Build());
@@ -58,26 +64,16 @@ namespace xubot.src
 
             public static async Task BuildError(CommandError err, CommandContext context)
             {
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Error!",
-                    Color = Discord.Color.Red,
-                    Description = "***That's a bad!!!***",
+                EmbedBuilder embedd = GetErrorBoilerplate();
 
-                    Footer = new EmbedFooterBuilder
+                embedd.Fields = new List<EmbedFieldBuilder>()
+                {
+                    new EmbedFieldBuilder
                     {
-                        Text = Util.Globals.EmbedFooter
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Error",
-                                Value = "```" + err + "```",
-                                IsInline = false
-                            }
-                        }
+                        Name = "Error",
+                        Value = "```" + err + "```",
+                        IsInline = false
+                    }
                 };
 
                 await context.Channel.SendMessageAsync("", false, embedd.Build());
@@ -86,53 +82,46 @@ namespace xubot.src
             public static async Task BuildError(Exception exp, ICommandContext context)
             {
                 string stack = exp.StackTrace;
-                if (exp.StackTrace.Length > 512)
+                bool stacktraceToFile = exp.StackTrace.Length > 512;
+                if (stacktraceToFile)
                 {
                     System.IO.File.WriteAllText(Path.Combine(Path.GetTempPath(), "StackTrace.txt"), stack);
                     stack = "Stack trace is too big. Reference the provided file.";
                 }
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Exception!",
-                    Color = Discord.Color.Red,
-                    Description = "It's a ***" + exp.GetType() + "***.",
 
-                    Footer = new EmbedFooterBuilder
+                EmbedBuilder embedd = GetErrorBoilerplate();
+
+                embedd.Description = $"It's a ***{exp.GetType()}***.";
+                embedd.Fields = new List<EmbedFieldBuilder>()
+                {
+                    new EmbedFieldBuilder
                     {
-                        Text = Util.Globals.EmbedFooter
+                        Name = "Source",
+                        Value = $"```{exp.Source}```",
+                        IsInline = false
                     },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Source",
-                                Value = "```" + exp.Source + "```",
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Message",
-                                Value = "```" + exp.Message + "```",
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Target Site",
-                                Value = "```" + exp.TargetSite + "```",
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Stack Trace",
-                                Value = "```" + stack + "```",
-                                IsInline = false
-                            }
-                        }
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Message",
+                        Value = $"```{exp.Message}```",
+                        IsInline = false
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Target Site",
+                        Value = $"```{exp.TargetSite}```",
+                        IsInline = false
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Stack Trace",
+                        Value = $"```{stack}```",
+                        IsInline = false
+                    }
                 };
 
                 await context.Channel.SendMessageAsync("", false, embedd.Build());
-                if (exp.StackTrace.Length > 512)
+                if (stacktraceToFile)
                 {
                     await context.Channel.SendFileAsync(Path.Combine(Path.GetTempPath(), "StackTrace.txt"));
                 }
@@ -140,26 +129,15 @@ namespace xubot.src
 
             public static async Task BuildError(string problem, ICommandContext context)
             {
-                EmbedBuilder embedd = new EmbedBuilder
+                EmbedBuilder embedd = GetErrorBoilerplate();
+                embedd.Fields = new List<EmbedFieldBuilder>()
                 {
-                    Title = "Problem!",
-                    Color = Discord.Color.Red,
-                    Description = "It's an issue all right! The error builder got *a string!*",
-
-                    Footer = new EmbedFooterBuilder
+                    new EmbedFieldBuilder
                     {
-                        Text = Util.Globals.EmbedFooter
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Details",
-                                Value = "```" + problem + "```",
-                                IsInline = false
-                            }
-                        }
+                        Name = "Details",
+                        Value = "```" + problem + "```",
+                        IsInline = false
+                    }
                 };
 
                 await context.Channel.SendMessageAsync("", false, embedd.Build());
@@ -167,25 +145,16 @@ namespace xubot.src
 
             public static async Task BuildError(object problem, ICommandContext context)
             {
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Exception!",
-                    Color = Discord.Color.Red,
-                    Description = "It's a dedicated ***" + problem.GetType() + "*** issue.",
+                EmbedBuilder embedd = GetErrorBoilerplate();
 
-                    Footer = new EmbedFooterBuilder
+                embedd.Description = "It's a dedicated ***" + problem.GetType() + "*** issue.";
+                embedd.Fields = new List<EmbedFieldBuilder>()
+                {
+                    new EmbedFieldBuilder
                     {
-                        Text = Util.Globals.EmbedFooter
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                    {
-                        new EmbedFieldBuilder
-                        {
-                            Name = "Details",
-                            Value = $"```{problem.ToString()}```",
-                            IsInline = false
-                        }
+                        Name = "Details",
+                        Value = $"```{problem.ToString()}```",
+                        IsInline = false
                     }
                 };
 
