@@ -54,4 +54,4 @@ For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.co
 To be rewritten.
 
 ## License
-The license used is the **MIT License**. More details [here.](LICENSE)
+The license used is the **AGPLv3 License**. More details [here.](LICENSE)
