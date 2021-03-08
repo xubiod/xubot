@@ -29,17 +29,26 @@ namespace xubot.src.Commands
             [Group("manip"), Summary("Manipulates images. Can be used to deepfry.")]
             public class Manipulation : ModuleBase
             {
-                private static Dictionary<string, IQuantizer> all_quantizers = new Dictionary<string, IQuantizer>() {
+                private readonly static Dictionary<string, IQuantizer> all_quantizers = new Dictionary<string, IQuantizer>() {
                     { "websafe", KnownQuantizers.WebSafe }, { "web", KnownQuantizers.WebSafe }, { "web-safe", KnownQuantizers.WebSafe },
                     { "werner", KnownQuantizers.Werner }, { "1821", KnownQuantizers.Werner },
                     { "wu", KnownQuantizers.Wu },{ "xiaolin-wu", KnownQuantizers.Wu },{ "high", KnownQuantizers.Wu },{ "highquality", KnownQuantizers.Wu },{ "high-quality", KnownQuantizers.Wu },
                     { "octree", KnownQuantizers.Octree },{ "fast", KnownQuantizers.Octree },{ "adaptive", KnownQuantizers.Octree },{ "f", KnownQuantizers.Octree }
                 };
 
-                private static Dictionary<string, IDither> all_dithering =
-                    new Dictionary<string, IDither>() { { "atkinson", KnownDitherings.Atkinson }, { "bayer2", KnownDitherings.Bayer2x2 }, { "bayer4", KnownDitherings.Bayer4x4}, { "bayer8", KnownDitherings.Bayer8x8}, { "burks", KnownDitherings.Burks},
+                private readonly static Dictionary<string, IDither> all_dithering =
+                    new Dictionary<string, IDither>() {
+                        { "atkinson", KnownDitherings.Atkinson }, { "bayer2", KnownDitherings.Bayer2x2 }, { "bayer4", KnownDitherings.Bayer4x4}, { "bayer8", KnownDitherings.Bayer8x8}, { "burks", KnownDitherings.Burks},
                         { "floydsteinberg", KnownDitherings.FloydSteinberg }, {"jarvisjudiceninke", KnownDitherings.JarvisJudiceNinke}, { "ordered3", KnownDitherings.Ordered3x3}, { "sierra2", KnownDitherings.Sierra2}, { "sierra3", KnownDitherings.Sierra3},
                         { "sierralite", KnownDitherings.SierraLite}, { "stevensonarce", KnownDitherings.StevensonArce}, { "stucki", KnownDitherings.Stucki } };
+
+                private readonly static Dictionary<string, ColorBlindnessMode> color_blindness_map =
+                    new Dictionary<string, ColorBlindnessMode>() {
+                        { "achromatomaly", ColorBlindnessMode.Achromatomaly }, { "part-mono", ColorBlindnessMode.Achromatomaly },   { "achromatopsia", ColorBlindnessMode.Achromatopsia }, { "mono", ColorBlindnessMode.Achromatopsia },
+                        { "deuteranomaly", ColorBlindnessMode.Deuteranomaly }, { "weak-green", ColorBlindnessMode.Deuteranomaly },  { "deuteranopia", ColorBlindnessMode.Deuteranopia },   { "blind-green", ColorBlindnessMode.Deuteranopia },
+                        { "protanomaly", ColorBlindnessMode.Protanomaly },     { "weak-red", ColorBlindnessMode.Protanomaly },      { "protanopia", ColorBlindnessMode.Protanopia },       { "blind-red", ColorBlindnessMode.Protanopia },
+                        { "tritanomaly", ColorBlindnessMode.Tritanomaly },     { "weak-blue", ColorBlindnessMode.Tritanomaly },     { "tritanopia", ColorBlindnessMode.Tritanopia },       { "blind-blue", ColorBlindnessMode.Tritanopia },
+                    };
 
                 [Command("bw", RunMode = RunMode.Async), Summary("Makes an image black and white.")]
                 public async Task BW() { HandleFilter(Context, mut => mut.BlackWhite()); }
@@ -105,73 +114,15 @@ namespace xubot.src.Commands
                     [Command("colorblind", RunMode = RunMode.Async), Alias("colourblind"), Summary("Applies a filter to simulate colourblindness.")]
                     public async Task EmulateColourblindness(string _type)
                     {
-                        switch (_type.ToLower())
+                        _type = _type.ToLower();
+
+                        if (!color_blindness_map.ContainsKey(_type))
                         {
-                            // NO COLOUR
-                            case "achromatomaly":
-                            case "part-mono":
-                                {
-                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Achromatomaly));
-                                    break;
-                                }
-
-                            case "achromatopsia":
-                            case "mono":
-                                {
-                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Achromatopsia));
-                                    break;
-                                }
-
-                            // GREEN
-                            case "deuteranomaly":
-                            case "weak-green":
-                                {
-                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranomaly));
-                                    break;
-                                }
-
-                            case "deuteranopia":
-                            case "blind-green":
-                                {
-                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Deuteranopia));
-                                    break;
-                                }
-
-                            // RED
-                            case "protanomaly":
-                            case "weak-red":
-                                {
-                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Protanomaly));
-                                    break;
-                                }
-
-                            case "protanopia":
-                            case "blind-red":
-                                {
-                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Protanopia));
-                                    break;
-                                }
-
-                            // BLUE
-                            case "tritanomaly":
-                            case "weak-blue":
-                                {
-                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Tritanomaly));
-                                    break;
-                                }
-
-                            case "tritanopia":
-                            case "blind-blue":
-                                {
-                                    HandleFilter(Context, mut => mut.ColorBlindness(ColorBlindnessMode.Tritanopia));
-                                    break;
-                                }
-                            default:
-                                {
-                                    await ReplyAsync("I wasn't given a valid filter name...");
-                                    break;
-                                }
+                            await ReplyAsync("I wasn't given a valid filter name...");
+                            return;
                         }
+
+                        HandleFilter(Context, mut => mut.ColorBlindness(color_blindness_map[_type]));
                     }
 
                     [Command("colorblind?list", RunMode = RunMode.Async), Alias("colourblind?list"), Summary("Lists the colourblindness filters.")]
