@@ -262,7 +262,7 @@ namespace xubot.src
                 return output;
             }
 
-            public static string RandomFilename()
+            public static string RandomTempFilename()
             {
                 return Path.GetTempPath() + RandomHexadecimal();
             }

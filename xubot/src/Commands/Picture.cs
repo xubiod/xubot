@@ -340,7 +340,7 @@ namespace xubot.src.Commands
 
                 private static string ApplyFilter(string load, string type, System.Action<IImageProcessingContext> mutation)
                 {
-                    string filename = Util.Str.RandomFilename() + type;
+                    string filename = Util.Str.RandomTempFilename() + type;
 
                     using (var img = SLImage.Load(load + type))
                     {
