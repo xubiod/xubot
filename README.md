@@ -3,8 +3,9 @@
 # The Modular Update
 Insert more description here when it's not 10pm with extreme tiredness
 
-### CodeFactor Grade
+### Project Badges
 [![CodeFactor](https://www.codefactor.io/repository/github/xubiod/xubot/badge)](https://www.codefactor.io/repository/github/xubiod/xubot)
+[![Build status](https://ci.appveyor.com/api/projects/status/1gwftwwou8k80gir?svg=true)](https://ci.appveyor.com/project/xubiod/xubot-appveyor)
 
 ### Other Badges
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](https://forthebadge.com)
