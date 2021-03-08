@@ -40,7 +40,7 @@ namespace xubot.src.Commands
                     { "floydsteinberg", KnownDitherings.FloydSteinberg }, {"jarvisjudiceninke", KnownDitherings.JarvisJudiceNinke}, { "ordered3", KnownDitherings.Ordered3x3}, { "sierra2", KnownDitherings.Sierra2}, { "sierra3", KnownDitherings.Sierra3},
                     { "sierralite", KnownDitherings.SierraLite}, { "stevensonarce", KnownDitherings.StevensonArce}, { "stucki", KnownDitherings.Stucki } };
 
-            private readonly static Dictionary<string, ColorBlindnessMode> color_blindness_map =
+            private readonly static Dictionary<string, ColorBlindnessMode> colour_blindness_map =
                 new Dictionary<string, ColorBlindnessMode>() {
                     { "achromatomaly", ColorBlindnessMode.Achromatomaly }, { "part-mono",    ColorBlindnessMode.Achromatomaly },
                     { "weak-color",    ColorBlindnessMode.Achromatomaly }, { "color-weak",   ColorBlindnessMode.Achromatomaly },
@@ -122,13 +122,13 @@ namespace xubot.src.Commands
                 {
                     _type = _type.ToLower();
 
-                    if (!color_blindness_map.ContainsKey(_type))
+                    if (!colour_blindness_map.ContainsKey(_type))
                     {
                         await ReplyAsync("I wasn't given a valid filter name...");
                         return;
                     }
 
-                    HandleFilter(Context, mut => mut.ColorBlindness(color_blindness_map[_type]));
+                    HandleFilter(Context, mut => mut.ColorBlindness(colour_blindness_map[_type]));
                 }
 
                 [Command("colorblind?list", RunMode = RunMode.Async), Alias("colourblind?list"), Summary("Lists the colourblindness filters.")]
@@ -229,11 +229,11 @@ namespace xubot.src.Commands
                 [Command("dither", RunMode = RunMode.Async), Summary("Applies a dithering effect to an image. 13 are available, accessible with its name (use `pic manip ditherings` to get all valid names). The full palette is RGBA32 colors as hexadecimal strings.")]
                 public async Task Dither(string name, params string[] palette)
                 {
-                    SixLabors.ImageSharp.Color[] colors = new SixLabors.ImageSharp.Color[palette.Length];
+                    SixLabors.ImageSharp.Color[] colours = new SixLabors.ImageSharp.Color[palette.Length];
                     for (int i = 0; i < palette.Length; i++)
-                        colors[i] = new SixLabors.ImageSharp.Color(Tools.ColorFromHexString(palette[i]));
+                        colours[i] = new SixLabors.ImageSharp.Color(Tools.ColorFromHexString(palette[i]));
 
-                    ReadOnlyMemory<SixLabors.ImageSharp.Color> rom_palette = colors;
+                    ReadOnlyMemory<SixLabors.ImageSharp.Color> rom_palette = colours;
 
                     if (!all_dithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
                     HandleFilter(Context, mut => mut.Dither(all_dithering[name.ToLower()], rom_palette));
@@ -311,12 +311,12 @@ namespace xubot.src.Commands
             [Command("rgba"), Summary("Gets RGBA elements from a hex string representing an RGBA32 value.")]
             public async Task GetComponents(string hex)
             {
-                Rgba32 color = ColorFromHexString(hex);
+                Rgba32 colour = ColorFromHexString(hex);
 
                 EmbedBuilder embedd = new EmbedBuilder
                 {
                     Title = "Color",
-                    Color = new Discord.Color(color.R, color.G, color.B),
+                    Color = new Discord.Color(colour.R, colour.G, colour.B),
                     Description = "Colors!",
 
                     Footer = new EmbedFooterBuilder
@@ -329,19 +329,19 @@ namespace xubot.src.Commands
                         new EmbedFieldBuilder
                         {
                             Name = "RGB",
-                            Value = $"{color.R}, {color.G}, {color.B} ({color.R.ToString("X")}{color.G.ToString("X")}{color.B.ToString("X")})",
+                            Value = $"{colour.R}, {colour.G}, {colour.B} ({colour.R.ToString("X")}{colour.G.ToString("X")}{colour.B.ToString("X")})",
                             IsInline = false
                         },
                         new EmbedFieldBuilder
                         {
                             Name = "RGBA",
-                            Value = $"{color.R}, {color.G}, {color.B}, {color.A} ({color.R.ToString("X")}{color.G.ToString("X")}{color.B.ToString("X")}{color.A.ToString("X")})",
+                            Value = $"{colour.R}, {colour.G}, {colour.B}, {colour.A} ({colour.R.ToString("X")}{colour.G.ToString("X")}{colour.B.ToString("X")}{colour.A.ToString("X")})",
                             IsInline = false
                         },
                         new EmbedFieldBuilder
                         {
                             Name = "Unpacked RGBA",
-                            Value = $"{color.Rgba} ({color.Rgba.ToString("X")})",
+                            Value = $"{colour.Rgba} ({colour.Rgba.ToString("X")})",
                             IsInline = false
                         }
                     }
