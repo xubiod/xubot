@@ -81,93 +81,79 @@ namespace xubot.src.Commands.Connections
                     string playing = "";
                     if (playerSummaries["gameid"].AsInteger(0) != 0) playing = "Currently playing **" + ReturnAppName(playerSummaries["gameid"].AsInteger()) + "**";
 
-                    EmbedBuilder embedd = new EmbedBuilder();
+                    EmbedBuilder embedd = new EmbedBuilder()
+                    {
+                        Title = "Steam User: " + playerSummaries["personaname"].AsString(),
+                        Color = Discord.Color.DarkBlue,
+                        Description = "Data obtained Steam WebAPI using SteamKit2",
+                        ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
+
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = Util.Globals.EmbedFooter
+                        },
+                        Timestamp = DateTime.UtcNow
+                    };
 
                     if (playerSummaries["communityvisibilitystate"].AsInteger(1) == 3 /* public, don't ask why */)
                     {
-                        embedd = new EmbedBuilder
+                        embedd.Fields = new List<EmbedFieldBuilder>()
                         {
-                            Title = "Steam User: " + playerSummaries["personaname"].AsString(),
-                            Color = Discord.Color.DarkBlue,
-                            Description = "Data obtained Steam WebAPI using SteamKit2",
-                            ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
-
-                            Footer = new EmbedFooterBuilder
+                            new EmbedFieldBuilder
                             {
-                                Text = Util.Globals.EmbedFooter
+                                Name = "Current Stats",
+                                Value = "Currently __" + GetStatus(playerSummaries["personastate"].AsInteger()) + "__\n" +
+                                        "Level **" + playerLevel["player_level"].AsString() + "**\n**" +
+                                        ownedGames["game_count"].AsString() + "** products" +
+                                        playing,
+                                IsInline = true
                             },
-                            Timestamp = DateTime.UtcNow,
-                            Fields = new List<EmbedFieldBuilder>()
+                            new EmbedFieldBuilder
                             {
-                                new EmbedFieldBuilder
-                                {
-                                    Name = "Current Stats",
-                                    Value = "Currently __" + GetStatus(playerSummaries["personastate"].AsInteger()) + "__\n" +
-                                            "Level **" + playerLevel["player_level"].AsString() + "**\n**" +
-                                            ownedGames["game_count"].AsString() + "** products" +
-                                            playing,
-                                    IsInline = true
-                                },
-                                new EmbedFieldBuilder
-                                {
-                                    Name = "Playtime (2 wks)",
-                                    Value = string.Format("{0:#,##0}", twoWeeks) + " minutes\n" + string.Format("{0:#,###0.0}", twoWeeks/60) + " hours",
-                                    IsInline = true
-                                },
-                                new EmbedFieldBuilder
-                                {
-                                    Name = "Playtime (forever)",
-                                    Value = string.Format("{0:#,##0}", forever) + " minutes\n" + string.Format("{0:#,###0.0}", forever/60) + " hours\n" + string.Format("{0:#,###0.00}", forever/1440) + " days",
-                                    IsInline = true
-                                },
-                                mostWeekField,
-                                mostTimeField,
-                                new EmbedFieldBuilder
-                                {
-                                    Name = "Last Logoff",
-                                    Value = lastLogOff.ToShortDateString() + " " + lastLogOff.ToShortTimeString() + "\n(" +
-                                    System.Math.Round((lastLogOffToNow.TotalHours*100)/100).ToString() + " hours)",
-                                    IsInline = true
-                                },
-                                new EmbedFieldBuilder
-                                {
-                                    Name = "Time Created",
-                                    Value = timeCreated.ToShortDateString() + " " + timeCreated.ToShortTimeString() + "\n(" +
-                                    string.Format("{0:#,###.00}", (createdToNow.TotalDays/365)) + " years)",
-                                    IsInline = true
-                                }
+                                Name = "Playtime (2 wks)",
+                                Value = string.Format("{0:#,##0}", twoWeeks) + " minutes\n" + string.Format("{0:#,###0.0}", twoWeeks/60) + " hours",
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Playtime (forever)",
+                                Value = string.Format("{0:#,##0}", forever) + " minutes\n" + string.Format("{0:#,###0.0}", forever/60) + " hours\n" + string.Format("{0:#,###0.00}", forever/1440) + " days",
+                                IsInline = true
+                            },
+                            mostWeekField,
+                            mostTimeField,
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Last Logoff",
+                                Value = lastLogOff.ToShortDateString() + " " + lastLogOff.ToShortTimeString() + "\n(" +
+                                System.Math.Round((lastLogOffToNow.TotalHours*100)/100).ToString() + " hours)",
+                                IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Time Created",
+                                Value = timeCreated.ToShortDateString() + " " + timeCreated.ToShortTimeString() + "\n(" +
+                                string.Format("{0:#,###.00}", (createdToNow.TotalDays/365)) + " years)",
+                                IsInline = true
                             }
                         };
                     }
                     else
                     {
-                        embedd = new EmbedBuilder
+                        embedd.Fields = new List<EmbedFieldBuilder>()
                         {
-                            Title = "Steam User: " + playerSummaries["personaname"].AsString(),
-                            Color = Discord.Color.DarkBlue,
-                            Description = "Data obtained Steam WebAPI using SteamKit2",
-                            ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
-
-                            Footer = new EmbedFooterBuilder
+                            new EmbedFieldBuilder
                             {
-                                Text = Util.Globals.EmbedFooter
+                                Name = "Current Stats",
+                                Value = "**This user's profile is private.**\nCurrently __" + GetStatus(playerSummaries["personastate"].AsInteger()) + "__",
+                                IsInline = false
                             },
-                            Timestamp = DateTime.UtcNow,
-                            Fields = new List<EmbedFieldBuilder>()
+                            new EmbedFieldBuilder
                             {
-                                new EmbedFieldBuilder
-                                {
-                                    Name = "Current Stats",
-                                    Value = "**This user's profile is private.**\nCurrently __" + GetStatus(playerSummaries["personastate"].AsInteger()) + "__",
-                                    IsInline = false
-                                },
-                                new EmbedFieldBuilder
-                                {
-                                    Name = "Last Logoff",
-                                    Value = lastLogOff.ToShortDateString() + " " + lastLogOff.ToShortTimeString() + "\n(" +
-                                    System.Math.Round((lastLogOffToNow.TotalHours*100)/100).ToString() + " hours)",
-                                    IsInline = false
-                                }
+                                Name = "Last Logoff",
+                                Value = lastLogOff.ToShortDateString() + " " + lastLogOff.ToShortTimeString() + "\n(" +
+                                System.Math.Round((lastLogOffToNow.TotalHours*100)/100).ToString() + " hours)",
+                                IsInline = false
                             }
                         };
                     }
