@@ -449,26 +449,19 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "Version",
-                                Value = ThisAssembly.Git.BaseTag,
+                                Value = $"**{ThisAssembly.Git.BaseTag}**\n{ThisAssembly.Git.Tag}",
                                 IsInline = true
                             },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Specific Build",
-                                Value = ThisAssembly.Git.Tag,
-                                IsInline = true
-                            },
-                            //https://github.com/xubot-team/xubot/commit/2064085bc0fd33a591036f67b686d0366d1591c5
                             new EmbedFieldBuilder
                             {
                                 Name = "Build Commit",
-                                Value = ThisAssembly.Git.Commit,
-                                IsInline = true
+                                Value = $"On {ThisAssembly.Git.Branch}:\n{ThisAssembly.Git.Sha}\n\nCommited at {ThisAssembly.Git.CommitDate}",
+                                IsInline = false
                             },
                             new EmbedFieldBuilder
                             {
-                                Name = "Link to Latest Change",
-                                Value = "https://github.com/xubot-team/xubot/commit/" + ThisAssembly.Git.Sha,
+                                Name = "Remote Repository",
+                                Value = $"{ThisAssembly.Git.RepositoryUrl}",
                                 IsInline = true
                             }
                         }
