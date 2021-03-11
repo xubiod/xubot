@@ -29,11 +29,11 @@ namespace xubot.src.Commands
 
                 if (afkchannelid == "") { afkchannelid = "No AFK Channel"; }
 
-                if (verifyLvl == "None") { verifyLvl = "None ._."; }
-                else if (verifyLvl == "Low") { verifyLvl = "Low >_>"; }
-                else if (verifyLvl == "Medium") { verifyLvl = "Medium o_o"; }
-                else if (verifyLvl == "High") { verifyLvl = "(╯°□°）╯︵ ┻━┻ (High)"; }
-                else if (verifyLvl == "Very High") { verifyLvl = "┻━┻ミヽ(ಠ益ಠ)ﾉ彡 ┻━┻ (Very High)"; }
+                if (verifyLvl == "None") { verifyLvl = "None ._.\n**Unrestricted**"; }
+                else if (verifyLvl == "Low") { verifyLvl = "Low >_>\n**Verified email**"; }
+                else if (verifyLvl == "Medium") { verifyLvl = "Medium o_o\n**Verified email**, and **Account age 5min+**"; }
+                else if (verifyLvl == "High") { verifyLvl = "(╯°□°）╯︵ ┻━┻ (High)\n**Email**, **5min+ old acct.**, **On server 10min+**"; }
+                else if (verifyLvl == "Very High") { verifyLvl = "┻━┻ミヽ(ಠ益ಠ)ﾉ彡 ┻━┻ (Very High)\n**Verified phone**"; }
                 else { verifyLvl = "Unconclusive"; }
 
                 IGuildChannel welcomeChannel = await Context.Guild.GetChannelAsync(Context.Guild.SystemChannelId ?? 0);
@@ -52,74 +52,44 @@ namespace xubot.src.Commands
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
+                    {
+                        new EmbedFieldBuilder
                         {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "ID",
-                                Value = Context.Guild.Id,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Name",
-                                Value = Context.Guild.Name,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Owner",
-                                Value = (await Context.Guild.GetUserAsync(Context.Guild.OwnerId)).Username + "#" + (await Context.Guild.GetUserAsync(Context.Guild.OwnerId)).Discriminator,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Verification Level",
-                                Value = verifyLvl,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "AFK Timeout",
-                                Value = $"{Context.Guild.AFKTimeout} seconds",
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "AFK Channel ID",
-                                Value = afkchannelid,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Welcomes go to this channel:",
-                                Value = "<#" + welcomeChannel.Id + ">",
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Created",
-                                Value = Context.Guild.CreatedAt,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Default MSG Notifications",
-                                Value = Context.Guild.DefaultMessageNotifications,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Amount of Roles",
-                                Value = Context.Guild.Roles.Count,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Amount of Custom Emoji",
-                                Value = Context.Guild.Emotes.Count,
-                                IsInline = true
-                            }
+                            Name = "Name",
+                            Value = $"**{Context.Guild.Name}**\n({Context.Guild.Id})",
+                            IsInline = true
+                        },
+                        new EmbedFieldBuilder
+                        {
+                            Name = "Owner",
+                            Value = $"{(await Context.Guild.GetUserAsync(Context.Guild.OwnerId)).Username}#{(await Context.Guild.GetUserAsync(Context.Guild.OwnerId)).Discriminator}\n<@{Context.Guild.OwnerId}>",
+                            IsInline = true
+                        },
+                        new EmbedFieldBuilder
+                        {
+                            Name = "Verification Level",
+                            Value = verifyLvl,
+                            IsInline = false
+                        },
+                        new EmbedFieldBuilder
+                        {
+                            Name = "Created",
+                            Value = Context.Guild.CreatedAt,
+                            IsInline = true
+                        },
+                        new EmbedFieldBuilder
+                        {
+                            Name = "AFK",
+                            Value = $"ID: {afkchannelid}\nTimeout: {Context.Guild.AFKTimeout} seconds",
+                            IsInline = true
+                        },
+                        new EmbedFieldBuilder
+                        {
+                            Name = "Miscellaneous",
+                            Value = $"# of Roles: {Context.Guild.Roles.Count}\n# of Emotes: {Context.Guild.Emotes.Count}\nWelcomes go to: <#{welcomeChannel.Id}>\nDefault MSG Notifs.: {Context.Guild.DefaultMessageNotifications}",
+                            IsInline = false
                         }
+                    }
                 };
                 await ReplyAsync("", false, embedd.Build());
             }
@@ -380,14 +350,14 @@ namespace xubot.src.Commands
                 },
                 Timestamp = DateTime.UtcNow,
                 Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "APIs",
-                                Value = String.Join("", Program.JSONKeys["apis"].Contents.apis),
-                                IsInline = false
-                            }
-                        }
+                {
+                    new EmbedFieldBuilder
+                    {
+                        Name = "APIs",
+                        Value = String.Join("", Program.JSONKeys["apis"].Contents.apis),
+                        IsInline = false
+                    }
+                }
             };
 
             await ReplyAsync("", false, embedd.Build());
@@ -411,14 +381,14 @@ namespace xubot.src.Commands
                 },
                 Timestamp = DateTime.UtcNow,
                 Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Credits",
-                                Value = String.Join("", Program.JSONKeys["apis"].Contents.credits),
-                                IsInline = false
-                            }
-                        }
+                {
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Credits",
+                        Value = String.Join("", Program.JSONKeys["apis"].Contents.credits),
+                        IsInline = false
+                    }
+                }
             };
 
             await ReplyAsync("", false, embedd.Build());
@@ -442,26 +412,26 @@ namespace xubot.src.Commands
                 },
                 Timestamp = DateTime.UtcNow,
                 Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Version",
-                                Value = $"**{ThisAssembly.Git.BaseTag}**\n{ThisAssembly.Git.Tag}",
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Build Commit",
-                                Value = $"On {ThisAssembly.Git.Branch}:\n{ThisAssembly.Git.Sha}\n\nCommited at {ThisAssembly.Git.CommitDate}",
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Remote Repository",
-                                Value = $"{ThisAssembly.Git.RepositoryUrl}",
-                                IsInline = true
-                            }
-                        }
+                {
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Version",
+                        Value = $"**{ThisAssembly.Git.BaseTag}**\n{ThisAssembly.Git.Tag}",
+                        IsInline = true
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Build Commit",
+                        Value = $"On {ThisAssembly.Git.Branch}:\n{ThisAssembly.Git.Sha}\n\nCommited at {ThisAssembly.Git.CommitDate}",
+                        IsInline = false
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Remote Repository",
+                        Value = $"{ThisAssembly.Git.RepositoryUrl}",
+                        IsInline = true
+                    }
+                }
             };
 
             await ReplyAsync("", false, embedd.Build());
