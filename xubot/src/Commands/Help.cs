@@ -232,6 +232,7 @@ namespace xubot.src.Commands
                 }
 
                 string all_para = "No parameters.";
+                string example_para = "";
                 IReadOnlyList<ParameterInfo> _params = comm.Parameters.ToList() ?? new List<ParameterInfo>();
 
                 if (_params.Count != 0)
@@ -240,6 +241,7 @@ namespace xubot.src.Commands
                     foreach (var para in comm.Parameters)
                     {
                         all_para += (para.IsMultiple ? "params " : "") + Util.Str.SimplifyTypes(para.Type.ToString()) + " " + para.Name + (para.IsOptional ? " (optional) // default value = " + para.DefaultValue.ToString() : "") +"\n";
+                        example_para += para.Name + " ";
                     }
                 }
 
@@ -250,6 +252,8 @@ namespace xubot.src.Commands
 
                 string nsfwPossibility = comm.Attributes.Where(x => x is NSFWPossibiltyAttribute).Count() > 0 ? (comm.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).Warnings : "";
                 nsfwPossibility += comm.Module.Attributes.Where(x => x is NSFWPossibiltyAttribute).Count() > 0 ? "Groupwide:\n\n" + (comm.Module.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).Warnings : "";
+
+                string exampleUsage = $"{Program.prefix}{trueName} " + example_para;
 
                 EmbedBuilder embedd = new EmbedBuilder
                 {
@@ -289,6 +293,12 @@ namespace xubot.src.Commands
                                 Name = "Parameters",
                                 Value = $"```cs\n{all_para}```",
                                 IsInline = true
+                            },
+                            new EmbedFieldBuilder
+                            {
+                                Name = "Example Usage",
+                                Value = $"`{exampleUsage}`",
+                                IsInline = false
                             }
                         }
                 };
