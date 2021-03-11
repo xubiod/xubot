@@ -36,10 +36,12 @@ In the project directory, run this to compile to DLLs for various platforms:
 dotnet publish
 ```
 
-You run it by running this with `xubot-core.dll`:
+You run it by running this with `xubot.dll`:
 ```
-dotnet xubot-core.dll
+dotnet xubot.dll
 ```
+
+If the publish provides it, you can also run the bot with the executable named `xubot` (i.e `xubot.exe`, `./xubot`). For Linux, make sure the execute rights are set on the file.
 
 The binary depends on certain files within its directory. These can be found in the [config example](config-example) folder.
 
