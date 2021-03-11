@@ -369,9 +369,6 @@ namespace xubot.src.Commands
         [Command("about"), Summary("Returns data about the bot.")]
         public async Task About()
         {
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.Async = true;
-
             EmbedBuilder embedd = new EmbedBuilder
             {
                 Title = "About Xubot",
