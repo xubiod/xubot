@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using xubot.src.Attributes;
 
 namespace xubot.src.Commands
 {
@@ -45,6 +46,7 @@ namespace xubot.src.Commands
             await ReplyAsync("https://youtu.be/9JRLCBb7qK8");
         }
 
+        [Example("uwu")]
         [Command("make-this-middle-finger"), Summary("Takes text and makes it rude.")]
         public async Task MTMF(string face)
         {

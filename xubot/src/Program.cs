@@ -186,8 +186,8 @@ namespace xubot.src
             xuClient.LoggedIn +=  () => { Console.WriteLine("]] logged into discord");   return Task.CompletedTask; };
             xuClient.LoggedOut += () => { Console.WriteLine("]] logged out of discord"); return Task.CompletedTask; };
 
-            xuClient.JoinedGuild += (SocketGuild arg) => { Console.WriteLine("]] added to a guild, " + arg.Name); return Task.CompletedTask; };
-            xuClient.LeftGuild +=   (SocketGuild arg) => { Console.WriteLine("]] left a guild, " + arg.Name);     return Task.CompletedTask; };
+            xuClient.JoinedGuild += (SocketGuild arg) => { Console.WriteLine($"]] added to a guild, {arg.Name}"); return Task.CompletedTask; };
+            xuClient.LeftGuild +=   (SocketGuild arg) => { Console.WriteLine($"]] left a guild, {arg.Name}");     return Task.CompletedTask; };
 
             return Task.CompletedTask;
         }
@@ -206,7 +206,7 @@ namespace xubot.src
         {
             Console.WriteLine("]] connection to discord lost");
             Console.WriteLine();
-            Console.WriteLine("]] exception logged at: " + Environment.CurrentDirectory + "\\Exceptions\\" + DateTime.UtcNow.ToLongTimeString() + ".txt");
+            Console.WriteLine($"]] exception logged at: {Environment.CurrentDirectory}\\Exceptions\\{DateTime.UtcNow.ToLongTimeString()}.txt");
             Console.Beep();
             Console.Beep();
             Console.Beep();

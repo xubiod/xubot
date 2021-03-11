@@ -8,12 +8,14 @@ using System.Xml;
 using Discord;
 using System.Xml.Linq;
 using Newtonsoft.Json.Linq;
+using xubot.src.Attributes;
 
 namespace xubot.src.Commands.Global
 {
     [Group("opinion")]
     public class Opinions : ModuleBase
     {
+        [Example("xubot")]
         [Command(""), Alias("get"), Summary("Gets xubot's opinion on something. Was funny but now has been forgotten.")]
         public async Task OpinionGet(string input)
         {

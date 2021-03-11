@@ -46,7 +46,7 @@ namespace xubot.src.Commands
                     new EmbedFieldBuilder
                     {
                         Name = "Result",
-                        Value = "```" + result + "```" ,
+                        Value = $"```{result}```",
                         IsInline = true
                     }
                 }

@@ -12,6 +12,7 @@ using SLImage = SixLabors.ImageSharp.Image;
 using xubot.Properties;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
+using xubot.src.Attributes;
 
 namespace xubot.src.Commands
 {
@@ -38,6 +39,7 @@ namespace xubot.src.Commands
             public static int LRMargin;
             public static int TBMargin;
 
+            [Example("\"0,0,example,24\"",true)]
             [Command("direct", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```The optional parameter has a specific format too: ```\"textwrap width,r,g,b\"```")]
             public async Task Direct(string parameter, string optional = "")
             {
@@ -74,6 +76,7 @@ namespace xubot.src.Commands
                 await Context.Channel.SendFileAsync(Path.GetTempPath() + "textoverlay_new" + type);
             }
 
+            [Example("\"36,4,24,example,24\"", true)]
             [Command("header", RunMode = RunMode.Async), Summary("Makes a header on up of an image. The parameter string has a very specific format that **must** be followed: ```\"header height,left-right margin,top-bottom margin,text,size\"```The optional parameter has a specific format too: ```\"r, g, b\"```")]
             public async Task Header(string parameter, string optional = "")
             {

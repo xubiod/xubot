@@ -9,10 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using xubot;
 using System.IO;
+using xubot.src.Attributes;
 
 namespace xubot.src.Commands.Connections
 {
-    [Group("dictionary"), Alias("dict"), Summary("The mini-wrapper for the Oxford Dictionary API.")]
+    [Group("dictionary"), Alias("dict"), Summary("The mini-wrapper for the Oxford Dictionary API."), Deprecated]
     public class DictionaryComm : ModuleBase
     {
         public static string result = "";
@@ -30,11 +31,11 @@ namespace xubot.src.Commands.Connections
         {
             if (inputs.langID != null && inputs.word != null)
             {
-                return "https://od-api.oxforddictionaries.com:443/api/v1/" + inputs.get.ToLower() + "/" + inputs.langID.ToLower() + "/" + inputs.word.ToLower() + inputs.filters.ToLower();
+                return $"https://od-api.oxforddictionaries.com:443/api/v1/{ inputs.get.ToLower() }/{inputs.langID.ToLower() }/{inputs.word.ToLower() + inputs.filters.ToLower()}";
             }
             else
             {
-                return "https://od-api.oxforddictionaries.com:443/api/v1/" + inputs.get.ToLower();
+                return $"https://od-api.oxforddictionaries.com:443/api/v1/{ inputs.get.ToLower()}";
             }
         }
 
@@ -43,8 +44,8 @@ namespace xubot.src.Commands.Connections
             WebClient dicWeb = new WebClient();
 
             dicWeb.Headers.Add("Accept", "application/json");
-            dicWeb.Headers.Add("app_id: " + Program.JSONKeys["keys"].Contents.oxford_dic_id);
-            dicWeb.Headers.Add("app_key: " + Program.JSONKeys["keys"].Contents.oxford_dic_key);
+            dicWeb.Headers.Add($"app_id: {Program.JSONKeys["keys"].Contents.oxford_dic_id}");
+            dicWeb.Headers.Add($"app_key: {Program.JSONKeys["keys"].Contents.oxford_dic_key}");
 
             text = dicWeb.DownloadString(AssembleURL(inputs));
             return Task.CompletedTask;
@@ -52,6 +53,7 @@ namespace xubot.src.Commands.Connections
 
         //AssembleURL("en", "", "definitions")
 
+        [ExampleAttribute("programming en")]
         [Command("define", RunMode = RunMode.Async), Summary("Defines a word using the Oxford Dictionary.")]
         public async Task Define(string word, string langID = "en")
         {
@@ -74,7 +76,7 @@ namespace xubot.src.Commands.Connections
                     new EmbedFieldBuilder
                     {
                         Name = "Word / Region",
-                        Value = word + " / " + langID,
+                        Value = $"{word } / {langID}",
                         IsInline = false
                     }
                 };
@@ -121,6 +123,7 @@ namespace xubot.src.Commands.Connections
         }
 
         //inflections
+        [ExampleAttribute("adapt en")]
         [Command("inflection", RunMode = RunMode.Async), Summary("Shows inflections for a word using the Oxford Dictionary.")]
         public async Task Inflections(string word, string langID = "en")
         {
@@ -143,7 +146,7 @@ namespace xubot.src.Commands.Connections
                     new EmbedFieldBuilder
                     {
                         Name = "Word / Region",
-                        Value = word + " / " + langID,
+                        Value = $"{word } / {langID}",
                         IsInline = false
                     }
                 };
@@ -152,9 +155,9 @@ namespace xubot.src.Commands.Connections
                     {
                         allInflections.Add(new EmbedFieldBuilder
                         {
-                            Name = "Inflection of: " + inflection.inflectionOf[0].id,
-                            Value = "Type: " + inflection.grammaticalFeatures[0].text + "\n" +
-                                    "Kind: " + inflection.grammaticalFeatures[0].type,
+                            Name = "$Inflection of: {inflection.inflectionOf[0].id}",
+                            Value = $"Type: {inflection.grammaticalFeatures[0].text }\n" +
+                                    $"Kind: {inflection.grammaticalFeatures[0].type}",
                             //grammaticalFeatures[0].text
                             //grammaticalFeatures[0].type
                             //inflectionOf[0].id
@@ -188,6 +191,7 @@ namespace xubot.src.Commands.Connections
         }
 
         //words with same meanings
+        [ExampleAttribute("happy en")]
         [Command("synonyms", RunMode = RunMode.Async), Alias("syn"), Summary("Gives a list of synonyms a word using the Oxford Dictionary.")]
         public async Task Syn(string word, string langID = "en")
         {
@@ -210,7 +214,7 @@ namespace xubot.src.Commands.Connections
                     new EmbedFieldBuilder
                     {
                         Name = "Word / Region",
-                        Value = word + " / " + langID,
+                        Value = $"{word } / {langID}",
                         IsInline = false
                     }
                 };
@@ -223,7 +227,7 @@ namespace xubot.src.Commands.Connections
                         {
                             foreach (var synonym in subsense.synonyms)
                             {
-                                allSynonymsString += "" + synonym.text + ", ";
+                                allSynonymsString += $"{synonym.text }, ";
                             }
                         }
                     }
@@ -264,6 +268,7 @@ namespace xubot.src.Commands.Connections
         }
 
         //words with opposite meanings
+        [ExampleAttribute("true en")]
         [Command("antonyms", RunMode = RunMode.Async), Alias("ant"), Summary("Gives a list of antonyms a word using the Oxford Dictionary.")]
         public async Task Ant(string word, string langID = "en")
         {
@@ -286,7 +291,7 @@ namespace xubot.src.Commands.Connections
                     new EmbedFieldBuilder
                     {
                         Name = "Word / Region",
-                        Value = word + " / " + langID,
+                        Value = $"{word } / {langID}",
                         IsInline = false
                     }
                 };
@@ -297,7 +302,7 @@ namespace xubot.src.Commands.Connections
                     {
                         foreach (var antonyms in sense.antonyms)
                         {
-                            allAntonymsString += "" + antonyms.text + ", ";
+                            allAntonymsString += $"{antonyms.text }, ";
                         }
                     }
 
@@ -358,11 +363,11 @@ namespace xubot.src.Commands.Connections
                     {
                         if (key.targetLanguage != null)
                         {
-                            allBilingualDicts.Add((key.source + " (" + key.sourceLanguage.language + " (**" + key.sourceLanguage.id + "**) => " + key.targetLanguage.language + " (**" + key.targetLanguage.id + "**))\n").ToString());
+                            allBilingualDicts.Add(($"{key.source } ({key.sourceLanguage.language } (**{key.sourceLanguage.id }**) => {key.targetLanguage.language } (**{key.targetLanguage.id }**))\n").ToString());
                         }
                         else
                         {
-                            allMonolingualDicts.Add((key.source + " (" + key.sourceLanguage.language + " (**" + key.sourceLanguage.id + "**))\n").ToString());
+                            allMonolingualDicts.Add(($"{key.source } ({key.sourceLanguage.language } (**{key.sourceLanguage.id }**))\n").ToString());
                         }
                     }
 

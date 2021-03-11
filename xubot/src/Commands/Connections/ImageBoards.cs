@@ -28,6 +28,7 @@ namespace xubot.src.Commands.Connections
         public HttpClient client = new HttpClient();
 
         // (TECHNICALLY) OPTIMIZED
+        [Example("night false")]
         [NSFWPossibilty("Is a possibilty (although not guranteed).")]
         [Command("danbooru", RunMode = RunMode.Async), Summary("Retrives a post from danbooru.")]
         public async Task Danbooru(string tags = "", bool spoiler = false)
@@ -38,7 +39,7 @@ namespace xubot.src.Commands.Connections
                 try
                 {
                     //var client = new HttpClient();
-                    string link = "http://danbooru.donmai.us/posts.json?limit=1&random=true&tags=" + tags;
+                    string link = $"http://danbooru.donmai.us/posts.json?limit=1&random=true&tags={tags}";
                     string text = "";
 
                     var request = new HttpRequestMessage()
@@ -72,10 +73,10 @@ namespace xubot.src.Commands.Connections
                         }
                         else
                         {
-                            url = "http://danbooru.donmai.us" + keys.large_file_url.ToString();
+                            url = $"http://danbooru.donmai.us{keys.large_file_url.ToString()}";
                         }
 
-                        if (spoiler) url = "|| " + url + " ||";
+                        if (spoiler) url = $"|| {url} ||";
 
                         await ReplyAsync(url);
                     }
@@ -153,6 +154,7 @@ namespace xubot.src.Commands.Connections
         }
 
         // OPTIMIZED
+        [Example("sex true")]
         [NSFWPossibilty("Porn, snuff, whatever gets drawn.")]
         [Command("rule34", RunMode = RunMode.Async), Summary("Retrives a post from rule34, to the bot's dismay.")]
         public async Task r34(string tags = "", bool spoiler = true)
@@ -162,6 +164,7 @@ namespace xubot.src.Commands.Connections
         }
 
         // OPTIMIZED
+        [Example("solo true")]
         [NSFWPossibilty("Is a possibilty (although not guranteed).")]
         [Command("gelbooru", RunMode = RunMode.Async), Summary("Retrives a post from gelbooru.")]
         public async Task Gelbooru(string tags = "", bool spoiler = false)
@@ -171,6 +174,7 @@ namespace xubot.src.Commands.Connections
         }
 
         // OPTIMIZED
+        [Example("thighhighs true")]
         [NSFWPossibilty("Is a possibilty (although not guranteed).")]
         [Command("yandere", RunMode = RunMode.Async), Summary("Retrives a post from yandere.")]
         public async Task Yandere(string tags = "", bool spoiler = false)
@@ -236,6 +240,7 @@ namespace xubot.src.Commands.Connections
         }
 
         // OPTIMIZED
+        [Example("sky false")]
         [Command("safebooru", RunMode = RunMode.Async), Summary("Retrives a post from safebooru.")]
         public async Task Safebooru(string tags = "", bool spoiler = false)
         {
@@ -244,6 +249,7 @@ namespace xubot.src.Commands.Connections
         }
 
         // OPTIMIZED
+        [Example("thighhighs true")]
         [NSFWPossibilty("Is a possibilty (although not guranteed).")]
         [Command("konachan", RunMode = RunMode.Async), Summary("Retrives a post from konachan.")]
         public async Task Konachan(string tags = "", bool spoiler = false)
@@ -281,7 +287,7 @@ namespace xubot.src.Commands.Connections
                 Random rnd = Util.Globals.RNG;
                 //var client = new HttpClient();
                 var webClient2 = new HttpClient();
-                string link = xmlLink + "&tags=" + tags;
+                string link = $"{xmlLink}&tags={tags}";
                 string text_j = "";
 
                 var request = new HttpRequestMessage()
@@ -290,7 +296,7 @@ namespace xubot.src.Commands.Connections
                     Method = HttpMethod.Get,
                 };
 
-                request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
+                request.Headers.Add("user-agent", $"xubot/{ThisAssembly.Git.BaseTag}");
 
                 string linkJson = $"{jsonLink}{rnd.Next(751)}&tags={tags}";
 
@@ -302,7 +308,7 @@ namespace xubot.src.Commands.Connections
 
                 string url = keys.file_url.ToString();
 
-                if (spoiler) url = "|| " + url + " ||";
+                if (spoiler) url = $"|| {url} ||";
 
                 await ReplyAsync(url);
                 //string text = client.DownloadString(link);
@@ -329,7 +335,7 @@ namespace xubot.src.Commands.Connections
                 try
                 {
                     //var client = new HttpClient();
-                    string link = inputLink + "&tags=" + tags;
+                    string link = $"{inputLink}&tags={tags}";
                     Console.WriteLine(link);
 
                     var request = new HttpRequestMessage()
@@ -375,7 +381,7 @@ namespace xubot.src.Commands.Connections
                         imgUrl = "http:" + imgUrl;
                     }
 
-                    if (spoiler) imgUrl = "|| " + imgUrl + " ||";
+                    if (spoiler) imgUrl = $"|| {imgUrl} ||";
 
                     await ReplyAsync(imgUrl);
                 }
