@@ -253,6 +253,13 @@ namespace xubot.src.Commands
                 string nsfwPossibility = comm.Attributes.Where(x => x is NSFWPossibiltyAttribute).Count() > 0 ? (comm.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).Warnings : "";
                 nsfwPossibility += comm.Module.Attributes.Where(x => x is NSFWPossibiltyAttribute).Count() > 0 ? "Groupwide:\n\n" + (comm.Module.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).Warnings : "";
 
+                if (comm.Attributes.Where(x => x is ExampleAttribute).Count() > 0)
+                {
+                    ExampleAttribute ex = (comm.Attributes.First(x => x is ExampleAttribute) as ExampleAttribute);
+                    if (ex.ExampleParameters != "") example_para = ex.ExampleParameters;
+                    example_para += ex.AttachmentNeeded ? "\n\n[You need to upload a file to use this.]" : "";
+                }
+
                 string exampleUsage = $"{Program.prefix}{trueName} " + example_para;
 
                 EmbedBuilder embedd = new EmbedBuilder
