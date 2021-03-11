@@ -7,21 +7,21 @@ namespace xubot.src.Attributes
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public class NSFWPossibiltyAttribute : Attribute
     {
-        public string warnings { get; }
+        public string Warnings { get; }
 
         public NSFWPossibiltyAttribute()
         {
-            this.warnings = "Unspecified";
+            this.Warnings = "Unspecified";
         }
 
         public NSFWPossibiltyAttribute(string warnings)
         {
-            this.warnings = warnings;
+            this.Warnings = warnings;
         }
 
         public string GetWarnings()
         {
-            return warnings;
+            return Warnings;
         }
     }
 }
