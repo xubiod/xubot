@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
 using System.Xml.Linq;
+using xubot.src.Attributes;
 
 namespace xubot.src.Commands.Connections
 {
@@ -24,6 +25,7 @@ namespace xubot.src.Commands.Connections
         [Group("number"), Summary("LEARNING AAAAAAAAAAAA")]
         public class Number : ModuleBase
         {
+            [Example("42")]
             [Command("trivia", RunMode = RunMode.Async)]
             public async Task Trivia(int number)
             {
@@ -42,6 +44,7 @@ namespace xubot.src.Commands.Connections
                 await ReplyAsync(final);
             }
 
+            [Example("2001")]
             [Command("year", RunMode = RunMode.Async)]
             public async Task Year(int number)
             {
@@ -60,6 +63,7 @@ namespace xubot.src.Commands.Connections
                 await ReplyAsync(final);
             }
 
+            [Example("45")]
             [Command("math", RunMode = RunMode.Async)]
             public async Task Math(int number)
             {
@@ -79,6 +83,8 @@ namespace xubot.src.Commands.Connections
             }
         }
 
+
+        [Example("example@example.com")]
         [Command("email-check", RunMode = RunMode.Async), Summary("Uses API to check if email is a temporary one for sCaMs OoOoOoO")]
         public async Task ValidEmail(string email)
         {
@@ -164,7 +170,7 @@ namespace xubot.src.Commands.Connections
             //byte[] data = await httpClient.GetByteArrayAsync();
             //var final = System.Text.Encoding.Default.GetString(data);
 
-            await ReplyAsync("Cat.\n" + final);
+            await ReplyAsync($"Cat.\n{final}");
         }
 
         [Command("shibe", RunMode = RunMode.Async), Summary("Gets random Shibe Inu picture. Best utilized when sad.")]
@@ -183,7 +189,7 @@ namespace xubot.src.Commands.Connections
                 cont = cont.Trim('[', ']', '"');
                 Console.WriteLine(cont);
 
-                await ReplyAsync("Shibe.\n" + cont);
+                await ReplyAsync($"Shibe.\n{cont}");
             }
             catch (Exception e)
             {
@@ -209,11 +215,11 @@ namespace xubot.src.Commands.Connections
 
                 if (Util.Globals.RNG.Next(100) == 0)
                 {
-                    await ReplyAsync("Birb.\n" + cont);
+                    await ReplyAsync($"Birb.\n{cont}");
                 }
                 else
                 {
-                    await ReplyAsync("Bird.\n" + cont);
+                    await ReplyAsync($"Bird.\n{cont}");
                 }
             }
             catch (Exception e)

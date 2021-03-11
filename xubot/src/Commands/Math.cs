@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using xubot.src.Attributes;
 
 namespace xubot.src.Commands
 {
@@ -12,6 +13,7 @@ namespace xubot.src.Commands
     public class Math : ModuleBase
     {
         // SIMPLE MATH
+        [Example("2 2 -1")]
         [Command("add"), Alias("plus"), Summary("Adds the floats given.")]
         public async Task Add(params float[] inputs)
         {
@@ -22,6 +24,7 @@ namespace xubot.src.Commands
             await ReplyAsync($"The result is: {result}");
         }
 
+        [Example("6 2 -3")]
         [Command("sub"), Alias("subtract"), Summary("Subtracts the floats given.")]
         public async Task Sub(params float[] inputs)
         {
@@ -32,6 +35,7 @@ namespace xubot.src.Commands
             await ReplyAsync($"The result is: {result}");
         }
 
+        [Example("2 5 7")]
         [Command("multi"), Alias("multiply"), Summary("Multiplies the floats given.")]
         public async Task Multi(params float[] inputs)
         {
@@ -42,6 +46,7 @@ namespace xubot.src.Commands
             await ReplyAsync($"The result is: {result}");
         }
 
+        [Example("144 12")]
         [Command("divide"), Alias("division"), Summary("Divides the floats given.")]
         public async Task Divide(params float[] inputs)
         {
@@ -52,16 +57,16 @@ namespace xubot.src.Commands
             await ReplyAsync($"The result is: {result}");
         }
 
+        [Example("4220 5")]
         [Command("mod"), Alias("modulo"), Summary("Modulos the floats given.")]
-        public async Task Mod(params float[] inputs)
+        public async Task Mod(float input, float modBy)
         {
-            float result = 0;
-            foreach (float num in inputs)
-                result %= num;
+            float result = input % modBy;
 
             await ReplyAsync($"The result is: {result}");
         }
 
+        [Example("2 8")]
         [Command("pow"), Alias("power"), Summary("Takes a number to another number as the power.")]
         public async Task Pow([Summary("double 1")] double num1, [Summary("double 2")] double num2)
         {
@@ -77,6 +82,7 @@ namespace xubot.src.Commands
             }
         }
 
+        [Example("4761")]
         [Command("sqrt"), Alias("squareroot"), Summary("Square roots a number.")]
         public async Task Sqrt([Summary("double 1")] double num1)
         {
@@ -93,6 +99,7 @@ namespace xubot.src.Commands
         }
 
         //TRIG
+        [Example("3.14")]
         [Command("sin"), Alias("sine"), Summary("Returns the sine of a number.")]
         public async Task Sine([Summary("double")] double num)
         {
@@ -108,6 +115,7 @@ namespace xubot.src.Commands
             }
         }
 
+        [Example("5")]
         [Command("sinh"), Alias("sineh"), Summary("Returns the hyperbolic sine of a number.")]
         public async Task HyperbolicSine([Summary("double")] double num)
         {
@@ -123,6 +131,7 @@ namespace xubot.src.Commands
             }
         }
 
+        [Example("45")]
         [Command("asin"), Alias("asine"), Summary("Gets the asine of a number and returns an angle.")]
         public async Task Asine([Summary("double")] double num)
         {
@@ -138,6 +147,7 @@ namespace xubot.src.Commands
             }
         }
 
+        [Example("2")]
         [Command("cos"), Alias("cosine"), Summary("Returns the cosine of a number.")]
         public async Task Cosine([Summary("double")] double num)
         {
@@ -153,6 +163,7 @@ namespace xubot.src.Commands
             }
         }
 
+        [Example("4")]
         [Command("cosh"), Alias("cosineh"), Summary("Returns the hyperbolic cosine of a number.")]
         public async Task HyperbolicCosine([Summary("double")] double num)
         {
@@ -168,6 +179,7 @@ namespace xubot.src.Commands
             }
         }
 
+        [Example("22.5")]
         [Command("acos"), Alias("acosine"), Summary("Gets the acosine of a number and returns an angle.")]
         public async Task Acosine([Summary("double")] double num)
         {
@@ -183,6 +195,7 @@ namespace xubot.src.Commands
             }
         }
 
+        [Example("1.7")]
         [Command("tan"), Alias("tangent"), Summary("Returns the tangent of a number.")]
         public async Task Tangent([Summary("double")] double num)
         {
@@ -198,6 +211,7 @@ namespace xubot.src.Commands
             }
         }
 
+        [Example("1")]
         [Command("tanh"), Alias("tangenth"), Summary("Gets the hyperbolic tangent of a number.")]
         public async Task HyperbolicTangent([Summary("double")] double num)
         {
@@ -213,6 +227,7 @@ namespace xubot.src.Commands
             }
         }
 
+        [Example("15")]
         [Command("atan"), Alias("atangent"), Summary("Gets the atangent of a number and returns an angle.")]
         public async Task Atangent([Summary("double")] double num)
         {
@@ -229,6 +244,7 @@ namespace xubot.src.Commands
         }
 
         //OTHER
+        [Example("\"4+2*5\"")]
         [Command("quickeval"), Alias("eval", "quickdo", "do"), Summary("Does quick math operations with integers.")]
         public async Task Evalutare([Summary("eval input")] string input)
         {
@@ -243,6 +259,7 @@ namespace xubot.src.Commands
         [Group("convert"), Alias("c"), Summary("converts some stuff")]
         public class convert : ModuleBase
         {
+            [Example("32 f2c")]
             [Command("temperature"), Alias("temp"), Summary("Converts Celsius or Fahrenheit to the other using `c2f` and `f2c`.")]
             public async Task Temp([Summary("double 1")] double num1, string fromto)
             {
@@ -256,6 +273,7 @@ namespace xubot.src.Commands
                 }
             }
 
+            [Example("1 m2ft")]
             [Command("length"), Alias("height"), Summary("Converts feet to meters to the other using `ft2m` and `m2ft`.")]
             public async Task Length([Summary("double 1")] double num1, string fromto)
             {

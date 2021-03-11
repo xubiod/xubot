@@ -75,7 +75,7 @@ namespace xubot.src.Modular
             {
                 string msg = (startInstance != null) ? (startInstance.Unload() ?? "No unload message").ToString() : "No startInstance";
 
-                Util.Log.QuickLog("Module unloading: " + id + "\nUnload msg: " + msg);
+                Util.Log.QuickLog($"Module unloading: {id}\nUnload msg: {msg}");
 
                 XubotSharedModule.Events.Messages.OnMessageSend -= SendModuleMessage; Util.Log.QuickLog("Unsub.MsgSend");
                 XubotSharedModule.Events.Requestor.OnRequest -= SendRequestedThing; Util.Log.QuickLog("Unsub.OnReq");
@@ -92,7 +92,7 @@ namespace xubot.src.Modular
 
             private void ContextUnloaded(AssemblyLoadContext obj)
             {
-                Util.Log.QuickLog("Module unloaded: " + id);
+                Util.Log.QuickLog($"Module unloaded: {id}");
                 moduleContext = null;
             }
 
@@ -102,7 +102,7 @@ namespace xubot.src.Modular
 
                 Initialize();
                 string msg = startInstance.Reload().ToString();
-                Util.Log.QuickLog("Module reloaded: " + id + "\nReload msg: " + msg);
+                Util.Log.QuickLog($"Module reloaded: {id}\nReload msg: {msg}");
                 return msg;
             }
         }
@@ -132,7 +132,7 @@ namespace xubot.src.Modular
                 return;
             }
 
-            Util.Log.QuickLog("Module loaded: " + name + "\nLoad msg: " + modules[name].startInstance.Load().ToString());
+            Util.Log.QuickLog($"Module loaded: {name}\nLoad msg: {modules[name].startInstance.Load().ToString()}");
         }
 
         public static void LoadFromDirectory(string directory = "/Modules", bool isFull = false)

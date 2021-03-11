@@ -17,6 +17,7 @@ namespace xubot.src.Modular
 
         public class Running : ModuleBase
         {
+            [ExampleAttribute("examplemodule examplecmd exampleparams...")]
             [Command("run", RunMode = RunMode.Async), Alias("~", ""), Summary("Runs a command from a module.")]
             public async Task Execute(string module, string command, params string[] parameters)
             {
@@ -27,18 +28,21 @@ namespace xubot.src.Modular
         [Group("module-util"), Alias(";;"), Summary("Commands relating to modules themselves.")]
         public class Utilities : ModuleBase
         {
+            [ExampleAttribute("examplemodule")]
             [Command("reload", RunMode = RunMode.Async), Alias("r"), Summary("Reloads a module."), RequireOwner]
             public async Task Reload(string module)
             {
                 await ReplyAsync(ModularSystem.modules[module].Reload());
             }
 
+            [ExampleAttribute("examplemodule")]
             [Command("unload", RunMode = RunMode.Async), Alias("u"), Summary("Unloads a module."), RequireOwner]
             public async Task Unload(string module)
             {
                 await ReplyAsync(ModularSystem.modules[module].Unload());
             }
 
+            [ExampleAttribute("examplemodule")]
             [Command("list", RunMode = RunMode.Async), Alias("l"), Summary("Lists commands in a module.")]
             public async Task List(string module)
             {
@@ -52,7 +56,7 @@ namespace xubot.src.Modular
                 EmbedBuilder embedd = new EmbedBuilder()
                 {
                     Title = "Module Command Listing",
-                    Description = "For module **\"" + module.ToLower() + "\"**",
+                    Description = $"For module **\"{module.ToLower()}\"**",
                     Color = Discord.Color.LightOrange,
                     ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
@@ -67,7 +71,7 @@ namespace xubot.src.Modular
                         new EmbedFieldBuilder()
                         {
                             Name = "Listing",
-                            Value = "```" + list + "```"
+                            Value = $"```{list}```"
                         }
                     }
                 };
@@ -81,7 +85,7 @@ namespace xubot.src.Modular
                 string list = "";
 
                 foreach (KeyValuePair<string, ModularSystem.ModuleEntry> mod in ModularSystem.modules)
-                    list += mod.Key + " - " + (mod.Value.commandInstances.Count > 0 ? mod.Value.commandInstances.Count + " cmds" : "Not loaded/no cmds") + "\n";
+                    list += $"{mod.Key} - { (mod.Value.commandInstances.Count > 0 ? mod.Value.commandInstances.Count + " cmds" : "Not loaded/no cmds")}\n";
 
                 EmbedBuilder embedd = new EmbedBuilder()
                 {
@@ -101,7 +105,7 @@ namespace xubot.src.Modular
                         new EmbedFieldBuilder()
                         {
                             Name = "Listing",
-                            Value = "```" + list + "```"
+                            Value = $"```{list}```"
                         }
                     }
                 };

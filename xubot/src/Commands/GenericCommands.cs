@@ -25,6 +25,7 @@ using Tweetinvi;
 using Tweetinvi.Models;
 using xubot;
 using xubot.src;
+using xubot.src.Attributes;
 using static xubot.src.SpecialException;
 using SLImage = SixLabors.ImageSharp.Image;
 
@@ -53,12 +54,14 @@ namespace xubot.src.Commands
         [Group("echo"), Alias("m"), Summary("Repeats after you.")]
         public class Echo : ModuleBase
         {
+            [ExampleAttribute("\"polly want a cracker\"")]
             [Command, Summary("Repeats a string given once.")]
             public async Task RepeatOnce(string blegh)
             {
                 await ReplyAsync(blegh);
             }
 
+            [ExampleAttribute("\"polly want a cracker\" 5 \" \"")]
             [Command("repeat"), Alias("r"), Summary("Repeats a string a given amount of times."), RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
             public async Task Repeat(string blegh, int loop, string sep)
             {
@@ -159,7 +162,7 @@ namespace xubot.src.Commands
                             new EmbedFieldBuilder
                             {
                                 Name = "Lists",
-                                Value = _v + '\n' + '\n' + _a +  '\n' + '\n' + _n,
+                                Value = $"{_v}\n\n{_a}\n\n{_n}",
                                 IsInline = false
                             }
                         }
@@ -171,6 +174,7 @@ namespace xubot.src.Commands
             [Group("add")]
             public class Add : ModuleBase
             {
+                [Example("Noun")]
                 [Command("v"), Summary("Adds a string to the 'victim' list.")]
                 public async Task Vit(String input)
                 {
@@ -178,9 +182,10 @@ namespace xubot.src.Commands
                     if (!input.EndsWith(" ")) { input += " "; }
                     insultVictim[insultVictimIndex] = input;
 
-                    await ReplyAsync("Added " + '"' + input + '"' + ".");
+                    await ReplyAsync($"Added \"{input}\".");
                 }
 
+                [Example("\"looking like\"")]
                 [Command("a"), Summary("Adds a string to the 'adjective' list.")]
                 public async Task Adj(String input)
                 {
@@ -188,9 +193,10 @@ namespace xubot.src.Commands
                     if (!input.EndsWith(" ")) { input += " "; }
                     insultAdjective[insultAdjectiveIndex] = input;
 
-                    await ReplyAsync("Added " + '"' + input + '"' + ".");
+                    await ReplyAsync($"Added \"{input}\".");
                 }
 
+                [Example("noun.")]
                 [Command("n"), Summary("Adds a string to the 'noun' list.")]
                 public async Task Nou(String input)
                 {
@@ -198,7 +204,7 @@ namespace xubot.src.Commands
                     if (!input.EndsWith(" ")) { input += " "; }
                     insultNoun[insultNounIndex] = input;
 
-                    await ReplyAsync("Added " + '"' + input + '"' + ".");
+                    await ReplyAsync($"Added \"{input}\".");
                 }
             }
 
@@ -217,6 +223,7 @@ namespace xubot.src.Commands
         [Group("pattern"), Alias("pat"), Summary("Makes a pattern with given characters.")]
         public class Pattern : ModuleBase
         {
+            [Example("club X O")]
             [Command("generate"), Summary("Generates a premade pattern using a search term.")]
             public async Task GeneratePreset(string searchqueue, string emo1, string emo2)
             {
@@ -255,6 +262,7 @@ namespace xubot.src.Commands
             //    }
             //}
 
+            [Example("\"I am creatively starved and pasted in the example usage command to see what it did\"")]
             [Command("twitter"), Alias("t", "twit"), Summary("Attempts to post a thing to Twitter. Substitute `@` and `#` with [A] and [H] prospectively.")]
             public async Task TweetPost(string content)
             {
@@ -262,7 +270,7 @@ namespace xubot.src.Commands
 
                 if ((Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + ": " + result_).Length < 280)
                 {
-                    ITweet twt = await twitter.Tweets.PublishTweetAsync(Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + ": " + result_);
+                    ITweet twt = await twitter.Tweets.PublishTweetAsync($"{Context.Message.Author.Username}#{Context.Message.Author.Discriminator}: {result_}");
 
                     await ReplyAsync(twt.Url);
                     //await ReplyAsync("Your post has been submitted to twitter. Go to https://twitter.com/xubot_bot to find it!");
@@ -274,21 +282,23 @@ namespace xubot.src.Commands
             }
         }
 
+        [Example("316712338042650624")]
         [Command("discord-api-link-gen"), Alias("discord-bot", "db"), Summary("Generates a bot adding link (without any permissions.)")]
         public async Task DALG(string id)
         {
-            await ReplyAsync("https://discordapp.com/api/oauth2/authorize?client_id=" + id + "&scope=bot&permissions=0");
+            await ReplyAsync($"https://discordapp.com/api/oauth2/authorize?client_id={id}&scope=bot&permissions=0");
         }
 
+        [Example("316712338042650624 7")]
         [Command("discord-api-link-gen"), Alias("discord-bot", "db"), Summary("Generates a bot adding link with a given permission number.")]
         public async Task DALG(string id, string permission)
         {
-            await ReplyAsync("https://discordapp.com/api/oauth2/authorize?client_id=" + id + "&scope=bot&permissions=" + permission);
+            await ReplyAsync($"https://discordapp.com/api/oauth2/authorize?client_id={ id}&scope=bot&permissions={permission}");
         }
 
 #if (DEBUG)
 
-        [Group("debug"), Summary("A group of debug commands for quick debug work. Cannot be used by anyone except owner."), RequireOwner]
+        [Group("debug"), Summary("A group of debug commands for quick debug work. Cannot be used by anyone except owner, and don't have examples given."), RequireOwner]
         public class Debug : ModuleBase
         {
             [Command("return_attachs")]
@@ -376,7 +386,7 @@ namespace xubot.src.Commands
 
                 foreach (var item in guild_list)
                 {
-                    _all += item.Name + " (" + item.Id + ")\n";
+                    _all += $"{item.Name } ({item.Id})\n";
                 }
 
                 await ReplyAsync(_all);
@@ -385,7 +395,7 @@ namespace xubot.src.Commands
             [Command("attachment data")]
             public async Task Test007()
             {
-                string _all = "c: " + Context.Message.Attachments.Count + "\nl: <" + Util.File.ReturnLastAttachmentURL(Context) + ">\nf:";
+                string _all = $"c: {Context.Message.Attachments.Count}\nl: <{Util.File.ReturnLastAttachmentURL(Context)}>\nf:";
 
                 await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "/downloadsuccess.data");
 
@@ -479,46 +489,51 @@ namespace xubot.src.Commands
                     [Command]
                     public async Task Get()
                     {
-                        await ReplyAsync("Currently NSFW execution is: **" + Program.enableNSFW.ToString().ToLower() + "** *(true means NSFW commands are executable)*");
+                        await ReplyAsync($"Currently NSFW execution is: **{Program.enableNSFW.ToString().ToLower()}** *(true means NSFW commands are executable)*");
                     }
 
                     [Command("set"), RequireOwner]
                     public async Task Set(bool newval)
                     {
                         Program.enableNSFW = newval;
-                        await ReplyAsync("NSFW execution is now: **" + newval.ToString().ToLower() + "**");
+                        await ReplyAsync($"NSFW execution is now: **{newval.ToString().ToLower()}**");
                     }
                 }
 
+                [Example("\"with C#\"")]
                 [Command("playing"), Alias("play", "game"), Summary("Sets the bot's activity."), RequireOwner]
                 public async Task Playing(string new_play)
                 {
                     await Program.xuClient.SetGameAsync(new_play, null, ActivityType.Playing);
-                    await ReplyAsync("*Activity* has been set to: **" + new_play + "**");
+                    await ReplyAsync($"*Activity* has been set to: **{new_play}**");
                 }
 
+                [Example("\"my crash logs directory getting full\"")]
                 [Command("watching"), Alias("watch"), Summary("Sets the bot's activity."), RequireOwner]
                 public async Task Watching(string new_play)
                 {
                     await Program.xuClient.SetGameAsync(new_play, null, ActivityType.Watching);
-                    await ReplyAsync("*Activity* has been set to: **" + new_play + "**");
+                    await ReplyAsync($"*Activity* has been set to: **{new_play}**");
                 }
 
+                [Example("\"to computer fans being overworked\"")]
                 [Command("listening"), Alias("listen"), Summary("Sets the bot's activity."), RequireOwner]
                 public async Task Listening(string new_play)
                 {
                     await Program.xuClient.SetGameAsync(new_play, null, ActivityType.Listening);
-                    await ReplyAsync("*Activity* has been set to: **" + new_play + "**");
+                    await ReplyAsync($"*Activity* has been set to: **{new_play}**");
                 }
 
+                [Example("\"bits across tubes\"")]
                 [Command("streaming"), Alias("stream"), Summary("Sets the bot's activity."), RequireOwner]
                 public async Task Streaming(string new_play)
                 {
                     await Program.xuClient.SetGameAsync(new_play, "https://www.twitch.tv/xubiod_chat_bot", ActivityType.Streaming);
-                    await ReplyAsync("*Activity* has been set to: **" + new_play + "**" +
+                    await ReplyAsync($"*Activity* has been set to: **{new_play}**" +
                                     "\n*Status* has been set to: **streaming**");
                 }
 
+                [Example("online")]
                 [Command("status"), Alias("stat"), Summary("Sets the bot's status."), RequireOwner]
                 public async Task Status(string new_play)
                 {
@@ -560,31 +575,32 @@ namespace xubot.src.Commands
 
                         default:
                             {
-                                await ReplyAsync("*Status* hasn't been set to: **" + new_play + "**, it's invalid.");
+                                await ReplyAsync($"*Status* hasn't been set to: **{new_play}**, it's invalid.");
                                 return;
                             }
 
-                            await ReplyAsync("*Status* has been set to: **" + new_play + "**");
+                            await ReplyAsync($"*Status* has been set to: **{new_play}**");
                     }
                 }
 
+                [Example("[>")]
                 [Command("temp_prefix"), Alias("prefix"), Summary("Sets the prefix for current session."), RequireOwner]
                 public async Task Prefix(string new_prefix)
                 {
                     Program.prefix = new_prefix;
-                    await ReplyAsync("*Prefix* has been set for this session to: **" + new_prefix + "**");
+                    await ReplyAsync($"*Prefix* has been set for this session to: **{new_prefix}**");
                 }
 
                 [Command("ping"), Alias("#", "latency"), Summary("Gets the latency from message recieved to reply.")]
                 public async Task Ping()
                 {
-                    await ReplyAsync("*Ping latency* is currently at: **" + Program.xuClient.Latency + " milliseconds.**");
+                    await ReplyAsync($"*Ping latency* is currently at: **{Program.xuClient.Latency} milliseconds.**");
                 }
 
                 [Command("connection_state"), Alias("cs", "connect"), Summary("Gets the bot's connection state.")]
                 public async Task CS()
                 {
-                    await ReplyAsync("*Connection state* is currently at: **" + Program.xuClient.ConnectionState + ".**");
+                    await ReplyAsync($"*Connection state* is currently at: **{Program.xuClient.ConnectionState}.**");
                 }
             }
         }
@@ -597,12 +613,14 @@ namespace xubot.src.Commands
             /// jokes below
             /// </summary>
             ///
+
+            [Example("10")]
             [Command("gen"), Summary("Makes a random integer with the number given as maximum.")]
             public async Task RndDefault(int max)
             {
                 Random rnd = Util.Globals.RNG;
 
-                await ReplyAsync("Random number generated: **" + rnd.Next(max) + "**");
+                await ReplyAsync($"Random number generated: **{rnd.Next(max)}**");
             }
 
             //thx dickcord
@@ -661,6 +679,7 @@ namespace xubot.src.Commands
                 await ReplyAsync($"***You*** are a ***un***happy little accident.");
             }
 
+            [Example("\"This is an example\"")]
             [Command("leetspeak"), Alias("1337"), Summary("Takes input and returns leetspeak.")]
             public async Task LeetSpeak(string input)
             {
@@ -699,6 +718,8 @@ namespace xubot.src.Commands
                 await ReplyAsync(input);
             }
 
+
+            [Example("\"This is an example\"")]
             [Command("moarleetspeak"), Alias("moar1337"), Summary("Takes input and returns leetspeak. (more character subtitutions)")]
             public async Task LeetSpeakAdv(string input)
             {
@@ -828,13 +849,13 @@ namespace xubot.src.Commands
 
                         var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
 
-                        await pri.SendMessageAsync("**" + add.Username + "#" + add.Discriminator + "** has been trusted.");
+                        await pri.SendMessageAsync($"**{add.Username}#{add.Discriminator}** has been trusted.");
                     }
                     else
                     {
                         var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
 
-                        await pri.SendMessageAsync("**" + add.Username + "#" + add.Discriminator + "** has already been trusted.");
+                        await pri.SendMessageAsync($"**{add.Username}#{add.Discriminator}** has already been trusted.");
                     }
                 }
                 catch (Exception exp)
@@ -857,7 +878,7 @@ namespace xubot.src.Commands
 
                 var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
 
-                await pri.SendMessageAsync("**" + remove.Username + "#" + remove.Discriminator + "** has been untrusted.");
+                await pri.SendMessageAsync($"**{remove.Username}#{remove.Discriminator}** has been untrusted.");
             }
 
             [Command("add"), Summary("Adds a user to the trusted list.")]
@@ -932,10 +953,12 @@ namespace xubot.src.Commands
 
                 var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
 
-                await pri.SendMessageAsync("**" + remove.Username + "#" + remove.Discriminator + "** has been untrusted.");
+                await pri.SendMessageAsync($"**{remove.Username}#{remove.Discriminator}** has been untrusted.");
             }
         }
 
+
+        [Example("\"New York City\"")]
         [Command("timezone", RunMode = RunMode.Async), Summary("Returns the timezone from a given string.")]
         public async Task Timezone(string loc)
         {
@@ -943,7 +966,7 @@ namespace xubot.src.Commands
             {
                 var webClient = new WebClient();
                 var webClient2 = new WebClient();
-                string link = $"https://www.amdoren.com/api/timezone.php?api_key=" + $"{Program.JSONKeys["keys"].Contents.amdoren}&loc={loc}";
+                string link = $"https://www.amdoren.com/api/timezone.php?api_key={ Program.JSONKeys["keys"].Contents.amdoren}&loc={loc}";
                 string text_j = "";
 
                 text_j = webClient.DownloadString(link);

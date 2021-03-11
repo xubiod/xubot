@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using xubot.src.Attributes;
 
 namespace xubot.src.Commands.Connections
 {
@@ -24,6 +25,7 @@ namespace xubot.src.Commands.Connections
 
             private static HttpClient client = new HttpClient();
 
+            [Example(true)]
             [Command("get", RunMode = RunMode.Async), Alias(""), Summary("Uses SauceNAO to get the \"sauce\" of an attached image, returning the number 1 result.")]
             public async Task GetSauce()
             {
@@ -35,6 +37,7 @@ namespace xubot.src.Commands.Connections
                 await GetSauce(Util.File.ReturnLastAttachmentURL(Context));
             }
 
+            [Example("example.com/example_img")]
             [Command("get", RunMode = RunMode.Async), Alias(""), Summary("Uses SauceNAO to get the \"sauce\" of the given URL, returning the number 1 result.")]
             public async Task GetSauce(string url)
             {
@@ -60,13 +63,14 @@ namespace xubot.src.Commands.Connections
 
                     if (src == "?")
                     {
-                        await ReplyAsync("SauceNAO didn't give me a source...\n" + GetRequestsLeft(keys, RequestsLeftType.Message));
+                        await ReplyAsync($"SauceNAO didn't give me a source...\n{GetRequestsLeft(keys, RequestsLeftType.Message)}");
                         return;
                     }
                     await ReplyAsync($"I am **{similarity}%** confident it is **{src}** thanks to SauceNAO.\n" + GetRequestsLeft(keys, RequestsLeftType.Message));
                 }
             }
 
+            [Example("5", true)]
             [Command("top", RunMode = RunMode.Async), Summary("Uses SauceNAO to get the \"sauce\" of an attached image, returning the top results. Limited from 1 to 5, defaults to 5.")]
             public async Task GetTop(int amount = 5)
             {
@@ -78,6 +82,7 @@ namespace xubot.src.Commands.Connections
                 await GetTop(amount, Util.File.ReturnLastAttachmentURL(Context));
             }
 
+            [Example("5 example.com/example_img")]
             [Command("top", RunMode = RunMode.Async), Summary("Uses SauceNAO to get the \"sauce\" of the given URL, returning the top results. Limited from 1 to 5.")]
             public async Task GetTop(int amount, string url)
             {
@@ -144,6 +149,7 @@ namespace xubot.src.Commands.Connections
                 }
             }
 
+            [Example(true)]
             [Command("details", RunMode = RunMode.Async), Alias("detail", "full"), Summary("Uses SauceNAO to get the \"sauce\" of an attached image, returning a detailed report on it.")]
             public async Task GetDetails()
             {
@@ -155,6 +161,7 @@ namespace xubot.src.Commands.Connections
                 await GetDetails(Util.File.ReturnLastAttachmentURL(Context));
             }
 
+            [Example("example.com/example_img")]
             [Command("details", RunMode = RunMode.Async), Alias("detail", "full"), Summary("Uses SauceNAO to get the \"sauce\" of a URL, returning a detailed report on it.")]
             public async Task GetDetails(string url)
             {
@@ -179,7 +186,7 @@ namespace xubot.src.Commands.Connections
 
                     if (src == "?")
                     {
-                        await ReplyAsync("SauceNAO didn't give me a source...\n" + GetRequestsLeft(keys, RequestsLeftType.Message));
+                        await ReplyAsync($"SauceNAO didn't give me a source...\n{GetRequestsLeft(keys, RequestsLeftType.Message)}");
 
                         return;
                     }
@@ -262,7 +269,7 @@ namespace xubot.src.Commands.Connections
             {
                 string requestsLeft = GetRequestsLeft(keys, RequestsLeftType.NoFormatting);
 
-                await Util.Error.BuildError("SauceNAO returned an error:\n\n" + Util.Str.StripHTML(keys.header.message.ToString()) + "\n\n[NOTE]\n" + requestsLeft, Context);
+                await Util.Error.BuildError($"SauceNAO returned an error:\n\n{Util.Str.StripHTML(keys.header.message.ToString())}\n\n[NOTE]\n{requestsLeft}", Context);
             }
         }
     }

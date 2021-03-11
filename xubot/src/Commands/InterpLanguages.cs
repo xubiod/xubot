@@ -13,6 +13,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using xubot.src;
+using xubot.src.Attributes;
 
 namespace xubot.src
 {
@@ -155,6 +156,7 @@ namespace xubot.src
                 }*/
             }
 
+            [Example("diissisdo")]
             [Command("deadfish", RunMode = RunMode.Async), Summary("Interperts Deadfish and outputs the results.")]
             public async Task Deadfish(string input)
             {
@@ -162,17 +164,18 @@ namespace xubot.src
                 await ReplyAsync("", false, BuildEmbed("Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", "", input, result));
             }
 
+            [Example("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.")]
             [Command("brainfuck", RunMode = RunMode.Async), Alias("brainf***", "brainf**k", "b****fuck", "bf"), Summary("Interperts Brainfuck and outputs the result.")]
             public async Task Brainfuck(string input, string ascii_input = "")
             {
                 string embed_input;
                 if (ascii_input != "")
                 {
-                    embed_input = "Code: " + input.Replace("\n", String.Empty) + "\n\nASCII Input: " + ascii_input;
+                    embed_input = $"Code: {input.Replace("\n", String.Empty)}\n\nASCII Input: {ascii_input}";
                 }
                 else
                 {
-                    embed_input = "Code: " + input.Replace("\n", String.Empty);
+                    embed_input = $"Code: {input.Replace("\n", String.Empty)}";
                 }
                 string result = Commands.SmallLangInterps.Brainfuck.Execute(input, ascii_input);
 

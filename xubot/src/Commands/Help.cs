@@ -15,12 +15,14 @@ namespace xubot.src.Commands
     {
         public readonly int itemsPerPage = 15;
 
+        [Example("1")]
         [Command("get", RunMode = RunMode.Async), Alias("")]
         public async Task _Help(int page = 1)
         {
             await HelpCmd(page);
         }
 
+        [Example("help list")]
         [Command("get", RunMode = RunMode.Async), Alias(""), Summary("Lists data for one command.")]
         public async Task HelpCmd(params string[] lookupAsAll)
         {
@@ -51,6 +53,7 @@ namespace xubot.src.Commands
             await helpHandling(lookup, index, wGroup);
         }*/
 
+        [Example("list 1")]
         [Command("list", RunMode = RunMode.Async), Summary("Lists all commands.")]
         public async Task HelpCmd(int page = 1)
         {
@@ -104,6 +107,7 @@ namespace xubot.src.Commands
             await ReplyAsync("", false, embedd.Build());
         }
 
+        [Example("e true 1")]
         [Command("search", RunMode = RunMode.Async), Summary("Searches all commands with a search term. Deep enables searching the aliases as well, but this takes longer.")]
         public async Task Search(string lookup, bool deep = true, int page = 1)
         {

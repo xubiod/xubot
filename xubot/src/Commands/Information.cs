@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using xubot.src.Attributes;
 
 namespace xubot.src.Commands
 {
@@ -147,6 +148,7 @@ namespace xubot.src.Commands
                 await ReplyAsync("", false, embedd.Build());
             }
 
+            [Example("198146693672337409")]
             [Command("user", RunMode = RunMode.Async), Alias("user-info", "ui"), Summary("Gets information about the user that sent the command.")]
             public async Task User(ulong id = ulong.MaxValue)
             {
@@ -269,6 +271,7 @@ namespace xubot.src.Commands
                 }
             }
 
+            [Example("xubot#4220")]
             [Command("user", RunMode = RunMode.Async), Alias("user-info", "ui"), Summary("Gets information about the user that sent the command.")]
             public async Task User(params string[] username)
             {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using SteamKit2;
+using xubot.src.Attributes;
 
 namespace xubot.src.Commands.Connections
 {
@@ -16,6 +17,7 @@ namespace xubot.src.Commands.Connections
         static dynamic steamAppsInterface = WebAPI.GetInterface("ISteamApps", Program.JSONKeys["keys"].Contents.steam.ToString());
         static dynamic steamNewsInterface = WebAPI.GetInterface("ISteamNews", Program.JSONKeys["keys"].Contents.steam.ToString());
 
+        [Example("76561197960287930")]
         [Command("user", RunMode = RunMode.Async), Summary("Gets information about a Steam user based on their ID.")]
         public async Task User(ulong id)
         {
@@ -61,12 +63,12 @@ namespace xubot.src.Commands.Connections
 
                     if (mostWeekIn != "")
                     {
-                        mostWeekField.Value = "In App\n**__" + mostWeekIn + "__**: " + string.Format("{0:#,###}", mostWeek) + " minutes\n" + string.Format("{0:#,###0.0}", mostWeek / 60) + " hours";
+                        mostWeekField.Value = $"In App\n**__{mostWeekIn}__**: {string.Format("{0:#,###}", mostWeek)} minutes\n{string.Format("{0:#,###0.0}", mostWeek / 60)} hours";
                     }
 
                     if (mostTimeIn != "")
                     {
-                        mostTimeField.Value = "In App\n**__" + mostTimeIn + "__**: " + string.Format("{0:#,###}", mostTime) + " minutes\n" + string.Format("{0:#,###0.0}", mostTime / 60) + " hours";
+                        mostTimeField.Value = $"In App\n**__{mostTimeIn}__**: {string.Format("{0:#,###}", mostTime)} minutes\n{string.Format("{0:#,###0.0}", mostTime / 60)} hours";
                     }
 
                     ulong _lastLogOff = playerSummaries["lastlogoff"].AsUnsignedLong(0);
@@ -79,7 +81,7 @@ namespace xubot.src.Commands.Connections
                     TimeSpan createdToNow = DateTime.Now - timeCreated;
 
                     string playing = "";
-                    if (playerSummaries["gameid"].AsInteger(0) != 0) playing = "Currently playing **" + ReturnAppName(playerSummaries["gameid"].AsInteger()) + "**";
+                    if (playerSummaries["gameid"].AsInteger(0) != 0) playing = $"Currently playing **{ReturnAppName(playerSummaries["gameid"].AsInteger())}**";
 
                     EmbedBuilder embedd = new EmbedBuilder()
                     {
@@ -102,22 +104,22 @@ namespace xubot.src.Commands.Connections
                             new EmbedFieldBuilder
                             {
                                 Name = "Current Stats",
-                                Value = "Currently __" + GetStatus(playerSummaries["personastate"].AsInteger()) + "__\n" +
-                                        "Level **" + playerLevel["player_level"].AsString() + "**\n**" +
-                                        ownedGames["game_count"].AsString() + "** products" +
-                                        playing,
+                                Value = $"Currently __{GetStatus(playerSummaries["personastate"].AsInteger())}__\n" +
+                                        $"Level **{playerLevel["player_level"].AsString()}**\n**" +
+                                        $"{ownedGames["game_count"].AsString()}** products" +
+                                        $"{playing}",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Playtime (2 wks)",
-                                Value = string.Format("{0:#,##0}", twoWeeks) + " minutes\n" + string.Format("{0:#,###0.0}", twoWeeks/60) + " hours",
+                                Value = $"{string.Format("{0:#,##0}", twoWeeks)} minutes\n{string.Format("{0:#,###0.0}", twoWeeks/60)} hours",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Playtime (forever)",
-                                Value = string.Format("{0:#,##0}", forever) + " minutes\n" + string.Format("{0:#,###0.0}", forever/60) + " hours\n" + string.Format("{0:#,###0.00}", forever/1440) + " days",
+                                Value = $"{string.Format("{0:#,##0}", forever)} minutes\n{string.Format("{0:#,###0.0}", forever/60)} hours\n{string.Format("{0:#,###0.00}", forever/1440)} days",
                                 IsInline = true
                             },
                             mostWeekField,
@@ -125,15 +127,15 @@ namespace xubot.src.Commands.Connections
                             new EmbedFieldBuilder
                             {
                                 Name = "Last Logoff",
-                                Value = lastLogOff.ToShortDateString() + " " + lastLogOff.ToShortTimeString() + "\n(" +
-                                System.Math.Round((lastLogOffToNow.TotalHours*100)/100).ToString() + " hours)",
+                                Value = $"{lastLogOff.ToShortDateString()} {lastLogOff.ToShortTimeString()}\n(" +
+                                $"{System.Math.Round((lastLogOffToNow.TotalHours*100)/100).ToString()} hours)",
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Time Created",
-                                Value = timeCreated.ToShortDateString() + " " + timeCreated.ToShortTimeString() + "\n(" +
-                                string.Format("{0:#,###.00}", (createdToNow.TotalDays/365)) + " years)",
+                                Value = $"{timeCreated.ToShortDateString()} {timeCreated.ToShortTimeString()}\n(" +
+                                $"{string.Format("{0:#,###.00}", (createdToNow.TotalDays/365))} years)",
                                 IsInline = true
                             }
                         };
@@ -145,14 +147,14 @@ namespace xubot.src.Commands.Connections
                             new EmbedFieldBuilder
                             {
                                 Name = "Current Stats",
-                                Value = "**This user's profile is private.**\nCurrently __" + GetStatus(playerSummaries["personastate"].AsInteger()) + "__",
+                                Value = $"**This user's profile is private.**\nCurrently __{GetStatus(playerSummaries["personastate"].AsInteger())}__",
                                 IsInline = false
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Last Logoff",
-                                Value = lastLogOff.ToShortDateString() + " " + lastLogOff.ToShortTimeString() + "\n(" +
-                                System.Math.Round((lastLogOffToNow.TotalHours*100)/100).ToString() + " hours)",
+                                Value = $"{lastLogOff.ToShortDateString()} {lastLogOff.ToShortTimeString()}\n(" +
+                                $"{System.Math.Round((lastLogOffToNow.TotalHours*100)/100).ToString()} hours)",
                                 IsInline = false
                             }
                         };
@@ -167,6 +169,7 @@ namespace xubot.src.Commands.Connections
             }
         }
 
+        [Example("gabelogannewell")]
         [Command("user", RunMode = RunMode.Async), Summary("Gets information about a Steam user based on their vanity URL.")]
         public async Task User(string vanity)
         {
@@ -175,6 +178,7 @@ namespace xubot.src.Commands.Connections
             await User(vanityUrl["steamid"].AsUnsignedLong(0));
         }
 
+        [Example("4000")]
         [Command("news", RunMode = RunMode.Async), Summary("Gets news for a game via it's ID.")]
         public async Task News(int appid, int cap = 5)
         {
@@ -228,6 +232,7 @@ namespace xubot.src.Commands.Connections
             }
         }
 
+        [Example("\"Garry's Mod\" 3")]
         [Command("news", RunMode = RunMode.Async), Summary("Gets news for a game via it's name on Steam. (HAS TO BE EXACT)")]
         public async Task News(string name, int cap = 5)
         {
