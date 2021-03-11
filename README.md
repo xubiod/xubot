@@ -45,7 +45,7 @@ The binary depends on certain files within its directory. These can be found in 
 
 For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog)
 
-**Confirmed working on:** Windows 7 x64, Windows 10 x64, Ubuntu LTS
+**Confirmed working on:** Windows 10 x64, Ubuntu LTS, Debian (published as `linux-x64`)
 
 ## Contributing
 To be rewritten.
