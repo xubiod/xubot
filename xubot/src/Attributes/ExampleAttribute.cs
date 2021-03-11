@@ -7,16 +7,21 @@ namespace xubot.src.Attributes
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class ExampleAttribute : Attribute
     {
-        public string ExampleCmdUsage { get; }
+        public string ExampleParameters { get; }
 
-        public ExampleAttribute(string examplecmd)
+        public ExampleAttribute()
         {
-            this.ExampleCmdUsage = examplecmd;
+            this.ExampleParameters = "";
+        }
+
+        public ExampleAttribute(string example_params)
+        {
+            this.ExampleParameters = example_params;
         }
 
         public string GetExampleUsage()
         {
-            return ExampleCmdUsage;
+            return ExampleParameters;
         }
     }
 }
