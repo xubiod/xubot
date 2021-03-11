@@ -8,20 +8,30 @@ namespace xubot.src.Attributes
     public class ExampleAttribute : Attribute
     {
         public string ExampleParameters { get; }
+        public bool AttachmentNeeded { get; }
 
         public ExampleAttribute()
         {
             this.ExampleParameters = "";
+            this.AttachmentNeeded = false;
         }
 
         public ExampleAttribute(string example_params)
         {
             this.ExampleParameters = example_params;
+            this.AttachmentNeeded = false;
         }
 
-        public string GetExampleUsage()
+        public ExampleAttribute(bool attachment_needed)
         {
-            return ExampleParameters;
+            this.ExampleParameters = "";
+            this.AttachmentNeeded = attachment_needed;
+        }
+
+        public ExampleAttribute(string example_params, bool attachment_needed)
+        {
+            this.ExampleParameters = example_params;
+            this.AttachmentNeeded = attachment_needed;
         }
     }
 }
