@@ -1,0 +1,13 @@
+version: appveyor.{branch}.{build}
+image: Visual Studio 2019
+before_build:
+- cmd: nuget restore C:\projects\xubot-appveyor\xubot.sln
+build:
+  verbosity: detailed
+  project: xubot.sln
+only_commits:
+  files:
+  - xubot/
+  - xubot-helper/
+  - XubotSharedModule/
+  - DebugModule/
