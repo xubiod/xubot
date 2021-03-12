@@ -613,7 +613,6 @@ namespace xubot.src.Commands
             /// jokes below
             /// </summary>
             ///
-
             [Example("10")]
             [Command("gen"), Summary("Makes a random integer with the number given as maximum.")]
             public async Task RndDefault(int max)
@@ -717,7 +716,6 @@ namespace xubot.src.Commands
 
                 await ReplyAsync(input);
             }
-
 
             [Example("\"This is an example\"")]
             [Command("moarleetspeak"), Alias("moar1337"), Summary("Takes input and returns leetspeak. (more character subtitutions)")]
@@ -956,7 +954,6 @@ namespace xubot.src.Commands
                 await pri.SendMessageAsync($"**{remove.Username}#{remove.Discriminator}** has been untrusted.");
             }
         }
-
 
         [Example("\"New York City\"")]
         [Command("timezone", RunMode = RunMode.Async), Summary("Returns the timezone from a given string.")]
