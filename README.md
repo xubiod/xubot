@@ -3,8 +3,16 @@
 ### Project Badges
 [![CodeFactor](https://www.codefactor.io/repository/github/xubiod/xubot/badge)](https://www.codefactor.io/repository/github/xubiod/xubot)
 [![Build status](https://ci.appveyor.com/api/projects/status/1gwftwwou8k80gir?svg=true)](https://ci.appveyor.com/project/xubiod/xubot-appveyor)
+![Custom badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fxubiod.net%2Fbot-status%2Fbadge_endpoint.php)
 
-### Other Badges
+![GitHub](https://img.shields.io/github/license/xubiod/xubot)
+![GitHub top language](https://img.shields.io/github/languages/top/xubiod/xubot)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/xubiod/xubot)
+![GitHub repo size](https://img.shields.io/github/repo-size/xubiod/xubot)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/xubiod/xubot)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/xubiod/xubot)
+
+#### Joke Badges
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/made-with-crayons.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
@@ -49,5 +57,5 @@ For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.co
 
 **Confirmed working on:** Windows 10 x64, Ubuntu LTS, Debian (published as `linux-x64`)
 
-## License
+## License ![GitHub](https://img.shields.io/github/license/xubiod/xubot)
 The source code provided here on GitHub is licensed under **AGPLv3**. You can look at the license [here.](LICENSE)
