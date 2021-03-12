@@ -1,6 +1,4 @@
-<center>
-
-![logo](./docs/xubot_repo.png)
+<p align="center"><img align="center" src="./docs/xubot_repo.png" /></p>
 
 ### Project Badges
 [![CodeFactor](https://www.codefactor.io/repository/github/xubiod/xubot/badge)](https://www.codefactor.io/repository/github/xubiod/xubot)
@@ -61,4 +59,3 @@ For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.co
 
 ## License ![GitHub](https://img.shields.io/github/license/xubiod/xubot)
 The source code provided here on GitHub is licensed under **AGPLv3**. You can look at the license [here.](LICENSE)
-</center>
