@@ -1,16 +1,6 @@
 <p align="center"><img align="center" src="./docs/xubot_repo.png" /></p>
-
-### Project Badges
-[![CodeFactor](https://www.codefactor.io/repository/github/xubiod/xubot/badge)](https://www.codefactor.io/repository/github/xubiod/xubot)
-[![Build status](https://ci.appveyor.com/api/projects/status/1gwftwwou8k80gir?svg=true)](https://ci.appveyor.com/project/xubiod/xubot-appveyor)
-![Custom badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fxubiod.net%2Fbot-status%2Fbadge_endpoint.php)
-
-![GitHub](https://img.shields.io/github/license/xubiod/xubot)
-![GitHub top language](https://img.shields.io/github/languages/top/xubiod/xubot)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/xubiod/xubot)
-![GitHub repo size](https://img.shields.io/github/repo-size/xubiod/xubot)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/xubiod/xubot)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/w/xubiod/xubot)
+<p align="center"><a href="https://www.codefactor.io/repository/github/xubiod/xubot"><img src="https://www.codefactor.io/repository/github/xubiod/xubot/badge" alt="CodeFactor" /></a> <a href="https://ci.appveyor.com/project/xubiod/xubot-appveyor"><img src="https://ci.appveyor.com/api/projects/status/1gwftwwou8k80gir?svg=true" alt="Build status" /></a> <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fxubiod.net%2Fbot-status%2Fbadge_endpoint.php" alt="Custom badge" /><br /><img src="https://img.shields.io/github/license/xubiod/xubot" alt="License" /> <img src="https://img.shields.io/github/languages/top/xubiod/xubot" alt="GitHub top language" /> <img src="https://img.shields.io/github/languages/code-size/xubiod/xubot" alt="GitHub code size in bytes" /> <img src="https://img.shields.io/github/repo-size/xubiod/xubot" alt="GitHub repo size" /> <img src="https://img.shields.io/github/v/release/xubiod/xubot" alt="GitHub release (latest by date)" /> <img src="https://img.shields.io/github/commit-activity/w/xubiod/xubot" alt="GitHub commit activity" /></p>
+<hr />
 
 #### Joke Badges
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](https://forthebadge.com)
