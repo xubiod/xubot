@@ -1,4 +1,6 @@
-![logo](https://raw.githubusercontent.com/xubiod/xubot/master/docs/xublogo.png)
+<center>
+
+![logo](./docs/xubot_repo.png)
 
 ### Project Badges
 [![CodeFactor](https://www.codefactor.io/repository/github/xubiod/xubot/badge)](https://www.codefactor.io/repository/github/xubiod/xubot)
@@ -51,7 +53,7 @@ dotnet xubot.dll
 
 If the publish provides it, you can also run the bot with the executable named `xubot` (i.e `xubot.exe`, `./xubot`). For Linux, make sure the execute rights are set on the file.
 
-The binary depends on certain files within its directory. These can be found in the [config example](config-example) folder.
+The binary depends on certain files within its directory. These can be found in the [config example](./config-example/Core/) folder.
 
 For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog)
 
@@ -59,3 +61,4 @@ For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.co
 
 ## License ![GitHub](https://img.shields.io/github/license/xubiod/xubot)
 The source code provided here on GitHub is licensed under **AGPLv3**. You can look at the license [here.](LICENSE)
+</center>
