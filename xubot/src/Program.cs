@@ -34,7 +34,7 @@ namespace xubot.src
 
         public static BotWebAgent webAgent { get; private set; }
         public static RedditSharp.Reddit reddit { get; private set; }
-        public static RedditSharp.Things.Subreddit subreddit;
+        // public static RedditSharp.Things.Subreddit subreddit;
 
         public static bool redditEnabled = false;
 
@@ -149,8 +149,8 @@ namespace xubot.src
 
                 stepTimes[0] = DateTime.Now;
 
-                Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
-                subreddit = await reddit.GetSubredditAsync("/r/xubot_subreddit");
+                // Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
+                // subreddit = await reddit.GetSubredditAsync("/r/xubot_subreddit");
                 stepTimes[1] = DateTime.Now;
             }
         }
