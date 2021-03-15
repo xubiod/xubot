@@ -324,7 +324,7 @@ namespace xubot.src.Commands
                 if (nsfwPossibility != "") embedd.Fields.Add(new EmbedFieldBuilder()
                 {
                     Name = "NSFW Possibility",
-                    Value = $"This group has the possibility of showing NSFW content. __*NSFW will* ***NOT*** *be shown that is NSFW unless it is in a channel specified as NSFW.*__\nThe following is stated as a warning for what type of content could be shown:\n**{nsfwPossibility}**",
+                    Value = $"This can show NSFW content. NSFW content is restricted to NSFW channels.\n**{nsfwPossibility}**",
                     IsInline = true
                 });
 
@@ -455,7 +455,7 @@ namespace xubot.src.Commands
                 if (nsfwPossibility != null) embedd.Fields.Add(new EmbedFieldBuilder()
                 {
                     Name = "NSFW Possibility",
-                    Value = $"This group has the possibility of showing NSFW content. __*NSFW will* ***NOT*** *be shown that is NSFW unless it is in a channel specified as NSFW.*__\nThe following is stated as a warning for what type of content could be shown:\n**{nsfwPossibility}**",
+                    Value = $"This can show NSFW content. NSFW content is restricted to NSFW channels.\n**{nsfwPossibility}**",
                     IsInline = true
                  });
 
