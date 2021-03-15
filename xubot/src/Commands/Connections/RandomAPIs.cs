@@ -83,7 +83,6 @@ namespace xubot.src.Commands.Connections
             }
         }
 
-
         [Example("example@example.com")]
         [Command("email-check", RunMode = RunMode.Async), Summary("Uses API to check if email is a temporary one for sCaMs OoOoOoO")]
         public async Task ValidEmail(string email)
