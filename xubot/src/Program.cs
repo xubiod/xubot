@@ -34,7 +34,7 @@ namespace xubot.src
 
         public static BotWebAgent webAgent { get; private set; }
         public static RedditSharp.Reddit reddit { get; private set; }
-        // public static RedditSharp.Things.Subreddit subreddit;
+        public static RedditSharp.Things.Subreddit subreddit { get; set; }
 
         public static bool redditEnabled = false;
 
