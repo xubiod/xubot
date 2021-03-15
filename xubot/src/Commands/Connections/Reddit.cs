@@ -1,18 +1,16 @@
 ﻿using Discord;
 using Discord.Commands;
+using RedditSharp;
+using RedditSharp.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using xubot.src.Attributes;
 
-using RedditSharp;
-
 // using static xubot.src.RedditTools.ParseSorting;
-using static xubot.src.SpecialException;
-using RedditSharp.Things;
-using System.Reactive.Linq;
 using static xubot.src.Util;
 
 namespace xubot.src.Commands.Connections
