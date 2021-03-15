@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using xubot.src.Attributes;
 
-using Reddit;
+using RedditSharp;
 
 // using static xubot.src.RedditTools.ParseSorting;
 using static xubot.src.SpecialException;

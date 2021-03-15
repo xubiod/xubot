@@ -1,7 +1,6 @@
 ﻿using Discord.Commands;
 using NLua;
 using ProtoBuf;
-using Reddit.Things;
 using SteamKit2;
 using System;
 using System.Collections.Generic;
