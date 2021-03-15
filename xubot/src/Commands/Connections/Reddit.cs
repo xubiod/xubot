@@ -17,13 +17,13 @@ namespace xubot.src.Commands.Connections
 {
     public class Reddit : ModuleBase
     {
-        static string previous_sub = "notinteresting";
-        static string previous_query = "";
-        static int previous_sorting = 0;
-        static bool previous_hide = false;
+        private static string previous_sub = "notinteresting";
+        private static string previous_query = "";
+        private static int previous_sorting = 0;
+        private static bool previous_hide = false;
 
-        static string[] randomSubs = { "adviceanimals", "askreddit", "aww", "bestof", "books", "earthporn", "explainlikeimfive", "funny", "gaming", "gifs", "iama", "movies", "music",
-                                       "news", "pics", "science", "technology", "television", "todayilearned", "videos", "worldnews", "wtf" };
+        private static string[] randomSubs = { "adviceanimals", "askreddit", "aww", "bestof", "books", "earthporn", "explainlikeimfive", "funny", "gaming", "gifs", "iama", "movies", "music",
+                                               "news", "pics", "science", "technology", "television", "todayilearned", "videos", "worldnews", "wtf" };
 
         [Command("reddit?last", RunMode = RunMode.Async), Alias("reddit?l"), Summary("Gets a post from the last subreddit entered."), NSFWPossibilty("Anything probably")]
         public async Task DoLastSubreddit()
