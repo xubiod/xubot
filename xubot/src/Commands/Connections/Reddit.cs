@@ -161,24 +161,10 @@ namespace xubot.src.Commands.Connections
         }
 
         [NSFWPossibilty("Anything probably")]
-        [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit.")]
-        public async Task GetRedditPost(string subreddit)
+        [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, search query, sorting method, and can prevent from showing previews.")]
+        public async Task GetRedditPost(string subreddit, string query = "", int sorting = 0, bool hide = false)
         {
-            await Operate(Context, subreddit, "", 0, false);
-        }
-
-        [NSFWPossibilty("Anything probably")]
-        [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and search query.")]
-        public async Task GetRedditPost(string subreddit, string query)
-        {
-            await Operate(Context, subreddit, query, 0, false);
-        }
-
-        [NSFWPossibilty("Anything probably")]
-        [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, search query, and sorting method.")]
-        public async Task GetRedditPost(string subreddit, string query, int sorting)
-        {
-            await Operate(Context, subreddit, query, sorting, false);
+            await Operate(Context, subreddit, query, sorting, hide);
         }
 
         [NSFWPossibilty("Anything probably")]
@@ -200,13 +186,6 @@ namespace xubot.src.Commands.Connections
         public async Task GetRedditPost(string subreddit, string query, bool hide)
         {
             await Operate(Context, subreddit, query, 0, hide);
-        }
-
-        [NSFWPossibilty("Anything probably")]
-        [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, search query, sorting method, and can prevent from showing previews.")]
-        public async Task GetRedditPost(string subreddit, string query, int sorting, bool hide)
-        {
-            await Operate(Context, subreddit, query, sorting, hide);
         }
 
         [NSFWPossibilty("Anything probably")]
