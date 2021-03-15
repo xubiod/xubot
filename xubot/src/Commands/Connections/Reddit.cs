@@ -160,35 +160,35 @@ namespace xubot.src.Commands.Connections
             await ReplyAsync("", false, embedd.Build());
         }
 
-        [NSFWPossibilty("Anything probably")]
+        [NSFWPossibilty("Anything probably"), Example("aww dog")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, search query, sorting method, and can prevent from showing previews.")]
         public async Task GetRedditPost(string subreddit, string query = "", int sorting = 0, bool hide = false)
         {
             await Operate(Context, subreddit, query, sorting, hide);
         }
 
-        [NSFWPossibilty("Anything probably")]
+        [NSFWPossibilty("Anything probably"), Example("aww 0")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and sorting method.")]
         public async Task GetRedditPost(string subreddit, int sorting)
         {
             await Operate(Context, subreddit, "", sorting, false);
         }
 
-        [NSFWPossibilty("Anything probably")]
+        [NSFWPossibilty("Anything probably"), Example("aww false")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, but can prevent previews from showing.")]
         public async Task GetRedditPost(string subreddit, bool hide)
         {
             await Operate(Context, subreddit, "", 0, hide);
         }
 
-        [NSFWPossibilty("Anything probably")]
+        [NSFWPossibilty("Anything probably"), Example("aww cat false")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and search query, but can prevent previews from showing.")]
         public async Task GetRedditPost(string subreddit, string query, bool hide)
         {
             await Operate(Context, subreddit, query, 0, hide);
         }
 
-        [NSFWPossibilty("Anything probably")]
+        [NSFWPossibilty("Anything probably"), Example("aww 0 false")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and sorting method, but can prevent previews from showing.")]
         public async Task GetRedditPost(string subreddit, int sorting, bool hide)
         {
