@@ -147,14 +147,14 @@ namespace xubot.src.Commands.Connections
                 },
                 Timestamp = DateTime.UtcNow,
                 Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Wiki",
-                                Value = Program.subreddit.GetWiki.GetPageNamesAsync(),
-                                IsInline = false
-                            }
-                        }
+                {
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Wiki",
+                        Value = Program.subreddit.GetWiki.GetPageNamesAsync(),
+                        IsInline = false
+                    }
+                }
             };
 
             await ReplyAsync("", false, embedd.Build());
