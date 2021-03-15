@@ -162,19 +162,22 @@ namespace xubot.src.Commands.Connections
         [NSFWPossibilty("Anything probably")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit.")]
         public async Task GetRedditPost(string subreddit)
-        {await Operate(Context, subreddit, "", 0, false);
+        {
+            await Operate(Context, subreddit, "", 0, false);
         }
 
         [NSFWPossibilty("Anything probably")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and search query.")]
         public async Task GetRedditPost(string subreddit, string query)
-        {await Operate(Context, subreddit, query, 0, false);
+        {
+            await Operate(Context, subreddit, query, 0, false);
         }
 
         [NSFWPossibilty("Anything probably")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, search query, and sorting method.")]
         public async Task GetRedditPost(string subreddit, string query, int sorting)
-        {await Operate(Context, subreddit, query, sorting, false);
+        {
+            await Operate(Context, subreddit, query, sorting, false);
         }
 
         [NSFWPossibilty("Anything probably")]
@@ -236,13 +239,15 @@ namespace xubot.src.Commands.Connections
                 //dynamic typing = await Context.Channel.EnterTypingState(null);
                 Random rnd = Util.Globals.RNG;
 
-                List<Post> contents = (List<Post>)Program.subreddit.GetPosts(RedditTools.ParseSorting.FromIntSort(sorting), -1).Stream().ToList();
-                if (contents.Count < 10)
+                Listing<Post> contents = Program.subreddit.GetPosts(RedditTools.ParseSorting.FromIntSort(sorting), -1);
+                int contents_count = await contents.CountAsync();
+
+                if (contents_count < 10)
                 {
-                    contents = (List<Post>)Program.subreddit.GetPosts(-1).Stream().ToList();
+                    contents = Program.subreddit.GetPosts(-1);
                 }
                 //Console.WriteLine(contents.Count);
-                var post = contents.ElementAt(rnd.Next(contents.Count));
+                var post = await contents.ElementAtAsync(rnd.Next(contents_count));
                 //EmbedBuilder embedd;
 
                 bool isNSFW = await Util.IsChannelNSFW(Context);
