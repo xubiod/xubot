@@ -13,6 +13,7 @@ using RedditSharp;
 using static xubot.src.SpecialException;
 using RedditSharp.Things;
 using System.Reactive.Linq;
+using static xubot.src.Util;
 
 namespace xubot.src.Commands.Connections
 {
@@ -222,6 +223,7 @@ namespace xubot.src.Commands.Connections
             previous_query = query;
             previous_sorting = sorting;
             previous_hide = hide;
+
             // is the reddit fuck off?
             if (!Program.redditEnabled)
             {
@@ -229,50 +231,34 @@ namespace xubot.src.Commands.Connections
                 return;
             }
 
-            try
+            using (WorkingBlock wb = new WorkingBlock(Context))
             {
-                //throw new ItsFuckingBrokenException(message: "Throw 'IHaveNoFuckingIdeaException' because I have no fucking idea.", inner: new IHaveNoFuckingIdeaException());
-
-                Program.subreddit = await Program.reddit.GetSubredditAsync(subreddit);
-                var msg = await ReplyAsync("Subreddit: **" + subreddit + "**\nPlease wait, this takes a while with broad terms and popular subreddits!");
-
-                //dynamic typing = await Context.Channel.EnterTypingState(null);
-                Random rnd = Util.Globals.RNG;
-
-                Listing<Post> contents = Program.subreddit.GetPosts(RedditTools.ParseSorting.FromIntSort(sorting), -1);
-                int contents_count = await contents.CountAsync();
-
-                if (contents_count < 10)
+                try
                 {
-                    contents = Program.subreddit.GetPosts(-1);
-                }
-                //Console.WriteLine(contents.Count);
-                var post = await contents.ElementAtAsync(rnd.Next(contents_count));
-                //EmbedBuilder embedd;
+                    Program.subreddit = await Program.reddit.GetSubredditAsync(subreddit);
+                    Random rnd = Util.Globals.RNG;
 
-                bool isNSFW = await Util.IsChannelNSFW(Context);
+                    Listing<Post> contents = Program.subreddit.GetPosts(RedditTools.ParseSorting.FromIntSort(sorting), -1);
+                    int contents_count = await contents.CountAsync();
 
-                if (post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL"))
-                {
-                    if (!isNSFW)
-                    {
-                        await msg.ModifyAsync(x => x.Content = "The random post that was selected is NSFW or the subreddit is NSFW. Try again for another random post, with another subreddit, or move to a NSFW channel (needs nsfw in the name).");
-                        //typing.Dispose();
-                        return;
-                    }
-                    else
-                    {
-                        await msg.ModifyAsync(x => x.Content = "**" + post.Title + "**\n" + "Posted on *" + post.CreatedUTC.ToShortDateString() + "* by **" + post.AuthorName + "**" + "\n\n" + ReturnCharOnTrue(hide, "<") + post.Url.AbsoluteUri + ReturnCharOnTrue(hide, ">") + "\n<https://www.reddit.com" + post.Permalink.ToString() + ">");
-                    }
+                    if (contents_count < 10) contents = Program.subreddit.GetPosts(-1);
+                    //Console.WriteLine(contents.Count);
+                    var post = await contents.ElementAtAsync(rnd.Next(contents_count));
+                    //EmbedBuilder embedd;
+
+                    bool isNSFW = await Util.IsChannelNSFW(Context);
+
+                    string post_message = $"**{post.Title}**\nPosted on *{post.CreatedUTC.ToShortDateString()}* by **{post.AuthorName}**\n\n{ReturnCharOnTrue(hide, "<")}{post.Url.AbsoluteUri}{ReturnCharOnTrue(hide, ">")}\n<https://www.reddit.com{post.Permalink.ToString()}>";
+
+                    if ((post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL")) && !isNSFW)
+                        post_message = "The random post that was selected is NSFW or the subreddit is NSFW.Try again for another random post, with another subreddit, or move to a NSFW channel(needs nsfw in the name).";
+
+                    await ReplyAsync(post_message);
                 }
-                else
+                catch (Exception e)
                 {
-                    await msg.ModifyAsync(x => x.Content = "**" + post.Title + "**\n" + "Posted on *" + post.CreatedUTC.ToShortDateString() + "* by **" + post.AuthorName + "**" + "\n\n" + ReturnCharOnTrue(hide, "<") + post.Url.AbsoluteUri + ReturnCharOnTrue(hide, ">") + "\n<https://www.reddit.com" + post.Permalink.ToString() + ">");
+                    await Util.Error.BuildError(e, Context);
                 }
-            }
-            catch (Exception e)
-            {
-                await Util.Error.BuildError(e, Context);
             }
         }
 
