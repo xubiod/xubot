@@ -164,6 +164,12 @@ namespace xubot.src.Commands.Connections
         [Command("booru-get", RunMode = RunMode.Async), Summary("Gets an image you requested that wasn't appropriate for the orginial context with a given key.")]
         public async Task GetStoredImageURI(string key, bool hide = false)
         {
+            if (await Util.IsDMChannel(Context))
+            {
+                await ReplyAsync("You can only use this command with your retrieve key on the server you made the request from, not from a DM with the bot.");
+                return;
+            }
+
             try
             {
                 Entry exists = caughtFromBeingSent.First(x => (x.Key.UserID == Context.Message.Author.Id) && (x.Key.GuildID == Context.Guild.Id) && (x.Key.Key == key)).Key;
