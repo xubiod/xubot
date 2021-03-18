@@ -129,21 +129,7 @@ namespace xubot.src.Commands.Connections
                         extraData = "";
                     }
 
-                    EmbedBuilder embedd = new EmbedBuilder
-                    {
-                        Title = "SauceNAO of given image - Top " + amount.ToString(),
-                        Description = GetRequestsLeft(keys, RequestsLeftType.Embed),
-                        Color = Discord.Color.LighterGrey,
-                        ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = Util.Globals.EmbedFooter,
-                            IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = embedFields
-                    };
+                    EmbedBuilder embedd = GetTemplate(keys, "SauceNAO of given image - Top " + amount.ToString(), embedFields);
 
                     await ReplyAsync("", false, embedd.Build());
                 }
@@ -201,21 +187,7 @@ namespace xubot.src.Commands.Connections
                     embedFields.Add(new EmbedFieldBuilder { Name = "Title", IsInline = true, Value = (keys.results[0].data.title ?? "Not given").ToString() });
                     embedFields.Add(new EmbedFieldBuilder { Name = "Extra Links", IsInline = true, Value = (String.Join(", ", (JArray)keys.results[0].data.ext_urls) ?? "Not given").ToString() });
 
-                    EmbedBuilder embedd = new EmbedBuilder
-                    {
-                        Title = "SauceNAO of given image - Detailed output",
-                        Description = GetRequestsLeft(keys, RequestsLeftType.Embed),
-                        Color = Discord.Color.LighterGrey,
-                        ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = Util.Globals.EmbedFooter,
-                            IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = embedFields
-                    };
+                    EmbedBuilder embedd = GetTemplate(keys, "SauceNAO of given image - Detailed output", embedFields);
 
                     await ReplyAsync("", false, embedd.Build());
                 }
@@ -270,6 +242,25 @@ namespace xubot.src.Commands.Connections
                 string requestsLeft = GetRequestsLeft(keys, RequestsLeftType.NoFormatting);
 
                 await Util.Error.BuildError($"SauceNAO returned an error:\n\n{Util.Str.StripHTML(keys.header.message.ToString())}\n\n[NOTE]\n{requestsLeft}", Context);
+            }
+
+            private EmbedBuilder GetTemplate(dynamic keys, string title, List<EmbedFieldBuilder> embedFields)
+            {
+                return new EmbedBuilder()
+                {
+                    Title = title,
+                    Description = GetRequestsLeft(keys, RequestsLeftType.Embed),
+                    Color = Discord.Color.LighterGrey,
+                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = Util.Globals.EmbedFooter,
+                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                    },
+                    Timestamp = DateTime.UtcNow,
+                    Fields = embedFields
+                };
             }
         }
     }

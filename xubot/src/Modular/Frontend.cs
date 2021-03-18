@@ -51,30 +51,9 @@ namespace xubot.src.Modular
                 foreach (ICommandModule cmd in ModularSystem.modules[module].commandInstances)
                     foreach (MethodInfo item in cmd.GetType().GetMethods().Where(x => (x.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name != ""))
                         list += item.GetCustomAttribute<CmdNameAttribute>().Name + " - " + (item.GetCustomAttribute<CmdSummaryAttribute>() != null ? item.GetCustomAttribute<CmdSummaryAttribute>().Summary : "Not set in module") + "\n";
-                    //list += cmd.GetType().getM + " - " + "NotImplement" + "\n";
+                //list += cmd.GetType().getM + " - " + "NotImplement" + "\n";
 
-                EmbedBuilder embedd = new EmbedBuilder()
-                {
-                    Title = "Module Command Listing",
-                    Description = $"For module **\"{module.ToLower()}\"**",
-                    Color = Discord.Color.LightOrange,
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder()
-                    {
-                        Text = Util.Globals.EmbedFooter,
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
-                    },
-                    Timestamp = DateTime.Now,
-                    Fields = new List<EmbedFieldBuilder>()
-                    {
-                        new EmbedFieldBuilder()
-                        {
-                            Name = "Listing",
-                            Value = $"```{list}```"
-                        }
-                    }
-                };
+                EmbedBuilder embedd = GetTemplate("Module Command Listing", $"For module **\"{module.ToLower()}\"**", list);
 
                 await ReplyAsync("", false, embedd.Build());
             }
@@ -87,10 +66,17 @@ namespace xubot.src.Modular
                 foreach (KeyValuePair<string, ModularSystem.ModuleEntry> mod in ModularSystem.modules)
                     list += $"{mod.Key} - { (mod.Value.commandInstances.Count > 0 ? mod.Value.commandInstances.Count + " cmds" : "Not loaded/no cmds")}\n";
 
-                EmbedBuilder embedd = new EmbedBuilder()
+                EmbedBuilder embedd = GetTemplate("Module Listing", "Note: *some of these might not be loaded*", list);
+
+                await ReplyAsync("", false, embedd.Build());
+            }
+
+            private EmbedBuilder GetTemplate(string title, string description, string listing)
+            {
+                return new EmbedBuilder()
                 {
-                    Title = "Module Listing",
-                    Description = "Note: *some of these might not be loaded*",
+                    Title = title,
+                    Description = description,
                     Color = Discord.Color.Orange,
                     ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
 
@@ -105,12 +91,10 @@ namespace xubot.src.Modular
                         new EmbedFieldBuilder()
                         {
                             Name = "Listing",
-                            Value = $"```{list}```"
+                            Value = $"```{listing}```"
                         }
                     }
                 };
-
-                await ReplyAsync("", false, embedd.Build());
             }
         }
     }
