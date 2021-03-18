@@ -241,8 +241,7 @@ namespace xubot.src.Commands.Connections
 
         public string ReturnCharOnTrue(bool hide, string input)
         {
-            if (hide) { return input; }
-            else { return null; }
+            return hide ? input : null;
         }
     }
 }
