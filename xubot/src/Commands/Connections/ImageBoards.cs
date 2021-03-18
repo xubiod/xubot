@@ -24,14 +24,14 @@ namespace xubot.src.Commands.Connections
     public class ImageBoards : ModuleBase
     {
         //public JObject jsonInt = new JObject();
-        public readonly static BooruSharp.Booru.DanbooruDonmai danbooru = new BooruSharp.Booru.DanbooruDonmai();
-        public readonly static BooruSharp.Booru.E621 e621 = new BooruSharp.Booru.E621();
-        public readonly static BooruSharp.Booru.Rule34 rule34 = new BooruSharp.Booru.Rule34();
-        public readonly static BooruSharp.Booru.Gelbooru gelbooru = new BooruSharp.Booru.Gelbooru();
-        public readonly static BooruSharp.Booru.Yandere yandere = new BooruSharp.Booru.Yandere();
-        public readonly static BooruSharp.Booru.E926 e926 = new BooruSharp.Booru.E926();
-        public readonly static BooruSharp.Booru.Safebooru safebooru = new BooruSharp.Booru.Safebooru();
-        public readonly static BooruSharp.Booru.Konachan konachan = new BooruSharp.Booru.Konachan();
+        public readonly static BooruSharp.Booru.DanbooruDonmai  danbooru =  new BooruSharp.Booru.DanbooruDonmai();
+        public readonly static BooruSharp.Booru.E621            e621 =      new BooruSharp.Booru.E621();
+        public readonly static BooruSharp.Booru.Rule34          rule34 =    new BooruSharp.Booru.Rule34();
+        public readonly static BooruSharp.Booru.Gelbooru        gelbooru =  new BooruSharp.Booru.Gelbooru();
+        public readonly static BooruSharp.Booru.Yandere         yandere =   new BooruSharp.Booru.Yandere();
+        public readonly static BooruSharp.Booru.E926            e926 =      new BooruSharp.Booru.E926();
+        public readonly static BooruSharp.Booru.Safebooru       safebooru = new BooruSharp.Booru.Safebooru();
+        public readonly static BooruSharp.Booru.Konachan        konachan =  new BooruSharp.Booru.Konachan();
 
         private async Task GetRandomPostFrom(ICommandContext context, dynamic booru, params string[] inputs)
         {
