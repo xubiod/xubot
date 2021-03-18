@@ -85,61 +85,66 @@ namespace xubot.src.Commands
                 {
                     _ = actions[action_pointer];
 
-                    switch (_)
-                    {
-                        case '>':
-                            {
-                                memory_pointer++;
-                                break;
-                            }
-                        case '<':
-                            {
-                                memory_pointer--;
-                                break;
-                            }
-                        case '+':
-                            {
-                                memory[memory_pointer]++;
-                                break;
-                            }
-                        case '-':
-                            {
-                                memory[memory_pointer]--;
-                                break;
-                            }
-                        case '.':
-                            {
-                                output += memory[memory_pointer];
-                                break;
-                            }
-                        case ',':
-                            try
-                            {
-                                memory[memory_pointer] = inputs[input_pointer];
-                                input_pointer++;
-                            }
-                            catch (Exception e) {}
-                            break;
-                        case '[':
-                            if (memory[memory_pointer] == 0)
-                            {
-                                while (actions[action_pointer] != ']') action_pointer++;
-                            }
-                            break;
-
-                        case ']':
-                            if (memory[memory_pointer] != 0)
-                            {
-                                while (actions[action_pointer] != '[') action_pointer--;
-                            }
-                            break;
-                    }
+                    DoInstruction(_);
 
                     // increment instruction mp
                     action_pointer++;
                 }
 
                 return output;
+            }
+
+            private static void DoInstruction(char instruction)
+            {
+                switch (_)
+                {
+                    case '>':
+                        {
+                            memory_pointer++;
+                            break;
+                        }
+                    case '<':
+                        {
+                            memory_pointer--;
+                            break;
+                        }
+                    case '+':
+                        {
+                            memory[memory_pointer]++;
+                            break;
+                        }
+                    case '-':
+                        {
+                            memory[memory_pointer]--;
+                            break;
+                        }
+                    case '.':
+                        {
+                            output += memory[memory_pointer];
+                            break;
+                        }
+                    case ',':
+                        try
+                        {
+                            memory[memory_pointer] = inputs[input_pointer];
+                            input_pointer++;
+                        }
+                        catch (Exception e) { }
+                        break;
+                    case '[':
+                        if (memory[memory_pointer] == 0)
+                        {
+                            while (actions[action_pointer] != ']') action_pointer++;
+                        }
+                        break;
+
+                    case ']':
+                        if (memory[memory_pointer] != 0)
+                        {
+                            while (actions[action_pointer] != '[') action_pointer--;
+                        }
+                        break;
+                }
             }
         }
     }
