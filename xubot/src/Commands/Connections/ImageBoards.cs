@@ -15,6 +15,7 @@ using Discord;
 using System.Net.Http;
 using xubot.src.Attributes;
 using System.Web;
+using BooruSharp;
 
 namespace xubot.src.Commands.Connections
 {
@@ -23,373 +24,108 @@ namespace xubot.src.Commands.Connections
     public class ImageBoards : ModuleBase
     {
         //public JObject jsonInt = new JObject();
+        public readonly static BooruSharp.Booru.DanbooruDonmai danbooru = new BooruSharp.Booru.DanbooruDonmai();
+        public readonly static BooruSharp.Booru.E621 e621 = new BooruSharp.Booru.E621();
+        public readonly static BooruSharp.Booru.Rule34 rule34 = new BooruSharp.Booru.Rule34();
+        public readonly static BooruSharp.Booru.Gelbooru gelbooru = new BooruSharp.Booru.Gelbooru();
+        public readonly static BooruSharp.Booru.Yandere yandere = new BooruSharp.Booru.Yandere();
+        public readonly static BooruSharp.Booru.E926 e926 = new BooruSharp.Booru.E926();
+        public readonly static BooruSharp.Booru.Safebooru safebooru = new BooruSharp.Booru.Safebooru();
+        public readonly static BooruSharp.Booru.Konachan konachan = new BooruSharp.Booru.Konachan();
 
-        public static XDocument xdoc = new XDocument();
-        public HttpClient client = new HttpClient();
-
-        // (TECHNICALLY) OPTIMIZED
-        [Example("night false")]
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("danbooru", RunMode = RunMode.Async), Summary("Retrives a post from danbooru.")]
-        public async Task Danbooru(string tags = "", bool spoiler = false)
+        private async Task GetRandomPostFrom(ICommandContext context, dynamic booru, params string[] inputs)
         {
-            // this shouldn't use the methods because of how different it is
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+            string last_input = inputs.Last();
+            bool hide = false;
+
+            if (bool.TryParse(last_input, out hide))
             {
-                try
-                {
-                    //var client = new HttpClient();
-                    string link = $"http://danbooru.donmai.us/posts.json?limit=1&random=true&tags={tags}";
-                    string text = "";
-
-                    var request = new HttpRequestMessage()
-                    {
-                        RequestUri = new Uri(link),
-                        Method = HttpMethod.Get,
-                    };
-
-                    request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
-
-                    await client.SendAsync(request).ContinueWith(async (res) =>
-                    {
-                        var response = res.Result;
-                        text = await response.Content.ReadAsStringAsync();
-                    });
-
-                    text = text.Substring(1, text.Length - 2);
-                    //await ReplyAsync(text);
-                    dynamic keys = JObject.Parse(text);
-
-                    if (!(await Util.IsChannelNSFW(Context)) && keys.rating == "e")
-                    {
-                        await ReplyAsync("Move to a NSFW channel.");
-                    }
-                    else
-                    {
-                        string url;
-                        if (keys.large_file_url.ToString().Contains("http"))
-                        {
-                            url = keys.large_file_url.ToString();
-                        }
-                        else
-                        {
-                            url = $"http://danbooru.donmai.us{keys.large_file_url.ToString()}";
-                        }
-
-                        if (spoiler) url = $"|| {url} ||";
-
-                        await ReplyAsync(url);
-                    }
-
-                    client.Dispose();
-                    request.Dispose();
-                }
-                catch (Exception exp)
-                {
-                    await Util.Error.BuildError(exp, Context);
-                }
-            }
-        }
-
-        // BROKEN?
-        [NSFWPossibilty("TBD")]
-        [Command("e621", RunMode = RunMode.Async), Summary("Retrives a post from e621 (Currently not working, probs got myself banned lol).")]
-        public async Task e621(string tags = "", bool spoiler = false)
-        {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-            {
-                await Util.Error.BuildError(new ICannotBeArsedToFixThisException("prob got banned lol"), Context);
-                return;
-
-                try
-                {
-                    Random rnd = Util.Globals.RNG;
-                    //var client = new HttpClient();
-                    var webClient2 = new HttpClient();
-                    string link = "https://e621.net/post/index.xml?limit=1&page=&tags=" + tags;
-                    string text_j = "";
-
-                    var request = new HttpRequestMessage()
-                    {
-                        RequestUri = new Uri(link),
-                        Method = HttpMethod.Get,
-                    };
-
-                    request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
-
-                    string linkJson = $"https://e621.net/post/index.json?limit=1&page=" + $"{rnd.Next(751)}&tags={tags}";
-
-                    await client.SendAsync(request).ContinueWith(async (res) =>
-                    {
-                        var response = res.Result;
-                        text_j = await response.Content.ReadAsStringAsync();
-                    });
-
-                    text_j = await client.GetStringAsync(link);
-                    text_j = text_j.Substring(1, text_j.Length - 2);
-
-                    //await ReplyAsync(text);
-                    dynamic keys = JObject.Parse(text_j);
-
-                    if (!(await Util.IsChannelNSFW(Context)) && keys.rating == "e")
-                    {
-                        await ReplyAsync("Move to a NSFW channel.");
-                    }
-                    else
-                    {
-                        await ReplyAsync(keys.file_url.ToString());
-                        //string text = client.DownloadString(link);
-                        //text = text.Substring(1, text.Length - 2);
-                        //await ReplyAsync(text);
-                        //dynamic keys = JObject.Parse(text);
-
-                        //await ReplyAsync(keys.file_url.ToString());
-                    }
-                }
-                catch (Exception exp)
-                {
-                    await Util.Error.BuildError(exp, Context);
-                }
-            }
-        }
-
-        // OPTIMIZED
-        [Example("sex true")]
-        [NSFWPossibilty("Porn, snuff, whatever gets drawn.")]
-        [Command("rule34", RunMode = RunMode.Async), Summary("Retrives a post from rule34, to the bot's dismay.")]
-        public async Task r34(string tags = "", bool spoiler = true)
-        {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                await GetPostFromXML("https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, spoiler, "&pid=");
-        }
-
-        // OPTIMIZED
-        [Example("solo true")]
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("gelbooru", RunMode = RunMode.Async), Summary("Retrives a post from gelbooru.")]
-        public async Task Gelbooru(string tags = "", bool spoiler = false)
-        {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                await GetPostFromXML("https://www.gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, spoiler, "&pid=");
-        }
-
-        // OPTIMIZED
-        [Example("thighhighs true")]
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("yandere", RunMode = RunMode.Async), Summary("Retrives a post from yandere.")]
-        public async Task Yandere(string tags = "", bool spoiler = false)
-        {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                await GetPostFromXML("https://yande.re/post.xml?limit=1", tags, Context, spoiler);
-        }
-
-        // BROKEN?
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("e926", RunMode = RunMode.Async), Summary("Retrives a post from e926 (Currently not working, probs got myself banned lol).")]
-        public async Task e926(string tags = "", bool spoiler = false)
-        {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-            {
-                await Util.Error.BuildError(new ICannotBeArsedToFixThisException("prob got banned lol"), Context);
-
-                //ITextChannel c = Context.Channel as ITextChannel;
-
-                //await GetPostFromXML("https://e926.net/post/index.xml?limit=1", tags, Context);
-
-                //await GetPostFromJSON("https://e926.net/post/index.xml?limit=1&page=", "https://e926.net/post/index.json?limit=1&page=", tags, Context, spoiler);
-
-                /*
-                 try
-                {
-                    Random rnd = Util.Globals.GlobalRandom;
-                    //var client = new HttpClient();
-                    var webClient2 = new HttpClient();
-                    string link = "https://e926.net/post/index.xml?limit=1&page=&tags=" + tags;
-                    string text_j = "";
-
-                    var request = new HttpRequestMessage()
-                    {
-                        RequestUri = new Uri(link),
-                        Method = HttpMethod.Get,
-                    };
-
-                    request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
-
-                    string linkJson = "https://e926.net/post/index.json?limit=1&page=" + rnd.Next(751).ToString() + "&tags=" + tags + "";
-
-                    text_j = await client.GetStringAsync(link);
-                    text_j = text_j.Substring(1, text_j.Length - 2);
-
-                    //await ReplyAsync(text);
-                    dynamic keys = JObject.Parse(text_j);
-
-                    await ReplyAsync(keys.file_url.ToString());
-                    //string text = client.DownloadString(link);
-                    //text = text.Substring(1, text.Length - 2);
-                    //await ReplyAsync(text);
-                    //dynamic keys = JObject.Parse(text);
-
-                    //await ReplyAsync(keys.file_url.ToString());
-                }
-                catch (Exception exp)
-                {
-                    await GeneralTools.CommHandler.BuildError(exp, Context);
-                }
-                 */
-            }
-        }
-
-        // OPTIMIZED
-        [Example("sky false")]
-        [Command("safebooru", RunMode = RunMode.Async), Summary("Retrives a post from safebooru.")]
-        public async Task Safebooru(string tags = "", bool spoiler = false)
-        {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                await GetPostFromXML("http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1", tags, Context, spoiler, "&pid=");
-        }
-
-        // OPTIMIZED
-        [Example("thighhighs true")]
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("konachan", RunMode = RunMode.Async), Summary("Retrives a post from konachan.")]
-        public async Task Konachan(string tags = "", bool spoiler = false)
-        {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                await GetPostFromXML("http://konachan.com/post.xml?limit=1", tags, Context, spoiler);
-        }
-
-        public bool CheckTrigger()
-        {
-            bool ret = false;
-            xdoc = XDocument.Load("PerServTrigg.xml");
-            var items = from i in xdoc.Descendants("server")
-                        select new
-                        {
-                            guildid = i.Attribute("id"),
-                            nsfwoverride = i.Attribute("nsfwoverride")
-                        };
-
-            foreach (var item in items)
-            {
-                if (item.guildid.Value == Context.Guild.Id.ToString())
-                {
-                    ret = true;
-                }
-            }
-
-            return ret;
-        }
-
-        public async Task GetPostFromJSON(string xmlLink, string jsonLink, string tags, ICommandContext Context, bool spoiler)
-        {
-            try
-            {
-                Random rnd = Util.Globals.RNG;
-                //var client = new HttpClient();
-                var webClient2 = new HttpClient();
-                string link = $"{xmlLink}&tags={tags}";
-                string text_j = "";
-
-                var request = new HttpRequestMessage()
-                {
-                    RequestUri = new Uri(link),
-                    Method = HttpMethod.Get,
-                };
-
-                request.Headers.Add("user-agent", $"xubot/{ThisAssembly.Git.BaseTag}");
-
-                string linkJson = $"{jsonLink}{rnd.Next(751)}&tags={tags}";
-
-                text_j = await client.GetStringAsync(link);
-                text_j = text_j.Substring(1, text_j.Length - 2);
-
-                //await ReplyAsync(text);
-                dynamic keys = JObject.Parse(text_j);
-
-                string url = keys.file_url.ToString();
-
-                if (spoiler) url = $"|| {url} ||";
-
-                await ReplyAsync(url);
-                //string text = client.DownloadString(link);
-                //text = text.Substring(1, text.Length - 2);
-                //await ReplyAsync(text);
-                //dynamic keys = JObject.Parse(text);
-
-                //await ReplyAsync(keys.file_url.ToString());
-            }
-            catch (Exception exp)
-            {
-                await Util.Error.BuildError(exp, Context);
-            }
-        }
-
-        public async Task GetPostFromXML(string inputLink, string tags, ICommandContext Context, bool spoiler, string pageIn = "&page=")
-        {
-            if (!(await Util.IsChannelNSFW(Context)))
-            {
-                await ReplyAsync("Move to a NSFW channel.");
+                inputs = inputs.Where(x => x != inputs.Last()).ToArray<string>();
             }
             else
             {
-                try
-                {
-                    //var client = new HttpClient();
-                    string link = $"{inputLink}&tags={tags}";
-                    Console.WriteLine(link);
-
-                    var request = new HttpRequestMessage()
-                    {
-                        RequestUri = new Uri(link),
-                        Method = HttpMethod.Get
-                    };
-
-                    request.Headers.Add("user-agent", "xubot/" + ThisAssembly.Git.BaseTag);
-
-                    string imgUrl = "";
-                    int count = 0;
-                    Random rnd = Util.Globals.RNG;
-
-                    var xdoc = XDocument.Load(link);
-                    var items = from i in xdoc.Descendants("posts")
-                                select new
-                                {
-                                    Attribute = (string)i.Attribute("count")
-                                };
-
-                    foreach (var item in items)
-                    {
-                        count = Convert.ToInt32(item.Attribute) / 2;
-                    }
-
-                    link = inputLink + pageIn + rnd.Next(count) + "&tags=" + tags;
-                    xdoc = XDocument.Load(link);
-
-                    items = from q in xdoc.Descendants("post")
-                            select new
-                            {
-                                Attribute = (string)q.Attribute("file_url")
-                            };
-
-                    foreach (var item in items)
-                    {
-                        imgUrl = item.Attribute;
-                    }
-
-                    if (!imgUrl.Contains("http"))
-                    {
-                        imgUrl = "http:" + imgUrl;
-                    }
-
-                    if (spoiler) imgUrl = $"|| {imgUrl} ||";
-
-                    await ReplyAsync(imgUrl);
-                }
-                catch (Exception exp)
-                {
-                    await Util.Error.BuildError(exp, Context);
-                }
+                hide = false;
             }
+
+            BooruSharp.Search.Post.SearchResult post = await booru.GetRandomPostAsync(inputs);
+
+            if (post.Rating != BooruSharp.Search.Post.Rating.Safe && !(await Util.IsChannelNSFW(context)))
+            {
+                await ReplyAsync("The bot got a post deemed questionable or explicit. Try again in a NSFW channel.");
+                return;
+            }
+
+            await ReplyAsync($"{(hide ? "|| " : "")}{post.FileUrl.AbsoluteUri}{(hide ? " ||" : "")}");
+        }
+
+        [Example("night")]
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [Command("danbooru", RunMode = RunMode.Async), Summary("Retrives a post from danbooru. If the last input is a boolean, it counts as a spoiler toggle.")]
+        public async Task Danbooru(params string[] inputs)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                GetRandomPostFrom(Context, danbooru, inputs);
+        }
+
+        [NSFWPossibilty("male true")]
+        [Command("e621", RunMode = RunMode.Async), Summary("Retrives a post from e621 (Currently not working, probs got myself banned lol).")]
+        public async Task E621(params string[] inputs)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                GetRandomPostFrom(Context, e621, inputs);
+        }
+
+        [Example("sex true")]
+        [NSFWPossibilty("Porn, snuff, whatever gets drawn.")]
+        [Command("rule34", RunMode = RunMode.Async), Summary("Retrives a post from rule34, to the bot's dismay.")]
+        public async Task R34(params string[] inputs)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                GetRandomPostFrom(Context, rule34, inputs);
+        }
+
+        [Example("solo true")]
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [Command("gelbooru", RunMode = RunMode.Async), Summary("Retrives a post from gelbooru.")]
+        public async Task Gelbooru(params string[] inputs)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                GetRandomPostFrom(Context, gelbooru, inputs);
+        }
+
+        [Example("thighhighs true")]
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [Command("yandere", RunMode = RunMode.Async), Summary("Retrives a post from yandere.")]
+        public async Task Yandere(params string[] inputs)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                GetRandomPostFrom(Context, yandere, inputs);
+        }
+
+        [Example("male")]
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [Command("e926", RunMode = RunMode.Async), Summary("Retrives a post from e926 (Currently not working, probs got myself banned lol).")]
+        public async Task E926(params string[] inputs)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                GetRandomPostFrom(Context, e926, inputs);
+        }
+
+        [Example("sky false")]
+        [Command("safebooru", RunMode = RunMode.Async), Summary("Retrives a post from safebooru.")]
+        public async Task Safebooru(params string[] inputs)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                GetRandomPostFrom(Context, safebooru, inputs);
+        }
+
+        [Example("thighhighs true")]
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [Command("konachan", RunMode = RunMode.Async), Summary("Retrives a post from konachan.")]
+        public async Task Konachan(params string[] inputs)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                GetRandomPostFrom(Context, konachan, inputs);
         }
     }
 }

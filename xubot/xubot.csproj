@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BooruSharp" Version="3.0.2" />
     <PackageReference Include="Discord.Net" Version="2.3.1" />
     <PackageReference Include="GitInfo" Version="2.1.2">
       <PrivateAssets>all</PrivateAssets>
