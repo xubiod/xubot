@@ -461,6 +461,13 @@ namespace xubot.src
             }
         }
 
+        public static async Task<bool> IsDMChannel(ICommandContext Context)
+        {
+            IDMChannel ifDM = await Context.Message.Author.GetOrCreateDMChannelAsync();
+
+            return ifDM.Id == Context.Channel.Id;
+        }
+
         public static DateTime UnixTimeStampToDateTime(ulong unixTimeStamp)
         {
             // Unix timestamp is seconds past epoch
