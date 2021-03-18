@@ -17,6 +17,11 @@
 
   <ItemGroup>
     <None Remove="include\Roboto-Regular.ttf" />
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>
