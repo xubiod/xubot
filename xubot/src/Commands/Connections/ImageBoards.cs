@@ -74,7 +74,8 @@ namespace xubot.src.Commands.Connections
                 GetRandomPostFrom(Context, danbooru, inputs);
         }
 
-        [NSFWPossibilty("male true")]
+        [Example("male true")]
+        [NSFWPossibilty("Porn, snuff, whatever gets drawn.")]
         [Command("e621", RunMode = RunMode.Async), Summary("Retrives a post from e621.net. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task E621(params string[] inputs)
         {
