@@ -417,12 +417,12 @@ namespace xubot.src.Commands
                     {
                         img.Mutate(mut => mut.Invert());
                         await ReplyAsync("img manipulated");
-                        img.Save(Util.Str.RandomTempFilename() + type);
+                        img.Save(Util.String.RandomTempFilename() + type);
                         await ReplyAsync("img save");
                     }
 
                     await ReplyAsync("begin send");
-                    await Context.Channel.SendFileAsync(Util.Str.RandomTempFilename() + type);
+                    await Context.Channel.SendFileAsync(Util.String.RandomTempFilename() + type);
                     await ReplyAsync("end send");
                 }
                 catch (Exception e)

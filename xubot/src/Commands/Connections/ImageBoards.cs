@@ -78,7 +78,7 @@ namespace xubot.src.Commands.Connections
         {
             if (forceFail && !(await Util.IsChannelNSFW(context)))
             {
-                string retrieve_key = Util.Str.RandomHexadecimal(8);
+                string retrieve_key = Util.String.RandomHexadecimal(8);
 
                 await ReplyAsync($"The bot got a post deemed questionable or explicit. Try again in a NSFW channel.\nYou (the requestor) can retrieve this image *once* appropriate later with the key `{Program.prefix}booru-get {retrieve_key}` on **this server only**.\n" +
                                   "The server limitation is here to keep in line Discord's age gating.");

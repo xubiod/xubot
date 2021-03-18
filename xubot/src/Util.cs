@@ -228,11 +228,11 @@ namespace xubot.src
             }
         }
 
-        public class Str
+        public class String
         {
             public static string StripHTML(string input)
             {
-                return Regex.Replace(input, "<.*?>", String.Empty);
+                return Regex.Replace(input, "<.*?>", string.Empty);
             }
 
             public static string SimplifyTypes(string input)

@@ -244,7 +244,7 @@ namespace xubot.src.Commands
                     all_para = "";
                     foreach (var para in comm.Parameters)
                     {
-                        all_para += (para.IsMultiple ? "params " : "") + Util.Str.SimplifyTypes(para.Type.ToString()) + " " + para.Name + (para.IsOptional ? " (optional) // default value = " + para.DefaultValue.ToString() : "") +"\n";
+                        all_para += (para.IsMultiple ? "params " : "") + Util.String.SimplifyTypes(para.Type.ToString()) + " " + para.Name + (para.IsOptional ? " (optional) // default value = " + para.DefaultValue.ToString() : "") +"\n";
                         example_para += para.Name + " ";
                     }
                 }

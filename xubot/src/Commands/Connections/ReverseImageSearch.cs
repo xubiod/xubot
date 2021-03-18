@@ -41,7 +41,7 @@ namespace xubot.src.Commands.Connections
             [Command("get", RunMode = RunMode.Async), Alias(""), Summary("Uses SauceNAO to get the \"sauce\" of the given URL, returning the number 1 result.")]
             public async Task GetSauce(string url)
             {
-                if (!Util.Str.ValidateURL(url))
+                if (!Util.String.ValidateURL(url))
                 {
                     await Util.Error.BuildError("Invalid URL", Context);
                     return;
@@ -88,7 +88,7 @@ namespace xubot.src.Commands.Connections
             {
                 amount = (int)MathF.Max(1.0f, MathF.Min(5.0f, amount));
 
-                if (!Util.Str.ValidateURL(url))
+                if (!Util.String.ValidateURL(url))
                 {
                     await Util.Error.BuildError("Invalid URL", Context);
                     return;
@@ -151,7 +151,7 @@ namespace xubot.src.Commands.Connections
             [Command("details", RunMode = RunMode.Async), Alias("detail", "full"), Summary("Uses SauceNAO to get the \"sauce\" of a URL, returning a detailed report on it.")]
             public async Task GetDetails(string url)
             {
-                if (!Util.Str.ValidateURL(url))
+                if (!Util.String.ValidateURL(url))
                 {
                     await Util.Error.BuildError("Invalid URL", Context);
                     return;
@@ -241,7 +241,7 @@ namespace xubot.src.Commands.Connections
             {
                 string requestsLeft = GetRequestsLeft(keys, RequestsLeftType.NoFormatting);
 
-                await Util.Error.BuildError($"SauceNAO returned an error:\n\n{Util.Str.StripHTML(keys.header.message.ToString())}\n\n[NOTE]\n{requestsLeft}", Context);
+                await Util.Error.BuildError($"SauceNAO returned an error:\n\n{Util.String.StripHTML(keys.header.message.ToString())}\n\n[NOTE]\n{requestsLeft}", Context);
             }
 
             private EmbedBuilder GetTemplate(dynamic keys, string title, List<EmbedFieldBuilder> embedFields)
