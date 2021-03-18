@@ -23,7 +23,20 @@ namespace xubot.src.Commands.Connections
 
     public class ImageBoards : ModuleBase
     {
-        //public JObject jsonInt = new JObject();
+        private partial class Entry
+        {
+            public ulong UserID { get; private set; }
+            public ulong GuildID { get; private set; }
+            public string Key { get; private set; }
+
+            public Entry(ulong userId, ulong guildId, string key)
+            {
+                this.UserID = userId;
+                this.GuildID = guildId;
+                this.Key = key;
+            }
+        }
+
         public readonly static BooruSharp.Booru.DanbooruDonmai  danbooru =  new BooruSharp.Booru.DanbooruDonmai();
         public readonly static BooruSharp.Booru.E621            e621 =      new BooruSharp.Booru.E621();
         public readonly static BooruSharp.Booru.Rule34          rule34 =    new BooruSharp.Booru.Rule34();
@@ -32,6 +45,8 @@ namespace xubot.src.Commands.Connections
         public readonly static BooruSharp.Booru.E926            e926 =      new BooruSharp.Booru.E926();
         public readonly static BooruSharp.Booru.Safebooru       safebooru = new BooruSharp.Booru.Safebooru();
         public readonly static BooruSharp.Booru.Konachan        konachan =  new BooruSharp.Booru.Konachan();
+
+        private readonly static Dictionary<Entry, string> caughtFromBeingSent = new Dictionary<Entry, string>();
 
         private async Task GetRandomPostFrom(ICommandContext context, dynamic booru, params string[] inputs)
         {
@@ -51,18 +66,27 @@ namespace xubot.src.Commands.Connections
 
                 BooruSharp.Search.Post.SearchResult post = await booru.GetRandomPostAsync(inputs);
 
-                if (post.Rating != BooruSharp.Search.Post.Rating.Safe && !(await Util.IsChannelNSFW(context)))
-                {
-                    await ReplyAsync("The bot got a post deemed questionable or explicit. Try again in a NSFW channel.");
-                    return;
-                }
-
-                await ReplyAsync($"{(hide ? "|| " : "")}{post.FileUrl.AbsoluteUri}{(hide ? " ||" : "")}");
+                await PostNSFWMessage(context, $"{(hide ? "|| " : "")}{post.FileUrl.AbsoluteUri}{(hide ? " ||" : "")}", post.Rating != BooruSharp.Search.Post.Rating.Safe);
             }
             catch (Exception e)
             {
                 await Util.Error.BuildError(e, context);
             }
+        }
+
+        private async Task PostNSFWMessage(ICommandContext context, string message, bool forceFail = false)
+        {
+            if (forceFail && !(await Util.IsChannelNSFW(context)))
+            {
+                string retrieve_key = Util.Str.RandomHexadecimal(8);
+
+                await ReplyAsync($"The bot got a post deemed questionable or explicit. Try again in a NSFW channel.\nYou (the requestor) can retrieve this image *once* appropriate later with the key `{Program.prefix}booru-get {retrieve_key}` on **this server only**.\n" +
+                                  "The server limitation is here to keep in line Discord's age gating.");
+                caughtFromBeingSent.Add(new Entry(context.Message.Author.Id, context.Guild.Id, retrieve_key), message);
+                return;
+            }
+
+            await ReplyAsync(message);
         }
 
         [Example("night")]
@@ -134,6 +158,32 @@ namespace xubot.src.Commands.Connections
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 GetRandomPostFrom(Context, konachan, inputs);
+        }
+
+        [Example("00000000")]
+        [Command("booru-get", RunMode = RunMode.Async), Summary("Gets an image you requested that wasn't appropriate for the orginial context with a given key.")]
+        public async Task GetStoredImageURI(string key, bool hide = false)
+        {
+            try
+            {
+                Entry exists = caughtFromBeingSent.First(x => (x.Key.UserID == Context.Message.Author.Id) && (x.Key.GuildID == Context.Guild.Id) && (x.Key.Key == key)).Key;
+
+                if (exists != null)
+                {
+                    string value;
+                    caughtFromBeingSent.Remove(exists, out value);
+
+                    await PostNSFWMessage(Context, $"{(hide ? "|| " : "")}{value}{(hide ? " ||" : "")}");
+                }
+                else
+                {
+                    await ReplyAsync("Your ID is not associated with that retrieve key on this server.");
+                }
+            }
+            catch (InvalidOperationException ioe)
+            {
+                await ReplyAsync("Your ID is not associated with that retrieve key on this server.");
+            }
         }
     }
 }
