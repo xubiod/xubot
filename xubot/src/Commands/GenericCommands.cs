@@ -16,6 +16,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -467,6 +468,18 @@ namespace xubot.src.Commands
             {
                 await Util.Error.BuildError("you triggered the debug command\ncongratu-fucking-lations bitch", Context);
             }
+
+            //[Command("get_settings")]
+            //public async Task Test012()
+            //{
+            //    PropertyInfo setting = Util.Settings.GetPropertyInfo("DMsAlwaysNSFW");
+            //    await ReplyAsync($"{setting.ToString()}");
+            //    await ReplyAsync($"{setting.Name}");
+            //    await ReplyAsync($"{setting.GetMethod.Name}");
+            //    await ReplyAsync($"{setting.GetMethod.ReturnType.ToString()}");
+            //    await ReplyAsync($"{setting.GetMethod.Invoke(src.Settings.Global.Default, null)}");
+            //    await ReplyAsync($"{Util.Settings.GetValueFromString("DMsAlwaysNSFW")}");
+            //}
         }
 
 #endif
