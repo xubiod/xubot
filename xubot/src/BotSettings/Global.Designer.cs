@@ -23,12 +23,27 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool DMsAlwaysNSFW {
             get {
                 return ((bool)(this["DMsAlwaysNSFW"]));
+            }
+            set {
+                this["DMsAlwaysNSFW"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public int EmbedListMaxLength {
+            get {
+                return ((int)(this["EmbedListMaxLength"]));
+            }
+            set {
+                this["EmbedListMaxLength"] = value;
             }
         }
     }

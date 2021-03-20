@@ -13,8 +13,6 @@ namespace xubot.src.Commands
     [Group("help"), Alias("?"), Summary("The savior for the lost.")]
     public class Help : ModuleBase
     {
-        public readonly int itemsPerPage = 15;
-
         [Example("1")]
         [Command("get", RunMode = RunMode.Async), Alias("")]
         public async Task _Help(int page = 1)
@@ -58,6 +56,7 @@ namespace xubot.src.Commands
         public async Task HelpCmd(int page = 1)
         {
             if (page < 1) page = 1;
+            int itemsPerPage = BotSettings.Global.Default.EmbedListMaxLength;
 
             List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
 
@@ -114,6 +113,7 @@ namespace xubot.src.Commands
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
             {
                 if (page < 1) page = 1;
+                int itemsPerPage = BotSettings.Global.Default.EmbedListMaxLength;
 
                 List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
                 List<CommandInfo> compatibles = new List<CommandInfo>();

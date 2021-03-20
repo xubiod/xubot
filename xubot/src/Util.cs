@@ -425,6 +425,18 @@ namespace xubot.src
             }
         }
 
+        public class Settings
+        {
+            public static object Get(string key)
+            {
+                return BotSettings.Global.Default.GetType().GetProperty(key).GetValue(BotSettings.Global.Default);
+            }
+            public static void Set<T>(string key, T newValue)
+            {
+                BotSettings.Global.Default.GetType().GetProperty(key).SetValue(BotSettings.Global.Default, newValue);
+            }
+        }
+
         public static bool IsUserTrusted(ICommandContext Context)
         {
             var xdoc = XDocument.Load("Trusted.xml");
@@ -452,7 +464,7 @@ namespace xubot.src
 
             if (ifDM.Id == Context.Channel.Id)
             {
-                return true;
+                return BotSettings.Global.Default.DMsAlwaysNSFW;
             }
             else
             {

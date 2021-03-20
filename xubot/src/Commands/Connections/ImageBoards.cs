@@ -76,6 +76,12 @@ namespace xubot.src.Commands.Connections
 
         private async Task PostNSFWMessage(ICommandContext context, string message, bool forceFail = false)
         {
+            if ((await Util.IsDMChannel(Context)) && !BotSettings.Global.Default.DMsAlwaysNSFW)
+            {
+                await ReplyAsync("The bot got a post deemed questionable or explicit in a DM. DMs are set to not be NSFW, so move to a server.");
+                return;
+            }
+
             if (forceFail && !(await Util.IsChannelNSFW(context)))
             {
                 string retrieve_key = Util.String.RandomHexadecimal(8);
