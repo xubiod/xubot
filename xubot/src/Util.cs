@@ -441,6 +441,7 @@ namespace xubot.src
             {
                 return BotSettings.Global.Default.GetType().GetProperty(key).GetValue(BotSettings.Global.Default);
             }
+
             public static void Set<T>(string key, T newValue)
             {
                 BotSettings.Global.Default.GetType().GetProperty(key).SetValue(BotSettings.Global.Default, newValue);
