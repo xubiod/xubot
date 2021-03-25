@@ -48,7 +48,7 @@ namespace xubot.src.Commands.Connections
 
         private readonly static Dictionary<Entry, string> caughtFromBeingSent = new Dictionary<Entry, string>();
 
-        private async Task GetRandomPostFrom(ICommandContext context, dynamic booru, params string[] inputs)
+        private async Task GetRandomPostFrom(ICommandContext context, BooruSharp.Booru.ABooru booru, params string[] inputs)
         {
             try
             {
