@@ -8,5 +8,17 @@
     <Setting Name="EmbedListMaxLength" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">15</Value>
     </Setting>
+    <Setting Name="DisableRedditOnStart" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ExceptionLogLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">/Exceptions/</Value>
+    </Setting>
+    <Setting Name="SendStacktraceOnError" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SendBigStacktraceOnError" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

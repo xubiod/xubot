@@ -123,7 +123,7 @@ namespace xubot.src
             Console.WriteLine("* setting up discord connection: starting client");
 
             await xuClient.StartAsync();
-            await ReadyReddit();
+            if (!BotSettings.Global.Default.DisableRedditOnStart) await ReadyReddit();
         }
 
         public static async Task ReadyReddit(ICommandContext context = null)
@@ -215,8 +215,8 @@ namespace xubot.src
             Console.Beep();
             Console.Beep();
 
-            Directory.CreateDirectory(Environment.CurrentDirectory + "\\Exceptions\\");
-            File.WriteAllText(Environment.CurrentDirectory + "\\Exceptions\\" + DateTime.UtcNow.ToLongTimeString().Replace(':', '_') + ".txt", arg.ToString());
+            Directory.CreateDirectory(Environment.CurrentDirectory + BotSettings.Global.Default.ExceptionLogLocation);
+            File.WriteAllText(Environment.CurrentDirectory + BotSettings.Global.Default.ExceptionLogLocation + DateTime.UtcNow.ToLongTimeString().Replace(':', '_') + ".txt", arg.ToString());
 
             Thread.Sleep(2500);
 

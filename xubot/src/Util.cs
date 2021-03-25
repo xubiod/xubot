@@ -82,11 +82,21 @@ namespace xubot.src
             public static async Task BuildError(Exception exp, ICommandContext context)
             {
                 string stack = exp.StackTrace;
+                string file = Environment.CurrentDirectory + BotSettings.Global.Default.ExceptionLogLocation + DateTime.UtcNow.ToLongTimeString().Replace(':', '_') + ".nonfatal.txt";
+
                 bool stacktraceToFile = exp.StackTrace.Length > 512;
+
+                Directory.CreateDirectory(Environment.CurrentDirectory + BotSettings.Global.Default.ExceptionLogLocation);
+                System.IO.File.WriteAllText(file, stack);
+
                 if (stacktraceToFile)
                 {
-                    System.IO.File.WriteAllText(Path.Combine(Path.GetTempPath(), "StackTrace.txt"), stack);
-                    stack = "Stack trace is too big. Reference the provided file.";
+                    stack = "Stack trace is too big.";
+                }
+
+                if (BotSettings.Global.Default.SendStacktraceOnError)
+                {
+                    stack = "Settings prevent the sending of any stack trace. Check exception logs for a *.nonfatal.txt file.";
                 }
 
                 EmbedBuilder embedd = GetErrorBoilerplate();
@@ -121,9 +131,9 @@ namespace xubot.src
                 };
 
                 await context.Channel.SendMessageAsync("", false, embedd.Build());
-                if (stacktraceToFile)
+                if (stacktraceToFile && BotSettings.Global.Default.SendBigStacktraceOnError)
                 {
-                    await context.Channel.SendFileAsync(Path.Combine(Path.GetTempPath(), "StackTrace.txt"));
+                    await context.Channel.SendFileAsync(file);
                 }
             }
 

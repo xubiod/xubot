@@ -46,5 +46,53 @@ namespace xubot.src.BotSettings {
                 this["EmbedListMaxLength"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DisableRedditOnStart {
+            get {
+                return ((bool)(this["DisableRedditOnStart"]));
+            }
+            set {
+                this["DisableRedditOnStart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("/Exceptions/")]
+        public string ExceptionLogLocation {
+            get {
+                return ((string)(this["ExceptionLogLocation"]));
+            }
+            set {
+                this["ExceptionLogLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SendStacktraceOnError {
+            get {
+                return ((bool)(this["SendStacktraceOnError"]));
+            }
+            set {
+                this["SendStacktraceOnError"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SendBigStacktraceOnError {
+            get {
+                return ((bool)(this["SendBigStacktraceOnError"]));
+            }
+            set {
+                this["SendBigStacktraceOnError"] = value;
+            }
+        }
     }
 }
