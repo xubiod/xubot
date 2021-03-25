@@ -37,14 +37,18 @@ namespace xubot.src.Commands.Connections
             }
         }
 
-        public readonly static BooruSharp.Booru.DanbooruDonmai  danbooru =  new BooruSharp.Booru.DanbooruDonmai();
-        public readonly static BooruSharp.Booru.E621            e621 =      new BooruSharp.Booru.E621();
-        public readonly static BooruSharp.Booru.Rule34          rule34 =    new BooruSharp.Booru.Rule34();
-        public readonly static BooruSharp.Booru.Gelbooru        gelbooru =  new BooruSharp.Booru.Gelbooru();
-        public readonly static BooruSharp.Booru.Yandere         yandere =   new BooruSharp.Booru.Yandere();
-        public readonly static BooruSharp.Booru.E926            e926 =      new BooruSharp.Booru.E926();
-        public readonly static BooruSharp.Booru.Safebooru       safebooru = new BooruSharp.Booru.Safebooru();
-        public readonly static BooruSharp.Booru.Konachan        konachan =  new BooruSharp.Booru.Konachan();
+        public readonly static BooruSharp.Booru.ABooru danbooru =       new BooruSharp.Booru.DanbooruDonmai();
+        public readonly static BooruSharp.Booru.ABooru e621 =           new BooruSharp.Booru.E621();
+        public readonly static BooruSharp.Booru.ABooru rule34 =         new BooruSharp.Booru.Rule34();
+        public readonly static BooruSharp.Booru.ABooru gelbooru =       new BooruSharp.Booru.Gelbooru();
+        public readonly static BooruSharp.Booru.ABooru yandere =        new BooruSharp.Booru.Yandere();
+        public readonly static BooruSharp.Booru.ABooru e926 =           new BooruSharp.Booru.E926();
+        public readonly static BooruSharp.Booru.ABooru safebooru =      new BooruSharp.Booru.Safebooru();
+        public readonly static BooruSharp.Booru.ABooru konachan =       new BooruSharp.Booru.Konachan();
+        public readonly static BooruSharp.Booru.ABooru allthefallen =   new BooruSharp.Booru.Atfbooru();
+        public readonly static BooruSharp.Booru.ABooru furrybooru =     new BooruSharp.Booru.Furrybooru();
+        public readonly static BooruSharp.Booru.ABooru sankakucomplex = new BooruSharp.Booru.SankakuComplex();
+        public readonly static BooruSharp.Booru.ABooru sakugabooru =    new BooruSharp.Booru.Sakugabooru();
 
         private readonly static Dictionary<Entry, string> caughtFromBeingSent = new Dictionary<Entry, string>();
 
@@ -164,6 +168,38 @@ namespace xubot.src.Commands.Connections
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 GetRandomPostFrom(Context, konachan, inputs);
+        }
+
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [Command("atfbooru", RunMode = RunMode.Async), Summary("Retrives a post from booru.allthefallen.moe. If the last input is a boolean, it counts as a spoiler toggle.")]
+        public async Task ATFBooru(params string[] inputs)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                GetRandomPostFrom(Context, allthefallen, inputs);
+        }
+
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [Command("furrybooru", RunMode = RunMode.Async), Summary("Retrives a post from furry.booru.org. If the last input is a boolean, it counts as a spoiler toggle.")]
+        public async Task Furrybooru(params string[] inputs)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                GetRandomPostFrom(Context, furrybooru, inputs);
+        }
+
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [Command("sankakucomplex", RunMode = RunMode.Async), Summary("Retrives a post from beta.sankakucomplex.com. If the last input is a boolean, it counts as a spoiler toggle.")]
+        public async Task SankakuComplex(params string[] inputs)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                GetRandomPostFrom(Context, sankakucomplex, inputs);
+        }
+
+        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [Command("sakugabooru", RunMode = RunMode.Async), Summary("Retrives a post from sakugabooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
+        public async Task Sakugabooru(params string[] inputs)
+        {
+            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                GetRandomPostFrom(Context, sakugabooru, inputs);
         }
 
         [Example("00000000")]
