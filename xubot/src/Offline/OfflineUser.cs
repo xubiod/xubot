@@ -51,7 +51,7 @@ namespace xubot.src.Offline
 
         public Task<IDMChannel> GetOrCreateDMChannelAsync(RequestOptions options = null)
         {
-            return
+            return (Task<IDMChannel>)(OfflineHandlers.DefaultOfflineChannel as IDMChannel);
         }
     }
 }
