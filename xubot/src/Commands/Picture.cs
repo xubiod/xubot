@@ -159,12 +159,12 @@ namespace xubot.src.Commands
                         Title = "Colourblind Filter List",
                         Color = Discord.Color.Magenta,
                         Description = "All the filters for the colourblindness emulation.",
-                        ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+                        ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
 
                         Footer = new EmbedFooterBuilder
                         {
                             Text = Util.Globals.EmbedFooter,
-                            IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                            IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                         },
                         Timestamp = DateTime.UtcNow,
                         Fields = new List<EmbedFieldBuilder>()

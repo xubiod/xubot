@@ -225,12 +225,12 @@ namespace xubot.src.Commands
                 Title = "Uptime Report",
                 Color = Discord.Color.Red,
                 Description = $"Report from {DateTime.Now}",
-                ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+                ThumbnailUrl = context.Client.CurrentUser.GetAvatarUrl(),
 
                 Footer = new EmbedFooterBuilder
                 {
                     Text = Util.Globals.EmbedFooter,
-                    IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                    IconUrl = context.Client.CurrentUser.GetAvatarUrl()
                 },
                 Timestamp = DateTime.UtcNow,
                 Fields = fields

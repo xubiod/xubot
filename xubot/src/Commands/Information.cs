@@ -49,7 +49,7 @@ namespace xubot.src.Commands
                     Footer = new EmbedFooterBuilder
                     {
                         Text = Util.Globals.EmbedFooter,
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                        IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
@@ -108,7 +108,7 @@ namespace xubot.src.Commands
                     Footer = new EmbedFooterBuilder
                     {
                         Text = Util.Globals.EmbedFooter,
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                        IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()

@@ -85,12 +85,12 @@ namespace xubot.src.Commands
                 Title = "Help",
                 Color = Discord.Color.Magenta,
                 Description = $"Showing page #{page} out of {System.Math.Ceiling((float)commList.Count / itemsPerPage)} pages.\nShowing a few of the **{commList.Count}** cmds.",
-                ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+                ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
 
                 Footer = new EmbedFooterBuilder
                 {
                     Text = Util.Globals.EmbedFooter,
-                    IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                    IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                 },
                 Timestamp = DateTime.UtcNow,
                 Fields = new List<EmbedFieldBuilder>()
@@ -153,12 +153,12 @@ namespace xubot.src.Commands
                     Title = "Help - Search",
                     Color = Discord.Color.Magenta,
                     Description = $"Showing page #{page} out of {System.Math.Ceiling((float)compatibles.Count / itemsPerPage)} pages.\nShowing a few of the **{compatibles.Count}** cmds with the lookup.",
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+                    ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
 
                     Footer = new EmbedFooterBuilder
                     {
                         Text = Util.Globals.EmbedFooter,
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                        IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
@@ -271,12 +271,12 @@ namespace xubot.src.Commands
                     Title = "Help",
                     Color = Discord.Color.Magenta,
                     Description = $"The newer *better* help. Showing result #{index} out of {allMatchs} match(s).",
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+                    ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
 
                     Footer = new EmbedFooterBuilder
                     {
                         Text = Util.Globals.EmbedFooter,
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                        IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()
@@ -408,12 +408,12 @@ namespace xubot.src.Commands
                     Title = "Help",
                     Color = Discord.Color.Magenta,
                     Description = "The newer *better* help. For more specifics, combine the group and command.", //Showing result #" + (index).ToString() + " out of " + allMatchs.ToString() + " match(s).",
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+                    ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
 
                     Footer = new EmbedFooterBuilder
                     {
                         Text = Util.Globals.EmbedFooter,
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                        IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = new List<EmbedFieldBuilder>()

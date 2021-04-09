@@ -33,12 +33,12 @@ namespace xubot.src.Commands
                 Title = "Superuser - Directory",
                 Color = Discord.Color.DarkOrange,
                 Description = where,
-                ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+                ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
 
                 Footer = new EmbedFooterBuilder
                 {
                     Text = Util.Globals.EmbedFooter,
-                    IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                    IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                 },
                 Timestamp = DateTime.UtcNow,
                 Fields = new List<EmbedFieldBuilder>()

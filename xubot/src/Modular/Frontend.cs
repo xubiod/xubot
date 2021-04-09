@@ -78,12 +78,12 @@ namespace xubot.src.Modular
                     Title = title,
                     Description = description,
                     Color = Discord.Color.Orange,
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+                    ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
 
                     Footer = new EmbedFooterBuilder()
                     {
                         Text = Util.Globals.EmbedFooter,
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                        IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                     },
                     Timestamp = DateTime.Now,
                     Fields = new List<EmbedFieldBuilder>()

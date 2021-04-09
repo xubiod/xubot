@@ -104,12 +104,12 @@ namespace xubot.src.Commands
                 Title = "Settings list",
                 Color = Discord.Color.DarkBlue,
                 Description = $"Showing page #{page} out of {System.Math.Ceiling((float)collection.Length / itemsPerPage)} pages.\nShowing a few of the **{collection.Length}** settings.\n**Note: Only the bot owner can set these.**",
-                ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+                ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
 
                 Footer = new EmbedFooterBuilder
                 {
                     Text = Util.Globals.EmbedFooter,
-                    IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                    IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                 },
                 Timestamp = DateTime.UtcNow,
                 Fields = new List<EmbedFieldBuilder>()

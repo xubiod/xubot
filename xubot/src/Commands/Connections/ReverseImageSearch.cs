@@ -251,12 +251,12 @@ namespace xubot.src.Commands.Connections
                     Title = title,
                     Description = GetRequestsLeft(keys, RequestsLeftType.Embed),
                     Color = Discord.Color.LighterGrey,
-                    ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+                    ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
 
                     Footer = new EmbedFooterBuilder
                     {
                         Text = Util.Globals.EmbedFooter,
-                        IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                        IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                     },
                     Timestamp = DateTime.UtcNow,
                     Fields = embedFields

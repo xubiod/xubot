@@ -11,7 +11,7 @@ namespace xubot.src.Modular
 {
     public static class ModularUtil
     {
-        public static Discord.Embed Convert(XubotSharedModule.DiscordThings.Embed from)
+        public static Discord.Embed Convert(XubotSharedModule.DiscordThings.Embed from, ICommandContext context)
         {
             if (from == null) return null;
 
@@ -19,12 +19,12 @@ namespace xubot.src.Modular
             {
                 Title = from.Title,
                 Description = from.Description,
-                ThumbnailUrl = Program.xuClient.CurrentUser.GetAvatarUrl(),
+                ThumbnailUrl = context.Client.CurrentUser.GetAvatarUrl(),
 
                 Footer = new EmbedFooterBuilder()
                 {
                     Text = Util.Globals.EmbedFooter,
-                    IconUrl = Program.xuClient.CurrentUser.GetAvatarUrl()
+                    IconUrl = context.Client.CurrentUser.GetAvatarUrl()
                 },
                 Timestamp = DateTime.Now,
                 Fields = from.Fields.Select(x => {
@@ -43,11 +43,11 @@ namespace xubot.src.Modular
         {
             if (message.Filepath != null)
             {
-                return await context.Channel.SendFileAsync(message.Filepath, message.Text, message.isTTS, Convert(message.MsgEmbed), null, message.Spoilered);
+                return await context.Channel.SendFileAsync(message.Filepath, message.Text, message.isTTS, Convert(message.MsgEmbed, context), null, message.Spoilered);
             }
             else
             {
-                return await context.Channel.SendMessageAsync(message.Text, message.isTTS, Convert(message.MsgEmbed), null);
+                return await context.Channel.SendMessageAsync(message.Text, message.isTTS, Convert(message.MsgEmbed, context), null);
             }
         }
     }
