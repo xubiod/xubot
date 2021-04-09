@@ -40,7 +40,7 @@ namespace xubot.src.Offline
 
         public Task<IMessage> GetMessageAsync(ulong id, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
         {
-            return (Task<IMessage>)Messages.Find(x => x.Id == id);
+            return Task.FromResult<IMessage>(Messages.Find(x => x.Id == id));
         }
 
         public IAsyncEnumerable<IReadOnlyCollection<IMessage>> GetMessagesAsync(int limit = 100, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
@@ -91,7 +91,7 @@ namespace xubot.src.Offline
 
             Messages.Add(new_msg);
 
-            return (Task<IUserMessage>)(new_msg as IUserMessage);
+            return Task.FromResult<IUserMessage>(new_msg);
         }
 
         public Task TriggerTypingAsync(RequestOptions options = null)
