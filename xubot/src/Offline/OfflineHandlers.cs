@@ -8,5 +8,6 @@ namespace xubot.src.Offline
     {
         public static OfflineUser DefaultOfflineUser = new OfflineUser();
         public static OfflineChannel DefaultOfflineChannel = new OfflineChannel();
+        public static OfflineClient DefaultOfflineClient = new OfflineClient();
     }
 }

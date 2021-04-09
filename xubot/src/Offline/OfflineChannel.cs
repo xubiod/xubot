@@ -47,17 +47,31 @@ namespace xubot.src.Offline
 
         public IAsyncEnumerable<IReadOnlyCollection<IMessage>> GetMessagesAsync(int limit = 100, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            IReadOnlyCollection<IMessage> results = Messages.GetRange(0, limit);
+            return (IAsyncEnumerable<IReadOnlyCollection<IMessage>>)results.GetEnumerator();
+
         }
 
         public IAsyncEnumerable<IReadOnlyCollection<IMessage>> GetMessagesAsync(ulong fromMessageId, Direction dir, int limit = 100, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            int index = Messages.FindIndex(x => x.Id == fromMessageId);
+
+            if (dir == Direction.Before)
+            {
+                index = Math.Max(0, index - limit);
+            }
+            else if (dir == Direction.Around)
+            {
+                index = Math.Max(0, index - (int)(limit / 2));
+            }
+
+            IReadOnlyCollection<IMessage> results = Messages.GetRange(index, limit);
+            return (IAsyncEnumerable<IReadOnlyCollection<IMessage>>)results.GetEnumerator();
         }
 
         public IAsyncEnumerable<IReadOnlyCollection<IMessage>> GetMessagesAsync(IMessage fromMessage, Direction dir, int limit = 100, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            return GetMessagesAsync(fromMessage.Id, dir, limit, mode, options);
         }
 
         public Task<IReadOnlyCollection<IMessage>> GetPinnedMessagesAsync(RequestOptions options = null)
@@ -92,6 +106,7 @@ namespace xubot.src.Offline
             };
 
             Messages.Add(new_msg);
+            Console.WriteLine($"{new_msg.Content}\n");
 
             return Task.FromResult<IUserMessage>(new_msg);
         }

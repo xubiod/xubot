@@ -89,7 +89,15 @@ namespace xubot.src.Offline
 
         public Task ModifyAsync(Action<MessageProperties> func, RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            MessageProperties messageProperties = new MessageProperties() {
+                Content = this.Content
+            };
+
+            func(messageProperties);
+
+            if (messageProperties.Content.IsSpecified) this.Content = messageProperties.Content.Value;
+
+            return Task.CompletedTask;
         }
 
         public Task ModifySuppressionAsync(bool suppressEmbeds, RequestOptions options = null)
@@ -127,7 +135,21 @@ namespace xubot.src.Offline
 
         public string Resolve(TagHandling userHandling = TagHandling.Name, TagHandling channelHandling = TagHandling.Name, TagHandling roleHandling = TagHandling.Name, TagHandling everyoneHandling = TagHandling.Ignore, TagHandling emojiHandling = TagHandling.Name)
         {
-            return Content;
+            string emit = Content;
+
+            foreach (IEmbed embed in Embeds)
+            {
+                emit += "\n\n---";
+                emit += $"{embed.Title}\n{embed.Description}\n\n";
+
+                foreach (EmbedField field in embed.Fields)
+                {
+                    emit += $"\n- {field.Name}\n{field.Value}";
+                }
+                emit += $"\n{embed.Footer}";
+            }
+
+            return emit;
         }
 
         public Task UnpinAsync(RequestOptions options = null)
