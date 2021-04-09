@@ -105,8 +105,10 @@ namespace xubot.src.Offline
                 Content = text
             };
 
+            new_msg.EmbedsWritable.Add(embed);
+
             Messages.Add(new_msg);
-            Console.WriteLine($"{new_msg.Content}\n");
+            Console.WriteLine($"{new_msg.Resolve()}\n");
 
             return Task.FromResult<IUserMessage>(new_msg);
         }

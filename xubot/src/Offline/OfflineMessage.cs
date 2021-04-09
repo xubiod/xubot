@@ -36,7 +36,8 @@ namespace xubot.src.Offline
 
         public IReadOnlyCollection<IAttachment> Attachments => throw new NotImplementedException();
 
-        public IReadOnlyCollection<IEmbed> Embeds => throw new NotImplementedException();
+        public List<IEmbed> EmbedsWritable = new List<IEmbed>();
+        public IReadOnlyCollection<IEmbed> Embeds => EmbedsWritable;
 
         public IReadOnlyCollection<ITag> Tags => throw new NotImplementedException();
 
@@ -139,14 +140,16 @@ namespace xubot.src.Offline
 
             foreach (IEmbed embed in Embeds)
             {
-                emit += "\n\n---";
-                emit += $"{embed.Title}\n{embed.Description}\n\n";
-
-                foreach (EmbedField field in embed.Fields)
+                if (embed != null)
                 {
-                    emit += $"\n- {field.Name}\n{field.Value}";
+                    emit += $"[RESP.]\n--- {embed.Title} ---\n{embed.Description}\n";
+
+                    foreach (EmbedField field in embed.Fields)
+                    {
+                        emit += $"\n- {field.Name} -\n{field.Value}";
+                    }
+                    emit += $"\n{embed.Footer}";
                 }
-                emit += $"\n{embed.Footer}";
             }
 
             return emit;
