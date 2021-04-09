@@ -30,6 +30,8 @@ namespace xubot.src
         public static readonly CommandService xuCommand = new CommandService();
         public static readonly DiscordSocketClient xuClient = new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Warning });
 
+        public static bool IsOffline = false;
+
         public static string prefix = "[>";
 
         public static BotWebAgent webAgent { get; private set; }
@@ -53,15 +55,37 @@ namespace xubot.src
 
         public static async Task Main(string[] args)
         {
-            BeginStart(args);
+            if (!args.Contains("offline"))
+            {
+                BeginOnlineStart(args);
 
-            xuClient.Ready += ClientReady;
-            xuClient.UserJoined += XuClient_UserJoined;
+                xuClient.Ready += ClientReady;
+                xuClient.UserJoined += XuClient_UserJoined;
 
-            Commands.Shitpost.Populate();
-            Modular.ModularSystem.Initialize();
+                Commands.Shitpost.Populate();
+                Modular.ModularSystem.Initialize();
 
-            await Task.Delay(-1);
+                await Task.Delay(-1);
+            }
+            else
+            {
+                IsOffline = true;
+                BeginOfflineStart(args);
+
+                Commands.Shitpost.Populate();
+                Modular.ModularSystem.Initialize();
+
+                bool running = true;
+                string input;
+                SocketUserMessage offlineMessage;
+
+                do
+                {
+                    Console.Write(": ");
+                    input = Console.ReadLine();
+                    HandleOfflineCommands(input);
+                } while (running);
+            }
         }
 
         public static Task XuClient_UserJoined(SocketGuildUser arg)
@@ -69,7 +93,7 @@ namespace xubot.src
             return Task.CompletedTask;
         }
 
-        private static async Task BeginStart(string[] args)
+        private static async Task BeginOnlineStart(string[] args)
         {
             appStart = DateTime.Now;
 
@@ -123,6 +147,36 @@ namespace xubot.src
             Console.WriteLine("* setting up discord connection: starting client");
 
             await xuClient.StartAsync();
+            if (!BotSettings.Global.Default.DisableRedditOnStart) await ReadyReddit();
+        }
+
+        private static async Task BeginOfflineStart(string[] args)
+        {
+            appStart = DateTime.Now;
+
+            string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
+            Util.JSON.ProcessFile("keys", Path.Combine(currentDir, "Keys.json"));
+            Util.JSON.ProcessFile("apis", Path.Combine(currentDir, "API.json"));
+            Util.JSON.ProcessFile("mood", Path.Combine(currentDir, "Moods.json"));
+            Util.JSON.ProcessFile("opinion", Path.Combine(currentDir, "Opinions.json"));
+
+            await xuCommand.AddModulesAsync(Assembly.GetEntryAssembly(), null);
+
+            Util.CMDLine.SetColor();
+
+            Console.Write("[[ xubot ]]");
+            Console.WriteLine("no connection to discord mode");
+            Console.WriteLine("dubbed offline mode despite not being offline with everything else");
+            Console.WriteLine();
+
+            Util.CMDLine.SetColor(ConsoleColor.Magenta);
+
+            Console.WriteLine("current build (git): {0}", ThisAssembly.Git.Tag);
+
+            Util.CMDLine.SetColor();
+            Console.WriteLine("skipping logging into and starting discord client");
+
             if (!BotSettings.Global.Default.DisableRedditOnStart) await ReadyReddit();
         }
 
@@ -244,6 +298,25 @@ namespace xubot.src
                 return;
 
             CommandContext context = new CommandContext(xuClient, message);
+
+            IResult result = await xuCommand.ExecuteAsync(context, argumentPosition, null);
+            if (!result.IsSuccess)
+            {
+                await Util.Error.BuildError(result, context);
+            }
+        }
+
+        public static async Task HandleOfflineCommands(string message)
+        {
+            Offline.OfflineMessage msg = new Offline.OfflineMessage();
+            msg.Content = message;
+
+            int argumentPosition = 0;
+
+            if (!(msg.HasStringPrefix(prefix, ref argumentPosition) || msg.HasMentionPrefix(xuClient.CurrentUser, ref argumentPosition) || msg.HasStringPrefix("xub>", ref argumentPosition)))
+                return;
+
+            CommandContext context = new CommandContext(Offline.OfflineHandlers.DefaultOfflineClient, msg);
 
             IResult result = await xuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)
