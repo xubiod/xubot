@@ -16,6 +16,8 @@ namespace xubot.src.Offline
 
         public ulong Id => 0;
 
+        public ulong LastMessageId = 0;
+
         public IUser Recipient => throw new NotImplementedException();
 
         public IReadOnlyCollection<IUser> Recipients => throw new NotImplementedException();
@@ -65,7 +67,7 @@ namespace xubot.src.Offline
 
         public Task<IUser> GetUserAsync(ulong id, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
         {
-            return null;
+            return Task.FromResult(OfflineHandlers.DefaultOfflineUser as IUser);
         }
 
         public IAsyncEnumerable<IReadOnlyCollection<IUser>> GetUsersAsync(CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)

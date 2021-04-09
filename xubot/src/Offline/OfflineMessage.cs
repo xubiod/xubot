@@ -18,9 +18,9 @@ namespace xubot.src.Offline
 
         public bool IsTTS => false;
 
-        public bool IsPinned => false;
+        public bool IsPinned { get; set; }
 
-        public bool IsSuppressed => false;
+        public bool IsSuppressed { get; set; }
 
         public bool MentionedEveryone => false;
 
@@ -52,27 +52,34 @@ namespace xubot.src.Offline
 
         public MessageReference Reference => throw new NotImplementedException();
 
-        public IReadOnlyDictionary<IEmote, ReactionMetadata> Reactions => throw new NotImplementedException();
+        public Dictionary<IEmote, ReactionMetadata> ReactionsWritable = new Dictionary<IEmote, ReactionMetadata>();
+        public IReadOnlyDictionary<IEmote, ReactionMetadata> Reactions => ReactionsWritable;
 
         public MessageFlags? Flags => throw new NotImplementedException();
 
-        public DateTimeOffset CreatedAt => throw new NotImplementedException();
+        public DateTimeOffset CreatedAt => DateTimeOffset.Now;
 
-        public ulong Id => throw new NotImplementedException();
+        public ulong Id { get; private set; }
+
+        public OfflineMessage()
+        {
+            Id = OfflineHandlers.DefaultOfflineChannel.LastMessageId++;
+        }
 
         public Task AddReactionAsync(IEmote emote, RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            ReactionsWritable.Add(emote, new ReactionMetadata());
+            return Task.CompletedTask;
         }
 
         public Task CrosspostAsync(RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException();
         }
 
         public Task DeleteAsync(RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public IAsyncEnumerable<IReadOnlyCollection<IUser>> GetReactionUsersAsync(IEmote emoji, int limit, RequestOptions options = null)
@@ -92,37 +99,41 @@ namespace xubot.src.Offline
 
         public Task PinAsync(RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            IsPinned = true;
+            return Task.CompletedTask;
         }
 
         public Task RemoveAllReactionsAsync(RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            ReactionsWritable.Clear();
+            return Task.CompletedTask;
         }
 
         public Task RemoveAllReactionsForEmoteAsync(IEmote emote, RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            ReactionsWritable.Remove(emote);
+            return Task.CompletedTask;
         }
 
         public Task RemoveReactionAsync(IEmote emote, IUser user, RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            return RemoveAllReactionsForEmoteAsync(emote, options);
         }
 
         public Task RemoveReactionAsync(IEmote emote, ulong userId, RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            return RemoveAllReactionsForEmoteAsync(emote, options);
         }
 
         public string Resolve(TagHandling userHandling = TagHandling.Name, TagHandling channelHandling = TagHandling.Name, TagHandling roleHandling = TagHandling.Name, TagHandling everyoneHandling = TagHandling.Ignore, TagHandling emojiHandling = TagHandling.Name)
         {
-            throw new NotImplementedException();
+            return Content;
         }
 
         public Task UnpinAsync(RequestOptions options = null)
         {
-            throw new NotImplementedException();
+            IsPinned = false;
+            return Task.CompletedTask;
         }
     }
 }
