@@ -81,7 +81,6 @@ namespace xubot.src
 
                 do
                 {
-                    Console.Write(": ");
                     input = Console.ReadLine();
                     HandleOfflineCommands(input);
                 } while (running);
@@ -175,8 +174,13 @@ namespace xubot.src
             Console.WriteLine("current build (git): {0}", ThisAssembly.Git.Tag);
 
             Util.CMDLine.SetColor();
-            Console.WriteLine("skipping logging into and starting discord client");
+            Console.WriteLine("skipping logging into and starting discord client\n");
 
+            Util.CMDLine.SetColor(ConsoleColor.Green);
+            Console.WriteLine("ready for console input\n");
+            Console.Beep();
+
+            Util.CMDLine.SetColor();
             if (!BotSettings.Global.Default.DisableRedditOnStart) await ReadyReddit();
         }
 
