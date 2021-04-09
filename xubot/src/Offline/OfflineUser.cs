@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace xubot.src.Offline
 {
-    class OfflineUser : IUser
+    class OfflineUser : IUser, ISelfUser
     {
         public string AvatarId => null;
 
@@ -39,6 +39,18 @@ namespace xubot.src.Offline
         public List<IActivity> DefaultActivities = null;
         public IImmutableList<IActivity> Activities => throw new NotImplementedException();
 
+        public string Email => "";
+
+        public bool IsVerified => true;
+
+        public bool IsMfaEnabled => true;
+
+        public UserProperties Flags => throw new NotImplementedException();
+
+        public PremiumType PremiumType => PremiumType.None;
+
+        public string Locale => throw new NotImplementedException();
+
         public string GetAvatarUrl(ImageFormat format = ImageFormat.Auto, ushort size = 128)
         {
             return "";
@@ -52,6 +64,11 @@ namespace xubot.src.Offline
         public Task<IDMChannel> GetOrCreateDMChannelAsync(RequestOptions options = null)
         {
             return (Task<IDMChannel>)(OfflineHandlers.DefaultOfflineChannel as IDMChannel);
+        }
+
+        public Task ModifyAsync(Action<SelfUserProperties> func, RequestOptions options = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }
