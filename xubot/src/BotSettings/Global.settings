@@ -12,7 +12,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ExceptionLogLocation" Type="System.String" Scope="User">
-      <Value Profile="(Default)">/Exceptions/</Value>
+      <Value Profile="(Default)">./Exceptions/</Value>
     </Setting>
     <Setting Name="SendStacktraceOnError" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

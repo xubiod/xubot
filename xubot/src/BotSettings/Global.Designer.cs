@@ -61,7 +61,7 @@ namespace xubot.src.BotSettings {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("/Exceptions/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("./Exceptions/")]
         public string ExceptionLogLocation {
             get {
                 return ((string)(this["ExceptionLogLocation"]));
