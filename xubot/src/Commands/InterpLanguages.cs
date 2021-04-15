@@ -27,9 +27,7 @@ namespace xubot.src
                 new EmbedFieldBuilder
                 {
                     Name = "Input",
-
                     Value = "```" + syntax_highlighting + "\n" + input + "```",
-
                     IsInline = false
                 },
                 new EmbedFieldBuilder
@@ -150,7 +148,7 @@ namespace xubot.src
             public async Task Deadfish(string input)
             {
                 string result = Commands.SmallLangInterps.Deadfish.Execute(input);
-                await ReplyAsync("", false, BuildEmbed("Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", "", input, result));
+                await ReplyAsync("", false, BuildEmbed(Context, "Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", "", input, result));
             }
 
             [Example("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.")]
@@ -168,7 +166,7 @@ namespace xubot.src
                 }
                 string result = Commands.SmallLangInterps.Brainfuck.Execute(input, ascii_input);
 
-                await ReplyAsync("", false, BuildEmbed("Brainfuck", "using a built-in interpeter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf", embed_input, result));
+                await ReplyAsync("", false, BuildEmbed(Context, "Brainfuck", "using a built-in interpeter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf", embed_input, result));
             }
         }
     }
