@@ -68,54 +68,43 @@ namespace xubot.src.Commands.Connections
             string image = Program.subreddit.HeaderImage;
             string desc = Program.subreddit.Description.Split('\n')[0];
 
-            EmbedBuilder embedd = new EmbedBuilder
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Subreddit: {input}", "Details of a subreddit", Discord.Color.Orange);
+            embed.ThumbnailUrl = image;
+            embed.Fields = new List<EmbedFieldBuilder>()
             {
-                Title = "Subreddit: " + input,
-                Color = Discord.Color.Orange,
-                Description = "Details of a subreddit",
-                ThumbnailUrl = image,
-
-                Footer = new EmbedFooterBuilder
+                new EmbedFieldBuilder
                 {
-                    Text = Util.Globals.EmbedFooter
+                    Name = "First line of Description",
+                    Value = desc,
+                    IsInline = false
                 },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "First line of Description",
-                                Value = desc,
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Subscriber Count",
-                                Value = sub,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Internal Name",
-                                Value = fullname,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "NSFW?",
-                                Value = NSFW,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Link",
-                                Value = "https://reddit.com/r/"+input,
-                                IsInline = true
-                            }
-                        }
+                new EmbedFieldBuilder
+                {
+                    Name = "Subscriber Count",
+                    Value = sub,
+                    IsInline = true
+                },
+                new EmbedFieldBuilder
+                {
+                    Name = "Internal Name",
+                    Value = fullname,
+                    IsInline = true
+                },
+                new EmbedFieldBuilder
+                {
+                    Name = "NSFW?",
+                    Value = NSFW,
+                    IsInline = true
+                },
+                new EmbedFieldBuilder
+                {
+                    Name = "Link",
+                    Value = "https://reddit.com/r/"+input,
+                    IsInline = true
+                }
             };
 
-            await ReplyAsync("", false, embedd.Build());
+            await ReplyAsync("", false, embed.Build());
         }
 
         [Command("reddit?wiki", RunMode = RunMode.Async), Summary("Returns the wiki pages for a subreddit.")]
@@ -132,30 +121,19 @@ namespace xubot.src.Commands.Connections
 
             string image = Program.subreddit.HeaderImage;
 
-            EmbedBuilder embedd = new EmbedBuilder
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Subreddit: {input}", "Subreddit Wiki Pages", Discord.Color.Orange);
+            embed.ThumbnailUrl = image;
+            embed.Fields = new List<EmbedFieldBuilder>()
             {
-                Title = "Subreddit: " + input,
-                Color = Discord.Color.Orange,
-                Description = "Subreddit Wiki Pages",
-                ThumbnailUrl = image,
-
-                Footer = new EmbedFooterBuilder
+                new EmbedFieldBuilder
                 {
-                    Text = Util.Globals.EmbedFooter
-                },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
-                {
-                    new EmbedFieldBuilder
-                    {
-                        Name = "Wiki",
-                        Value = Program.subreddit.GetWiki.GetPageNamesAsync(),
-                        IsInline = false
-                    }
+                    Name = "Wiki",
+                    Value = Program.subreddit.GetWiki.GetPageNamesAsync(),
+                    IsInline = false
                 }
             };
 
-            await ReplyAsync("", false, embedd.Build());
+            await ReplyAsync("", false, embed.Build());
         }
 
         [NSFWPossibilty("Anything probably"), Example("aww dog")]

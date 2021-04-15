@@ -24,8 +24,8 @@ namespace xubot.src.Commands.Global
 			[Command]
 			public async Task Get(string article)
 			{
-				EmbedBuilder embedd = WikiTools.BuildEmbed(WikiTools.ReadArticle(article), WikiTools.ReadLastEdit(article), article);
-				await ReplyAsync("", false, embedd.Build());
+				EmbedBuilder embed = WikiTools.BuildEmbed(WikiTools.ReadArticle(article), WikiTools.ReadLastEdit(article), article);
+				await ReplyAsync("", false, embed.Build());
 			}
 
 			[Command("edit")]

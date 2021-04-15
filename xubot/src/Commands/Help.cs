@@ -80,30 +80,18 @@ namespace xubot.src.Commands
 
             if (items == "") items = "There's nothing here, I think you went out of bounds.";
 
-            EmbedBuilder embedd = new EmbedBuilder
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"Showing page #{page} out of {System.Math.Ceiling((float)commList.Count / itemsPerPage)} pages.\nShowing a few of the **{commList.Count}** cmds.", Discord.Color.Magenta);
+            embed.Fields = new List<EmbedFieldBuilder>()
             {
-                Title = "Help",
-                Color = Discord.Color.Magenta,
-                Description = $"Showing page #{page} out of {System.Math.Ceiling((float)commList.Count / itemsPerPage)} pages.\nShowing a few of the **{commList.Count}** cmds.",
-                ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
-
-                Footer = new EmbedFooterBuilder
+                new EmbedFieldBuilder
                 {
-                    Text = Util.Globals.EmbedFooter,
-                    IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
-                },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "List",
-                                Value = $"```\n{items}```" ,
-                                IsInline = true
-                            }
-                        }
+                    Name = "List",
+                    Value = $"```\n{items}```" ,
+                    IsInline = true
+                }
             };
-            await ReplyAsync("", false, embedd.Build());
+
+            await ReplyAsync("", false, embed.Build());
         }
 
         [Example("e true 1")]
@@ -148,30 +136,18 @@ namespace xubot.src.Commands
                 }
                 if (cmds == "") cmds = "I don't think any command called that exists...";
 
-                EmbedBuilder embedd = new EmbedBuilder
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help - Search", $"Showing page #{page} out of {System.Math.Ceiling((float)compatibles.Count / itemsPerPage)} pages.\nShowing a few of the **{compatibles.Count}** cmds with the lookup.", Discord.Color.Magenta);
+                embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    Title = "Help - Search",
-                    Color = Discord.Color.Magenta,
-                    Description = $"Showing page #{page} out of {System.Math.Ceiling((float)compatibles.Count / itemsPerPage)} pages.\nShowing a few of the **{compatibles.Count}** cmds with the lookup.",
-                    ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder
+                    new EmbedFieldBuilder
                     {
-                        Text = Util.Globals.EmbedFooter,
-                        IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Search Results",
-                                Value = $"```\n{cmds}```" ,
-                                IsInline = true
-                            }
-                        }
+                        Name = "Search Results",
+                        Value = $"```\n{cmds}```" ,
+                        IsInline = true
+                    }
                 };
-                await ReplyAsync("", false, embedd.Build());
+
+                await ReplyAsync("", false, embed.Build());
             }
         }
 
@@ -266,69 +242,56 @@ namespace xubot.src.Commands
 
                 string exampleUsage = $"{Program.prefix}{trueName} " + example_para;
 
-                EmbedBuilder embedd = new EmbedBuilder
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"The newer *better* help. Showing result #{index} out of {allMatchs} match(s).", Discord.Color.Magenta);
+                embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    Title = "Help",
-                    Color = Discord.Color.Magenta,
-                    Description = $"The newer *better* help. Showing result #{index} out of {allMatchs} match(s).",
-                    ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder
+                    new EmbedFieldBuilder
                     {
-                        Text = Util.Globals.EmbedFooter,
-                        IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
+                        Name = "Command Name",
+                        Value = $"`{trueName}`" ,
+                        IsInline = true
                     },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Command Name",
-                                Value = $"`{trueName}`" ,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Summary",
-                                Value = trueSumm,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Known Aliases",
-                                Value = $"```\n{all_alias}```",
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Parameters",
-                                Value = $"```cs\n{all_para}```",
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Example Usage",
-                                Value = $"`{exampleUsage}`",
-                                IsInline = false
-                            }
-                        }
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Summary",
+                        Value = trueSumm,
+                        IsInline = true
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Known Aliases",
+                        Value = $"```\n{all_alias}```",
+                        IsInline = false
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Parameters",
+                        Value = $"```cs\n{all_para}```",
+                        IsInline = true
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Example Usage",
+                        Value = $"`{exampleUsage}`",
+                        IsInline = false
+                    }
                 };
 
-                if (dep) embedd.Fields.Add(new EmbedFieldBuilder()
+                if (dep) embed.Fields.Add(new EmbedFieldBuilder()
                 {
                     Name = "Deprecated",
                     Value = "__**All commands in this group are deprecated. They are going to be removed in a future update.**__",
                     IsInline = true
                 });
 
-                if (nsfwPossibility != "") embedd.Fields.Add(new EmbedFieldBuilder()
+                if (nsfwPossibility != "") embed.Fields.Add(new EmbedFieldBuilder()
                 {
                     Name = "NSFW Possibility",
                     Value = $"This can show NSFW content. NSFW content is restricted to NSFW channels.\n**{nsfwPossibility}**",
                     IsInline = true
                 });
 
-                await ReplyAsync("", false, embedd.Build());
+                await ReplyAsync("", false, embed.Build());
             }
             catch (Exception e)
             {
@@ -403,63 +366,50 @@ namespace xubot.src.Commands
                 bool dep = group.Attributes.Contains(new DeprecatedAttribute());
                 string nsfwPossibility = group.Attributes.Contains(new NSFWPossibiltyAttribute()) ? (group.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).Warnings : null;
 
-                EmbedBuilder embedd = new EmbedBuilder
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", "The newer *better* help. For more specifics, combine the group and command.", Discord.Color.Magenta);
+                embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    Title = "Help",
-                    Color = Discord.Color.Magenta,
-                    Description = "The newer *better* help. For more specifics, combine the group and command.", //Showing result #" + (index).ToString() + " out of " + allMatchs.ToString() + " match(s).",
-                    ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
-
-                    Footer = new EmbedFooterBuilder
+                    new EmbedFieldBuilder
                     {
-                        Text = Util.Globals.EmbedFooter,
-                        IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
+                        Name = "Module Name and Summary",
+                        Value = $"`{trueName}`\n*{trueSumm}*",
+                        IsInline = true
                     },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Module Name and Summary",
-                                Value = $"`{trueName}`\n*{trueSumm}*",
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Known Aliases",
-                                Value = $"```{all_alias}```",
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Subgroups in Group",
-                                Value = $"```{subgroup}```",
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Commands in Group",
-                                Value = $"```{commands}```",
-                                IsInline = false
-                            }
-                        }
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Known Aliases",
+                        Value = $"```{all_alias}```",
+                        IsInline = true
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Subgroups in Group",
+                        Value = $"```{subgroup}```",
+                        IsInline = true
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Commands in Group",
+                        Value = $"```{commands}```",
+                        IsInline = false
+                    }
                 };
 
-                if (dep) embedd.Fields.Add(new EmbedFieldBuilder()
+                if (dep) embed.Fields.Add(new EmbedFieldBuilder()
                 {
                     Name = "Deprecated",
                     Value = "__**All commands in this group are deprecated. They are going to be removed in a future update.**__",
                     IsInline = true
                 });
 
-                if (nsfwPossibility != null) embedd.Fields.Add(new EmbedFieldBuilder()
+                if (nsfwPossibility != null) embed.Fields.Add(new EmbedFieldBuilder()
                 {
                     Name = "NSFW Possibility",
                     Value = $"This can show NSFW content. NSFW content is restricted to NSFW channels.\n**{nsfwPossibility}**",
                     IsInline = true
                  });
 
-                await ReplyAsync("", false, embedd.Build());
+                await ReplyAsync("", false, embed.Build());
             }
             catch (Exception e)
             {

@@ -28,30 +28,17 @@ namespace xubot.src.Commands
                 result = result.Substring(0, 1015) + "...";
             }
 
-            EmbedBuilder embedd = new EmbedBuilder
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Superuser - Directory", where, Discord.Color.DarkOrange);
+            embed.Fields = new List<EmbedFieldBuilder>()
             {
-                Title = "Superuser - Directory",
-                Color = Discord.Color.DarkOrange,
-                Description = where,
-                ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
-
-                Footer = new EmbedFooterBuilder
+                new EmbedFieldBuilder
                 {
-                    Text = Util.Globals.EmbedFooter,
-                    IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
-                },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
-                {
-                    new EmbedFieldBuilder
-                    {
-                        Name = "Result",
-                        Value = $"```{result}```",
-                        IsInline = true
-                    }
+                    Name = "Result",
+                    Value = $"```{result}```",
+                    IsInline = true
                 }
             };
-            await ReplyAsync("", false, embedd.Build());
+            await ReplyAsync("", false, embed.Build());
         }
 
         [Command("update")]

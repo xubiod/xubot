@@ -101,47 +101,37 @@ namespace xubot.src.Commands.Connections
             }
 
             dynamic parsedTxt = JObject.Parse(text);
-            EmbedBuilder embedd = new EmbedBuilder
-            {
-                Title = "Validator.pizza Email Validator",
-                Color = Discord.Color.Orange,
-                Description = $"**{parsedTxt.remaining_requests}** requests left for the hour",
 
-                Footer = new EmbedFooterBuilder
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Validator.pizza Email Validator", $"**{parsedTxt.remaining_requests}** requests left for the hour", Discord.Color.Orange);
+            embed.Fields = new List<EmbedFieldBuilder>()
+            {
+                new EmbedFieldBuilder
                 {
-                    Text = Util.Globals.EmbedFooter
+                    Name = "Input",
+                    Value = parsedTxt.email,
+                    IsInline = false
                 },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Input",
-                                Value = parsedTxt.email,
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "MX Records?",
-                                Value = parsedTxt.mx.ToString(),
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Disposable domain?",
-                                Value = parsedTxt.disposable.ToString(),
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Alias?",
-                                Value = parsedTxt.alias.ToString(),
-                                IsInline = false
-                            }
-                        }
+                new EmbedFieldBuilder
+                {
+                    Name = "MX Records?",
+                    Value = parsedTxt.mx.ToString(),
+                    IsInline = false
+                },
+                new EmbedFieldBuilder
+                {
+                    Name = "Disposable domain?",
+                    Value = parsedTxt.disposable.ToString(),
+                    IsInline = false
+                },
+                new EmbedFieldBuilder
+                {
+                    Name = "Alias?",
+                    Value = parsedTxt.alias.ToString(),
+                    IsInline = false
+                }
             };
 
-            await ReplyAsync("", false, embedd.Build());
+            await ReplyAsync("", false, embed.Build());
         }
 
         [Command("cat", RunMode = RunMode.Async), Summary("Gets random cat picture. Best utilized when sad.")]

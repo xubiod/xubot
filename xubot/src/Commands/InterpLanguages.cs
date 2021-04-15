@@ -19,39 +19,28 @@ namespace xubot.src
 {
     public class InterpLanguages : ModuleBase
     {
-        public static Embed BuildEmbed(string language, string description, string syntax_highlighting, string input, string result)
+        public static Embed BuildEmbed(ICommandContext context, string language, string description, string syntax_highlighting, string input, string result)
         {
-            EmbedBuilder embedd = new EmbedBuilder
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(context, "**Language:** `" + language + "`", description, Discord.Color.Orange);
+            embed.Fields = new List<EmbedFieldBuilder>()
             {
-                Title = "**Language:** `" + language + "`",
-                Color = Discord.Color.Orange,
-                Description = description,
-
-                Footer = new EmbedFooterBuilder
+                new EmbedFieldBuilder
                 {
-                    Text = Util.Globals.EmbedFooter
+                    Name = "Input",
+
+                    Value = "```" + syntax_highlighting + "\n" + input + "```",
+
+                    IsInline = false
                 },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Input",
-
-                                Value = "```" + syntax_highlighting + "\n" + input + "```",
-
-                                IsInline = false
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Result",
-                                Value = "```\n" + result + "```",
-                                IsInline = false
-                            }
-                        }
+                new EmbedFieldBuilder
+                {
+                    Name = "Result",
+                    Value = "```\n" + result + "```",
+                    IsInline = false
+                }
             };
 
-            return embedd.Build();
+            return embed.Build();
             //await ReplyAsync("", false, embedd);
         }
 

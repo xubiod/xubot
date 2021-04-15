@@ -53,9 +53,9 @@ namespace xubot.src.Modular
                         list += item.GetCustomAttribute<CmdNameAttribute>().Name + " - " + (item.GetCustomAttribute<CmdSummaryAttribute>() != null ? item.GetCustomAttribute<CmdSummaryAttribute>().Summary : "Not set in module") + "\n";
                 //list += cmd.GetType().getM + " - " + "NotImplement" + "\n";
 
-                EmbedBuilder embedd = GetTemplate("Module Command Listing", $"For module **\"{module.ToLower()}\"**", list);
+                EmbedBuilder embed = GetTemplate("Module Command Listing", $"For module **\"{module.ToLower()}\"**", list);
 
-                await ReplyAsync("", false, embedd.Build());
+                await ReplyAsync("", false, embed.Build());
             }
 
             [Command("listall", RunMode = RunMode.Async), Alias("la"), Summary("Lists all modules.")]
@@ -66,9 +66,9 @@ namespace xubot.src.Modular
                 foreach (KeyValuePair<string, ModularSystem.ModuleEntry> mod in ModularSystem.modules)
                     list += $"{mod.Key} - { (mod.Value.commandInstances.Count > 0 ? mod.Value.commandInstances.Count + " cmds" : "Not loaded/no cmds")}\n";
 
-                EmbedBuilder embedd = GetTemplate("Module Listing", "Note: *some of these might not be loaded*", list);
+                EmbedBuilder embed = GetTemplate("Module Listing", "Note: *some of these might not be loaded*", list);
 
-                await ReplyAsync("", false, embedd.Build());
+                await ReplyAsync("", false, embed.Build());
             }
 
             private EmbedBuilder GetTemplate(string title, string description, string listing)

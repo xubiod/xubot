@@ -220,22 +220,10 @@ namespace xubot.src.Commands
 
         public static async Task BuildReport(ICommandContext context, List<EmbedFieldBuilder> fields)
         {
-            EmbedBuilder embedd = new EmbedBuilder
-            {
-                Title = "Uptime Report",
-                Color = Discord.Color.Red,
-                Description = $"Report from {DateTime.Now}",
-                ThumbnailUrl = context.Client.CurrentUser.GetAvatarUrl(),
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(context, "Uptime Report", $"Report from {DateTime.Now}", Discord.Color.Red);
+            embed.Fields = fields;
 
-                Footer = new EmbedFooterBuilder
-                {
-                    Text = Util.Globals.EmbedFooter,
-                    IconUrl = context.Client.CurrentUser.GetAvatarUrl()
-                },
-                Timestamp = DateTime.UtcNow,
-                Fields = fields
-            };
-            await context.Channel.SendMessageAsync("", false, embedd.Build());
+            await context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
 }

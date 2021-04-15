@@ -99,30 +99,22 @@ namespace xubot.src.Commands
 
             if (items == "") items = "There's nothing here, I think you went out of bounds.";
 
-            EmbedBuilder embedd = new EmbedBuilder
-            {
-                Title = "Settings list",
-                Color = Discord.Color.DarkBlue,
-                Description = $"Showing page #{page} out of {System.Math.Ceiling((float)collection.Length / itemsPerPage)} pages.\nShowing a few of the **{collection.Length}** settings.\n**Note: Only the bot owner can set these.**",
-                ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(
+                Context, "Settings list", $"Showing page #{page} out of {System.Math.Ceiling((float)collection.Length / itemsPerPage)} pages.\n" +
+                $"Showing a few of the **{collection.Length}** settings.\n**Note: Only the bot owner can set these.**", Discord.Color.DarkBlue
+            );
 
-                Footer = new EmbedFooterBuilder
+            embed.Fields = new List<EmbedFieldBuilder>()
+            {
+                new EmbedFieldBuilder
                 {
-                    Text = Util.Globals.EmbedFooter,
-                    IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
-                },
-                Timestamp = DateTime.UtcNow,
-                Fields = new List<EmbedFieldBuilder>()
-                {
-                    new EmbedFieldBuilder
-                    {
-                        Name = "List",
-                        Value = $"```\n{items}```" ,
-                        IsInline = true
-                    }
+                    Name = "List",
+                    Value = $"```\n{items}```" ,
+                    IsInline = true
                 }
             };
-            await ReplyAsync("", false, embedd.Build());
+
+            await ReplyAsync("", false, embed.Build());
         }
     }
 }

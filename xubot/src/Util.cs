@@ -41,9 +41,9 @@ namespace xubot.src
 
             public static async Task BuildError(IResult result, CommandContext context)
             {
-                EmbedBuilder embedd = GetErrorBoilerplate();
+                EmbedBuilder embed = GetErrorBoilerplate();
 
-                embedd.Fields = new List<EmbedFieldBuilder>()
+                embed.Fields = new List<EmbedFieldBuilder>()
                 {
                     new EmbedFieldBuilder
                     {
@@ -59,14 +59,14 @@ namespace xubot.src
                     }
                 };
 
-                await context.Channel.SendMessageAsync("", false, embedd.Build());
+                await context.Channel.SendMessageAsync("", false, embed.Build());
             }
 
             public static async Task BuildError(CommandError err, CommandContext context)
             {
-                EmbedBuilder embedd = GetErrorBoilerplate();
+                EmbedBuilder embed = GetErrorBoilerplate();
 
-                embedd.Fields = new List<EmbedFieldBuilder>()
+                embed.Fields = new List<EmbedFieldBuilder>()
                 {
                     new EmbedFieldBuilder
                     {
@@ -76,7 +76,7 @@ namespace xubot.src
                     }
                 };
 
-                await context.Channel.SendMessageAsync("", false, embedd.Build());
+                await context.Channel.SendMessageAsync("", false, embed.Build());
             }
 
             public static async Task BuildError(Exception exp, ICommandContext context)
@@ -99,10 +99,10 @@ namespace xubot.src
                     stack = "Settings prevent the sending of any stack trace. Check exception logs for a *.nonfatal.txt file.";
                 }
 
-                EmbedBuilder embedd = GetErrorBoilerplate();
+                EmbedBuilder embed = GetErrorBoilerplate();
 
-                embedd.Description = $"It's a ***{exp.GetType()}***.";
-                embedd.Fields = new List<EmbedFieldBuilder>()
+                embed.Description = $"It's a ***{exp.GetType()}***.";
+                embed.Fields = new List<EmbedFieldBuilder>()
                 {
                     new EmbedFieldBuilder
                     {
@@ -130,7 +130,7 @@ namespace xubot.src
                     }
                 };
 
-                await context.Channel.SendMessageAsync("", false, embedd.Build());
+                await context.Channel.SendMessageAsync("", false, embed.Build());
                 if (stacktraceToFile && BotSettings.Global.Default.SendBigStacktraceOnError)
                 {
                     await context.Channel.SendFileAsync(file);
@@ -139,8 +139,8 @@ namespace xubot.src
 
             public static async Task BuildError(string problem, ICommandContext context)
             {
-                EmbedBuilder embedd = GetErrorBoilerplate();
-                embedd.Fields = new List<EmbedFieldBuilder>()
+                EmbedBuilder embed = GetErrorBoilerplate();
+                embed.Fields = new List<EmbedFieldBuilder>()
                 {
                     new EmbedFieldBuilder
                     {
@@ -150,15 +150,15 @@ namespace xubot.src
                     }
                 };
 
-                await context.Channel.SendMessageAsync("", false, embedd.Build());
+                await context.Channel.SendMessageAsync("", false, embed.Build());
             }
 
             public static async Task BuildError(object problem, ICommandContext context)
             {
-                EmbedBuilder embedd = GetErrorBoilerplate();
+                EmbedBuilder embed = GetErrorBoilerplate();
 
-                embedd.Description = "It's a dedicated ***" + problem.GetType() + "*** issue.";
-                embedd.Fields = new List<EmbedFieldBuilder>()
+                embed.Description = "It's a dedicated ***" + problem.GetType() + "*** issue.";
+                embed.Fields = new List<EmbedFieldBuilder>()
                 {
                     new EmbedFieldBuilder
                     {
@@ -168,25 +168,12 @@ namespace xubot.src
                     }
                 };
 
-                await context.Channel.SendMessageAsync("", false, embedd.Build());
+                await context.Channel.SendMessageAsync("", false, embed.Build());
             }
 
             public static async Task Deprecated(ICommandContext context)
             {
-                EmbedBuilder embedd = new EmbedBuilder
-                {
-                    Title = "Deprecated!",
-                    Color = Discord.Color.DarkRed,
-                    Description = "This command/feature of xubot is going to be removed in the future.",
-
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = Util.Globals.EmbedFooter
-                    },
-                    Timestamp = DateTime.UtcNow
-                };
-
-                await context.Channel.SendMessageAsync("", false, embedd.Build());
+                await context.Channel.SendMessageAsync("", false, Embed.GetDefaultEmbed(context, "Deprecated!", "This command/feature of xubot is going to be removed in the future.", Color.DarkRed).Build());
             }
         }
 
@@ -453,6 +440,27 @@ namespace xubot.src
             public static void Set<T>(string key, T newValue)
             {
                 BotSettings.Global.Default.GetType().GetProperty(key).SetValue(BotSettings.Global.Default, newValue);
+            }
+        }
+
+        public class Embed
+        {
+            public static EmbedBuilder GetDefaultEmbed(ICommandContext context, string title = "", string description = "", Color? color = null)
+            {
+                return new EmbedBuilder
+                {
+                    Title = title,
+                    Description = description,
+                    Color = color,
+                    ThumbnailUrl = context.Client.CurrentUser.GetAvatarUrl(),
+
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = Util.Globals.EmbedFooter,
+                        IconUrl = context.Client.CurrentUser.GetAvatarUrl()
+                    },
+                    Timestamp = DateTime.UtcNow
+                };
             }
         }
 

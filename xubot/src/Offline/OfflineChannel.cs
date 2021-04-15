@@ -49,7 +49,6 @@ namespace xubot.src.Offline
         {
             IReadOnlyCollection<IMessage> results = Messages.GetRange(0, limit);
             return (IAsyncEnumerable<IReadOnlyCollection<IMessage>>)results.GetEnumerator();
-
         }
 
         public IAsyncEnumerable<IReadOnlyCollection<IMessage>> GetMessagesAsync(ulong fromMessageId, Direction dir, int limit = 100, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)

@@ -83,23 +83,12 @@ namespace xubot.src.Commands.Connections
                     string playing = "";
                     if (playerSummaries["gameid"].AsInteger(0) != 0) playing = $"Currently playing **{ReturnAppName(playerSummaries["gameid"].AsInteger())}**";
 
-                    EmbedBuilder embedd = new EmbedBuilder()
-                    {
-                        Title = "Steam User: " + playerSummaries["personaname"].AsString(),
-                        Color = Discord.Color.DarkBlue,
-                        Description = "Data obtained Steam WebAPI using SteamKit2",
-                        ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
-
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = Util.Globals.EmbedFooter
-                        },
-                        Timestamp = DateTime.UtcNow
-                    };
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Steam User: {playerSummaries["personaname"].AsString()}", "Data obtained Steam WebAPI using SteamKit2", Discord.Color.DarkBlue);
+                    embed.ThumbnailUrl = playerSummaries["avatarfull"].AsString();
 
                     if (playerSummaries["communityvisibilitystate"].AsInteger(1) == 3 /* public, don't ask why */)
                     {
-                        embedd.Fields = new List<EmbedFieldBuilder>()
+                        embed.Fields = new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -142,7 +131,7 @@ namespace xubot.src.Commands.Connections
                     }
                     else
                     {
-                        embedd.Fields = new List<EmbedFieldBuilder>()
+                        embed.Fields = new List<EmbedFieldBuilder>()
                         {
                             new EmbedFieldBuilder
                             {
@@ -160,7 +149,7 @@ namespace xubot.src.Commands.Connections
                         };
                     }
 
-                    await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embed.Build());
                 }
                 catch (Exception ex)
                 {
@@ -208,22 +197,9 @@ namespace xubot.src.Commands.Connections
                         });
                     }
 
-                    EmbedBuilder embedd = new EmbedBuilder
-                    {
-                        Title = $"Latest {amount} news articles for the app: {ReturnAppName(appid)}",
-                        Color = Discord.Color.DarkBlue,
-                        Description = "Data obtained Steam WebAPI using SteamKit2",
-                        //ThumbnailUrl = playerSummaries["avatarfull"].AsString(),
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Latest {amount} news articles for the app: {ReturnAppName(appid)}", "Data obtained Steam WebAPI using SteamKit2", Discord.Color.DarkBlue);
 
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = Util.Globals.EmbedFooter
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = article_details
-                    };
-
-                    await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embed.Build());
                 }
                 catch (Exception exp)
                 {

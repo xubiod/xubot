@@ -99,21 +99,10 @@ namespace xubot.src.Commands.Connections
 
                     //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
 
-                    EmbedBuilder embedd = new EmbedBuilder
-                    {
-                        Title = "Oxford Dictionary API",
-                        Color = Discord.Color.Orange,
-                        Description = "Definition(s)",
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Definition(s)", Discord.Color.Orange);
+                    embed.Fields = allDefinitions;
 
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = Util.Globals.EmbedFooter
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = allDefinitions
-                    };
-
-                    await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embed.Build());
                 }
                 catch (Exception e)
                 {
@@ -167,21 +156,10 @@ namespace xubot.src.Commands.Connections
 
                     //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
 
-                    EmbedBuilder embedd = new EmbedBuilder
-                    {
-                        Title = "Oxford Dictionary API",
-                        Color = Discord.Color.Orange,
-                        Description = "Inflections",
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Inflections", Discord.Color.Orange);
+                    embed.Fields = allInflections;
 
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = Util.Globals.EmbedFooter
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = allInflections
-                    };
-
-                    await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embed.Build());
                 }
                 catch (Exception e)
                 {
@@ -243,21 +221,10 @@ namespace xubot.src.Commands.Connections
 
                     //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
 
-                    EmbedBuilder embedd = new EmbedBuilder
-                    {
-                        Title = "Oxford Dictionary API",
-                        Color = Discord.Color.Orange,
-                        Description = "Synonym(s)",
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Synonym(s)", Discord.Color.Orange);
+                    embed.Fields = allSynonyms;
 
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = Util.Globals.EmbedFooter
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = allSynonyms
-                    };
-
-                    await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embed.Build());
                 }
                 catch (Exception e)
                 {
@@ -317,21 +284,10 @@ namespace xubot.src.Commands.Connections
 
                     //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
 
-                    EmbedBuilder embedd = new EmbedBuilder
-                    {
-                        Title = "Oxford Dictionary API",
-                        Color = Discord.Color.Orange,
-                        Description = "Antonyms(s)",
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Antonyms(s)", Discord.Color.Orange);
+                    embed.Fields = allAntonyms;
 
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = Util.Globals.EmbedFooter
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = allAntonyms
-                    };
-
-                    await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embed.Build());
                 }
                 catch (Exception e)
                 {
@@ -409,42 +365,31 @@ namespace xubot.src.Commands.Connections
                         count++;
                     }
 
-                    EmbedBuilder embedd = new EmbedBuilder
-                    {
-                        Title = "Oxford Dictionary API",
-                        Color = Discord.Color.Orange,
-                        Description = "Dictionaries: Complete List (IDs bolded)",
-
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = Util.Globals.EmbedFooter
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Dictionaries: Complete List (IDs bolded)", Discord.Color.Orange);
+                    embed.Fields = new List<EmbedFieldBuilder>() {
+                        new EmbedFieldBuilder {
+                            Name = "Monolingual (pt 1)",
+                            Value = monolingualListString0,
+                            IsInline = true
                         },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = new List<EmbedFieldBuilder>() {
-                            new EmbedFieldBuilder {
-                                Name = "Monolingual (pt 1)",
-                                Value = monolingualListString0,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder {
-                                Name = "Monolingual (pt 2)",
-                                Value = monolingualListString1,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder {
-                                Name = "Bilingual (pt 1)",
-                                Value = bilingualListString0,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder {
-                                Name = "Bilingual (pt 2)",
-                                Value = bilingualListString1,
-                                IsInline = true
-                            }
-                    }
+                        new EmbedFieldBuilder {
+                            Name = "Monolingual (pt 2)",
+                            Value = monolingualListString1,
+                            IsInline = true
+                        },
+                        new EmbedFieldBuilder {
+                            Name = "Bilingual (pt 1)",
+                            Value = bilingualListString0,
+                            IsInline = true
+                        },
+                        new EmbedFieldBuilder {
+                            Name = "Bilingual (pt 2)",
+                            Value = bilingualListString1,
+                            IsInline = true
+                        }
                     };
 
-                    await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embed.Build());
                 }
                 catch (Exception e)
                 {

@@ -147,29 +147,18 @@ namespace xubot.src.Commands
                 }
                 _n += "]`";
 
-                EmbedBuilder embedd = new EmbedBuilder
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "List of Insults", "To add something to any list, use `[>insult add [LIST LETTER in BOLD] [STRING]`.", Discord.Color.Orange);
+                embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    Title = "List of Insults",
-                    Color = Discord.Color.Orange,
-                    Description = "To add something to any list, use `[>insult add [LIST LETTER in BOLD] [STRING]`.",
-
-                    Footer = new EmbedFooterBuilder
+                    new EmbedFieldBuilder
                     {
-                        Text = Util.Globals.EmbedFooter
-                    },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Lists",
-                                Value = $"{_v}\n\n{_a}\n\n{_n}",
-                                IsInline = false
-                            }
-                        }
+                        Name = "Lists",
+                        Value = $"{_v}\n\n{_a}\n\n{_n}",
+                        IsInline = false
+                    }
                 };
 
-                await ReplyAsync("", false, embedd.Build());
+                await ReplyAsync("", false, embed.Build());
             }
 
             [Group("add")]
@@ -987,46 +976,27 @@ namespace xubot.src.Commands
 
                 if (keys.error_message.ToString() != "-")
                 {
-                    EmbedBuilder embedd = new EmbedBuilder
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", "Error!", Discord.Color.Red);
+                    embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
+                    embed.Fields = new List<EmbedFieldBuilder>()
                     {
-                        Title = "Timezone Location",
-                        Color = Discord.Color.Red,
-                        Description = "Error!",
-
-                        Footer = new EmbedFooterBuilder
+                        new EmbedFieldBuilder
                         {
-                            Text = "The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \nxubot :p"
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "The API returned: ",
-                                Value = $"**{keys.error_message}**",
-                                IsInline = false
-                            }
+                            Name = "The API returned: ",
+                            Value = $"**{keys.error_message}**",
+                            IsInline = false
                         }
                     };
 
-                    await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embed.Build());
                 }
                 else
                 {
-                    EmbedBuilder embedd = new EmbedBuilder
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", $"Timezone and time for {loc}", Discord.Color.Red);
+                    embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
+                    embed.Fields = new List<EmbedFieldBuilder>()
                     {
-                        Title = "Timezone Location",
-                        Color = Discord.Color.Red,
-                        Description = $"Timezone and time for {loc}",
-
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = "The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \nxubot :p"
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
+                        new EmbedFieldBuilder
                             {
                                 Name = "Timezone: ",
                                 Value = $"**{keys.timezone}**",
@@ -1038,10 +1008,9 @@ namespace xubot.src.Commands
                                 Value = $"**{keys.time}**",
                                 IsInline = true
                             }
-                        }
                     };
 
-                    await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embed.Build());
                 }
                 //string text = webClient.DownloadString(link);
                 //text = text.Substring(1, text.Length - 2);

@@ -129,9 +129,9 @@ namespace xubot.src.Commands.Connections
                         extraData = "";
                     }
 
-                    EmbedBuilder embedd = GetTemplate(keys, "SauceNAO of given image - Top " + amount.ToString(), embedFields);
+                    EmbedBuilder embed = GetTemplate(keys, "SauceNAO of given image - Top " + amount.ToString(), embedFields);
 
-                    await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embed.Build());
                 }
             }
 
@@ -187,9 +187,9 @@ namespace xubot.src.Commands.Connections
                     embedFields.Add(new EmbedFieldBuilder { Name = "Title", IsInline = true, Value = (keys.results[0].data.title ?? "Not given").ToString() });
                     embedFields.Add(new EmbedFieldBuilder { Name = "Extra Links", IsInline = true, Value = (String.Join(", ", (JArray)keys.results[0].data.ext_urls) ?? "Not given").ToString() });
 
-                    EmbedBuilder embedd = GetTemplate(keys, "SauceNAO of given image - Detailed output", embedFields);
+                    EmbedBuilder embed = GetTemplate(keys, "SauceNAO of given image - Detailed output", embedFields);
 
-                    await ReplyAsync("", false, embedd.Build());
+                    await ReplyAsync("", false, embed.Build());
                 }
             }
 

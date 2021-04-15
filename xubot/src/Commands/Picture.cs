@@ -154,20 +154,8 @@ namespace xubot.src.Commands
                 [Command("colorblind?list", RunMode = RunMode.Async), Alias("colourblind?list"), Summary("Lists the colourblindness filters.")]
                 public async Task ColourblindnessList()
                 {
-                    EmbedBuilder embedd = new EmbedBuilder
-                    {
-                        Title = "Colourblind Filter List",
-                        Color = Discord.Color.Magenta,
-                        Description = "All the filters for the colourblindness emulation.",
-                        ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
-
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = Util.Globals.EmbedFooter,
-                            IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
-                        },
-                        Timestamp = DateTime.UtcNow,
-                        Fields = new List<EmbedFieldBuilder>()
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Colourblind Filter List", "All the filters for the colourblindness emulation.", Discord.Color.Magenta);
+                    embed.Fields = new List<EmbedFieldBuilder>()
                     {
                         new EmbedFieldBuilder
                         {
@@ -193,9 +181,9 @@ namespace xubot.src.Commands
                             Value = "**Tritanomaly** (weak-blue)\n**Tritanopia** (blind-blue)" ,
                             IsInline = true
                         }
-                    }
                     };
-                    await ReplyAsync("", false, embedd.Build());
+
+                    await ReplyAsync("", false, embed.Build());
                 }
 
                 [ExampleAttribute("2.00", true)]
@@ -346,41 +334,30 @@ namespace xubot.src.Commands
             {
                 Rgba32 colour = ColorFromHexString(hex);
 
-                EmbedBuilder embedd = new EmbedBuilder
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Color", "Colors!", new Discord.Color(colour.R, colour.G, colour.B));
+                embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    Title = "Color",
-                    Color = new Discord.Color(colour.R, colour.G, colour.B),
-                    Description = "Colors!",
-
-                    Footer = new EmbedFooterBuilder
+                    new EmbedFieldBuilder
                     {
-                        Text = Util.Globals.EmbedFooter
+                        Name = "RGB",
+                        Value = $"{colour.R}, {colour.G}, {colour.B} ({colour.R.ToString("X")}{colour.G.ToString("X")}{colour.B.ToString("X")})",
+                        IsInline = false
                     },
-                    Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
+                    new EmbedFieldBuilder
                     {
-                        new EmbedFieldBuilder
-                        {
-                            Name = "RGB",
-                            Value = $"{colour.R}, {colour.G}, {colour.B} ({colour.R.ToString("X")}{colour.G.ToString("X")}{colour.B.ToString("X")})",
-                            IsInline = false
-                        },
-                        new EmbedFieldBuilder
-                        {
-                            Name = "RGBA",
-                            Value = $"{colour.R}, {colour.G}, {colour.B}, {colour.A} ({colour.R.ToString("X")}{colour.G.ToString("X")}{colour.B.ToString("X")}{colour.A.ToString("X")})",
-                            IsInline = false
-                        },
-                        new EmbedFieldBuilder
-                        {
-                            Name = "Unpacked RGBA",
-                            Value = $"{colour.Rgba} ({colour.Rgba.ToString("X")})",
-                            IsInline = false
-                        }
+                        Name = "RGBA",
+                        Value = $"{colour.R}, {colour.G}, {colour.B}, {colour.A} ({colour.R.ToString("X")}{colour.G.ToString("X")}{colour.B.ToString("X")}{colour.A.ToString("X")})",
+                        IsInline = false
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Unpacked RGBA",
+                        Value = $"{colour.Rgba} ({colour.Rgba.ToString("X")})",
+                        IsInline = false
                     }
                 };
 
-                await Context.Channel.SendMessageAsync("", false, embedd.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
 
             public static Rgba32 ColorFromHexString(string hexstring)
