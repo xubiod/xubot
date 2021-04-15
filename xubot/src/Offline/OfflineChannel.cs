@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace xubot.src.Offline
 {
-    class OfflineChannel : IDMChannel, IMessageChannel
+    class OfflineChannel : IMessageChannel, IDMChannel
     {
         public string Name => "OfflineConsole";
 
