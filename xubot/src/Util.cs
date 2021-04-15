@@ -234,25 +234,21 @@ namespace xubot.src
 
             public static string SimplifyTypes(string input)
             {
+                if (!input.StartsWith("System.")) return input;
+
+                input = input.Remove(0, 7).ToLower();
+
                 switch (input)
                 {
-                    case "System.Boolean": return "bool";
-                    case "System.Byte": return "byte";
-                    case "System.SByte": return "sbyte";
-                    case "System.Char": return "char";
-                    case "System.Decimal": return "decimal";
-                    case "System.Double": return "double";
-                    case "System.Single": return "float";
-                    case "System.Int32": return "int";
-                    case "System.UInt32": return "uint";
-                    case "System.IntPtr": return "nint";
-                    case "System.UIntPtr": return "nuint";
-                    case "System.Int64": return "long";
-                    case "System.UInt64": return "ulong";
-                    case "System.Int16": return "short";
-                    case "System.UInt16": return "ushort";
-                    case "System.String": return "string";
-                    case "System.Object": return "object";
+                    case "boolean": return "bool";
+                    case "int32": return "int";
+                    case "uint32": return "uint";
+                    case "intptr": return "nint";
+                    case "uintptr": return "nuint";
+                    case "int64": return "long";
+                    case "uint64": return "ulong";
+                    case "int16": return "short";
+                    case "uint16": return "ushort";
 
                     default: return input;
                 }
