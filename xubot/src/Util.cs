@@ -479,6 +479,8 @@ namespace xubot.src
 
         public static async Task<bool> IsChannelNSFW(ICommandContext Context)
         {
+            if (!BotSettings.Global.Default.BotwideNSFWEnabled) return false;
+
             IDMChannel ifDM = await Context.Message.Author.GetOrCreateDMChannelAsync();
 
             if (ifDM.Id == Context.Channel.Id)
