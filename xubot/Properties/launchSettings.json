@@ -1,8 +1,7 @@
 {
   "profiles": {
     "xubot": {
-      "commandName": "Project",
-      "commandLineArgs": "offline"
+      "commandName": "Project"
     }
   }
 }
