@@ -164,7 +164,7 @@ namespace xubot.src
 
             Util.CMDLine.SetColor();
 
-            Console.Write("[[ xubot ]]");
+            Console.Write("[[ xubot ]]\n");
             Console.WriteLine("no connection to discord mode");
             Console.WriteLine("dubbed offline mode despite not being offline with everything else");
             Console.WriteLine();
