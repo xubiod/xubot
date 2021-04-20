@@ -88,25 +88,25 @@ namespace xubot.src.Commands
             {
                 await BuildReport(Context,
                     new List<EmbedFieldBuilder>()
+                    {
+                        new EmbedFieldBuilder
                         {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Broad report",
-                                Value = $"App uptime: **{app_uptime.Ticks } ticks**\n" +
-                                        $"Connection uptime: **{con_uptime.Ticks } ticks**\n\n" ,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Specific connections report",
-                                Value = $"Connection to Reddit: **{app_to_red_cli.Ticks } ticks**\n" +
-                                        $"Connection to Discord: **{app_to_dis.Ticks } ticks**\n" +
-                                        $"Reddit Connection to Default Sub: **{red_cli_to_sub.Ticks } ticks**\n" +
-                                        $"Default Sub to Discord: **{sub_to_discord.Ticks } ticks**\n\n",
-                                IsInline = true
-                            }
+                            Name = "Broad report",
+                            Value = $"App uptime: **{app_uptime.Ticks } ticks**\n" +
+                                    $"Connection uptime: **{con_uptime.Ticks } ticks**\n\n" ,
+                            IsInline = true
+                        },
+                        new EmbedFieldBuilder
+                        {
+                            Name = "Specific connections report",
+                            Value = $"Connection to Reddit: **{app_to_red_cli.Ticks } ticks**\n" +
+                                    $"Connection to Discord: **{app_to_dis.Ticks } ticks**\n" +
+                                    $"Reddit Connection to Default Sub: **{red_cli_to_sub.Ticks } ticks**\n" +
+                                    $"Default Sub to Discord: **{sub_to_discord.Ticks } ticks**\n\n",
+                            IsInline = true
                         }
-                    );
+                    }
+                );
 
                 //await ReplyAsync("Uptime (from application start) is **{uptime.Days } days, {uptime.Hours } hours, {uptime.Minutes } minutes, {uptime.Seconds } seconds.**");
             }
@@ -118,24 +118,24 @@ namespace xubot.src.Commands
 
                 await BuildReport(Context,
                     new List<EmbedFieldBuilder>()
+                    {
+                        new EmbedFieldBuilder
                         {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Broad report",
-                                Value = $"App uptime: **{(System.Math.Round((app_uptime.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n" +
-                                        $"Connection uptime: **{(System.Math.Round((con_uptime.TotalSeconds / _tic)*100)/ 100) } DOOM realtics**\n\n" ,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Specific connections report",
-                                Value = $"Connection to Reddit: **{(System.Math.Round((app_to_red_cli.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n" +
-                                        $"Connection to Discord: **{(System.Math.Round((app_to_dis.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n" +
-                                        $"Reddit Connection to Default Sub: **{(System.Math.Round((red_cli_to_sub.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n" +
-                                        $"Default Sub to Discord: **{(System.Math.Round((sub_to_discord.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n\n",
-                                IsInline = true
-                            }
+                            Name = "Broad report",
+                            Value = $"App uptime: **{(System.Math.Round((app_uptime.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n" +
+                                    $"Connection uptime: **{(System.Math.Round((con_uptime.TotalSeconds / _tic)*100)/ 100) } DOOM realtics**\n\n" ,
+                            IsInline = true
+                        },
+                        new EmbedFieldBuilder
+                        {
+                            Name = "Specific connections report",
+                            Value = $"Connection to Reddit: **{(System.Math.Round((app_to_red_cli.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n" +
+                                    $"Connection to Discord: **{(System.Math.Round((app_to_dis.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n" +
+                                    $"Reddit Connection to Default Sub: **{(System.Math.Round((red_cli_to_sub.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n" +
+                                    $"Default Sub to Discord: **{(System.Math.Round((sub_to_discord.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n\n",
+                            IsInline = true
                         }
+                    }
                 );
 
                 //await ReplyAsync("Uptime (from application start) is **{uptime.Days } days, {uptime.Hours } hours, {uptime.Minutes } minutes, {uptime.Seconds } seconds.**");
@@ -146,23 +146,23 @@ namespace xubot.src.Commands
             {
                 await BuildReport(Context,
                     new List<EmbedFieldBuilder>()
+                    {
+                        new EmbedFieldBuilder
                         {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Broad report",
-                                Value = $"App start time: **{Program.appStart }**\n" +
-                                        $"Connection time: **{Program.connectStart }**\n\n" ,
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Specific connections report",
-                                Value = $"Connection to Reddit: **{Program.stepTimes[0] }**\n" +
-                                        $"Connection to Default Sub: **{Program.stepTimes[1] }**\n" +
-                                        $"Connection to Discord: **{Program.stepTimes[2] }**\n",
-                                IsInline = true
-                            }
-                        });
+                            Name = "Broad report",
+                            Value = $"App start time: **{Program.appStart }**\n" +
+                                    $"Connection time: **{Program.connectStart }**\n\n" ,
+                            IsInline = true
+                        },
+                        new EmbedFieldBuilder
+                        {
+                            Name = "Specific connections report",
+                            Value = $"Connection to Reddit: **{Program.stepTimes[0] }**\n" +
+                                    $"Connection to Default Sub: **{Program.stepTimes[1] }**\n" +
+                                    $"Connection to Discord: **{Program.stepTimes[2] }**\n",
+                            IsInline = true
+                        }
+                    });
 
                 //await ReplyAsync("Uptime (from application start) is **{uptime.Days } days, {uptime.Hours } hours, {uptime.Minutes } minutes, {uptime.Seconds } seconds.**");
             }
@@ -194,26 +194,26 @@ namespace xubot.src.Commands
                 double _ppm = currentProcess.PeakPagedMemorySize64 / 1000000;
 
                 await BuildReport(Context, new List<EmbedFieldBuilder>()
-                        {
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Working Set",
-                                Value = $"Used (MB): **{_ws }** | Peak (MB): **{_pws }**\n\n",
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Virtual Memory",
-                                Value = $"Virutal (MB): **{_vms }** | Virutal Peak (MB): **{_pvms }**\n\n",
-                                IsInline = true
-                            },
-                            new EmbedFieldBuilder
-                            {
-                                Name = "Paged Memory",
-                                Value = $"Paged (MB): **{_pm }** | Paged Peak (MB): **{_ppm }**\n\n",
-                                IsInline = true
-                            }
-                        }
+                {
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Working Set",
+                        Value = $"Used (MB): **{_ws }** | Peak (MB): **{_pws }**\n\n",
+                        IsInline = true
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Virtual Memory",
+                        Value = $"Virutal (MB): **{_vms }** | Virutal Peak (MB): **{_pvms }**\n\n",
+                        IsInline = true
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = "Paged Memory",
+                        Value = $"Paged (MB): **{_pm }** | Paged Peak (MB): **{_ppm }**\n\n",
+                        IsInline = true
+                    }
+                }
                 );
             }
         }
