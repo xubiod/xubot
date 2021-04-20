@@ -227,6 +227,17 @@ namespace xubot.src
 
         public class String
         {
+            private static Dictionary<string, string> TypeToString = new Dictionary<string, string>() {
+                { "System.Boolean", "bool"},
+                { "System.Byte",    "byte" },       { "System.SByte",   "sbyte" },  { "System.Char",    "char" },
+                { "System.Decimal", "decimal" },    { "System.Double",  "double" }, { "System.Single",  "float" },
+                { "System.Int32",   "int" },        { "System.UInt32",  "uint" },
+                { "System.IntPtr",  "nint" },       { "System.UIntPtr", "nuint" },
+                { "System.Int64",   "long" },       { "System.Uint64",  "ulong" },
+                { "System.Int16",   "short" },      { "System.UInt16",  "ushort" },
+                { "System.String",  "string" },     { "System.Object",  "object" }
+            };
+
             public static string StripHTML(string input)
             {
                 return Regex.Replace(input, "<.*?>", string.Empty);
@@ -234,24 +245,7 @@ namespace xubot.src
 
             public static string SimplifyTypes(string input)
             {
-                if (!input.StartsWith("System.")) return input;
-
-                input = input.Remove(0, 7).ToLower();
-
-                switch (input)
-                {
-                    case "boolean": return "bool";
-                    case "int32": return "int";
-                    case "uint32": return "uint";
-                    case "intptr": return "nint";
-                    case "uintptr": return "nuint";
-                    case "int64": return "long";
-                    case "uint64": return "ulong";
-                    case "int16": return "short";
-                    case "uint16": return "ushort";
-
-                    default: return input;
-                }
+                return TypeToString[input];
             }
 
             public static bool ValidateURL(string url)
