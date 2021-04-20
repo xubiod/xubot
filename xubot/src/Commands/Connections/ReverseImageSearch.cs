@@ -79,12 +79,12 @@ namespace xubot.src.Commands.Connections
                     await Util.Error.BuildError("No attachments or parameters were given.", Context);
                     return;
                 }
-                await GetTop(amount, Util.File.ReturnLastAttachmentURL(Context));
+                await GetTop(Util.File.ReturnLastAttachmentURL(Context), amount);
             }
 
             [Example("5 example.com/example_img")]
-            [Command("top", RunMode = RunMode.Async), Summary("Uses SauceNAO to get the \"sauce\" of the given URL, returning the top results. Limited from 1 to 5.")]
-            public async Task GetTop(int amount, string url)
+            [Command("top", RunMode = RunMode.Async), Summary("Uses SauceNAO to get the \"sauce\" of the given URL, returning the top results. Limited from 1 to 5, defaults to 5.")]
+            public async Task GetTop(string url, int amount = 5)
             {
                 amount = (int)MathF.Max(1.0f, MathF.Min(5.0f, amount));
 
