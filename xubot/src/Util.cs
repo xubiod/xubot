@@ -378,6 +378,8 @@ namespace xubot.src
             private readonly int TaskPollLength = 50;
             private readonly CancellationTokenSource cancelToken = new CancellationTokenSource();
 
+            private static IEmote[] RemoveEmotesOnDispose = new IEmote[] { Util.Globals.Working, Util.Globals.LongerThanExpected };
+
             public WorkingBlock(ICommandContext ctx)
             {
                 Context = ctx;
@@ -408,7 +410,7 @@ namespace xubot.src
                 completed = true;
                 if (!started) return;
 
-                Context.Message.RemoveReactionsAsync(Program.xuClient.CurrentUser, new IEmote[] { Util.Globals.Working, Util.Globals.LongerThanExpected });
+                Context.Message.RemoveReactionsAsync(Program.xuClient.CurrentUser, RemoveEmotesOnDispose);
 
                 Context.Message.AddReactionAsync(Util.Globals.Completed);
 
