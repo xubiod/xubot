@@ -414,8 +414,7 @@ namespace xubot.src
                 completed = true;
                 if (!started) return;
 
-                Context.Message.RemoveReactionAsync(Util.Globals.Working, Program.xuClient.CurrentUser);
-                Context.Message.RemoveReactionAsync(Util.Globals.LongerThanExpected, Program.xuClient.CurrentUser);
+                Context.Message.RemoveReactionsAsync(Program.xuClient.CurrentUser, new IEmote[] { Util.Globals.Working, Util.Globals.LongerThanExpected });
 
                 Context.Message.AddReactionAsync(Util.Globals.Completed);
 
