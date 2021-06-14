@@ -94,7 +94,7 @@ namespace xubot.src.Commands
 
                 if (index > collection.Length - 1) { break; }
 
-                items += $"{collection[index].Name}: {Util.Settings.Get(collection[index].Name)}\n";
+                items += $"{collection[index].Name}: ({Util.String.SimplifyTypes(Util.Settings.Get(collection[index].Name).GetType().ToString())}) {Util.Settings.Get(collection[index].Name)}\n";
             }
 
             if (items == "") items = "There's nothing here, I think you went out of bounds.";
