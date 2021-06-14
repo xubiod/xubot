@@ -13,7 +13,7 @@ namespace xubot.src.Commands
     [Group("settings")]
     public class SettingsCommands : ModuleBase
     {
-        [Command("get")]
+        [Command("get"), Alias("return")]
         public async Task Get(string key)
         {
             object value = Util.Settings.Get(key);
@@ -58,7 +58,7 @@ namespace xubot.src.Commands
             await ReplyAsync($"All setting changes have been saved.");
         }
 
-        [Command("reload"), RequireOwner]
+        [Command("reload"), Alias("undo", "unset"), RequireOwner]
         public async Task Reload()
         {
             BotSettings.Global.Default.Reload();
@@ -66,7 +66,7 @@ namespace xubot.src.Commands
             await ReplyAsync($"All setting changes have been undone.");
         }
 
-        [Command("reset"), RequireOwner]
+        [Command("reset"), Alias("default"), RequireOwner]
         public async Task Reset()
         {
             BotSettings.Global.Default.Reset();
