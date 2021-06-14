@@ -214,5 +214,17 @@ namespace xubot.src.BotSettings {
                 this["StartingRedditHideOutput"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SuperSimpleTypes {
+            get {
+                return ((bool)(this["SuperSimpleTypes"]));
+            }
+            set {
+                this["SuperSimpleTypes"] = value;
+            }
+        }
     }
 }

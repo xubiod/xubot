@@ -238,6 +238,17 @@ namespace xubot.src
                 { "System.String",  "string" },     { "System.Object",  "object" }
             };
 
+            private static Dictionary<string, string> TypeToGenericString = new Dictionary<string, string>() {
+                { "System.Boolean", "switch"},
+                { "System.Byte",    "byte" },      { "System.SByte",   "byte" },   { "System.Char",    "char" },
+                { "System.Decimal", "number" },    { "System.Double",  "number" }, { "System.Single",  "number" },
+                { "System.Int32",   "number" },    { "System.UInt32",  "number" },
+                { "System.IntPtr",  "pointer" },   { "System.UIntPtr", "pointer" },
+                { "System.Int64",   "number" },    { "System.Uint64",  "number" },
+                { "System.Int16",   "number" },    { "System.UInt16",  "number" },
+                { "System.String",  "string" },    { "System.Object",  "object" }
+            };
+
             public static string StripHTML(string input)
             {
                 return Regex.Replace(input, "<.*?>", string.Empty);
@@ -245,7 +256,7 @@ namespace xubot.src
 
             public static string SimplifyTypes(string input)
             {
-                return TypeToString[input];
+                return BotSettings.Global.Default.SuperSimpleTypes ? TypeToGenericString[input] : TypeToString[input];
             }
 
             public static bool ValidateURL(string url)
