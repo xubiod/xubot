@@ -106,5 +106,113 @@ namespace xubot.src.BotSettings {
                 this["BotwideNSFWEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("💭")]
+        public string WorkingReaction {
+            get {
+                return ((string)(this["WorkingReaction"]));
+            }
+            set {
+                this["WorkingReaction"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("✅")]
+        public string WorkCompletedReaction {
+            get {
+                return ((string)(this["WorkCompletedReaction"]));
+            }
+            set {
+                this["WorkCompletedReaction"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("🕒")]
+        public string WorkTakingLongerReaction {
+            get {
+                return ((string)(this["WorkTakingLongerReaction"]));
+            }
+            set {
+                this["WorkTakingLongerReaction"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
+        public int TakingLongerMilliseconds {
+            get {
+                return ((int)(this["TakingLongerMilliseconds"]));
+            }
+            set {
+                this["TakingLongerMilliseconds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int TaskPollLength {
+            get {
+                return ((int)(this["TaskPollLength"]));
+            }
+            set {
+                this["TaskPollLength"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("notinteresting")]
+        public string StartingSubreddit {
+            get {
+                return ((string)(this["StartingSubreddit"]));
+            }
+            set {
+                this["StartingSubreddit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string StartingRedditQuery {
+            get {
+                return ((string)(this["StartingRedditQuery"]));
+            }
+            set {
+                this["StartingRedditQuery"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int StartingRedditSorting {
+            get {
+                return ((int)(this["StartingRedditSorting"]));
+            }
+            set {
+                this["StartingRedditSorting"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StartingRedditHideOutput {
+            get {
+                return ((bool)(this["StartingRedditHideOutput"]));
+            }
+            set {
+                this["StartingRedditHideOutput"] = value;
+            }
+        }
     }
 }

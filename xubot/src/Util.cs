@@ -362,9 +362,9 @@ namespace xubot.src
         {
             public readonly static Random RNG = new Random();
             public readonly static char[] HexadecimalChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-            public readonly static Emoji Working = new Emoji("💭");
-            public readonly static Emoji Completed = new Emoji("✅");
-            public readonly static Emoji LongerThanExpected = new Emoji("🕒");
+            public readonly static Emoji Working = new Emoji(BotSettings.Global.Default.WorkingReaction);
+            public readonly static Emoji Completed = new Emoji(BotSettings.Global.Default.WorkCompletedReaction);
+            public readonly static Emoji LongerThanExpected = new Emoji(BotSettings.Global.Default.WorkTakingLongerReaction);
             public readonly static string EmbedFooter = "xubot :p";
         }
 
@@ -374,8 +374,8 @@ namespace xubot.src
             private bool started;
             private bool completed;
             private Task UntilLonger;
-            private readonly int Delay = 5000;
-            private readonly int TaskPollLength = 50;
+            private readonly int Delay = BotSettings.Global.Default.TakingLongerMilliseconds;
+            private readonly int TaskPollLength = BotSettings.Global.Default.TaskPollLength;
             private readonly CancellationTokenSource cancelToken = new CancellationTokenSource();
 
             private static IEmote[] RemoveEmotesOnDispose = new IEmote[] { Util.Globals.Working, Util.Globals.LongerThanExpected };

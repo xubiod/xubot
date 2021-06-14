@@ -17,10 +17,10 @@ namespace xubot.src.Commands.Connections
 {
     public class Reddit : ModuleBase
     {
-        private static string previous_sub = "notinteresting";
-        private static string previous_query = "";
-        private static int previous_sorting = 0;
-        private static bool previous_hide = false;
+        private static string previous_sub = BotSettings.Global.Default.StartingSubreddit;
+        private static string previous_query = BotSettings.Global.Default.StartingRedditQuery;
+        private static int previous_sorting = BotSettings.Global.Default.StartingRedditSorting;
+        private static bool previous_hide = BotSettings.Global.Default.StartingRedditHideOutput;
 
         private static string[] randomSubs = { "adviceanimals", "askreddit", "aww", "bestof", "books", "earthporn", "explainlikeimfive", "funny", "gaming", "gifs", "iama", "movies", "music",
                                                "news", "pics", "science", "technology", "television", "todayilearned", "videos", "worldnews", "wtf" };
