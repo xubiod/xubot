@@ -12,7 +12,7 @@ namespace xubot.src.BotSettings {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
     internal sealed partial class Global : global::System.Configuration.ApplicationSettingsBase {
         
         private static Global defaultInstance = ((Global)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Global())));
@@ -224,6 +224,42 @@ namespace xubot.src.BotSettings {
             }
             set {
                 this["SuperSimpleTypes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("xub>")]
+        public string HardcodedPrefix {
+            get {
+                return ((string)(this["HardcodedPrefix"]));
+            }
+            set {
+                this["HardcodedPrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("[>")]
+        public string DefaultPrefix {
+            get {
+                return ((string)(this["DefaultPrefix"]));
+            }
+            set {
+                this["DefaultPrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("d>")]
+        public string DefaultDevPrefix {
+            get {
+                return ((string)(this["DefaultDevPrefix"]));
+            }
+            set {
+                this["DefaultDevPrefix"] = value;
             }
         }
     }

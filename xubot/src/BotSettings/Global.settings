@@ -53,5 +53,14 @@
     <Setting Name="SuperSimpleTypes" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="HardcodedPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">xub&gt;</Value>
+    </Setting>
+    <Setting Name="DefaultPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">[&gt;</Value>
+    </Setting>
+    <Setting Name="DefaultDevPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">d&gt;</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

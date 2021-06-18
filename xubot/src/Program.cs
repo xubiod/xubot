@@ -32,7 +32,7 @@ namespace xubot.src
 
         public static bool IsOffline = false;
 
-        public static string prefix = "[>";
+        public static string prefix = BotSettings.Global.Default.DefaultPrefix;
 
         public static BotWebAgent webAgent { get; private set; }
         public static RedditSharp.Reddit reddit { get; private set; }
@@ -131,9 +131,9 @@ namespace xubot.src
 
 #if (DEBUG)
             Console.WriteLine("  > this version of xubot was compiled as debug build");
-            prefix = "d>";
+            prefix = BotSettings.Global.Default.DefaultDevPrefix;
 #endif
-            if (prefix != "d>")
+            if (prefix != BotSettings.Global.Default.DefaultDevPrefix)
             {
                 await xuClient.LoginAsync(TokenType.Bot, JSONKeys["keys"].Contents.discord.ToString());
             }
@@ -298,7 +298,7 @@ namespace xubot.src
 
             int argumentPosition = 0;
 
-            if (!(message.HasStringPrefix(prefix, ref argumentPosition) || message.HasMentionPrefix(xuClient.CurrentUser, ref argumentPosition) || message.HasStringPrefix("xub>", ref argumentPosition)))
+            if (!(message.HasStringPrefix(prefix, ref argumentPosition) || message.HasMentionPrefix(xuClient.CurrentUser, ref argumentPosition) || message.HasStringPrefix(BotSettings.Global.Default.HardcodedPrefix, ref argumentPosition)))
                 return;
 
             CommandContext context = new CommandContext(xuClient, message);
@@ -317,7 +317,7 @@ namespace xubot.src
 
             int argumentPosition = 0;
 
-            if (!(msg.HasStringPrefix(prefix, ref argumentPosition) || msg.HasMentionPrefix(xuClient.CurrentUser, ref argumentPosition) || msg.HasStringPrefix("xub>", ref argumentPosition)))
+            if (!(msg.HasStringPrefix(prefix, ref argumentPosition) || msg.HasMentionPrefix(xuClient.CurrentUser, ref argumentPosition) || msg.HasStringPrefix(BotSettings.Global.Default.HardcodedPrefix, ref argumentPosition)))
                 return;
 
             CommandContext context = new CommandContext(Offline.OfflineHandlers.DefaultOfflineClient, msg);
