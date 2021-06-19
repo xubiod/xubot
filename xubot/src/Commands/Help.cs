@@ -378,19 +378,19 @@ namespace xubot.src.Commands
                     new EmbedFieldBuilder
                     {
                         Name = "Known Aliases",
-                        Value = $"```{all_alias}```",
+                        Value = $"```\n{all_alias}```",
                         IsInline = true
                     },
                     new EmbedFieldBuilder
                     {
                         Name = "Subgroups in Group",
-                        Value = $"```{subgroup}```",
+                        Value = $"```\n{subgroup}```",
                         IsInline = true
                     },
                     new EmbedFieldBuilder
                     {
                         Name = "Commands in Group",
-                        Value = $"```{commands}```",
+                        Value = $"```\n{commands}```",
                         IsInline = false
                     }
                 };
