@@ -233,7 +233,7 @@ namespace xubot.src
                 { "System.Decimal", "decimal" },    { "System.Double",  "double" }, { "System.Single",  "float" },
                 { "System.Int32",   "int" },        { "System.UInt32",  "uint" },
                 { "System.IntPtr",  "nint" },       { "System.UIntPtr", "nuint" },
-                { "System.Int64",   "long" },       { "System.Uint64",  "ulong" },
+                { "System.Int64",   "long" },       { "System.UInt64",  "ulong" },
                 { "System.Int16",   "short" },      { "System.UInt16",  "ushort" },
                 { "System.String",  "string" },     { "System.Object",  "object" }
             };
@@ -244,7 +244,7 @@ namespace xubot.src
                 { "System.Decimal", "number" },    { "System.Double",  "number" }, { "System.Single",  "number" },
                 { "System.Int32",   "number" },    { "System.UInt32",  "number" },
                 { "System.IntPtr",  "pointer" },   { "System.UIntPtr", "pointer" },
-                { "System.Int64",   "number" },    { "System.Uint64",  "number" },
+                { "System.Int64",   "number" },    { "System.UInt64",  "number" },
                 { "System.Int16",   "number" },    { "System.UInt16",  "number" },
                 { "System.String",  "string" },    { "System.Object",  "object" }
             };
