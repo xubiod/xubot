@@ -31,8 +31,8 @@ namespace xubot.src.Commands
             private readonly static Dictionary<string, IQuantizer> all_quantizers = new Dictionary<string, IQuantizer>() {
                 { "websafe", KnownQuantizers.WebSafe }, { "web", KnownQuantizers.WebSafe }, { "web-safe", KnownQuantizers.WebSafe },
                 { "werner", KnownQuantizers.Werner }, { "1821", KnownQuantizers.Werner },
-                { "wu", KnownQuantizers.Wu },{ "xiaolin-wu", KnownQuantizers.Wu },{ "high", KnownQuantizers.Wu },{ "highquality", KnownQuantizers.Wu },{ "high-quality", KnownQuantizers.Wu },
-                { "octree", KnownQuantizers.Octree },{ "fast", KnownQuantizers.Octree },{ "adaptive", KnownQuantizers.Octree },{ "f", KnownQuantizers.Octree }
+                { "wu", KnownQuantizers.Wu }, { "xiaolin-wu", KnownQuantizers.Wu }, { "high", KnownQuantizers.Wu }, { "highquality", KnownQuantizers.Wu }, { "high-quality", KnownQuantizers.Wu },
+                { "octree", KnownQuantizers.Octree }, { "fast", KnownQuantizers.Octree }, { "adaptive", KnownQuantizers.Octree }, { "f", KnownQuantizers.Octree }
             };
 
             private readonly static Dictionary<string, IDither> all_dithering =
