@@ -58,7 +58,7 @@ namespace xubot.src.Commands
 
                     if (optional != "")
                     {
-                        container.Mutate(mut => mut.DrawText(new TextGraphicsOptions(new GraphicsOptions() { ColorBlendingMode = PixelColorBlendingMode.Normal }, new TextOptions() { WrapTextWidth = Wraparound }), Text, font, new Rgba32(R / 255, G / 255, B / 255), new SixLabors.ImageSharp.PointF((img.Width * 2) + X, (img.Height * 2) + Y)));
+                        container.Mutate(mut => mut.DrawText(Text, font, new Rgba32(R / 255, G / 255, B / 255), new SixLabors.ImageSharp.PointF((img.Width * 2) + X, (img.Height * 2) + Y)));
                     }
                     else
                     {
@@ -101,11 +101,11 @@ namespace xubot.src.Commands
                     container.Mutate(mut => mut.DrawImage(img, new SixLabors.ImageSharp.Point(0, HeaderHeight), PixelColorBlendingMode.Normal, 1.0F));
                     if (optional != "")
                     {
-                        container.Mutate(mut => mut.DrawText(new TextGraphicsOptions(new GraphicsOptions() { ColorBlendingMode = PixelColorBlendingMode.Normal }, new TextOptions() { WrapTextWidth = Wraparound }), Text, font, new Rgba32(R / 255, G / 255, B / 255), new SixLabors.ImageSharp.PointF(X, Y)));
+                        container.Mutate(mut => mut.DrawText(Text, font, new Rgba32(R / 255, G / 255, B / 255), new SixLabors.ImageSharp.PointF(X, Y)));
                     }
                     else
                     {
-                        container.Mutate(mut => mut.DrawText(new TextGraphicsOptions(new GraphicsOptions() { ColorBlendingMode = PixelColorBlendingMode.Normal }, new TextOptions() { WrapTextWidth = Wraparound }), Text, font, Rgba32.ParseHex("000000"), new SixLabors.ImageSharp.PointF(X, Y)));
+                        container.Mutate(mut => mut.DrawText(Text, font, Rgba32.ParseHex("000000"), new SixLabors.ImageSharp.PointF(X, Y)));
                     }
 
                     container.Save(Path.GetTempPath() + "textoverlay_new" + type);
