@@ -95,7 +95,8 @@ namespace xubot.src.Commands.Connections
                                 Name = "Current Stats",
                                 Value = $"Currently __{GetStatus(playerSummaries["personastate"].AsInteger())}__\n" +
                                         $"Level **{playerLevel["player_level"].AsString()}**\n**" +
-                                        $"{ownedGames["game_count"].AsString()}** products" +
+                                        $"{ownedGames["game_count"].AsString()}** products\n**" +
+                                        $"{GetFriendSlots(playerLevel["player_level"].AsInteger())}** friend slots" +
                                         $"{playing}",
                                 IsInline = true
                             },
@@ -246,6 +247,12 @@ namespace xubot.src.Commands.Connections
                 case 6: return "Looking to Play";
                 default: return "Something's wrong...";
             }
+        }
+
+        public static int GetFriendSlots(int level, bool considerFacebook = false)
+        {
+            // add 50 if facebook is considered
+            return 250 + (considerFacebook ? 50 : 0) + (level * 5);
         }
     }
 }
