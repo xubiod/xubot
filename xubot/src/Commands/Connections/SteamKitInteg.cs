@@ -83,7 +83,7 @@ namespace xubot.src.Commands.Connections
                     string playing = "";
                     if (playerSummaries["gameid"].AsInteger(0) != 0) playing = $"Currently playing **{ReturnAppName(playerSummaries["gameid"].AsInteger())}**";
 
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Steam User: {playerSummaries["personaname"].AsString()}", "Data obtained Steam WebAPI using SteamKit2", Discord.Color.DarkBlue);
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Steam User: {playerSummaries["personaname"].AsString()} ({id.ToString()})", "Data obtained Steam WebAPI using SteamKit2", Discord.Color.DarkBlue);
                     embed.ThumbnailUrl = playerSummaries["avatarfull"].AsString();
 
                     if (playerSummaries["communityvisibilitystate"].AsInteger(1) == 3 /* public, don't ask why */)
