@@ -26,7 +26,7 @@ namespace xubot.src.Commands
             fontCollect.Install("./include/Roboto-Regular.ttf");
         }
 
-        [Group("text-overlay"), Summary("A couple of commands relating to overlaying text on an attached image.")]
+        [Group("text-overlay"), Summary("A couple of commands relating to overlaying text on an attached image."), Deprecated]
         public class TextOverlay : ModuleBase
         {
             public static int Size, X, Y;
