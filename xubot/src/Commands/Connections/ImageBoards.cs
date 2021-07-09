@@ -46,7 +46,6 @@ namespace xubot.src.Commands.Connections
         public readonly static BooruSharp.Booru.ABooru safebooru =      new BooruSharp.Booru.Safebooru();
         public readonly static BooruSharp.Booru.ABooru konachan =       new BooruSharp.Booru.Konachan();
         public readonly static BooruSharp.Booru.ABooru allthefallen =   new BooruSharp.Booru.Atfbooru();
-        public readonly static BooruSharp.Booru.ABooru furrybooru =     new BooruSharp.Booru.Furrybooru();
         public readonly static BooruSharp.Booru.ABooru sankakucomplex = new BooruSharp.Booru.SankakuComplex();
         public readonly static BooruSharp.Booru.ABooru sakugabooru =    new BooruSharp.Booru.Sakugabooru();
 
@@ -176,14 +175,6 @@ namespace xubot.src.Commands.Connections
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 GetRandomPostFrom(Context, allthefallen, inputs);
-        }
-
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("furrybooru", RunMode = RunMode.Async), Summary("Retrives a post from furry.booru.org. If the last input is a boolean, it counts as a spoiler toggle.")]
-        public async Task Furrybooru(params string[] inputs)
-        {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                GetRandomPostFrom(Context, furrybooru, inputs);
         }
 
         [NSFWPossibilty("Is a possibilty (although not guranteed).")]

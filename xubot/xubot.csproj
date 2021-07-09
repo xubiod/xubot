@@ -31,28 +31,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BooruSharp" Version="3.0.2" />
-    <PackageReference Include="Discord.Net" Version="2.3.1" />
+    <PackageReference Include="BooruSharp" Version="3.0.3" />
+    <PackageReference Include="Discord.Net" Version="2.4.0" />
     <PackageReference Include="GitInfo" Version="2.1.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.31" />
-    <PackageReference Include="NLua" Version="1.5.7" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.34" />
+    <PackageReference Include="NLua" Version="1.5.9" />
     <PackageReference Include="Octokit" Version="0.50.0" />
     <PackageReference Include="RedditSharp" Version="2.0.0" />
-    <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta0013" />
+    <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta15" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta11" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta13" />
     <PackageReference Include="SteamKit2" Version="2.4.0-Alpha.2" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.333">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0-preview.2.21154.6" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0-preview.5.21301.5" />
     <PackageReference Include="System.Interactive" Version="5.0.0" />
     <PackageReference Include="System.Interactive.Async" Version="5.0.0" />
-    <PackageReference Include="TweetinviAPI" Version="5.0.3" />
+    <PackageReference Include="TweetinviAPI" Version="5.0.4" />
   </ItemGroup>
 
   <ItemGroup>

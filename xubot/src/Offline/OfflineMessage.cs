@@ -62,6 +62,8 @@ namespace xubot.src.Offline
 
         public ulong Id { get; private set; }
 
+        public IReadOnlyCollection<ISticker> Stickers => throw new NotImplementedException();
+
         public OfflineMessage()
         {
             Id = OfflineHandlers.DefaultOfflineChannel.LastMessageId++;
