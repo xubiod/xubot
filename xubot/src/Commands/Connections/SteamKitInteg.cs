@@ -200,6 +200,7 @@ namespace xubot.src.Commands.Connections
                     }
 
                     EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Latest {amount} news articles for the app: {ReturnAppName(appid)}", "Data obtained Steam WebAPI using SteamKit2", Discord.Color.DarkBlue);
+                    embed.Fields = article_details;
 
                     await ReplyAsync("", false, embed.Build());
                 }
