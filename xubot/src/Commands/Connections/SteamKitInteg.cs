@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord;
@@ -209,11 +210,27 @@ namespace xubot.src.Commands.Connections
             }
         }
 
-        [Example("\"Garry's Mod\" 3")]
+        [Example("Garry's Mod 3")]
         [Command("news", RunMode = RunMode.Async), Summary("Gets news for a game via it's name on Steam. (HAS TO BE EXACT)")]
-        public async Task News(string name, int cap = 5)
+        public async Task News(params string[] args)
         {
-            await News(ReturnAppID(name), cap);
+            string name = "";
+            int cap;
+            int last_string_index = args.Length - 2;
+
+            if (!int.TryParse(args.Last(), out cap))
+            {
+                cap = 5;
+                last_string_index++;
+            }
+
+            int i;
+            for (i = 0; i < args.Length - 1; i++)
+            {
+                name += args[i] + (i < args.Length - 2 ? " " : "");
+            }
+
+            await News(ReturnAppID(name, Context), cap);
         }
 
         public static string ReturnAppName(int appID)
@@ -225,13 +242,20 @@ namespace xubot.src.Commands.Connections
             return app["name"].AsString();
         }
 
-        public static int ReturnAppID(string appName)
+        public static int ReturnAppID(string appName, ICommandContext context)
         {
-            KeyValue appList = steamAppsInterface.GetAppList2()["apps"];
+            try
+            {
+                KeyValue appList = steamAppsInterface.GetAppList2()["apps"];
+                KeyValue app = appList.Children.Find(x => x["name"].AsString() == appName);
 
-            KeyValue app = appList.Children.Find(x => x["name"].AsString() == appName);
-
-            return app["appid"].AsInteger();
+                return app["appid"].AsInteger();
+            }
+            catch (Exception exp)
+            {
+                Util.Error.BuildError(exp, context);
+                return -1;
+            }
         }
 
         public static string GetStatus(int input)
