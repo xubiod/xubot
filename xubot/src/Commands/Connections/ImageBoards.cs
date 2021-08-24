@@ -99,8 +99,8 @@ namespace xubot.src.Commands.Connections
         }
 
         [Example("night")]
-        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("danbooru", RunMode = RunMode.Async), Summary("Retrives a post from danbooru.donmani.us. If the last input is a boolean, it counts as a spoiler toggle.")]
+        [NsfwPossibilty("Is a possibility (although not guaranteed).")]
+        [Command("danbooru", RunMode = RunMode.Async), Summary("Retrieves a post from danbooru.donmani.us. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task DanbooruTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
@@ -109,7 +109,7 @@ namespace xubot.src.Commands.Connections
 
         [Example("male true")]
         [NsfwPossibilty("Porn, snuff, whatever gets drawn.")]
-        [Command("e621", RunMode = RunMode.Async), Summary("Retrives a post from e621.net. If the last input is a boolean, it counts as a spoiler toggle.")]
+        [Command("e621", RunMode = RunMode.Async), Summary("Retrieves a post from e621.net. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task E621Task(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
@@ -118,7 +118,7 @@ namespace xubot.src.Commands.Connections
 
         [Example("sex true")]
         [NsfwPossibilty("Porn, snuff, whatever gets drawn.")]
-        [Command("rule34", RunMode = RunMode.Async), Summary("Retrives a post from rule34.xxx, to the bot's dismay. If the last input is a boolean, it counts as a spoiler toggle.")]
+        [Command("rule34", RunMode = RunMode.Async), Summary("Retrieves a post from rule34.xxx, to the bot's dismay. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task R34Task(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
@@ -126,8 +126,8 @@ namespace xubot.src.Commands.Connections
         }
 
         [Example("solo true")]
-        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("gelbooru", RunMode = RunMode.Async), Summary("Retrives a post from gelbooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
+        [NsfwPossibilty("Is a possibility (although not guaranteed).")]
+        [Command("gelbooru", RunMode = RunMode.Async), Summary("Retrieves a post from gelbooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task GelbooruTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
@@ -135,8 +135,8 @@ namespace xubot.src.Commands.Connections
         }
 
         [Example("thighhighs true")]
-        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("yandere", RunMode = RunMode.Async), Summary("Retrives a post from yande.re. If the last input is a boolean, it counts as a spoiler toggle.")]
+        [NsfwPossibilty("Is a possibility (although not guaranteed).")]
+        [Command("yandere", RunMode = RunMode.Async), Summary("Retrieves a post from yande.re. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task YandereTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
@@ -144,8 +144,8 @@ namespace xubot.src.Commands.Connections
         }
 
         [Example("male")]
-        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("e926", RunMode = RunMode.Async), Summary("Retrives a post from e926.net. If the last input is a boolean, it counts as a spoiler toggle.")]
+        [NsfwPossibilty("Is a possibility (although not guaranteed).")]
+        [Command("e926", RunMode = RunMode.Async), Summary("Retrieves a post from e926.net. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task E926Task(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
@@ -153,7 +153,7 @@ namespace xubot.src.Commands.Connections
         }
 
         [Example("sky false")]
-        [Command("safebooru", RunMode = RunMode.Async), Summary("Retrives a post from safebooru.org. If the last input is a boolean, it counts as a spoiler toggle.")]
+        [Command("safebooru", RunMode = RunMode.Async), Summary("Retrieves a post from safebooru.org. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task SafebooruTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
@@ -161,32 +161,32 @@ namespace xubot.src.Commands.Connections
         }
 
         [Example("thighhighs true")]
-        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("konachan", RunMode = RunMode.Async), Summary("Retrives a post from konachan.com. If the last input is a boolean, it counts as a spoiler toggle.")]
+        [NsfwPossibilty("Is a possibility (although not guaranteed).")]
+        [Command("konachan", RunMode = RunMode.Async), Summary("Retrieves a post from konachan.com. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task KonachanTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 GetRandomPostFrom(Context, Konachan, inputs);
         }
 
-        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("atfbooru", RunMode = RunMode.Async), Summary("Retrives a post from booru.allthefallen.moe. If the last input is a boolean, it counts as a spoiler toggle.")]
+        [NsfwPossibilty("Is a possibility (although not guaranteed).")]
+        [Command("atfbooru", RunMode = RunMode.Async), Summary("Retrieves a post from booru.allthefallen.moe. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task AtfBooruTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 GetRandomPostFrom(Context, Allthefallen, inputs);
         }
 
-        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("sankakucomplex", RunMode = RunMode.Async), Summary("Retrives a post from beta.sankakucomplex.com. If the last input is a boolean, it counts as a spoiler toggle.")]
+        [NsfwPossibilty("Is a possibility (although not guaranteed).")]
+        [Command("sankakucomplex", RunMode = RunMode.Async), Summary("Retrieves a post from beta.sankakucomplex.com. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task SankakuComplexTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 GetRandomPostFrom(Context, Sankakucomplex, inputs);
         }
 
-        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
-        [Command("sakugabooru", RunMode = RunMode.Async), Summary("Retrives a post from sakugabooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
+        [NsfwPossibilty("Is a possibility (although not guaranteed).")]
+        [Command("sakugabooru", RunMode = RunMode.Async), Summary("Retrieves a post from sakugabooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task SakugabooruTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
