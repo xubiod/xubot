@@ -1,19 +1,15 @@
-﻿using Discord.Commands;
-using NLua;
-using ProtoBuf;
-using SteamKit2;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
-using System.Text;
 using System.Threading.Tasks;
+using Discord.Commands;
 using xubot.src.Attributes;
 using XubotSharedModule;
 
-namespace xubot.src.Modular
+namespace xubot.Modular
 {
     public class ModularSystem
     {
@@ -31,7 +27,7 @@ namespace xubot.src.Modular
 
             public ModuleEntry(string assemblyFilename, string id)
             {
-                this.assemblyFileName = assemblyFilename;
+                assemblyFileName = assemblyFilename;
                 this.id = id;
 
                 Initialize();
@@ -39,10 +35,10 @@ namespace xubot.src.Modular
 
             private void Initialize()
             {
-                this.moduleContext = new AssemblyLoadContext(id, true);
+                moduleContext = new AssemblyLoadContext(id, true);
                 moduleContext.Unloading += ContextUnloaded;
 
-                assembly = this.moduleContext.LoadFromAssemblyPath(this.assemblyFileName);
+                assembly = moduleContext.LoadFromAssemblyPath(assemblyFileName);
 
                 startInstance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IModuleEntrypoint))).Select(type => { return (IModuleEntrypoint)Activator.CreateInstance(type); }).FirstOrDefault();
                 commandInstances = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(ICommandModule))).Select(type => { return (ICommandModule)Activator.CreateInstance(type); }).ToList();
@@ -58,21 +54,21 @@ namespace xubot.src.Modular
 
             private Task SendModuleMessage(XubotSharedModule.DiscordThings.SendableMsg message)
             {
-                if (this.context == null) return Task.CompletedTask;
-                return ModularUtil.SendMessage(this.context, message);
+                if (context == null) return Task.CompletedTask;
+                return ModularUtil.SendMessage(context, message);
             }
 
             public void Execute(ICommandContext context, string command, string[] parameters = null)
             {
                 this.context = context;
 
-                var temp = commandInstances.First(x => x.GetType().GetMethods().Where(x => (x.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name == command).Count() > 0);
-                temp.GetType().GetMethods().Where(x => (x.GetCustomAttributes<CmdNameAttribute>().First().Name == command)).First().Invoke(temp, new object[] { parameters }); //.Where(x => x is CmdNameAttribute).First() as CmdNameAttribute).name == command) //.GetMethods("Execute").Invoke(temp, new object[]{ parameters });
+                var temp = commandInstances.First(x => x.GetType().GetMethods().Count(x => (CustomAttributeExtensions.GetCustomAttribute<CmdNameAttribute>((MemberInfo)x) ?? new CmdNameAttribute("")).Name == command) > 0);
+                temp.GetType().GetMethods().First(x => CustomAttributeExtensions.GetCustomAttributes<CmdNameAttribute>((MemberInfo)x).First().Name == command).Invoke(temp, new object[] { parameters }); //.Where(x => x is CmdNameAttribute).First() as CmdNameAttribute).name == command) //.GetMethods("Execute").Invoke(temp, new object[]{ parameters });
             }
 
             public string Unload()
             {
-                string msg = (startInstance != null) ? (startInstance.Unload() ?? "No unload message").ToString() : "No startInstance";
+                string msg = startInstance != null ? (startInstance.Unload() ?? "No unload message").ToString() : "No startInstance";
 
                 Util.Log.QuickLog($"Module unloading: {id}\nUnload msg: {msg}");
 
@@ -131,7 +127,7 @@ namespace xubot.src.Modular
                 return;
             }
 
-            Util.Log.QuickLog($"Module loaded: {name}\nLoad msg: {Modules[name].startInstance.Load().ToString()}");
+            Util.Log.QuickLog($"Module loaded: {name}\nLoad msg: {Modules[name].startInstance.Load()}");
         }
 
         public static void LoadFromDirectory(string directory = "/Modules", bool isFull = false)
@@ -151,7 +147,7 @@ namespace xubot.src.Modular
 
         public static async Task Execute(ICommandContext context, string module, string command, string[] parameters = null)
         {
-            Modular.ModularSystem.Modules[module].Execute(context, command, parameters);
+            Modules[module].Execute(context, command, parameters);
         }
     }
 }

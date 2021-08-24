@@ -1,36 +1,26 @@
-﻿using NLua;
+﻿using Discord;
 using Discord.Commands;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Discord;
-using Newtonsoft.Json;
-using System.Threading;
-using System.Diagnostics;
-using System.IO;
-using System.Xml;
-using System.Xml.Linq;
-using xubot.src;
-using xubot.src.Attributes;
+using xubot.Attributes;
 
-namespace xubot.src
+namespace xubot.Commands
 {
     public class InterpLanguages : ModuleBase
     {
         public static Embed BuildEmbed(ICommandContext context, string language, string description, string syntaxHighlighting, string input, string result)
         {
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(context, "**Language:** `" + language + "`", description, Discord.Color.Orange);
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(context, "**Language:** `" + language + "`", description, Color.Orange);
             embed.Fields = new List<EmbedFieldBuilder>()
             {
-                new EmbedFieldBuilder
+                new()
                 {
                     Name = "Input",
                     Value = "```" + syntaxHighlighting + "\n" + input + "```",
                     IsInline = false
                 },
-                new EmbedFieldBuilder
+                new()
                 {
                     Name = "Result",
                     Value = "```\n" + result + "```",
@@ -42,6 +32,7 @@ namespace xubot.src
             //await ReplyAsync("", false, embedd);
         }
 
+/*
         private static string TableToString(LuaTable t)
         {
             object[] keys = new object[t.Keys.Count];
@@ -57,6 +48,7 @@ namespace xubot.src
 
             return builder.ToString();
         }
+*/
 
         [Group("interp"), Summary("Interperts other languages and displays output.")]
         public class CodeCompile : ModuleBase
@@ -147,7 +139,7 @@ namespace xubot.src
             [Command("deadfish", RunMode = RunMode.Async), Summary("Interperts Deadfish and outputs the results.")]
             public async Task Deadfish(string input)
             {
-                string result = Commands.SmallLangInterps.Deadfish.Execute(input);
+                string result = SmallLangInterps.Deadfish.Execute(input);
                 await ReplyAsync("", false, BuildEmbed(Context, "Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", "", input, result));
             }
 
@@ -164,7 +156,7 @@ namespace xubot.src
                 {
                     embedInput = $"Code: {input.Replace("\n", String.Empty)}";
                 }
-                string result = Commands.SmallLangInterps.Brainfuck.Execute(input, asciiInput);
+                string result = SmallLangInterps.Brainfuck.Execute(input, asciiInput);
 
                 await ReplyAsync("", false, BuildEmbed(Context, "Brainfuck", "using a built-in interpeter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf", embedInput, result));
             }

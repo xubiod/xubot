@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace xubot.src.Commands
+namespace xubot.Commands
 {
     public static class SmallLangInterps
     {
@@ -13,7 +9,7 @@ namespace xubot.src.Commands
         {
             private static string _output = "";
 
-            private static int _cell = 0;
+            private static int _cell;
 
             public static string Execute(string input)
             {
@@ -96,7 +92,7 @@ namespace xubot.src.Commands
 
             private static void DoInstruction(char instruction)
             {
-                switch (_)
+                switch (instruction)
                 {
                     case '>':
                         {
@@ -129,7 +125,11 @@ namespace xubot.src.Commands
                             _memory[_memoryPointer] = _inputs[_inputPointer];
                             _inputPointer++;
                         }
-                        catch (Exception e) { }
+                        catch (Exception e)
+                        {
+                            // ignored
+                        }
+
                         break;
                     case '[':
                         if (_memory[_memoryPointer] == 0)

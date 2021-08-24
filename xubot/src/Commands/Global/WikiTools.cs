@@ -1,14 +1,13 @@
-﻿using Discord;
-using Discord.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Discord;
+using Discord.Commands;
 
-namespace xubot.src.Commands.Global
+namespace xubot.Commands.Global
 {
 	public class WikiTools
 	{
@@ -17,7 +16,7 @@ namespace xubot.src.Commands.Global
 			return new EmbedBuilder
 			{
 				Title = "Wiki",
-				Color = Discord.Color.Gold,
+				Color = Color.Gold,
 				Description = @"Article: ""**" + name.ToLower() + @"**"". Was last edited by **" + lasteditor + "**",
 
 				Footer = new EmbedFooterBuilder
@@ -27,7 +26,7 @@ namespace xubot.src.Commands.Global
 				Timestamp = DateTime.UtcNow,
 				Fields = new List<EmbedFieldBuilder>()
 						{
-							new EmbedFieldBuilder
+							new()
 							{
 								Name = name.ToLower(),
 								Value = article,

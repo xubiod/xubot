@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace xubot.src.Attributes
+namespace xubot.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    public class NsfwPossibiltyAttribute : Attribute
+    public class NsfwPossibilityAttribute : Attribute
     {
         public string Warnings { get; }
 
-        public NsfwPossibiltyAttribute()
+        public NsfwPossibilityAttribute()
         {
-            this.Warnings = "Unspecified";
+            Warnings = "Unspecified";
         }
 
-        public NsfwPossibiltyAttribute(string warnings)
+        public NsfwPossibilityAttribute(string warnings)
         {
-            this.Warnings = warnings;
+            Warnings = warnings;
         }
 
         public string GetWarnings()

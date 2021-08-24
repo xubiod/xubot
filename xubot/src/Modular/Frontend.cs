@@ -1,15 +1,15 @@
-﻿using Discord;
-using Discord.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using xubot.Attributes;
 using xubot.src.Attributes;
 using XubotSharedModule;
 
-namespace xubot.src.Modular
+namespace xubot.Modular
 {
     public class Frontend
     {
@@ -17,7 +17,7 @@ namespace xubot.src.Modular
 
         public class Running : ModuleBase
         {
-            [ExampleAttribute("examplemodule examplecmd exampleparams...")]
+            [Example("examplemodule examplecmd exampleparams...")]
             [Command("run", RunMode = RunMode.Async), Alias("~", ""), Summary("Runs a command from a module.")]
             public async Task Execute(string module, string command, params string[] parameters)
             {
@@ -28,21 +28,21 @@ namespace xubot.src.Modular
         [Group("module-util"), Alias(";;"), Summary("Commands relating to modules themselves.")]
         public class Utilities : ModuleBase
         {
-            [ExampleAttribute("examplemodule")]
+            [Example("examplemodule")]
             [Command("reload", RunMode = RunMode.Async), Alias("r"), Summary("Reloads a module."), RequireOwner]
             public async Task Reload(string module)
             {
                 await ReplyAsync(ModularSystem.Modules[module].Reload());
             }
 
-            [ExampleAttribute("examplemodule")]
+            [Example("examplemodule")]
             [Command("unload", RunMode = RunMode.Async), Alias("u"), Summary("Unloads a module."), RequireOwner]
             public async Task Unload(string module)
             {
                 await ReplyAsync(ModularSystem.Modules[module].Unload());
             }
 
-            [ExampleAttribute("examplemodule")]
+            [Example("examplemodule")]
             [Command("list", RunMode = RunMode.Async), Alias("l"), Summary("Lists commands in a module.")]
             public async Task List(string module)
             {
@@ -77,7 +77,7 @@ namespace xubot.src.Modular
                 {
                     Title = title,
                     Description = description,
-                    Color = Discord.Color.Orange,
+                    Color = Color.Orange,
                     ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
 
                     Footer = new EmbedFooterBuilder()
@@ -88,7 +88,7 @@ namespace xubot.src.Modular
                     Timestamp = DateTime.Now,
                     Fields = new List<EmbedFieldBuilder>()
                     {
-                        new EmbedFieldBuilder()
+                        new()
                         {
                             Name = "Listing",
                             Value = $"```{listing}```"

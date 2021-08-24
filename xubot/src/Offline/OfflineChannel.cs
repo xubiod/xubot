@@ -1,14 +1,12 @@
-﻿using Discord;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Discord;
 
-namespace xubot.src.Offline
+namespace xubot.Offline
 {
-    class OfflineChannel : IMessageChannel, IDMChannel
+    internal class OfflineChannel : IDMChannel
     {
         public string Name => "OfflineConsole";
 
@@ -22,7 +20,7 @@ namespace xubot.src.Offline
 
         public IReadOnlyCollection<IUser> Recipients => throw new NotImplementedException();
 
-        public List<IMessage> Messages = new List<IMessage>();
+        public List<IMessage> Messages = new();
 
         public Task DeleteMessageAsync(ulong messageId, RequestOptions options = null)
         {
@@ -42,7 +40,7 @@ namespace xubot.src.Offline
 
         public Task<IMessage> GetMessageAsync(ulong id, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
         {
-            return Task.FromResult<IMessage>(Messages.Find(x => x.Id == id));
+            return Task.FromResult(Messages.Find(x => x.Id == id));
         }
 
         public IAsyncEnumerable<IReadOnlyCollection<IMessage>> GetMessagesAsync(int limit = 100, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)

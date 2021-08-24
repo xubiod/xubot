@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace xubot.src.Attributes
+namespace xubot.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class ExampleAttribute : Attribute
@@ -12,26 +10,26 @@ namespace xubot.src.Attributes
 
         public ExampleAttribute()
         {
-            this.ExampleParameters = "";
-            this.AttachmentNeeded = false;
+            ExampleParameters = "";
+            AttachmentNeeded = false;
         }
 
         public ExampleAttribute(string exampleParams)
         {
-            this.ExampleParameters = exampleParams;
-            this.AttachmentNeeded = false;
+            ExampleParameters = exampleParams;
+            AttachmentNeeded = false;
         }
 
         public ExampleAttribute(bool attachmentNeeded)
         {
-            this.ExampleParameters = "";
-            this.AttachmentNeeded = attachmentNeeded;
+            ExampleParameters = "";
+            AttachmentNeeded = attachmentNeeded;
         }
 
         public ExampleAttribute(string exampleParams, bool attachmentNeeded)
         {
-            this.ExampleParameters = exampleParams;
-            this.AttachmentNeeded = attachmentNeeded;
+            ExampleParameters = exampleParams;
+            AttachmentNeeded = attachmentNeeded;
         }
     }
 }

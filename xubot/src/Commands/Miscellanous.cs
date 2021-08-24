@@ -1,13 +1,8 @@
-﻿using Discord;
+﻿using System.Threading.Tasks;
 using Discord.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using xubot.src.Attributes;
+using xubot.Attributes;
 
-namespace xubot.src.Commands
+namespace xubot.Commands
 {
     public class Miscellanous : ModuleBase
     {

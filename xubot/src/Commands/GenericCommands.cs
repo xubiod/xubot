@@ -1,51 +1,37 @@
-using Discord;
-using Discord.Commands;
-using HtmlAgilityPack;
-using Newtonsoft.Json.Linq;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Sockets;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
-using System.Xml;
 using System.Xml.Linq;
+using Discord;
+using Discord.Commands;
+using Newtonsoft.Json.Linq;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using Tweetinvi;
 using Tweetinvi.Models;
-using xubot;
-using xubot.src;
-using xubot.src.Attributes;
-using static xubot.src.SpecialException;
+using xubot.Attributes;
+using static xubot.SpecialException;
 using SLImage = SixLabors.ImageSharp.Image;
 
-namespace xubot.src.Commands
+namespace xubot.Commands
 {
     public class GenericCommands : ModuleBase
     {
         public static string[] insultVictim = new string[128];
-        public static int insultVictimIndex = 0;
+        public static int insultVictimIndex;
 
         public static string[] insultAdjective = new string[128];
-        public static int insultAdjectiveIndex = 0;
+        public static int insultAdjectiveIndex;
 
         public static string[] insultNoun = new string[128];
-        public static int insultNounIndex = 0;
+        public static int insultNounIndex;
 
         public static string[] pattern = { "01110", "11011", "10001", "11011", "01110" };
 
-        private static readonly TwitterClient _twitter = new TwitterClient(
+        private static readonly TwitterClient Twitter = new(
             new TwitterCredentials(
                 Program.JsonKeys["keys"].Contents.twitter.consumer_key.ToString(), Program.JsonKeys["keys"].Contents.twitter.consumer_secret.ToString(),
                 Program.JsonKeys["keys"].Contents.twitter.access_key.ToString(),   Program.JsonKeys["keys"].Contents.twitter.access_secret.ToString()
@@ -55,15 +41,15 @@ namespace xubot.src.Commands
         [Group("echo"), Alias("m"), Summary("Repeats after you.")]
         public class Echo : ModuleBase
         {
-            [ExampleAttribute("\"polly want a cracker\"")]
+            [Example("\"polly want a cracker\"")]
             [Command, Summary("Repeats a string given once.")]
             public async Task RepeatOnce(string blegh)
             {
                 await ReplyAsync(blegh);
             }
 
-            [ExampleAttribute("\"polly want a cracker\" 5 \" \"")]
-            [Command("repeat"), Alias("r"), Summary("Repeats a string a given amount of times."), RequireUserPermission(Discord.ChannelPermission.ManageMessages)]
+            [Example("\"polly want a cracker\" 5 \" \"")]
+            [Command("repeat"), Alias("r"), Summary("Repeats a string a given amount of times."), RequireUserPermission(ChannelPermission.ManageMessages)]
             public async Task Repeat(string blegh, int loop, string sep)
             {
                 string echoRes = "";
@@ -150,7 +136,7 @@ namespace xubot.src.Commands
                 EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "List of Insults", "To add something to any list, use `[>insult add [LIST LETTER in BOLD] [STRING]`.", Discord.Color.Orange);
                 embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Lists",
                         Value = $"{v}\n\n{a}\n\n{n}",
@@ -260,7 +246,7 @@ namespace xubot.src.Commands
 
                 if ((Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + ": " + result).Length < 280)
                 {
-                    ITweet twt = await _twitter.Tweets.PublishTweetAsync($"{Context.Message.Author.Username}#{Context.Message.Author.Discriminator}: {result}");
+                    ITweet twt = await Twitter.Tweets.PublishTweetAsync($"{Context.Message.Author.Username}#{Context.Message.Author.Discriminator}: {result}");
 
                     await ReplyAsync(twt.Url);
                     //await ReplyAsync("Your post has been submitted to twitter. Go to https://twitter.com/xubot_bot to find it!");
@@ -302,7 +288,7 @@ namespace xubot.src.Commands
                     attached = tempAttachment;
                 }
 
-                await ReplyAsync($"{attach}\nURL:{attached.Url}", false);
+                await ReplyAsync($"{attach}\nURL:{(attached != null ? attached.Url : "No url")}");
             }
 
             [Command("return_source")]
@@ -310,7 +296,7 @@ namespace xubot.src.Commands
             {
                 var stuff = Context.Message.Source;
 
-                await ReplyAsync(stuff.ToString(), false);
+                await ReplyAsync(stuff.ToString());
             }
 
             [Command("return_type")]
@@ -318,7 +304,7 @@ namespace xubot.src.Commands
             {
                 var stuff = Context.Message.Type;
 
-                await ReplyAsync(stuff.ToString(), false);
+                await ReplyAsync(stuff.ToString());
             }
 
             [Command("get_mood")]
@@ -332,7 +318,7 @@ namespace xubot.src.Commands
                 else if (-16 >= mood) { moodAsStr = "negative"; }
                 else if (mood >= 16) { moodAsStr = "positive"; }
 
-                await ReplyAsync($"{mood} / {moodAsStr}", false);
+                await ReplyAsync($"{mood} / {moodAsStr}");
             }
 
             [Command("throw_new")]
@@ -427,8 +413,8 @@ namespace xubot.src.Commands
                 try
                 {
                     IDMChannel ifDm = await Context.Message.Author.GetOrCreateDMChannelAsync();
-                    ITextChannel dMtoTxt = ifDm as ITextChannel;
-                    ITextChannel sTtoTxt = Context.Channel as ITextChannel;
+                    // ITextChannel dMtoTxt = ifDm as ITextChannel;
+                    // ITextChannel sTtoTxt = Context.Channel as ITextChannel;
 
                     await ReplyAsync(ifDm.Id.ToString());
                     await ReplyAsync(Context.Channel.Id.ToString());
@@ -506,7 +492,7 @@ namespace xubot.src.Commands
                 [Command("playing"), Alias("play", "game"), Summary("Sets the bot's activity."), RequireOwner]
                 public async Task Playing(string newPlay)
                 {
-                    await Program.XuClient.SetGameAsync(newPlay, null, ActivityType.Playing);
+                    await Program.XuClient.SetGameAsync(newPlay);
                     await ReplyAsync($"*Activity* has been set to: **{newPlay}**");
                 }
 
@@ -580,9 +566,9 @@ namespace xubot.src.Commands
                                 await ReplyAsync($"*Status* hasn't been set to: **{newPlay}**, it's invalid.");
                                 return;
                             }
-
-                            await ReplyAsync($"*Status* has been set to: **{newPlay}**");
                     }
+
+                    await ReplyAsync($"*Status* has been set to: **{newPlay}**");
                 }
 
                 [Example("[>")]
@@ -964,9 +950,9 @@ namespace xubot.src.Commands
             try
             {
                 var webClient = new WebClient();
-                var webClient2 = new WebClient();
+                // var webClient2 = new WebClient();
                 string link = $"https://www.amdoren.com/api/timezone.php?api_key={ Program.JsonKeys["keys"].Contents.amdoren}&loc={loc}";
-                string textJ = "";
+                string textJ;
 
                 textJ = webClient.DownloadString(link);
                 //text_j = text_j.Substring(1, text_j.Length - 2);
@@ -980,7 +966,7 @@ namespace xubot.src.Commands
                     embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
                     embed.Fields = new List<EmbedFieldBuilder>()
                     {
-                        new EmbedFieldBuilder
+                        new()
                         {
                             Name = "The API returned: ",
                             Value = $"**{keys.error_message}**",
@@ -996,13 +982,13 @@ namespace xubot.src.Commands
                     embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
                     embed.Fields = new List<EmbedFieldBuilder>()
                     {
-                        new EmbedFieldBuilder
-                            {
+                        new()
+                        {
                                 Name = "Timezone: ",
                                 Value = $"**{keys.timezone}**",
                                 IsInline = true
                             },
-                            new EmbedFieldBuilder
+                            new()
                             {
                                 Name = "Current Time: ",
                                 Value = $"**{keys.time}**",

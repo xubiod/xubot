@@ -1,10 +1,9 @@
 using RedditSharp;
-using Discord.Commands;
 using RedditSharp.Things;
 
-namespace xubot.src
+namespace xubot
 {
-    class RedditTools
+    internal class RedditTools
     {
         public class ParseSorting
         {

@@ -1,26 +1,22 @@
-﻿using Discord;
-using Discord.Commands;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Xml;
 using System.Xml.Linq;
-using xubot.src.Attributes;
+using Discord;
+using Discord.Commands;
+using Newtonsoft.Json.Linq;
+using xubot.Attributes;
 
-namespace xubot.src.Commands.Connections
+namespace xubot.Commands.Connections
 {
     public class RandomApis : ModuleBase
     {
-        public static HttpClient httpClient = new HttpClient();
+        public static HttpClient httpClient = new();
 
         [Group("number"), Summary("LEARNING AAAAAAAAAAAA")]
         public class Number : ModuleBase
@@ -95,35 +91,35 @@ namespace xubot.src.Commands.Connections
             string text;
             var response = (HttpWebResponse)request.GetResponse();
 
-            using (var sr = new StreamReader(response.GetResponseStream()))
+            using (var sr = new StreamReader(response.GetResponseStream() ?? throw new NullReferenceException()))
             {
                 text = sr.ReadToEnd();
             }
 
             dynamic parsedTxt = JObject.Parse(text);
 
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Validator.pizza Email Validator", $"**{parsedTxt.remaining_requests}** requests left for the hour", Discord.Color.Orange);
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Validator.pizza Email Validator", $"**{parsedTxt.remaining_requests}** requests left for the hour", Color.Orange);
             embed.Fields = new List<EmbedFieldBuilder>()
             {
-                new EmbedFieldBuilder
+                new()
                 {
                     Name = "Input",
                     Value = parsedTxt.email,
                     IsInline = false
                 },
-                new EmbedFieldBuilder
+                new()
                 {
                     Name = "MX Records?",
                     Value = parsedTxt.mx.ToString(),
                     IsInline = false
                 },
-                new EmbedFieldBuilder
+                new()
                 {
                     Name = "Disposable domain?",
                     Value = parsedTxt.disposable.ToString(),
                     IsInline = false
                 },
-                new EmbedFieldBuilder
+                new()
                 {
                     Name = "Alias?",
                     Value = parsedTxt.alias.ToString(),

@@ -1,13 +1,10 @@
-﻿using Discord.Commands;
-using SteamKit2.GC.TF2.Internal;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using xubot.src.Attributes;
+using Discord.Commands;
+using xubot.Attributes;
 
-namespace xubot.src.Commands
+namespace xubot.Commands
 {
     [Group("math"), Alias("m"), Summary("A calculator, but shittier.")]
     public class Math : ModuleBase
@@ -17,9 +14,7 @@ namespace xubot.src.Commands
         [Command("add"), Alias("plus"), Summary("Adds the floats given.")]
         public async Task Add(params float[] inputs)
         {
-            float result = 0;
-            foreach (float num in inputs)
-                result += num;
+            float result = inputs.Sum();
 
             await ReplyAsync($"The result is: {result}");
         }
@@ -28,9 +23,7 @@ namespace xubot.src.Commands
         [Command("sub"), Alias("subtract"), Summary("Subtracts the floats given.")]
         public async Task Sub(params float[] inputs)
         {
-            float result = 0;
-            foreach (float num in inputs)
-                result -= num;
+            float result = inputs.Aggregate<float, float>(0, (current, num) => current - num);
 
             await ReplyAsync($"The result is: {result}");
         }
@@ -39,9 +32,7 @@ namespace xubot.src.Commands
         [Command("multi"), Alias("multiply"), Summary("Multiplies the floats given.")]
         public async Task Multi(params float[] inputs)
         {
-            float result = 0;
-            foreach (float num in inputs)
-                result *= num;
+            float result = inputs.Aggregate<float, float>(0, (current, num) => current * num);
 
             await ReplyAsync($"The result is: {result}");
         }
@@ -50,9 +41,7 @@ namespace xubot.src.Commands
         [Command("divide"), Alias("division"), Summary("Divides the floats given.")]
         public async Task Divide(params float[] inputs)
         {
-            float result = 0;
-            foreach (float num in inputs)
-                result /= num;
+            float result = inputs.Aggregate<float, float>(0, (current, num) => current / num);
 
             await ReplyAsync($"The result is: {result}");
         }
@@ -265,11 +254,11 @@ namespace xubot.src.Commands
             {
                 if (fromto == "c2f")
                 {
-                    await ReplyAsync($"*Celsius to Fahrenheit:* {(num1 / 9) * (5 + 32)}");
+                    await ReplyAsync($"*Celsius to Fahrenheit:* {num1 / 9 * (5 + 32)}");
                 }
                 else if (fromto == "f2c")
                 {
-                    await ReplyAsync($"*Fahrenheit to Celsius:* {(num1 - 32) * (9 / 5)}");
+                    await ReplyAsync($"*Fahrenheit to Celsius:* {(num1 - 32) * ((double)9 / 5)}");
                 }
             }
 

@@ -1,14 +1,11 @@
-﻿using Discord;
-using Discord.WebSocket;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
+using Discord;
 
-namespace xubot.src.Offline
+namespace xubot.Offline
 {
-    class OfflineMessage : IUserMessage
+    internal class OfflineMessage : IUserMessage
     {
         public IUserMessage ReferencedMessage { get; set; }
 
@@ -36,7 +33,7 @@ namespace xubot.src.Offline
 
         public IReadOnlyCollection<IAttachment> Attachments => throw new NotImplementedException();
 
-        public List<IEmbed> EmbedsWritable = new List<IEmbed>();
+        public List<IEmbed> EmbedsWritable = new();
         public IReadOnlyCollection<IEmbed> Embeds => EmbedsWritable;
 
         public IReadOnlyCollection<ITag> Tags => throw new NotImplementedException();
@@ -53,7 +50,7 @@ namespace xubot.src.Offline
 
         public MessageReference Reference => throw new NotImplementedException();
 
-        public Dictionary<IEmote, ReactionMetadata> ReactionsWritable = new Dictionary<IEmote, ReactionMetadata>();
+        public Dictionary<IEmote, ReactionMetadata> ReactionsWritable = new();
         public IReadOnlyDictionary<IEmote, ReactionMetadata> Reactions => ReactionsWritable;
 
         public MessageFlags? Flags => throw new NotImplementedException();
@@ -93,12 +90,12 @@ namespace xubot.src.Offline
         public Task ModifyAsync(Action<MessageProperties> func, RequestOptions options = null)
         {
             MessageProperties messageProperties = new MessageProperties() {
-                Content = this.Content
+                Content = Content
             };
 
             func(messageProperties);
 
-            if (messageProperties.Content.IsSpecified) this.Content = messageProperties.Content.Value;
+            if (messageProperties.Content.IsSpecified) Content = messageProperties.Content.Value;
 
             return Task.CompletedTask;
         }

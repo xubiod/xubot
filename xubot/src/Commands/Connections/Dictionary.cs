@@ -1,17 +1,13 @@
-﻿using Discord.Commands;
-using Discord;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using xubot;
-using System.IO;
-using xubot.src.Attributes;
+using Discord;
+using Discord.Commands;
+using Newtonsoft.Json.Linq;
+using xubot.Attributes;
 
-namespace xubot.src.Commands.Connections
+namespace xubot.Commands.Connections
 {
     [Group("dictionary"), Alias("dict"), Summary("The mini-wrapper for the Oxford Dictionary API."), Deprecated]
     public class DictionaryComm : ModuleBase
@@ -27,7 +23,7 @@ namespace xubot.src.Commands.Connections
             public string filters;
         }
 
-        static string AssembleUrl(DictInputs inputs)
+        private static string AssembleUrl(DictInputs inputs)
         {
             if (inputs.langId != null && inputs.word != null)
             {
@@ -53,27 +49,26 @@ namespace xubot.src.Commands.Connections
 
         //AssembleURL("en", "", "definitions")
 
-        [ExampleAttribute("programming en")]
+        [Example("programming en")]
         [Command("define", RunMode = RunMode.Async), Summary("Defines a word using the Oxford Dictionary.")]
         public async Task Define(string word, string langId = "en")
         {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
+            try
             {
-                try
+                await GetJson(new DictInputs
                 {
-                    await GetJson(new DictInputs
-                    {
-                        get = "entries",
-                        langId = langId,
-                        word = word,
-                        filters = "/definitions"
-                    });
+                    get = "entries",
+                    langId = langId,
+                    word = word,
+                    filters = "/definitions"
+                });
 
-                    dynamic keys = JObject.Parse(text);
+                dynamic keys = JObject.Parse(text);
 
-                    List<EmbedFieldBuilder> allDefinitions = new List<EmbedFieldBuilder>
+                List<EmbedFieldBuilder> allDefinitions = new List<EmbedFieldBuilder>
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Word / Region",
                         Value = $"{word } / {langId}",
@@ -81,58 +76,56 @@ namespace xubot.src.Commands.Connections
                     }
                 };
 
-                    string allDefinitionsString = "";
-                    int count = 1;
+                string allDefinitionsString = "";
+                int count = 1;
 
-                    foreach (var key in keys.results[0].lexicalEntries[0].entries[0].senses)
-                    {
-                        allDefinitionsString += $"**{count}**. {key.definitions[0]}\n";
-                        count++;
-                    }
-
-                    allDefinitions.Add(new EmbedFieldBuilder
-                    {
-                        Name = "Definition(s)",
-                        Value = allDefinitionsString,
-                        IsInline = false
-                    });
-
-                    //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
-
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Definition(s)", Discord.Color.Orange);
-                    embed.Fields = allDefinitions;
-
-                    await ReplyAsync("", false, embed.Build());
-                }
-                catch (Exception e)
+                foreach (var key in keys.results[0].lexicalEntries[0].entries[0].senses)
                 {
-                    await Util.Error.BuildError(e, Context);
+                    allDefinitionsString += $"**{count}**. {key.definitions[0]}\n";
+                    count++;
                 }
+
+                allDefinitions.Add(new EmbedFieldBuilder
+                {
+                    Name = "Definition(s)",
+                    Value = allDefinitionsString,
+                    IsInline = false
+                });
+
+                //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
+
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Definition(s)", Color.Orange);
+                embed.Fields = allDefinitions;
+
+                await ReplyAsync("", false, embed.Build());
+            }
+            catch (Exception e)
+            {
+                await Util.Error.BuildError(e, Context);
             }
         }
 
         //inflections
-        [ExampleAttribute("adapt en")]
+        [Example("adapt en")]
         [Command("inflection", RunMode = RunMode.Async), Summary("Shows inflections for a word using the Oxford Dictionary.")]
         public async Task Inflections(string word, string langId = "en")
         {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
+            try
             {
-                try
+                await GetJson(new DictInputs
                 {
-                    await GetJson(new DictInputs
-                    {
-                        get = "inflections",
-                        langId = langId,
-                        word = word,
-                        filters = ""
-                    });
+                    get = "inflections",
+                    langId = langId,
+                    word = word,
+                    filters = ""
+                });
 
-                    dynamic keys = JObject.Parse(text);
+                dynamic keys = JObject.Parse(text);
 
-                    List<EmbedFieldBuilder> allInflections = new List<EmbedFieldBuilder>
+                List<EmbedFieldBuilder> allInflections = new List<EmbedFieldBuilder>
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Word / Region",
                         Value = $"{word } / {langId}",
@@ -140,56 +133,54 @@ namespace xubot.src.Commands.Connections
                     }
                 };
 
-                    foreach (var inflection in keys.results[0].lexicalEntries)
-                    {
-                        allInflections.Add(new EmbedFieldBuilder
-                        {
-                            Name = "$Inflection of: {inflection.inflectionOf[0].id}",
-                            Value = $"Type: {inflection.grammaticalFeatures[0].text }\n" +
-                                    $"Kind: {inflection.grammaticalFeatures[0].type}",
-                            //grammaticalFeatures[0].text
-                            //grammaticalFeatures[0].type
-                            //inflectionOf[0].id
-                            IsInline = false
-                        });
-                    }
-
-                    //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
-
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Inflections", Discord.Color.Orange);
-                    embed.Fields = allInflections;
-
-                    await ReplyAsync("", false, embed.Build());
-                }
-                catch (Exception e)
+                foreach (var inflection in keys.results[0].lexicalEntries)
                 {
-                    await Util.Error.BuildError(e, Context);
+                    allInflections.Add(new EmbedFieldBuilder
+                    {
+                        Name = "$Inflection of: {inflection.inflectionOf[0].id}",
+                        Value = $"Type: {inflection.grammaticalFeatures[0].text }\n" +
+                                $"Kind: {inflection.grammaticalFeatures[0].type}",
+                        //grammaticalFeatures[0].text
+                        //grammaticalFeatures[0].type
+                        //inflectionOf[0].id
+                        IsInline = false
+                    });
                 }
+
+                //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
+
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Inflections", Color.Orange);
+                embed.Fields = allInflections;
+
+                await ReplyAsync("", false, embed.Build());
+            }
+            catch (Exception e)
+            {
+                await Util.Error.BuildError(e, Context);
             }
         }
 
         //words with same meanings
-        [ExampleAttribute("happy en")]
+        [Example("happy en")]
         [Command("synonyms", RunMode = RunMode.Async), Alias("syn"), Summary("Gives a list of synonyms a word using the Oxford Dictionary.")]
         public async Task Syn(string word, string langId = "en")
         {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
+            try
             {
-                try
+                await GetJson(new DictInputs
                 {
-                    await GetJson(new DictInputs
-                    {
-                        get = "entries",
-                        langId = langId,
-                        word = word,
-                        filters = "/synonyms"
-                    });
+                    get = "entries",
+                    langId = langId,
+                    word = word,
+                    filters = "/synonyms"
+                });
 
-                    dynamic keys = JObject.Parse(text);
+                dynamic keys = JObject.Parse(text);
 
-                    List<EmbedFieldBuilder> allSynonyms = new List<EmbedFieldBuilder>
+                List<EmbedFieldBuilder> allSynonyms = new List<EmbedFieldBuilder>
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Word / Region",
                         Value = $"{word } / {langId}",
@@ -197,65 +188,63 @@ namespace xubot.src.Commands.Connections
                     }
                 };
 
-                    string allSynonymsString = "";
+                string allSynonymsString = "";
 
-                    foreach (var sense in keys.results[0].lexicalEntries[0].entries[0].senses)
+                foreach (var sense in keys.results[0].lexicalEntries[0].entries[0].senses)
+                {
+                    foreach (var subsense in sense.subsenses)
                     {
-                        foreach (var subsense in sense.subsenses)
+                        foreach (var synonym in subsense.synonyms)
                         {
-                            foreach (var synonym in subsense.synonyms)
-                            {
-                                allSynonymsString += $"{synonym.text }, ";
-                            }
+                            allSynonymsString += $"{synonym.text }, ";
                         }
                     }
-
-                    allSynonymsString = allSynonymsString.Remove(allSynonymsString.Length - 2);
-
-                    allSynonyms.Add(new EmbedFieldBuilder
-                    {
-                        Name = "Synonym(s)",
-                        Value = allSynonymsString,
-                        IsInline = false
-                    });
-
-                    //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
-
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Synonym(s)", Discord.Color.Orange);
-                    embed.Fields = allSynonyms;
-
-                    await ReplyAsync("", false, embed.Build());
                 }
-                catch (Exception e)
+
+                allSynonymsString = allSynonymsString.Remove(allSynonymsString.Length - 2);
+
+                allSynonyms.Add(new EmbedFieldBuilder
                 {
-                    //await GeneralTools.CommHandler.BuildError(e, Context);
-                    await ReplyAsync("Either that word doesn't exist in the dictionary or it has no synonyms.");
-                }
+                    Name = "Synonym(s)",
+                    Value = allSynonymsString,
+                    IsInline = false
+                });
+
+                //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
+
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Synonym(s)", Color.Orange);
+                embed.Fields = allSynonyms;
+
+                await ReplyAsync("", false, embed.Build());
+            }
+            catch (Exception e)
+            {
+                //await GeneralTools.CommHandler.BuildError(e, Context);
+                await ReplyAsync("Either that word doesn't exist in the dictionary or it has no synonyms.");
             }
         }
 
         //words with opposite meanings
-        [ExampleAttribute("true en")]
+        [Example("true en")]
         [Command("antonyms", RunMode = RunMode.Async), Alias("ant"), Summary("Gives a list of antonyms a word using the Oxford Dictionary.")]
         public async Task Ant(string word, string langId = "en")
         {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
+            try
             {
-                try
+                await GetJson(new DictInputs
                 {
-                    await GetJson(new DictInputs
-                    {
-                        get = "entries",
-                        langId = langId,
-                        word = word,
-                        filters = "/antonyms"
-                    });
+                    get = "entries",
+                    langId = langId,
+                    word = word,
+                    filters = "/antonyms"
+                });
 
-                    dynamic keys = JObject.Parse(text);
+                dynamic keys = JObject.Parse(text);
 
-                    List<EmbedFieldBuilder> allAntonyms = new List<EmbedFieldBuilder>
+                List<EmbedFieldBuilder> allAntonyms = new List<EmbedFieldBuilder>
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Word / Region",
                         Value = $"{word } / {langId}",
@@ -263,37 +252,36 @@ namespace xubot.src.Commands.Connections
                     }
                 };
 
-                    string allAntonymsString = "";
+                string allAntonymsString = "";
 
-                    foreach (var sense in keys.results[0].lexicalEntries[0].entries[0].senses)
-                    {
-                        foreach (var antonyms in sense.antonyms)
-                        {
-                            allAntonymsString += $"{antonyms.text }, ";
-                        }
-                    }
-
-                    allAntonymsString = allAntonymsString.Remove(allAntonymsString.Length - 2);
-
-                    allAntonyms.Add(new EmbedFieldBuilder
-                    {
-                        Name = "Antonyms(s)",
-                        Value = allAntonymsString,
-                        IsInline = false
-                    });
-
-                    //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
-
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Antonyms(s)", Discord.Color.Orange);
-                    embed.Fields = allAntonyms;
-
-                    await ReplyAsync("", false, embed.Build());
-                }
-                catch (Exception e)
+                foreach (var sense in keys.results[0].lexicalEntries[0].entries[0].senses)
                 {
-                    //await GeneralTools.CommHandler.BuildError(e, Context);
-                    await ReplyAsync("Either that word doesn't exist in the dictionary or it has no antonyms.");
+                    foreach (var antonyms in sense.antonyms)
+                    {
+                        allAntonymsString += $"{antonyms.text }, ";
+                    }
                 }
+
+                allAntonymsString = allAntonymsString.Remove(allAntonymsString.Length - 2);
+
+                allAntonyms.Add(new EmbedFieldBuilder
+                {
+                    Name = "Antonyms(s)",
+                    Value = allAntonymsString,
+                    IsInline = false
+                });
+
+                //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
+
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Antonyms(s)", Color.Orange);
+                embed.Fields = allAntonyms;
+
+                await ReplyAsync("", false, embed.Build());
+            }
+            catch (Exception e)
+            {
+                //await GeneralTools.CommHandler.BuildError(e, Context);
+                await ReplyAsync("Either that word doesn't exist in the dictionary or it has no antonyms.");
             }
         }
 
@@ -301,100 +289,102 @@ namespace xubot.src.Commands.Connections
         [Command("list", RunMode = RunMode.Async), Summary("Gives a list of supported languages for the Oxford Dictionary.")]
         public async Task List()
         {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
+            try
             {
-                try
+                await GetJson(new DictInputs
                 {
-                    await GetJson(new DictInputs
-                    {
-                        get = "languages"
-                    });
+                    get = "languages"
+                });
 
-                    dynamic keys = JObject.Parse(text);
+                dynamic keys = JObject.Parse(text);
 
-                    List<string> allMonolingualDicts = new List<string>();
-                    List<string> allBilingualDicts = new List<string>();
+                List<string> allMonolingualDicts = new List<string>();
+                List<string> allBilingualDicts = new List<string>();
 
-                    foreach (var key in keys.results)
-                    {
-                        if (key.targetLanguage != null)
-                        {
-                            allBilingualDicts.Add(($"{key.source } ({key.sourceLanguage.language } (**{key.sourceLanguage.id }**) => {key.targetLanguage.language } (**{key.targetLanguage.id }**))\n").ToString());
-                        }
-                        else
-                        {
-                            allMonolingualDicts.Add(($"{key.source } ({key.sourceLanguage.language } (**{key.sourceLanguage.id }**))\n").ToString());
-                        }
-                    }
-
-                    //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
-
-                    string monolingualListString0 = "";
-                    string monolingualListString1 = "";
-
-                    string bilingualListString0 = "";
-                    string bilingualListString1 = "";
-
-                    int count = 0;
-
-                    foreach (var dictionary in allMonolingualDicts)
-                    {
-                        if (count < 10)
-                        {
-                            monolingualListString0 += dictionary;
-                        }
-                        else
-                        {
-                            monolingualListString1 += dictionary;
-                        }
-                        count++;
-                    }
-
-                    count = 0;
-
-                    foreach (var dictionary in allBilingualDicts)
-                    {
-                        if (count < 10)
-                        {
-                            bilingualListString0 += dictionary;
-                        }
-                        else
-                        {
-                            bilingualListString1 += dictionary;
-                        }
-                        count++;
-                    }
-
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Dictionaries: Complete List (IDs bolded)", Discord.Color.Orange);
-                    embed.Fields = new List<EmbedFieldBuilder>() {
-                        new EmbedFieldBuilder {
-                            Name = "Monolingual (pt 1)",
-                            Value = monolingualListString0,
-                            IsInline = true
-                        },
-                        new EmbedFieldBuilder {
-                            Name = "Monolingual (pt 2)",
-                            Value = monolingualListString1,
-                            IsInline = true
-                        },
-                        new EmbedFieldBuilder {
-                            Name = "Bilingual (pt 1)",
-                            Value = bilingualListString0,
-                            IsInline = true
-                        },
-                        new EmbedFieldBuilder {
-                            Name = "Bilingual (pt 2)",
-                            Value = bilingualListString1,
-                            IsInline = true
-                        }
-                    };
-
-                    await ReplyAsync("", false, embed.Build());
-                }
-                catch (Exception e)
+                foreach (var key in keys.results)
                 {
-                    await Util.Error.BuildError(e, Context);
+                    if (key.targetLanguage != null)
+                    {
+                        allBilingualDicts.Add($"{key.source } ({key.sourceLanguage.language } (**{key.sourceLanguage.id }**) => {key.targetLanguage.language } (**{key.targetLanguage.id }**))\n".ToString());
+                    }
+                    else
+                    {
+                        allMonolingualDicts.Add($"{key.source } ({key.sourceLanguage.language } (**{key.sourceLanguage.id }**))\n".ToString());
+                    }
                 }
+
+                //string _first_def = keys.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0].ToString();
+
+                string monolingualListString0 = "";
+                string monolingualListString1 = "";
+
+                string bilingualListString0 = "";
+                string bilingualListString1 = "";
+
+                int count = 0;
+
+                foreach (var dictionary in allMonolingualDicts)
+                {
+                    if (count < 10)
+                    {
+                        monolingualListString0 += dictionary;
+                    }
+                    else
+                    {
+                        monolingualListString1 += dictionary;
+                    }
+                    count++;
+                }
+
+                count = 0;
+
+                foreach (var dictionary in allBilingualDicts)
+                {
+                    if (count < 10)
+                    {
+                        bilingualListString0 += dictionary;
+                    }
+                    else
+                    {
+                        bilingualListString1 += dictionary;
+                    }
+                    count++;
+                }
+
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Dictionaries: Complete List (IDs bolded)", Color.Orange);
+                embed.Fields = new List<EmbedFieldBuilder>() {
+                    new()
+                    {
+                        Name = "Monolingual (pt 1)",
+                        Value = monolingualListString0,
+                        IsInline = true
+                    },
+                    new()
+                    {
+                        Name = "Monolingual (pt 2)",
+                        Value = monolingualListString1,
+                        IsInline = true
+                    },
+                    new()
+                    {
+                        Name = "Bilingual (pt 1)",
+                        Value = bilingualListString0,
+                        IsInline = true
+                    },
+                    new()
+                    {
+                        Name = "Bilingual (pt 2)",
+                        Value = bilingualListString1,
+                        IsInline = true
+                    }
+                };
+
+                await ReplyAsync("", false, embed.Build());
+            }
+            catch (Exception e)
+            {
+                await Util.Error.BuildError(e, Context);
             }
         }
     }

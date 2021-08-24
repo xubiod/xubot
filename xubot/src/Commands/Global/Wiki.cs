@@ -1,14 +1,8 @@
-﻿using Discord;
+﻿using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Xml.XPath;
 
-namespace xubot.src.Commands.Global
+namespace xubot.Commands.Global
 {
 	/*
 	<article name="[article name]" lasteditor="[id]">

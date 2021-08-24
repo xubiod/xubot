@@ -1,20 +1,15 @@
-﻿using Discord.Commands;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Discord;
 using System.Xml.Linq;
-using xubot.src.Attributes;
+using Discord;
+using Discord.Commands;
+using xubot.Attributes;
 
-namespace xubot.src.Commands.Global
+namespace xubot.Commands.Global
 {
     public class ServerTriggers : ModuleBase
     {
-        public static XDocument xdoc = new XDocument();
+        public static XDocument xdoc = new();
 
         [Group("servertriggers"), Summary("Server specific triggers? Wow that sounds hella lame"), Deprecated]
         public class Base : ModuleBase

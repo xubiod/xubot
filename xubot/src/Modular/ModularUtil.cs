@@ -1,17 +1,14 @@
-﻿using Discord;
-using Discord.Commands;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using XubotSharedModule;
+using Discord;
+using Discord.Commands;
 
-namespace xubot.src.Modular
+namespace xubot.Modular
 {
     public static class ModularUtil
     {
-        public static Discord.Embed Convert(XubotSharedModule.DiscordThings.Embed from, ICommandContext context)
+        public static Embed Convert(XubotSharedModule.DiscordThings.Embed from, ICommandContext context)
         {
             if (from == null) return null;
 
@@ -47,7 +44,7 @@ namespace xubot.src.Modular
             }
             else
             {
-                return await context.Channel.SendMessageAsync(message.Text, message.isTTS, Convert(message.MsgEmbed, context), null);
+                return await context.Channel.SendMessageAsync(message.Text, message.isTTS, Convert(message.MsgEmbed, context));
             }
         }
     }

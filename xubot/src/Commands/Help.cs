@@ -1,14 +1,12 @@
-﻿using Discord;
-using Discord.Commands;
-using SteamKit2.GC.Dota.Internal;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using xubot.src.Attributes;
+using Discord;
+using Discord.Commands;
+using xubot.Attributes;
 
-namespace xubot.src.Commands
+namespace xubot.Commands
 {
     [Group("help"), Alias("?"), Summary("The savior for the lost.")]
     public class Help : ModuleBase
@@ -25,10 +23,10 @@ namespace xubot.src.Commands
         public async Task HelpCmd(params string[] lookupAsAll)
         {
             string all = "";
-            int page, count;
+            int count;
             count = lookupAsAll.Length;
 
-            if (Int32.TryParse(lookupAsAll[count - 1], out page))
+            if (Int32.TryParse(lookupAsAll[count - 1], out var page))
                 count--;
             else
                 page = 1;
@@ -56,20 +54,20 @@ namespace xubot.src.Commands
         public async Task HelpCmd(int page = 1)
         {
             if (page < 1) page = 1;
-            int itemsPerPage = BotSettings.Global.Default.EmbedListMaxLength;
+            int itemsPerPage = src.BotSettings.Global.Default.EmbedListMaxLength;
 
             List<CommandInfo> commList = Program.XuCommand.Commands.ToList();
 
             string items = "";
 
-            int limit = System.Math.Min(commList.Count - ((page - 1) * itemsPerPage), itemsPerPage);
+            int limit = System.Math.Min(commList.Count - (page - 1) * itemsPerPage, itemsPerPage);
             //await ReplyAsync((limit).ToString());
 
             int index;
 
             for (int i = 0; i < limit; i++)
             {
-                index = i + (itemsPerPage * (page - 1));
+                index = i + itemsPerPage * (page - 1);
 
                 if (index > commList.Count - 1) { break; }
 
@@ -80,10 +78,10 @@ namespace xubot.src.Commands
 
             if (items == "") items = "There's nothing here, I think you went out of bounds.";
 
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"Showing page #{page} out of {System.Math.Ceiling((float)commList.Count / itemsPerPage)} pages.\nShowing a few of the **{commList.Count}** cmds.", Discord.Color.Magenta);
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"Showing page #{page} out of {System.Math.Ceiling((float)commList.Count / itemsPerPage)} pages.\nShowing a few of the **{commList.Count}** cmds.", Color.Magenta);
             embed.Fields = new List<EmbedFieldBuilder>()
             {
-                new EmbedFieldBuilder
+                new()
                 {
                     Name = "List",
                     Value = $"```\n{items}```" ,
@@ -98,57 +96,55 @@ namespace xubot.src.Commands
         [Command("search", RunMode = RunMode.Async), Summary("Searches all commands with a search term. Deep enables searching the aliases as well, but this takes longer.")]
         public async Task Search(string lookup, bool deep = true, int page = 1)
         {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
+            if (page < 1) page = 1;
+            int itemsPerPage = src.BotSettings.Global.Default.EmbedListMaxLength;
+
+            List<CommandInfo> commList = Program.XuCommand.Commands.ToList();
+            List<CommandInfo> compatibles = new List<CommandInfo>();
+
+            bool add;
+            foreach (CommandInfo cmd in commList)
             {
-                if (page < 1) page = 1;
-                int itemsPerPage = BotSettings.Global.Default.EmbedListMaxLength;
+                add = false;
 
-                List<CommandInfo> commList = Program.XuCommand.Commands.ToList();
-                List<CommandInfo> compatibles = new List<CommandInfo>();
+                add |= cmd.Name.Contains(lookup);
 
-                bool add;
-                foreach (CommandInfo cmd in commList)
+                if (cmd.Aliases != null && deep)
                 {
-                    add = false;
-
-                    add |= cmd.Name.Contains(lookup);
-
-                    if (cmd.Aliases != null && deep)
-                    {
-                        foreach (string alias in cmd.Aliases)
-                            add |= alias.Contains(lookup);
-                    }
-
-                    if (add) compatibles.Add(cmd);
+                    foreach (string alias in cmd.Aliases)
+                        add |= alias.Contains(lookup);
                 }
 
-                int limit = System.Math.Min(commList.Count - ((page - 1) * itemsPerPage), itemsPerPage);
-                int index;
-
-                string cmds = "";
-                for (int i = 0; i < limit; i++)
-                {
-                    index = i + (itemsPerPage * (page - 1));
-
-                    if (index > compatibles.Count - 1) { break; }
-
-                    cmds += GetAllGroups(compatibles[index].Module) + compatibles[index].Name + "\n";
-                }
-                if (cmds == "") cmds = "I don't think any command called that exists...";
-
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help - Search", $"Showing page #{page} out of {System.Math.Ceiling((float)compatibles.Count / itemsPerPage)} pages.\nShowing a few of the **{compatibles.Count}** cmds with the lookup.", Discord.Color.Magenta);
-                embed.Fields = new List<EmbedFieldBuilder>()
-                {
-                    new EmbedFieldBuilder
-                    {
-                        Name = "Search Results",
-                        Value = $"```\n{cmds}```" ,
-                        IsInline = true
-                    }
-                };
-
-                await ReplyAsync("", false, embed.Build());
+                if (add) compatibles.Add(cmd);
             }
+
+            int limit = System.Math.Min(commList.Count - (page - 1) * itemsPerPage, itemsPerPage);
+            int index;
+
+            string cmds = "";
+            for (int i = 0; i < limit; i++)
+            {
+                index = i + itemsPerPage * (page - 1);
+
+                if (index > compatibles.Count - 1) { break; }
+
+                cmds += GetAllGroups(compatibles[index].Module) + compatibles[index].Name + "\n";
+            }
+            if (cmds == "") cmds = "I don't think any command called that exists...";
+
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help - Search", $"Showing page #{page} out of {System.Math.Ceiling((float)compatibles.Count / itemsPerPage)} pages.\nShowing a few of the **{compatibles.Count}** cmds with the lookup.", Color.Magenta);
+            embed.Fields = new List<EmbedFieldBuilder>()
+            {
+                new()
+                {
+                    Name = "Search Results",
+                    Value = $"```\n{cmds}```" ,
+                    IsInline = true
+                }
+            };
+
+            await ReplyAsync("", false, embed.Build());
         }
 
         public async Task HelpHandling(string lookup, int index = 1, bool exact = false)
@@ -156,9 +152,9 @@ namespace xubot.src.Commands
             try
             {
                 List<CommandInfo> commListE = Program.XuCommand.Commands.ToList();
-                List<ModuleInfo> moduListE = Program.XuCommand.Modules.ToList();
+                // List<ModuleInfo> moduListE = Program.XuCommand.Modules.ToList();
 
-                commListE = commListE.FindAll(ci => ci.Name == (lookup.Split(' ').Last()));
+                commListE = commListE.FindAll(ci => ci.Name == lookup.Split(' ').Last());
 
                 List<CommandInfo> commList = commListE;
 
@@ -186,7 +182,7 @@ namespace xubot.src.Commands
                 {
                     comm = commList[index - 1];
                 }
-                catch (System.ArgumentOutOfRangeException aoore)
+                catch (ArgumentOutOfRangeException aoore)
                 {
                     //not a command
                     GroupHandling(lookup);
@@ -213,14 +209,14 @@ namespace xubot.src.Commands
 
                 string allPara = "No parameters.";
                 string examplePara = "";
-                IReadOnlyList<ParameterInfo> @params = comm.Parameters.ToList() ?? new List<ParameterInfo>();
+                IReadOnlyList<ParameterInfo> @params = comm.Parameters.ToList();
 
                 if (@params.Count != 0)
                 {
                     allPara = "";
                     foreach (var para in comm.Parameters)
                     {
-                        allPara += (para.IsMultiple ? "params " : "") + Util.String.SimplifyTypes(para.Type.ToString()) + " " + para.Name + (para.IsOptional ? " (optional) // default value = " + para.DefaultValue.ToString() : "") +"\n";
+                        allPara += (para.IsMultiple ? "params " : "") + Util.String.SimplifyTypes(para.Type.ToString()) + " " + para.Name + (para.IsOptional ? " (optional) // default value = " + para.DefaultValue : "") +"\n";
                         examplePara += para.Name + " ";
                     }
                 }
@@ -230,46 +226,46 @@ namespace xubot.src.Commands
 
                 bool dep = comm.Attributes.Contains(new DeprecatedAttribute()) || comm.Module.Attributes.Contains(new DeprecatedAttribute());
 
-                string nsfwPossibility = comm.Attributes.Where(x => x is NsfwPossibiltyAttribute).Count() > 0 ? (comm.Attributes.First(x => x is NsfwPossibiltyAttribute) as NsfwPossibiltyAttribute).Warnings : "";
-                nsfwPossibility += comm.Module.Attributes.Where(x => x is NsfwPossibiltyAttribute).Count() > 0 ? "Groupwide:\n\n" + (comm.Module.Attributes.First(x => x is NsfwPossibiltyAttribute) as NsfwPossibiltyAttribute).Warnings : "";
+                string nsfwPossibility = comm.Attributes.Where(x => x is NsfwPossibilityAttribute).Count() > 0 ? (comm.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
+                nsfwPossibility += comm.Module.Attributes.Where(x => x is NsfwPossibilityAttribute).Count() > 0 ? "Groupwide:\n\n" + (comm.Module.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
 
                 if (comm.Attributes.Where(x => x is ExampleAttribute).Count() > 0)
                 {
-                    ExampleAttribute ex = (comm.Attributes.First(x => x is ExampleAttribute) as ExampleAttribute);
+                    ExampleAttribute ex = comm.Attributes.First(x => x is ExampleAttribute) as ExampleAttribute;
                     if (ex.ExampleParameters != "") examplePara = ex.ExampleParameters;
                     examplePara += ex.AttachmentNeeded ? "\n\n[You need to upload a file to use this.]" : "";
                 }
 
                 string exampleUsage = $"{Program.prefix}{trueName} " + examplePara;
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"The newer *better* help. Showing result #{index} out of {allMatchs} match(s).", Discord.Color.Magenta);
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"The newer *better* help. Showing result #{index} out of {allMatchs} match(s).", Color.Magenta);
                 embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Command Name",
                         Value = $"`{trueName}`" ,
                         IsInline = true
                     },
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Summary",
                         Value = trueSumm,
                         IsInline = true
                     },
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Known Aliases",
                         Value = $"```\n{allAlias}```",
                         IsInline = false
                     },
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Parameters",
                         Value = $"```cs\n{allPara}```",
                         IsInline = true
                     },
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Example Usage",
                         Value = $"`{exampleUsage}`",
@@ -303,9 +299,9 @@ namespace xubot.src.Commands
         {
             try
             {
-                List<ModuleInfo> moduList = Program.XuCommand.Modules.ToList().FindAll(ci => ci.Group == (lookup.Split(' ').Last()));
+                List<ModuleInfo> moduList = Program.XuCommand.Modules.ToList().FindAll(ci => ci.Group == lookup.Split(' ').Last());
 
-                int allMatchs = moduList.Count;
+                // int allMatchs = moduList.Count;
 
                 ModuleInfo group;
 
@@ -313,7 +309,7 @@ namespace xubot.src.Commands
                 {
                     group = moduList[0];
                 }
-                catch (System.ArgumentOutOfRangeException aoore)
+                catch (ArgumentOutOfRangeException aoore)
                 {
                     //not a command OR group
                     await ReplyAsync("This command does not exist. (Trust me, I looked everywhere.)\nMaybe try the full name?");
@@ -364,30 +360,30 @@ namespace xubot.src.Commands
                 if (group.Summary != null) trueSumm = group.Summary;
 
                 bool dep = group.Attributes.Contains(new DeprecatedAttribute());
-                string nsfwPossibility = group.Attributes.Contains(new NsfwPossibiltyAttribute()) ? (group.Attributes.First(x => x is NsfwPossibiltyAttribute) as NsfwPossibiltyAttribute).Warnings : null;
+                string nsfwPossibility = group.Attributes.Contains(new NsfwPossibilityAttribute()) ? (group.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : null;
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", "The newer *better* help. For more specifics, combine the group and command.", Discord.Color.Magenta);
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", "The newer *better* help. For more specifics, combine the group and command.", Color.Magenta);
                 embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Module Name and Summary",
                         Value = $"`{trueName}`\n*{trueSumm}*",
                         IsInline = true
                     },
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Known Aliases",
                         Value = $"```\n{allAlias}```",
                         IsInline = true
                     },
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Subgroups in Group",
                         Value = $"```\n{subgroup}```",
                         IsInline = true
                     },
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Commands in Group",
                         Value = $"```\n{commands}```",

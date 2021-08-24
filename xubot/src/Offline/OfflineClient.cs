@@ -1,17 +1,16 @@
-﻿using Discord;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
+using Discord;
 
-namespace xubot.src.Offline
+namespace xubot.Offline
 {
-    class OfflineClient : IDiscordClient
+    internal class OfflineClient : IDiscordClient
     {
         public ConnectionState ConnectionState => ConnectionState.Connected;
 
-        public ISelfUser CurrentUser => (ISelfUser)OfflineHandlers.DefaultOfflineUser;
+        public ISelfUser CurrentUser => OfflineHandlers.DefaultOfflineUser;
 
         public TokenType TokenType => TokenType.Bot;
 

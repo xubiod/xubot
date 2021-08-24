@@ -1,20 +1,12 @@
-﻿using Discord.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Discord;
+﻿using System.Threading.Tasks;
 using System.Xml.Linq;
-using Newtonsoft.Json.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using xubot.src.Commands.Global;
+using Discord.Commands;
 
-namespace xubot.src.Commands.Global
+namespace xubot.Commands.Global
 {
     public class Mood : ModuleBase
     {
-        public static XDocument xdoc = new XDocument();
+        public static XDocument xdoc = new();
 
         [Command("mood"), Summary("Get's your mood/emotion value from xubot.")]
         public async Task GetMoodCmd()
@@ -27,7 +19,7 @@ namespace xubot.src.Commands.Global
             else if (-16 >= mood) { moodAsStr = "negative"; }
             else if (mood >= 16) { moodAsStr = "positive"; }
 
-            await ReplyAsync($"Your mood value is {mood} (aka {moodAsStr})", false);
+            await ReplyAsync($"Your mood value is {mood} (aka {moodAsStr})");
         }
 
         [Command("pet"), Alias("stroke"), Summary("why.")]

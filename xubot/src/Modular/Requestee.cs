@@ -1,11 +1,7 @@
 ﻿using Discord.Commands;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using static XubotSharedModule.Events.Requestor;
 
-namespace xubot.src.Modular
+namespace xubot.Modular
 {
     public static class Requestee
     {

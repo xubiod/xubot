@@ -1,12 +1,10 @@
-﻿using Discord;
-using Discord.Commands;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 
-namespace xubot.src.Commands
+namespace xubot.Commands
 {
     [Group("su"), Summary("A couple of owner only commands."), RequireOwner, RequireContext(ContextType.DM)]
     public class OwnerController : ModuleBase
@@ -28,10 +26,10 @@ namespace xubot.src.Commands
                 result = result.Substring(0, 1015) + "...";
             }
 
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Superuser - Directory", where, Discord.Color.DarkOrange);
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Superuser - Directory", where, Color.DarkOrange);
             embed.Fields = new List<EmbedFieldBuilder>()
             {
-                new EmbedFieldBuilder
+                new()
                 {
                     Name = "Result",
                     Value = $"```{result}```",

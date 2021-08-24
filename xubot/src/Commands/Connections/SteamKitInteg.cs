@@ -1,14 +1,14 @@
-﻿using Discord;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using SteamKit2;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using xubot.src.Attributes;
+using xubot.Attributes;
 
-namespace xubot.src.Commands.Connections
+namespace xubot.Commands.Connections
 {
     [Group("steam"), Summary("Steam API integration via SteamKit2.")]
     public class SteamKitInteg : ModuleBase
@@ -45,18 +45,18 @@ namespace xubot.src.Commands.Connections
 
                 foreach (KeyValue game in ownedGames["games"].Children)
                 {
-                    forever += game["playtime_forever"].AsInteger(0);
-                    twoWeeks += game["playtime_2weeks"].AsInteger(0);
+                    forever += game["playtime_forever"].AsInteger();
+                    twoWeeks += game["playtime_2weeks"].AsInteger();
 
-                    if (game["playtime_forever"].AsInteger(0) > mostTime)
+                    if (game["playtime_forever"].AsInteger() > mostTime)
                     {
-                        mostTime = game["playtime_forever"].AsInteger(0);
+                        mostTime = game["playtime_forever"].AsInteger();
                         mostTimeIn = game["name"].AsString();
                     }
 
-                    if (game["playtime_2weeks"].AsInteger(0) > mostWeek)
+                    if (game["playtime_2weeks"].AsInteger() > mostWeek)
                     {
-                        mostWeek = game["playtime_2weeks"].AsInteger(0);
+                        mostWeek = game["playtime_2weeks"].AsInteger();
                         mostWeekIn = game["name"].AsString();
                     }
                 }
@@ -71,26 +71,26 @@ namespace xubot.src.Commands.Connections
                     mostTimeField.Value = $"In App\n**__{mostTimeIn}__**: {$"{mostTime:#,###}"} minutes\n{$"{mostTime / 60:#,###0.0}"} hours";
                 }
 
-                ulong lastLogOffUnsigned = playerSummaries["lastlogoff"].AsUnsignedLong(0);
+                ulong lastLogOffUnsigned = playerSummaries["lastlogoff"].AsUnsignedLong();
                 DateTime lastLogOff = Util.UnixTimeStampToDateTime(lastLogOffUnsigned);
 
-                ulong timeCreatedUnsigned = playerSummaries["timecreated"].AsUnsignedLong(0);
+                ulong timeCreatedUnsigned = playerSummaries["timecreated"].AsUnsignedLong();
                 DateTime timeCreated = Util.UnixTimeStampToDateTime(timeCreatedUnsigned);
 
                 TimeSpan lastLogOffToNow = DateTime.Now - lastLogOff;
                 TimeSpan createdToNow = DateTime.Now - timeCreated;
 
                 string playing = "";
-                if (playerSummaries["gameid"].AsInteger(0) != 0) playing = $"Currently playing **{ReturnAppName(playerSummaries["gameid"].AsInteger())}**";
+                if (playerSummaries["gameid"].AsInteger() != 0) playing = $"Currently playing **{ReturnAppName(playerSummaries["gameid"].AsInteger())}**";
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Steam User: {playerSummaries["personaname"].AsString()} ({id.ToString()})", "Data obtained Steam WebAPI using SteamKit2", Discord.Color.DarkBlue);
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Steam User: {playerSummaries["personaname"].AsString()} ({id.ToString()})", "Data obtained Steam WebAPI using SteamKit2", Color.DarkBlue);
                 embed.ThumbnailUrl = playerSummaries["avatarfull"].AsString();
 
                 if (playerSummaries["communityvisibilitystate"].AsInteger(1) == 3 /* public, don't ask why */)
                 {
                     embed.Fields = new List<EmbedFieldBuilder>()
                     {
-                        new EmbedFieldBuilder
+                        new()
                         {
                             Name = "Current Stats",
                             Value = $"Currently __{GetStatus(playerSummaries["personastate"].AsInteger())}__\n" +
@@ -100,13 +100,13 @@ namespace xubot.src.Commands.Connections
                                     $"{playing}",
                             IsInline = true
                         },
-                        new EmbedFieldBuilder
+                        new()
                         {
                             Name = "Playtime (2 wks)",
                             Value = $"{twoWeeks:#,##0} minutes\n{twoWeeks / 60:#,###0.0} hours",
                             IsInline = true
                         },
-                        new EmbedFieldBuilder
+                        new()
                         {
                             Name = "Playtime (forever)",
                             Value = $"{forever:#,##0} minutes\n{forever / 60:#,###0.0} hours\n{forever / 1440:#,###0.00} days",
@@ -114,18 +114,18 @@ namespace xubot.src.Commands.Connections
                         },
                         mostWeekField,
                         mostTimeField,
-                        new EmbedFieldBuilder
+                        new()
                         {
                             Name = "Last Logoff",
                             Value = $"{lastLogOff.ToShortDateString()} {lastLogOff.ToShortTimeString()}\n(" +
-                                    $"{System.Math.Round((lastLogOffToNow.TotalHours*100)/100).ToString()} hours)",
+                                    $"{System.Math.Round(lastLogOffToNow.TotalHours*100/100).ToString(CultureInfo.CurrentCulture)} hours)",
                             IsInline = true
                         },
-                        new EmbedFieldBuilder
+                        new()
                         {
                             Name = "Time Created",
                             Value = $"{timeCreated.ToShortDateString()} {timeCreated.ToShortTimeString()}\n(" +
-                                    $"{(createdToNow.TotalDays / 365):#,###.00} years)",
+                                    $"{createdToNow.TotalDays / 365:#,###.00} years)",
                             IsInline = true
                         }
                     };
@@ -134,17 +134,17 @@ namespace xubot.src.Commands.Connections
                 {
                     embed.Fields = new List<EmbedFieldBuilder>()
                     {
-                        new EmbedFieldBuilder
+                        new()
                         {
                             Name = "Current Stats",
                             Value = $"**This user's profile is private.**\nCurrently __{GetStatus(playerSummaries["personastate"].AsInteger())}__",
                             IsInline = false
                         },
-                        new EmbedFieldBuilder
+                        new()
                         {
                             Name = "Last Logoff",
                             Value = $"{lastLogOff.ToShortDateString()} {lastLogOff.ToShortTimeString()}\n(" +
-                                    $"{System.Math.Round((lastLogOffToNow.TotalHours*100)/100).ToString()} hours)",
+                                    $"{System.Math.Round(lastLogOffToNow.TotalHours*100/100).ToString(CultureInfo.CurrentCulture)} hours)",
                             IsInline = false
                         }
                     };
@@ -164,48 +164,46 @@ namespace xubot.src.Commands.Connections
         {
             KeyValue vanityUrl = SteamUserInterface.ResolveVanityURL(vanityurl: vanity);
 
-            await User(vanityUrl["steamid"].AsUnsignedLong(0));
+            await User(vanityUrl["steamid"].AsUnsignedLong());
         }
 
         [Example("4000")]
         [Command("news", RunMode = RunMode.Async), Summary("Gets news for a game via it's ID.")]
         public async Task News(int appid, int cap = 5)
         {
-            using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
+            try
             {
-                try
+                KeyValue news = SteamNewsInterface.GetNewsForApp0002(appid: appid);
+
+                news = news["newsitems"];
+                int amount = System.Math.Min(System.Math.Min(news.Children.Count, cap), 5);
+
+                List<EmbedFieldBuilder> articleDetails = new List<EmbedFieldBuilder>();
+
+                for (int i = 0; i < amount; i++)
                 {
-                    KeyValue news = SteamNewsInterface.GetNewsForApp0002(appid: appid);
+                    Uri articleUri = new Uri(news.Children[i]["url"].AsString() ?? string.Empty);
 
-                    news = news["newsitems"];
-                    int amount = System.Math.Min(System.Math.Min(news.Children.Count, cap), 5);
+                    string label = "";
+                    if (news.Children[i]["feedlabel"].AsString() != "Community Announcements") label = "\n*(" + news.Children[i]["feedlabel"].AsString() + ")*";
 
-                    List<EmbedFieldBuilder> articleDetails = new List<EmbedFieldBuilder>();
-
-                    for (int i = 0; i < amount; i++)
+                    articleDetails.Add(new EmbedFieldBuilder
                     {
-                        Uri articleUri = new Uri(news.Children[i]["url"].AsString());
-
-                        string label = "";
-                        if (news.Children[i]["feedlabel"].AsString() != "Community Announcements") label = "\n*(" + news.Children[i]["feedlabel"].AsString() + ")*";
-
-                        articleDetails.Add(new EmbedFieldBuilder
-                        {
-                            Name = news.Children[i]["title"].AsString() + label,
-                            Value = "[Go to article (" + articleUri.Host + ")](" +
-                                    news.Children[i]["url"].AsString() + ")"
-                        });
-                    }
-
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Latest {amount} news articles for the app: {ReturnAppName(appid)}", "Data obtained Steam WebAPI using SteamKit2", Discord.Color.DarkBlue);
-                    embed.Fields = articleDetails;
-
-                    await ReplyAsync("", false, embed.Build());
+                        Name = news.Children[i]["title"].AsString() + label,
+                        Value = "[Go to article (" + articleUri.Host + ")](" +
+                                news.Children[i]["url"].AsString() + ")"
+                    });
                 }
-                catch (Exception exp)
-                {
-                    await Util.Error.BuildError(exp, Context);
-                }
+
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Latest {amount} news articles for the app: {ReturnAppName(appid)}", "Data obtained Steam WebAPI using SteamKit2", Color.DarkBlue);
+                embed.Fields = articleDetails;
+
+                await ReplyAsync("", false, embed.Build());
+            }
+            catch (Exception exp)
+            {
+                await Util.Error.BuildError(exp, Context);
             }
         }
 
@@ -214,13 +212,12 @@ namespace xubot.src.Commands.Connections
         public async Task News(params string[] args)
         {
             string name = "";
-            int cap;
-            int lastStringIndex = args.Length - 2;
+            // int lastStringIndex = args.Length - 2;
 
-            if (!int.TryParse(args.Last(), out cap))
+            if (!int.TryParse(args.Last(), out var cap))
             {
                 cap = 5;
-                lastStringIndex++;
+                // lastStringIndex++;
             }
 
             int i;
@@ -238,7 +235,7 @@ namespace xubot.src.Commands.Connections
 
             KeyValue app = appList.Children.Find(x => x["appid"].AsInteger() == appId);
 
-            return app["name"].AsString();
+            return app?["name"].AsString();
         }
 
         public static int ReturnAppId(string appName, ICommandContext context)
@@ -248,7 +245,7 @@ namespace xubot.src.Commands.Connections
                 KeyValue appList = SteamAppsInterface.GetAppList2()["apps"];
                 KeyValue app = appList.Children.Find(x => x["name"].AsString() == appName);
 
-                return app["appid"].AsInteger();
+                return app != null ? app["appid"].AsInteger() : 0;
             }
             catch (Exception exp)
             {
@@ -275,7 +272,7 @@ namespace xubot.src.Commands.Connections
         public static int GetFriendSlots(int level, bool considerFacebook = false)
         {
             // add 50 if facebook is considered
-            return 250 + (considerFacebook ? 50 : 0) + (level * 5);
+            return 250 + (considerFacebook ? 50 : 0) + level * 5;
         }
     }
 }

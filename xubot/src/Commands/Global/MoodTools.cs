@@ -1,11 +1,7 @@
 ﻿using Discord;
-using Discord.Commands;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace xubot.src.Commands.Global
+namespace xubot.Commands.Global
 {
     public class MoodTools
     {

@@ -1,23 +1,18 @@
-﻿using Discord.WebSocket;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Discord;
 using Discord.Commands;
-using System.IO;
-using System.Net.Http;
-using System.Xml.Linq;
-using System.Web;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.IO;
-using SteamKit2.Internal;
-using System.Threading;
+using Newtonsoft.Json.Linq;
 
-namespace xubot.src
+namespace xubot
 {
     public static class Util
     {
@@ -28,12 +23,12 @@ namespace xubot.src
                 return new EmbedBuilder
                 {
                     Title = "Error!",
-                    Color = Discord.Color.Red,
+                    Color = Color.Red,
                     Description = "***That's a bad!!!***",
 
                     Footer = new EmbedFooterBuilder
                     {
-                        Text = Util.Globals.EmbedFooter
+                        Text = Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow
                 };
@@ -45,13 +40,13 @@ namespace xubot.src
 
                 embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Error Reason",
                         Value = "```" + result.ErrorReason + "```",
                         IsInline = false
                     },
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "What it is",
                         Value = "```" + result.Error.GetType() + "```",
@@ -68,7 +63,7 @@ namespace xubot.src
 
                 embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Error",
                         Value = "```" + err + "```",
@@ -82,11 +77,11 @@ namespace xubot.src
             public static async Task BuildError(Exception exp, ICommandContext context)
             {
                 string stack = exp.StackTrace;
-                string file = Environment.CurrentDirectory + BotSettings.Global.Default.ExceptionLogLocation + DateTime.UtcNow.ToLongTimeString().Replace(':', '_') + ".nonfatal.txt";
+                string file = Environment.CurrentDirectory + src.BotSettings.Global.Default.ExceptionLogLocation + DateTime.UtcNow.ToLongTimeString().Replace(':', '_') + ".nonfatal.txt";
 
                 bool stacktraceToFile = exp.StackTrace.Length > 512;
 
-                Directory.CreateDirectory(Environment.CurrentDirectory + BotSettings.Global.Default.ExceptionLogLocation);
+                Directory.CreateDirectory(Environment.CurrentDirectory + src.BotSettings.Global.Default.ExceptionLogLocation);
                 System.IO.File.WriteAllText(file, stack);
 
                 if (stacktraceToFile)
@@ -94,7 +89,7 @@ namespace xubot.src
                     stack = "Stack trace is too big.";
                 }
 
-                if (BotSettings.Global.Default.SendStacktraceOnError)
+                if (src.BotSettings.Global.Default.SendStacktraceOnError)
                 {
                     stack = "Settings prevent the sending of any stack trace. Check exception logs for a *.nonfatal.txt file.";
                 }
@@ -104,25 +99,25 @@ namespace xubot.src
                 embed.Description = $"It's a ***{exp.GetType()}***.";
                 embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Source",
                         Value = $"```{exp.Source}```",
                         IsInline = false
                     },
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Message",
                         Value = $"```{exp.Message}```",
                         IsInline = false
                     },
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Target Site",
                         Value = $"```{exp.TargetSite}```",
                         IsInline = false
                     },
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Stack Trace",
                         Value = $"```{stack}```",
@@ -131,7 +126,7 @@ namespace xubot.src
                 };
 
                 await context.Channel.SendMessageAsync("", false, embed.Build());
-                if (stacktraceToFile && BotSettings.Global.Default.SendBigStacktraceOnError)
+                if (stacktraceToFile && src.BotSettings.Global.Default.SendBigStacktraceOnError)
                 {
                     await context.Channel.SendFileAsync(file);
                 }
@@ -142,7 +137,7 @@ namespace xubot.src
                 EmbedBuilder embed = GetErrorBoilerplate();
                 embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Details",
                         Value = "```" + problem + "```",
@@ -160,10 +155,10 @@ namespace xubot.src
                 embed.Description = "It's a dedicated ***" + problem.GetType() + "*** issue.";
                 embed.Fields = new List<EmbedFieldBuilder>()
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         Name = "Details",
-                        Value = $"```{problem.ToString()}```",
+                        Value = $"```{problem}```",
                         IsInline = false
                     }
                 };
@@ -227,7 +222,7 @@ namespace xubot.src
 
         public class String
         {
-            private static readonly Dictionary<string, string> _typeToString = new Dictionary<string, string>() {
+            private static readonly Dictionary<string, string> TypeToString = new() {
                 { "System.Boolean", "bool"},
                 { "System.Byte",    "byte" },       { "System.SByte",   "sbyte" },  { "System.Char",    "char" },
                 { "System.Decimal", "decimal" },    { "System.Double",  "double" }, { "System.Single",  "float" },
@@ -238,7 +233,7 @@ namespace xubot.src
                 { "System.String",  "string" },     { "System.Object",  "object" }
             };
 
-            private static readonly Dictionary<string, string> _typeToGenericString = new Dictionary<string, string>() {
+            private static readonly Dictionary<string, string> TypeToGenericString = new() {
                 { "System.Boolean", "switch"},
                 { "System.Byte",    "byte" },      { "System.SByte",   "byte" },   { "System.Char",    "char" },
                 { "System.Decimal", "number" },    { "System.Double",  "number" }, { "System.Single",  "number" },
@@ -256,13 +251,12 @@ namespace xubot.src
 
             public static string SimplifyTypes(string input)
             {
-                return BotSettings.Global.Default.SuperSimpleTypes ? _typeToGenericString[input] : _typeToString[input];
+                return src.BotSettings.Global.Default.SuperSimpleTypes ? TypeToGenericString[input] : TypeToString[input];
             }
 
             public static bool ValidateUrl(string url)
             {
-                Uri result;
-                return Uri.TryCreate(url, UriKind.Absolute, out result) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
+                return Uri.TryCreate(url, UriKind.Absolute, out var result) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
             }
 
             public static string RandomHexadecimal(int length = 32)
@@ -311,37 +305,33 @@ namespace xubot.src
             public static async Task DownloadLastAttachmentAsync(ICommandContext context, string localurl, bool autoApplyFt = false)
             {
                 string url = ReturnLastAttachmentUrl(context);
-                using (HttpClient client = new HttpClient())
-                using (HttpResponseMessage response = await client.GetAsync(url))
-                using (HttpContent content = response.Content)
+                using HttpClient client = new HttpClient();
+                using HttpResponseMessage response = await client.GetAsync(url);
+                using HttpContent content = response.Content;
+                if (!autoApplyFt)
                 {
-                    if (!autoApplyFt)
-                    {
-                        System.IO.File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
-                    }
-                    else
-                    {
-                        string type = Path.GetExtension(url);
-                        System.IO.File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
-                    }
+                    System.IO.File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
+                }
+                else
+                {
+                    string type = Path.GetExtension(url);
+                    System.IO.File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
                 }
             }
 
             public static async Task DownloadFromUrlAsync(string localurl, string url, bool autoApplyFt = false)
             {
-                using (HttpClient client = new HttpClient())
-                using (HttpResponseMessage response = await client.GetAsync(url))
-                using (HttpContent content = response.Content)
+                using HttpClient client = new HttpClient();
+                using HttpResponseMessage response = await client.GetAsync(url);
+                using HttpContent content = response.Content;
+                if (!autoApplyFt)
                 {
-                    if (!autoApplyFt)
-                    {
-                        System.IO.File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
-                    }
-                    else
-                    {
-                        string type = Path.GetExtension(url);
-                        System.IO.File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
-                    }
+                    System.IO.File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
+                }
+                else
+                {
+                    string type = Path.GetExtension(url);
+                    System.IO.File.WriteAllBytes(localurl + type, await content.ReadAsByteArrayAsync());
                 }
             }
         }
@@ -371,11 +361,11 @@ namespace xubot.src
 
         public class Globals
         {
-            public static readonly Random Rng = new Random();
+            public static readonly Random Rng = new();
             public static readonly char[] HexadecimalChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-            public static readonly Emoji Working = new Emoji(BotSettings.Global.Default.WorkingReaction);
-            public static readonly Emoji Completed = new Emoji(BotSettings.Global.Default.WorkCompletedReaction);
-            public static readonly Emoji LongerThanExpected = new Emoji(BotSettings.Global.Default.WorkTakingLongerReaction);
+            public static readonly Emoji Working = new(src.BotSettings.Global.Default.WorkingReaction);
+            public static readonly Emoji Completed = new(src.BotSettings.Global.Default.WorkCompletedReaction);
+            public static readonly Emoji LongerThanExpected = new(src.BotSettings.Global.Default.WorkTakingLongerReaction);
             public static readonly string EmbedFooter = "xubot :p";
         }
 
@@ -384,12 +374,15 @@ namespace xubot.src
             private readonly ICommandContext _context;
             private bool _started;
             private bool _completed;
-            private Task _untilLonger;
-            private readonly int _delay = BotSettings.Global.Default.TakingLongerMilliseconds;
-            private readonly int _taskPollLength = BotSettings.Global.Default.TaskPollLength;
-            private readonly CancellationTokenSource _cancelToken = new CancellationTokenSource();
 
-            private static readonly IEmote[] _removeEmotesOnDispose = new IEmote[] { Util.Globals.Working, Util.Globals.LongerThanExpected };
+            // ReSharper disable once NotAccessedField.Local
+            private Task _untilLonger;
+
+            private readonly int _delay = src.BotSettings.Global.Default.TakingLongerMilliseconds;
+            private readonly int _taskPollLength = src.BotSettings.Global.Default.TaskPollLength;
+            private readonly CancellationTokenSource _cancelToken = new();
+
+            private static readonly IEmote[] RemoveEmotesOnDispose = new IEmote[] { Globals.Working, Globals.LongerThanExpected };
 
             public WorkingBlock(ICommandContext ctx)
             {
@@ -401,16 +394,16 @@ namespace xubot.src
             public void Start()
             {
                 if (_started || _completed) return;
-                _context.Message.AddReactionAsync(Util.Globals.Working);
+                _context.Message.AddReactionAsync(Globals.Working);
 
                 _untilLonger = Task.Factory.StartNew(() =>
                 {
-                    for (int i = 0; i < (_delay / _taskPollLength); i++) {
-                        System.Threading.Thread.Sleep(_taskPollLength);
+                    for (int i = 0; i < _delay / _taskPollLength; i++) {
+                        Thread.Sleep(_taskPollLength);
                         if (_cancelToken.IsCancellationRequested)
                             return;
                     }
-                    _context.Message.AddReactionAsync(Util.Globals.LongerThanExpected);
+                    _context.Message.AddReactionAsync(Globals.LongerThanExpected);
                 }, _cancelToken.Token);
 
                 _started = true;
@@ -421,13 +414,13 @@ namespace xubot.src
                 _completed = true;
                 if (!_started) return;
 
-                _context.Message.RemoveReactionsAsync(Program.XuClient.CurrentUser, _removeEmotesOnDispose);
+                _context.Message.RemoveReactionsAsync(Program.XuClient.CurrentUser, RemoveEmotesOnDispose);
 
-                _context.Message.AddReactionAsync(Util.Globals.Completed);
+                _context.Message.AddReactionAsync(Globals.Completed);
 
                 _cancelToken.Cancel();
 
-                System.Threading.Thread.Sleep(_taskPollLength);
+                Thread.Sleep(_taskPollLength);
                 _cancelToken.Dispose();
             }
         }
@@ -436,12 +429,12 @@ namespace xubot.src
         {
             public static object Get(string key)
             {
-                return BotSettings.Global.Default.GetType().GetProperty(key).GetValue(BotSettings.Global.Default);
+                return src.BotSettings.Global.Default.GetType().GetProperty(key).GetValue(src.BotSettings.Global.Default);
             }
 
             public static void Set<T>(string key, T newValue)
             {
-                BotSettings.Global.Default.GetType().GetProperty(key).SetValue(BotSettings.Global.Default, newValue);
+                src.BotSettings.Global.Default.GetType().GetProperty(key).SetValue(src.BotSettings.Global.Default, newValue);
             }
         }
 
@@ -458,7 +451,7 @@ namespace xubot.src
 
                     Footer = new EmbedFooterBuilder
                     {
-                        Text = Util.Globals.EmbedFooter,
+                        Text = Globals.EmbedFooter,
                         IconUrl = context.Client.CurrentUser.GetAvatarUrl()
                     },
                     Timestamp = DateTime.UtcNow
@@ -489,13 +482,13 @@ namespace xubot.src
 
         public static async Task<bool> IsChannelNsfw(ICommandContext context)
         {
-            if (!BotSettings.Global.Default.BotwideNSFWEnabled) return false;
+            if (!src.BotSettings.Global.Default.BotwideNSFWEnabled) return false;
 
             IDMChannel ifDm = await context.Message.Author.GetOrCreateDMChannelAsync();
 
             if (ifDm.Id == context.Channel.Id)
             {
-                return BotSettings.Global.Default.DMsAlwaysNSFW;
+                return src.BotSettings.Global.Default.DMsAlwaysNSFW;
             }
             else
             {
@@ -514,7 +507,7 @@ namespace xubot.src
         public static DateTime UnixTimeStampToDateTime(ulong unixTimeStamp)
         {
             // Unix timestamp is seconds past epoch
-            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
         }

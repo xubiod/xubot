@@ -1,13 +1,12 @@
-﻿using Discord;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Text;
 using System.Threading.Tasks;
+using Discord;
 
-namespace xubot.src.Offline
+namespace xubot.Offline
 {
-    class OfflineUser : IUser, ISelfUser
+    internal class OfflineUser : ISelfUser
     {
         public string AvatarId => null;
 
@@ -33,7 +32,7 @@ namespace xubot.src.Offline
 
         public UserStatus Status => UserStatus.Online;
 
-        public List<ClientType> DefaultClients = new List<ClientType>() { ClientType.Desktop };
+        public List<ClientType> DefaultClients = new() { ClientType.Desktop };
         public IImmutableSet<ClientType> ActiveClients => (IImmutableSet<ClientType>)DefaultClients;
 
         public List<IActivity> DefaultActivities = null;

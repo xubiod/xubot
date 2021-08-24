@@ -1,16 +1,10 @@
-﻿using Discord.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System;
 using System.Threading.Tasks;
-using System.Xml;
-using Discord;
-using System.Xml.Linq;
+using Discord.Commands;
 using Newtonsoft.Json.Linq;
-using xubot.src.Attributes;
+using xubot.Attributes;
 
-namespace xubot.src.Commands.Global
+namespace xubot.Commands.Global
 {
     [Group("opinion")]
     public class Opinions : ModuleBase
