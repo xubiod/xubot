@@ -11,87 +11,87 @@ namespace xubot.src.Commands
         //adapted from https://esolangs.org/wiki/Deadfish#C.23
         public class Deadfish
         {
-            private static string output = "";
+            private static string _output = "";
 
-            private static int cell = 0;
+            private static int _cell = 0;
 
             public static string Execute(string input)
             {
                 input = input.Replace(((char)13).ToString(), "");
 
-                output = "";
-                cell = 0;
+                _output = "";
+                _cell = 0;
 
                 foreach (char c in input)
                 {
                     if (c == 'i')
                     {
-                        cell++;
+                        _cell++;
                     }
                     else if (c == 'd')
                     {
-                        cell--;
+                        _cell--;
                     }
                     else if (c == 's')
                     {
-                        int i = cell * cell;
-                        cell = i;
+                        int i = _cell * _cell;
+                        _cell = i;
                     }
                     else if (c == 'o')
                     {
-                        output += cell.ToString();
+                        _output += _cell.ToString();
                     }
 
-                    if (cell == -1 || cell == 256)
+                    if (_cell == -1 || _cell == 256)
                     {
-                        cell = 0;
+                        _cell = 0;
                     }
                 }
 
-                return output;
+                return _output;
             }
         }
 
         // adapted from https://github.com/james1345-1/Brainfuck/blob/master/C%23/Brainfuck.cs
         public class Brainfuck
         {
-            private static char[] memory;
-            private static int memory_pointer;
+            private static char[] _memory;
+            private static int _memoryPointer;
 
-            private static char[] actions;
-            private static int action_pointer;
+            private static char[] _actions;
+            private static int _actionPointer;
 
-            private static char[] inputs;
-            private static int input_pointer;
+            private static char[] _inputs;
+            private static int _inputPointer;
 
             private static char _;
-            private static string output;
+            private static string _output;
 
-            public static string Execute(string input, string ascii_input = "a")
+            public static string Execute(string input, string asciiInput = "a")
             {
                 // initialize/reset variables
-                memory = new char[10000];
-                memory_pointer = 0;
+                _memory = new char[10000];
+                _memoryPointer = 0;
 
-                actions = input.ToCharArray();
-                action_pointer = 0;
+                _actions = input.ToCharArray();
+                _actionPointer = 0;
 
-                inputs = ascii_input.ToCharArray();
-                input_pointer = 0;
+                _inputs = asciiInput.ToCharArray();
+                _inputPointer = 0;
 
-                output = "";
+                _output = "";
 
-                while (action_pointer < actions.Length)
+                while (_actionPointer < _actions.Length)
                 {
-                    _ = actions[action_pointer];
+                    _ = _actions[_actionPointer];
 
                     DoInstruction(_);
 
                     // increment instruction mp
-                    action_pointer++;
+                    _actionPointer++;
                 }
 
-                return output;
+                return _output;
             }
 
             private static void DoInstruction(char instruction)
@@ -100,48 +100,48 @@ namespace xubot.src.Commands
                 {
                     case '>':
                         {
-                            memory_pointer++;
+                            _memoryPointer++;
                             break;
                         }
                     case '<':
                         {
-                            memory_pointer--;
+                            _memoryPointer--;
                             break;
                         }
                     case '+':
                         {
-                            memory[memory_pointer]++;
+                            _memory[_memoryPointer]++;
                             break;
                         }
                     case '-':
                         {
-                            memory[memory_pointer]--;
+                            _memory[_memoryPointer]--;
                             break;
                         }
                     case '.':
                         {
-                            output += memory[memory_pointer];
+                            _output += _memory[_memoryPointer];
                             break;
                         }
                     case ',':
                         try
                         {
-                            memory[memory_pointer] = inputs[input_pointer];
-                            input_pointer++;
+                            _memory[_memoryPointer] = _inputs[_inputPointer];
+                            _inputPointer++;
                         }
                         catch (Exception e) { }
                         break;
                     case '[':
-                        if (memory[memory_pointer] == 0)
+                        if (_memory[_memoryPointer] == 0)
                         {
-                            while (actions[action_pointer] != ']') action_pointer++;
+                            while (_actions[_actionPointer] != ']') _actionPointer++;
                         }
                         break;
 
                     case ']':
-                        if (memory[memory_pointer] != 0)
+                        if (_memory[_memoryPointer] != 0)
                         {
-                            while (actions[action_pointer] != '[') action_pointer--;
+                            while (_actions[_actionPointer] != '[') _actionPointer--;
                         }
                         break;
                 }

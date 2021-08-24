@@ -36,8 +36,8 @@ namespace xubot.src.Commands
             public static int R, G, B;
 
             public static int HeaderHeight;
-            public static int LRMargin;
-            public static int TBMargin;
+            public static int lrMargin;
+            public static int tbMargin;
 
             [Example("\"0,0,example,24\"",true)]
             [Command("direct", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```The optional parameter has a specific format too: ```\"textwrap width,r,g,b\"```")]
@@ -47,7 +47,7 @@ namespace xubot.src.Commands
                 if (optional != "") DirectUtils.InterpOptionalParameters(optional);
 
                 await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
-                string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
+                string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
 
                 font = new Font(fontCollect.Find("Roboto"), Size);
 
@@ -84,7 +84,7 @@ namespace xubot.src.Commands
                 if (optional != "") HeaderUtils.InterpOptionalParameters(optional);
 
                 await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
-                string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
+                string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
 
                 font = new Font(fontCollect.Find("Roboto"), Size);
 
@@ -92,9 +92,9 @@ namespace xubot.src.Commands
                 using (Image<Rgba32> container = new Image<Rgba32>(img.Width, img.Height + HeaderHeight))
                 {
                     // forced parameters
-                    X = LRMargin;
-                    Y = TBMargin;
-                    Wraparound = img.Width - (2 * LRMargin);
+                    X = lrMargin;
+                    Y = tbMargin;
+                    Wraparound = img.Width - (2 * lrMargin);
 
                     container.Mutate(mut => mut.Fill(Rgba32.ParseHex("FFFFFF")));
 
@@ -142,8 +142,8 @@ namespace xubot.src.Commands
                     string[] split = input.Split(",");
 
                     HeaderHeight = int.Parse(split[0]);
-                    LRMargin = int.Parse(split[1]);
-                    TBMargin = int.Parse(split[2]);
+                    lrMargin = int.Parse(split[1]);
+                    tbMargin = int.Parse(split[2]);
                     Text = split[3];
                     Size = int.Parse(split[4]);
                 }

@@ -22,16 +22,16 @@ namespace xubot.src.Commands.Connections
         public struct DictInputs
         {
             public string get;
-            public string langID;
+            public string langId;
             public string word;
             public string filters;
         }
 
-        static string AssembleURL(DictInputs inputs)
+        static string AssembleUrl(DictInputs inputs)
         {
-            if (inputs.langID != null && inputs.word != null)
+            if (inputs.langId != null && inputs.word != null)
             {
-                return $"https://od-api.oxforddictionaries.com:443/api/v1/{ inputs.get.ToLower() }/{inputs.langID.ToLower() }/{inputs.word.ToLower() + inputs.filters.ToLower()}";
+                return $"https://od-api.oxforddictionaries.com:443/api/v1/{ inputs.get.ToLower() }/{inputs.langId.ToLower() }/{inputs.word.ToLower() + inputs.filters.ToLower()}";
             }
             else
             {
@@ -39,15 +39,15 @@ namespace xubot.src.Commands.Connections
             }
         }
 
-        public static Task GetJSON(DictInputs inputs)
+        public static Task GetJson(DictInputs inputs)
         {
             WebClient dicWeb = new WebClient();
 
             dicWeb.Headers.Add("Accept", "application/json");
-            dicWeb.Headers.Add($"app_id: {Program.JSONKeys["keys"].Contents.oxford_dic_id}");
-            dicWeb.Headers.Add($"app_key: {Program.JSONKeys["keys"].Contents.oxford_dic_key}");
+            dicWeb.Headers.Add($"app_id: {Program.JsonKeys["keys"].Contents.oxford_dic_id}");
+            dicWeb.Headers.Add($"app_key: {Program.JsonKeys["keys"].Contents.oxford_dic_key}");
 
-            text = dicWeb.DownloadString(AssembleURL(inputs));
+            text = dicWeb.DownloadString(AssembleUrl(inputs));
             return Task.CompletedTask;
         }
 
@@ -55,16 +55,16 @@ namespace xubot.src.Commands.Connections
 
         [ExampleAttribute("programming en")]
         [Command("define", RunMode = RunMode.Async), Summary("Defines a word using the Oxford Dictionary.")]
-        public async Task Define(string word, string langID = "en")
+        public async Task Define(string word, string langId = "en")
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
             {
                 try
                 {
-                    await GetJSON(new DictInputs
+                    await GetJson(new DictInputs
                     {
                         get = "entries",
-                        langID = langID,
+                        langId = langId,
                         word = word,
                         filters = "/definitions"
                     });
@@ -76,7 +76,7 @@ namespace xubot.src.Commands.Connections
                     new EmbedFieldBuilder
                     {
                         Name = "Word / Region",
-                        Value = $"{word } / {langID}",
+                        Value = $"{word } / {langId}",
                         IsInline = false
                     }
                 };
@@ -114,16 +114,16 @@ namespace xubot.src.Commands.Connections
         //inflections
         [ExampleAttribute("adapt en")]
         [Command("inflection", RunMode = RunMode.Async), Summary("Shows inflections for a word using the Oxford Dictionary.")]
-        public async Task Inflections(string word, string langID = "en")
+        public async Task Inflections(string word, string langId = "en")
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
             {
                 try
                 {
-                    await GetJSON(new DictInputs
+                    await GetJson(new DictInputs
                     {
                         get = "inflections",
-                        langID = langID,
+                        langId = langId,
                         word = word,
                         filters = ""
                     });
@@ -135,7 +135,7 @@ namespace xubot.src.Commands.Connections
                     new EmbedFieldBuilder
                     {
                         Name = "Word / Region",
-                        Value = $"{word } / {langID}",
+                        Value = $"{word } / {langId}",
                         IsInline = false
                     }
                 };
@@ -171,16 +171,16 @@ namespace xubot.src.Commands.Connections
         //words with same meanings
         [ExampleAttribute("happy en")]
         [Command("synonyms", RunMode = RunMode.Async), Alias("syn"), Summary("Gives a list of synonyms a word using the Oxford Dictionary.")]
-        public async Task Syn(string word, string langID = "en")
+        public async Task Syn(string word, string langId = "en")
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
             {
                 try
                 {
-                    await GetJSON(new DictInputs
+                    await GetJson(new DictInputs
                     {
                         get = "entries",
-                        langID = langID,
+                        langId = langId,
                         word = word,
                         filters = "/synonyms"
                     });
@@ -192,7 +192,7 @@ namespace xubot.src.Commands.Connections
                     new EmbedFieldBuilder
                     {
                         Name = "Word / Region",
-                        Value = $"{word } / {langID}",
+                        Value = $"{word } / {langId}",
                         IsInline = false
                     }
                 };
@@ -237,16 +237,16 @@ namespace xubot.src.Commands.Connections
         //words with opposite meanings
         [ExampleAttribute("true en")]
         [Command("antonyms", RunMode = RunMode.Async), Alias("ant"), Summary("Gives a list of antonyms a word using the Oxford Dictionary.")]
-        public async Task Ant(string word, string langID = "en")
+        public async Task Ant(string word, string langId = "en")
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
             {
                 try
                 {
-                    await GetJSON(new DictInputs
+                    await GetJson(new DictInputs
                     {
                         get = "entries",
-                        langID = langID,
+                        langId = langId,
                         word = word,
                         filters = "/antonyms"
                     });
@@ -258,7 +258,7 @@ namespace xubot.src.Commands.Connections
                     new EmbedFieldBuilder
                     {
                         Name = "Word / Region",
-                        Value = $"{word } / {langID}",
+                        Value = $"{word } / {langId}",
                         IsInline = false
                     }
                 };
@@ -305,7 +305,7 @@ namespace xubot.src.Commands.Connections
             {
                 try
                 {
-                    await GetJSON(new DictInputs
+                    await GetJson(new DictInputs
                     {
                         get = "languages"
                     });

@@ -17,36 +17,36 @@ namespace xubot.src.Commands.Connections
 {
     public class Reddit : ModuleBase
     {
-        private static string previous_sub = BotSettings.Global.Default.StartingSubreddit;
-        private static string previous_query = BotSettings.Global.Default.StartingRedditQuery;
-        private static int previous_sorting = BotSettings.Global.Default.StartingRedditSorting;
-        private static bool previous_hide = BotSettings.Global.Default.StartingRedditHideOutput;
+        private static string _previousSub = BotSettings.Global.Default.StartingSubreddit;
+        private static string _previousQuery = BotSettings.Global.Default.StartingRedditQuery;
+        private static int _previousSorting = BotSettings.Global.Default.StartingRedditSorting;
+        private static bool _previousHide = BotSettings.Global.Default.StartingRedditHideOutput;
 
-        private static string[] randomSubs = { "adviceanimals", "askreddit", "aww", "bestof", "books", "earthporn", "explainlikeimfive", "funny", "gaming", "gifs", "iama", "movies", "music",
+        private static readonly string[] _randomSubs = { "adviceanimals", "askreddit", "aww", "bestof", "books", "earthporn", "explainlikeimfive", "funny", "gaming", "gifs", "iama", "movies", "music",
                                                "news", "pics", "science", "technology", "television", "todayilearned", "videos", "worldnews", "wtf" };
 
-        [Command("reddit?last", RunMode = RunMode.Async), Alias("reddit?l"), Summary("Gets a post from the last subreddit entered."), NSFWPossibilty("Anything probably")]
+        [Command("reddit?last", RunMode = RunMode.Async), Alias("reddit?l"), Summary("Gets a post from the last subreddit entered."), NsfwPossibilty("Anything probably")]
         public async Task DoLastSubreddit()
         {
-            await Operate(Context, previous_sub, previous_query, previous_sorting, previous_hide);
+            await Operate(Context, _previousSub, _previousQuery, _previousSorting, _previousHide);
         }
 
-        [NSFWPossibilty("Has links to NSFW subreddits")]
+        [NsfwPossibilty("Has links to NSFW subreddits")]
         [Command("reddit?nsfwmap"), Summary("Returns a URL to a visual map of many NSFW subreddits and how they link.")]
-        public async Task GetNSFWMap()
+        public async Task GetNsfwMap()
         {
-            if (await Util.IsChannelNSFW(Context)) await ReplyAsync("Alright... then... " + "http://electronsoup.net/nsfw_subreddits/#");
+            if (await Util.IsChannelNsfw(Context)) await ReplyAsync("Alright... then... " + "http://electronsoup.net/nsfw_subreddits/#");
             else await ReplyAsync("Move to a NSFW channel.");
         }
 
         [Command("reddit?random", RunMode = RunMode.Async), Alias("reddit?r"), Summary("Gets a random post from a random subreddit in a predetermined list.")]
         public async Task GetFromRandomSubreddit()
         {
-            Random rnd = Util.Globals.RNG;
+            Random rnd = Util.Globals.Rng;
 
-            previous_sub = randomSubs[rnd.Next(randomSubs.Length)];
+            _previousSub = _randomSubs[rnd.Next(_randomSubs.Length)];
 
-            await Operate(Context, previous_sub, previous_query, previous_sorting, previous_hide);
+            await Operate(Context, _previousSub, _previousQuery, _previousSorting, _previousHide);
         }
 
         [Command("reddit?sub", RunMode = RunMode.Async), Summary("Returns some details about a subreddit.")]
@@ -59,14 +59,14 @@ namespace xubot.src.Commands.Connections
                 return;
             }
 
-            Program.subreddit = await Program.reddit.GetSubredditAsync(input);
+            Program.Subreddit = await Program.Reddit.GetSubredditAsync(input);
 
-            string display = Program.subreddit.DisplayName;
-            string fullname = Program.subreddit.FullName;
-            string NSFW = Program.subreddit.NSFW.ToString();
-            string sub = string.Format("{0:#,###0}", Program.subreddit.Subscribers);
-            string image = Program.subreddit.HeaderImage;
-            string desc = Program.subreddit.Description.Split('\n')[0];
+            string display = Program.Subreddit.DisplayName;
+            string fullname = Program.Subreddit.FullName;
+            string nsfw = Program.Subreddit.NSFW.ToString();
+            string sub = string.Format("{0:#,###0}", Program.Subreddit.Subscribers);
+            string image = Program.Subreddit.HeaderImage;
+            string desc = Program.Subreddit.Description.Split('\n')[0];
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Subreddit: {input}", "Details of a subreddit", Discord.Color.Orange);
             embed.ThumbnailUrl = image;
@@ -93,7 +93,7 @@ namespace xubot.src.Commands.Connections
                 new EmbedFieldBuilder
                 {
                     Name = "NSFW?",
-                    Value = NSFW,
+                    Value = nsfw,
                     IsInline = true
                 },
                 new EmbedFieldBuilder
@@ -117,9 +117,9 @@ namespace xubot.src.Commands.Connections
                 return;
             }
 
-            Program.subreddit = await Program.reddit.GetSubredditAsync(input);
+            Program.Subreddit = await Program.Reddit.GetSubredditAsync(input);
 
-            string image = Program.subreddit.HeaderImage;
+            string image = Program.Subreddit.HeaderImage;
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Subreddit: {input}", "Subreddit Wiki Pages", Discord.Color.Orange);
             embed.ThumbnailUrl = image;
@@ -128,7 +128,7 @@ namespace xubot.src.Commands.Connections
                 new EmbedFieldBuilder
                 {
                     Name = "Wiki",
-                    Value = Program.subreddit.GetWiki.GetPageNamesAsync(),
+                    Value = Program.Subreddit.GetWiki.GetPageNamesAsync(),
                     IsInline = false
                 }
             };
@@ -136,35 +136,35 @@ namespace xubot.src.Commands.Connections
             await ReplyAsync("", false, embed.Build());
         }
 
-        [NSFWPossibilty("Anything probably"), Example("aww dog")]
+        [NsfwPossibilty("Anything probably"), Example("aww dog")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, search query, sorting method, and can prevent from showing previews.")]
         public async Task GetRedditPost(string subreddit, string query = "", int sorting = 0, bool hide = false)
         {
             await Operate(Context, subreddit, query, sorting, hide);
         }
 
-        [NSFWPossibilty("Anything probably"), Example("aww 0")]
+        [NsfwPossibilty("Anything probably"), Example("aww 0")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and sorting method.")]
         public async Task GetRedditPost(string subreddit, int sorting)
         {
             await Operate(Context, subreddit, "", sorting, false);
         }
 
-        [NSFWPossibilty("Anything probably"), Example("aww false")]
+        [NsfwPossibilty("Anything probably"), Example("aww false")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit, but can prevent previews from showing.")]
         public async Task GetRedditPost(string subreddit, bool hide)
         {
             await Operate(Context, subreddit, "", 0, hide);
         }
 
-        [NSFWPossibilty("Anything probably"), Example("aww cat false")]
+        [NsfwPossibilty("Anything probably"), Example("aww cat false")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and search query, but can prevent previews from showing.")]
         public async Task GetRedditPost(string subreddit, string query, bool hide)
         {
             await Operate(Context, subreddit, query, 0, hide);
         }
 
-        [NSFWPossibilty("Anything probably"), Example("aww 0 false")]
+        [NsfwPossibilty("Anything probably"), Example("aww 0 false")]
         [Command("reddit", RunMode = RunMode.Async), Summary("Returns a random post given the subreddit and sorting method, but can prevent previews from showing.")]
         public async Task GetRedditPost(string subreddit, int sorting, bool hide)
         {
@@ -172,47 +172,47 @@ namespace xubot.src.Commands.Connections
         }
 
         /* operation functions */
-        public async Task Operate(ICommandContext Context, string subreddit, string query, int sorting, bool hide)
+        public async Task Operate(ICommandContext context, string subreddit, string query, int sorting, bool hide)
         {
-            previous_sub = subreddit;
-            previous_query = query;
-            previous_sorting = sorting;
-            previous_hide = hide;
+            _previousSub = subreddit;
+            _previousQuery = query;
+            _previousSorting = sorting;
+            _previousHide = hide;
 
             // is the reddit fuck off?
             if (!Program.redditEnabled)
             {
-                Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
+                context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
                 return;
             }
 
-            using (WorkingBlock wb = new WorkingBlock(Context))
+            using (WorkingBlock wb = new WorkingBlock(context))
             {
                 try
                 {
-                    Program.subreddit = await Program.reddit.GetSubredditAsync(subreddit);
-                    Random rnd = Util.Globals.RNG;
+                    Program.Subreddit = await Program.Reddit.GetSubredditAsync(subreddit);
+                    Random rnd = Util.Globals.Rng;
 
-                    Listing<Post> contents = Program.subreddit.GetPosts(RedditTools.ParseSorting.FromIntSort(sorting), -1);
-                    int contents_count = await contents.CountAsync();
+                    Listing<Post> contents = Program.Subreddit.GetPosts(RedditTools.ParseSorting.FromIntSort(sorting), -1);
+                    int contentsCount = await contents.CountAsync();
 
-                    if (contents_count < 10) contents = Program.subreddit.GetPosts(-1);
+                    if (contentsCount < 10) contents = Program.Subreddit.GetPosts(-1);
                     //Console.WriteLine(contents.Count);
-                    var post = await contents.ElementAtAsync(rnd.Next(contents_count));
+                    var post = await contents.ElementAtAsync(rnd.Next(contentsCount));
                     //EmbedBuilder embedd;
 
-                    bool isNSFW = await Util.IsChannelNSFW(Context);
+                    bool isNsfw = await Util.IsChannelNsfw(context);
 
-                    string post_message = $"**{post.Title}**\nPosted on *{post.CreatedUTC.ToShortDateString()}* by **{post.AuthorName}**\n\n{ReturnCharOnTrue(hide, "<")}{post.Url.AbsoluteUri}{ReturnCharOnTrue(hide, ">")}\n<https://www.reddit.com{post.Permalink.ToString()}>";
+                    string postMessage = $"**{post.Title}**\nPosted on *{post.CreatedUTC.ToShortDateString()}* by **{post.AuthorName}**\n\n{ReturnCharOnTrue(hide, "<")}{post.Url.AbsoluteUri}{ReturnCharOnTrue(hide, ">")}\n<https://www.reddit.com{post.Permalink.ToString()}>";
 
-                    if ((post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL")) && !isNSFW)
-                        post_message = "The random post that was selected is NSFW or the subreddit is NSFW.Try again for another random post, with another subreddit, or move to a NSFW channel(needs nsfw in the name).";
+                    if ((post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL")) && !isNsfw)
+                        postMessage = "The random post that was selected is NSFW or the subreddit is NSFW.Try again for another random post, with another subreddit, or move to a NSFW channel(needs nsfw in the name).";
 
-                    await ReplyAsync(post_message);
+                    await ReplyAsync(postMessage);
                 }
                 catch (Exception e)
                 {
-                    await Util.Error.BuildError(e, Context);
+                    await Util.Error.BuildError(e, context);
                 }
             }
         }

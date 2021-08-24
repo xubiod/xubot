@@ -14,19 +14,19 @@ namespace xubot.src.Commands
         [Group("uptime"), Summary("Gets application and/or connection uptime.")]
         public class Uptime : ModuleBase
         {
-            TimeSpan app_uptime = DateTime.Now - Program.appStart;
-            TimeSpan con_uptime = DateTime.Now - Program.connectStart;
+            readonly TimeSpan _appUptime = DateTime.Now - Program.AppStart;
+            readonly TimeSpan _conUptime = DateTime.Now - Program.ConnectStart;
 
-            TimeSpan app_to_red_cli = Program.stepTimes[0] - Program.appStart;
-            TimeSpan app_to_dis = Program.stepTimes[2] - Program.appStart;
+            private readonly TimeSpan _appToRedCli = Program.stepTimes[0] - Program.AppStart;
+            private readonly TimeSpan _appToDis = Program.stepTimes[2] - Program.AppStart;
 
-            TimeSpan red_cli_to_sub = Program.stepTimes[1] - Program.stepTimes[0];
-            TimeSpan sub_to_discord = Program.stepTimes[2] - Program.stepTimes[1];
+            private readonly TimeSpan _redCliToSub = Program.stepTimes[1] - Program.stepTimes[0];
+            private readonly TimeSpan _subToDiscord = Program.stepTimes[2] - Program.stepTimes[1];
 
             [Command, Summary("Gets application uptime.")]
             public async Task Basic()
             {
-                await ReplyAsync($"Uptime (from application start) is **{app_uptime.Days} days, {app_uptime.Hours} hours, {app_uptime.Minutes} minutes, {app_uptime.Seconds} seconds.**");
+                await ReplyAsync($"Uptime (from application start) is **{_appUptime.Days} days, {_appUptime.Hours} hours, {_appUptime.Minutes} minutes, {_appUptime.Seconds} seconds.**");
             }
 
             [Command("report", RunMode = RunMode.Async), Summary("Gets application and connection uptimes.")]
@@ -37,17 +37,17 @@ namespace xubot.src.Commands
                     new EmbedFieldBuilder
                     {
                         Name = "Broad report",
-                        Value = $"App uptime: **{app_uptime}**\n" +
-                                $"Connection uptime: **{con_uptime}**\n\n" ,
+                        Value = $"App uptime: **{_appUptime}**\n" +
+                                $"Connection uptime: **{_conUptime}**\n\n" ,
                         IsInline = true
                     },
                     new EmbedFieldBuilder
                     {
                         Name = "Specific connections report",
-                        Value = $"Connection to Reddit: **{app_to_red_cli}**\n" +
-                                $"Connection to Discord: **{app_to_dis}**\n\n" +
-                                $"Reddit Connection to Default Sub: **{red_cli_to_sub}**\n" +
-                                $"Default Sub to Discord: **{sub_to_discord}**\n\n",
+                        Value = $"Connection to Reddit: **{_appToRedCli}**\n" +
+                                $"Connection to Discord: **{_appToDis}**\n\n" +
+                                $"Reddit Connection to Default Sub: **{_redCliToSub}**\n" +
+                                $"Default Sub to Discord: **{_subToDiscord}**\n\n",
                         IsInline = true
                     }
                 }
@@ -64,17 +64,17 @@ namespace xubot.src.Commands
                     new EmbedFieldBuilder
                     {
                         Name = "Broad report",
-                        Value = $"App uptime: **{app_uptime.Days }d, {app_uptime.Hours }h, {app_uptime.Minutes }min, {app_uptime.Seconds }s, {app_uptime.Milliseconds }ms**\n" +
-                                $"Connection uptime: **{con_uptime.Days }d, {con_uptime.Hours }h, {con_uptime.Minutes }min, {con_uptime.Seconds }s, {con_uptime.Milliseconds }ms**\n\n" ,
+                        Value = $"App uptime: **{_appUptime.Days }d, {_appUptime.Hours }h, {_appUptime.Minutes }min, {_appUptime.Seconds }s, {_appUptime.Milliseconds }ms**\n" +
+                                $"Connection uptime: **{_conUptime.Days }d, {_conUptime.Hours }h, {_conUptime.Minutes }min, {_conUptime.Seconds }s, {_conUptime.Milliseconds }ms**\n\n" ,
                         IsInline = true
                     },
                     new EmbedFieldBuilder
                     {
                         Name = "Specific connections report",
-                        Value = $"Connection to Reddit: **{app_to_red_cli.Days }d, {app_to_red_cli.Hours }h, {app_to_red_cli.Minutes }min, {app_to_red_cli.Seconds }s, {app_to_red_cli.Milliseconds }ms**\n" +
-                                $"Connection to Discord: **{app_to_dis.Days }d, {app_to_dis.Hours }h, {app_to_dis.Minutes }min, {app_to_dis.Seconds }s, {app_to_dis.Milliseconds }ms**\n" +
-                                $"Reddit Connection to Default Sub: **{red_cli_to_sub.Days }d, {red_cli_to_sub.Hours }h, {red_cli_to_sub.Minutes }min, {red_cli_to_sub.Seconds }s, {red_cli_to_sub.Milliseconds }ms**\n" +
-                                $"Default Sub to Discord: **{sub_to_discord.Days }d, {sub_to_discord.Hours }h, {sub_to_discord.Minutes }min, {sub_to_discord.Seconds }s, {sub_to_discord.Milliseconds }ms**\n\n",
+                        Value = $"Connection to Reddit: **{_appToRedCli.Days }d, {_appToRedCli.Hours }h, {_appToRedCli.Minutes }min, {_appToRedCli.Seconds }s, {_appToRedCli.Milliseconds }ms**\n" +
+                                $"Connection to Discord: **{_appToDis.Days }d, {_appToDis.Hours }h, {_appToDis.Minutes }min, {_appToDis.Seconds }s, {_appToDis.Milliseconds }ms**\n" +
+                                $"Reddit Connection to Default Sub: **{_redCliToSub.Days }d, {_redCliToSub.Hours }h, {_redCliToSub.Minutes }min, {_redCliToSub.Seconds }s, {_redCliToSub.Milliseconds }ms**\n" +
+                                $"Default Sub to Discord: **{_subToDiscord.Days }d, {_subToDiscord.Hours }h, {_subToDiscord.Minutes }min, {_subToDiscord.Seconds }s, {_subToDiscord.Milliseconds }ms**\n\n",
                         IsInline = true
                     }
                 }
@@ -92,17 +92,17 @@ namespace xubot.src.Commands
                         new EmbedFieldBuilder
                         {
                             Name = "Broad report",
-                            Value = $"App uptime: **{app_uptime.Ticks } ticks**\n" +
-                                    $"Connection uptime: **{con_uptime.Ticks } ticks**\n\n" ,
+                            Value = $"App uptime: **{_appUptime.Ticks } ticks**\n" +
+                                    $"Connection uptime: **{_conUptime.Ticks } ticks**\n\n" ,
                             IsInline = true
                         },
                         new EmbedFieldBuilder
                         {
                             Name = "Specific connections report",
-                            Value = $"Connection to Reddit: **{app_to_red_cli.Ticks } ticks**\n" +
-                                    $"Connection to Discord: **{app_to_dis.Ticks } ticks**\n" +
-                                    $"Reddit Connection to Default Sub: **{red_cli_to_sub.Ticks } ticks**\n" +
-                                    $"Default Sub to Discord: **{sub_to_discord.Ticks } ticks**\n\n",
+                            Value = $"Connection to Reddit: **{_appToRedCli.Ticks } ticks**\n" +
+                                    $"Connection to Discord: **{_appToDis.Ticks } ticks**\n" +
+                                    $"Reddit Connection to Default Sub: **{_redCliToSub.Ticks } ticks**\n" +
+                                    $"Default Sub to Discord: **{_subToDiscord.Ticks } ticks**\n\n",
                             IsInline = true
                         }
                     }
@@ -112,9 +112,9 @@ namespace xubot.src.Commands
             }
 
             [Command("report?doom-tics", RunMode = RunMode.Async), Summary("Gets application and connection uptimes into DOOM realtics (1/35ths of a second).")]
-            public async Task ReportDOOMTics()
+            public async Task ReportDoomTics()
             {
-                float _tic = 35;
+                float tic = 35;
 
                 await BuildReport(Context,
                     new List<EmbedFieldBuilder>()
@@ -122,17 +122,17 @@ namespace xubot.src.Commands
                         new EmbedFieldBuilder
                         {
                             Name = "Broad report",
-                            Value = $"App uptime: **{(System.Math.Round((app_uptime.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n" +
-                                    $"Connection uptime: **{(System.Math.Round((con_uptime.TotalSeconds / _tic)*100)/ 100) } DOOM realtics**\n\n" ,
+                            Value = $"App uptime: **{(System.Math.Round((_appUptime.TotalSeconds / tic)*100)/100) } DOOM realtics**\n" +
+                                    $"Connection uptime: **{(System.Math.Round((_conUptime.TotalSeconds / tic)*100)/ 100) } DOOM realtics**\n\n" ,
                             IsInline = true
                         },
                         new EmbedFieldBuilder
                         {
                             Name = "Specific connections report",
-                            Value = $"Connection to Reddit: **{(System.Math.Round((app_to_red_cli.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n" +
-                                    $"Connection to Discord: **{(System.Math.Round((app_to_dis.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n" +
-                                    $"Reddit Connection to Default Sub: **{(System.Math.Round((red_cli_to_sub.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n" +
-                                    $"Default Sub to Discord: **{(System.Math.Round((sub_to_discord.TotalSeconds / _tic)*100)/100) } DOOM realtics**\n\n",
+                            Value = $"Connection to Reddit: **{(System.Math.Round((_appToRedCli.TotalSeconds / tic)*100)/100) } DOOM realtics**\n" +
+                                    $"Connection to Discord: **{(System.Math.Round((_appToDis.TotalSeconds / tic)*100)/100) } DOOM realtics**\n" +
+                                    $"Reddit Connection to Default Sub: **{(System.Math.Round((_redCliToSub.TotalSeconds / tic)*100)/100) } DOOM realtics**\n" +
+                                    $"Default Sub to Discord: **{(System.Math.Round((_subToDiscord.TotalSeconds / tic)*100)/100) } DOOM realtics**\n\n",
                             IsInline = true
                         }
                     }
@@ -150,8 +150,8 @@ namespace xubot.src.Commands
                         new EmbedFieldBuilder
                         {
                             Name = "Broad report",
-                            Value = $"App start time: **{Program.appStart }**\n" +
-                                    $"Connection time: **{Program.connectStart }**\n\n" ,
+                            Value = $"App start time: **{Program.AppStart }**\n" +
+                                    $"Connection time: **{Program.ConnectStart }**\n\n" ,
                             IsInline = true
                         },
                         new EmbedFieldBuilder
@@ -175,42 +175,42 @@ namespace xubot.src.Commands
             public async Task BasicMemory()
             {
                 Process currentProcess = System.Diagnostics.Process.GetCurrentProcess();
-                long _used = currentProcess.WorkingSet64;
+                long used = currentProcess.WorkingSet64;
 
-                await ReplyAsync($"Memory used (MB): **{(_used / 1000000) }**");
+                await ReplyAsync($"Memory used (MB): **{(used / 1000000) }**");
             }
 
             [Command("report"), Summary("Gets working set memory, virtual memory, paged memory, and their peaks for xubot.")]
             public async Task Report()
             {
                 Process currentProcess = System.Diagnostics.Process.GetCurrentProcess();
-                double _ws = currentProcess.WorkingSet64 / 1000000;
-                double _pws = currentProcess.PeakWorkingSet64 / 1000000;
+                double ws = currentProcess.WorkingSet64 / 1000000;
+                double pws = currentProcess.PeakWorkingSet64 / 1000000;
 
-                double _vms = currentProcess.VirtualMemorySize64 / 1000000;
-                double _pvms = currentProcess.PeakVirtualMemorySize64 / 1000000;
+                double vms = currentProcess.VirtualMemorySize64 / 1000000;
+                double pvms = currentProcess.PeakVirtualMemorySize64 / 1000000;
 
-                double _pm = currentProcess.PagedMemorySize64 / 1000000;
-                double _ppm = currentProcess.PeakPagedMemorySize64 / 1000000;
+                double pm = currentProcess.PagedMemorySize64 / 1000000;
+                double ppm = currentProcess.PeakPagedMemorySize64 / 1000000;
 
                 await BuildReport(Context, new List<EmbedFieldBuilder>()
                 {
                     new EmbedFieldBuilder
                     {
                         Name = "Working Set",
-                        Value = $"Used (MB): **{_ws }** | Peak (MB): **{_pws }**\n\n",
+                        Value = $"Used (MB): **{ws }** | Peak (MB): **{pws }**\n\n",
                         IsInline = true
                     },
                     new EmbedFieldBuilder
                     {
                         Name = "Virtual Memory",
-                        Value = $"Virutal (MB): **{_vms }** | Virutal Peak (MB): **{_pvms }**\n\n",
+                        Value = $"Virtual (MB): **{vms }** | Virtual Peak (MB): **{pvms }**\n\n",
                         IsInline = true
                     },
                     new EmbedFieldBuilder
                     {
                         Name = "Paged Memory",
-                        Value = $"Paged (MB): **{_pm }** | Paged Peak (MB): **{_ppm }**\n\n",
+                        Value = $"Paged (MB): **{pm }** | Paged Peak (MB): **{ppm }**\n\n",
                         IsInline = true
                     }
                 }

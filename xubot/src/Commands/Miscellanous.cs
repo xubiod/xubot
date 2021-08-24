@@ -12,7 +12,7 @@ namespace xubot.src.Commands
     public class Miscellanous : ModuleBase
     {
         [Command("dog-unrolling-from-bubble-wrap"), Summary("I honestly forgot why this is here.")]
-        public async Task DUFBW()
+        public async Task Dufbw()
         {
             await ReplyAsync("https://68.media.tumblr.com/6dd362a8aafe8bbdacf8fb32a5c6b528/tumblr_ncmv90I1gM1qj26eao1_400.gif");
         }
@@ -35,7 +35,7 @@ namespace xubot.src.Commands
         }
 
         [Command("no-need-to-be-upset"), Summary(":)")]
-        public async Task NNTBU()
+        public async Task Nntbu()
         {
             await ReplyAsync("https://youtu.be/GJDNkVDGM_s");
         }
@@ -48,19 +48,19 @@ namespace xubot.src.Commands
 
         [Example("uwu")]
         [Command("make-this-middle-finger"), Summary("Takes text and makes it rude.")]
-        public async Task MTMF(string face)
+        public async Task Mtmf(string face)
         {
             await ReplyAsync("(凸 " + face + ")凸");
         }
 
         [Command("rm -rf"), Alias("rm -rf --no-preserve-root /"), Summary("Deletes xubot and the rest of the computer it's running on.")]
-        public async Task RMRF()
+        public async Task Rmrf()
         {
             await ReplyAsync("no u");
         }
 
         [Command("yritwh"), Alias("you-reposted-in-the-wrong-neighborhood"), Summary("Use as a reaction to a meme that has been reposted inappropriately.")]
-        public async Task YRITWH()
+        public async Task Yritwh()
         {
             await ReplyAsync("https://youtu.be/0cOAUSVBGX8");
         }
@@ -84,7 +84,7 @@ namespace xubot.src.Commands
         }
 
         [Command("what-does-a-cat-in-zero-g-look-like"), Alias("wdacizgll")]
-        public async Task WDACIZGLL()
+        public async Task Wdacizgll()
         {
             await ReplyAsync("A cat in a zero G flight looks like this: https://youtu.be/hb4Yd4mEVsE");
         }

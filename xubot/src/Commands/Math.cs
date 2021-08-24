@@ -257,7 +257,7 @@ namespace xubot.src.Commands
         }
 
         [Group("convert"), Alias("c"), Summary("converts some stuff")]
-        public class convert : ModuleBase
+        public class Convert : ModuleBase
         {
             [Example("32 f2c")]
             [Command("temperature"), Alias("temp"), Summary("Converts Celsius or Fahrenheit to the other using `c2f` and `f2c`.")]

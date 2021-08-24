@@ -106,11 +106,11 @@ namespace xubot.src.Modular
             }
         }
 
-        public static Dictionary<string, ModuleEntry> modules { get; private set; }
+        public static Dictionary<string, ModuleEntry> Modules { get; private set; }
 
         public static void Initialize()
         {
-            modules = new Dictionary<string, ModuleEntry>();
+            Modules = new Dictionary<string, ModuleEntry>();
             LoadFromDirectory();
         }
 
@@ -122,16 +122,16 @@ namespace xubot.src.Modular
             string name = Path.GetFileNameWithoutExtension(filename).ToLower();
             //Assembly newModule = Assembly.LoadFrom(filename);
 
-            modules.Add(name, new ModuleEntry(filename, name));
+            Modules.Add(name, new ModuleEntry(filename, name));
 
-            if (modules[name].startInstance == null)
+            if (Modules[name].startInstance == null)
             {
-                modules[name].Unload();
-                modules.Remove(name);
+                Modules[name].Unload();
+                Modules.Remove(name);
                 return;
             }
 
-            Util.Log.QuickLog($"Module loaded: {name}\nLoad msg: {modules[name].startInstance.Load().ToString()}");
+            Util.Log.QuickLog($"Module loaded: {name}\nLoad msg: {Modules[name].startInstance.Load().ToString()}");
         }
 
         public static void LoadFromDirectory(string directory = "/Modules", bool isFull = false)
@@ -151,7 +151,7 @@ namespace xubot.src.Modular
 
         public static async Task Execute(ICommandContext context, string module, string command, string[] parameters = null)
         {
-            Modular.ModularSystem.modules[module].Execute(context, command, parameters);
+            Modular.ModularSystem.Modules[module].Execute(context, command, parameters);
         }
     }
 }

@@ -16,22 +16,22 @@ namespace xubot.src.Attributes
             this.AttachmentNeeded = false;
         }
 
-        public ExampleAttribute(string example_params)
+        public ExampleAttribute(string exampleParams)
         {
-            this.ExampleParameters = example_params;
+            this.ExampleParameters = exampleParams;
             this.AttachmentNeeded = false;
         }
 
-        public ExampleAttribute(bool attachment_needed)
+        public ExampleAttribute(bool attachmentNeeded)
         {
             this.ExampleParameters = "";
-            this.AttachmentNeeded = attachment_needed;
+            this.AttachmentNeeded = attachmentNeeded;
         }
 
-        public ExampleAttribute(string example_params, bool attachment_needed)
+        public ExampleAttribute(string exampleParams, bool attachmentNeeded)
         {
-            this.ExampleParameters = example_params;
-            this.AttachmentNeeded = attachment_needed;
+            this.ExampleParameters = exampleParams;
+            this.AttachmentNeeded = attachmentNeeded;
         }
     }
 }

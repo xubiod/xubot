@@ -31,9 +31,9 @@ namespace xubot.src
                 { "hammer",                 new string[]{ "01101", "11111", "10101", "00100", "00100" } },
                 { "paper",                  new string[]{ "11111", "10001", "11111", "10001", "11111" } } };
 
-        public static string ReturnQuery(string searchterm, int patternID)
+        public static string ReturnQuery(string searchterm, int patternId)
         {
-            int index = (patternID - 1) % 5;
+            int index = (patternId - 1) % 5;
             return Patterns.ContainsKey(searchterm) ? (Patterns[searchterm])[index] : "FAILURE";
         }
     }

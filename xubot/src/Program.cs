@@ -27,31 +27,31 @@ namespace xubot.src
 {
     public class Program : ModuleBase
     {
-        public static readonly CommandService xuCommand = new CommandService();
-        public static readonly DiscordSocketClient xuClient = new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Warning });
+        public static readonly CommandService XuCommand = new CommandService();
+        public static readonly DiscordSocketClient XuClient = new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Warning });
 
         public static bool IsOffline = false;
 
         public static string prefix = BotSettings.Global.Default.DefaultPrefix;
 
-        public static BotWebAgent webAgent { get; private set; }
-        public static RedditSharp.Reddit reddit { get; private set; }
-        public static RedditSharp.Things.Subreddit subreddit { get; set; }
+        public static BotWebAgent WebAgent { get; private set; }
+        public static RedditSharp.Reddit Reddit { get; private set; }
+        public static RedditSharp.Things.Subreddit Subreddit { get; set; }
 
         public static bool redditEnabled = false;
 
-        public readonly static Dictionary<string, Util.JSON.Entry> JSONKeys = new Dictionary<string, Util.JSON.Entry>();
+        public static readonly Dictionary<string, Util.Json.Entry> JsonKeys = new Dictionary<string, Util.Json.Entry>();
 
-        public static bool enableNSFW = false;
+        public static bool enableNsfw = false;
 
         public static bool spinning = false;
 
-        public static DateTime appStart { get; private set; }
-        public static DateTime connectStart { get; private set; }
+        public static DateTime AppStart { get; private set; }
+        public static DateTime ConnectStart { get; private set; }
 
         public static DateTime[] stepTimes = new DateTime[8];
 
-        private static bool firstLaunch = true;
+        private static bool _firstLaunch = true;
 
         public static async Task Main(string[] args)
         {
@@ -59,8 +59,8 @@ namespace xubot.src
             {
                 BeginOnlineStart(args);
 
-                xuClient.Ready += ClientReady;
-                xuClient.UserJoined += XuClient_UserJoined;
+                XuClient.Ready += ClientReady;
+                XuClient.UserJoined += XuClient_UserJoined;
 
                 Commands.Shitpost.Populate();
                 Modular.ModularSystem.Initialize();
@@ -94,30 +94,30 @@ namespace xubot.src
 
         private static async Task BeginOnlineStart(string[] args)
         {
-            appStart = DateTime.Now;
+            AppStart = DateTime.Now;
 
             string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
-            Util.JSON.ProcessFile("keys", Path.Combine(currentDir, "Keys.json"));
-            Util.JSON.ProcessFile("apis", Path.Combine(currentDir, "API.json"));
-            Util.JSON.ProcessFile("mood", Path.Combine(currentDir, "Moods.json"));
-            Util.JSON.ProcessFile("opinion", Path.Combine(currentDir, "Opinions.json"));
+            Util.Json.ProcessFile("keys", Path.Combine(currentDir, "Keys.json"));
+            Util.Json.ProcessFile("apis", Path.Combine(currentDir, "API.json"));
+            Util.Json.ProcessFile("mood", Path.Combine(currentDir, "Moods.json"));
+            Util.Json.ProcessFile("opinion", Path.Combine(currentDir, "Opinions.json"));
 
             await CommandInitiation();
             await ReadMessages();
 
-            xuClient.Log += (message) => { Console.WriteLine($"{message}"); return Task.CompletedTask; };
+            XuClient.Log += (message) => { Console.WriteLine($"{message}"); return Task.CompletedTask; };
 
-            Util.CMDLine.SetColor();
+            Util.CmdLine.SetColor();
 
             Console.Write("[[ xubot ]]");
             Console.WriteLine();
 
-            Util.CMDLine.SetColor(ConsoleColor.Magenta);
+            Util.CmdLine.SetColor(ConsoleColor.Magenta);
 
             Console.WriteLine("current build (git): {0}", ThisAssembly.Git.Tag);
 
-            Util.CMDLine.SetColor();
+            Util.CmdLine.SetColor();
             Console.WriteLine();
 
             if (!File.Exists(Path.Combine(currentDir, "Keys.json")))
@@ -135,52 +135,52 @@ namespace xubot.src
 #endif
             if (prefix != BotSettings.Global.Default.DefaultDevPrefix)
             {
-                await xuClient.LoginAsync(TokenType.Bot, JSONKeys["keys"].Contents.discord.ToString());
+                await XuClient.LoginAsync(TokenType.Bot, JsonKeys["keys"].Contents.discord.ToString());
             }
             else
             {
-                await xuClient.LoginAsync(TokenType.Bot, JSONKeys["keys"].Contents.discord_dev.ToString());
+                await XuClient.LoginAsync(TokenType.Bot, JsonKeys["keys"].Contents.discord_dev.ToString());
             }
             stepTimes[2] = DateTime.Now;
 
             Console.WriteLine("* setting up discord connection: starting client");
 
-            await xuClient.StartAsync();
+            await XuClient.StartAsync();
             if (!BotSettings.Global.Default.DisableRedditOnStart) await ReadyReddit();
         }
 
         private static async Task BeginOfflineStart(string[] args)
         {
-            appStart = DateTime.Now;
+            AppStart = DateTime.Now;
 
             string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
-            Util.JSON.ProcessFile("keys", Path.Combine(currentDir, "Keys.json"));
-            Util.JSON.ProcessFile("apis", Path.Combine(currentDir, "API.json"));
-            Util.JSON.ProcessFile("mood", Path.Combine(currentDir, "Moods.json"));
-            Util.JSON.ProcessFile("opinion", Path.Combine(currentDir, "Opinions.json"));
+            Util.Json.ProcessFile("keys", Path.Combine(currentDir, "Keys.json"));
+            Util.Json.ProcessFile("apis", Path.Combine(currentDir, "API.json"));
+            Util.Json.ProcessFile("mood", Path.Combine(currentDir, "Moods.json"));
+            Util.Json.ProcessFile("opinion", Path.Combine(currentDir, "Opinions.json"));
 
-            await xuCommand.AddModulesAsync(Assembly.GetEntryAssembly(), null);
+            await XuCommand.AddModulesAsync(Assembly.GetEntryAssembly(), null);
 
-            Util.CMDLine.SetColor();
+            Util.CmdLine.SetColor();
 
             Console.Write("[[ xubot ]]\n");
             Console.WriteLine("no connection to discord mode");
             Console.WriteLine("dubbed offline mode despite not being offline with everything else");
             Console.WriteLine();
 
-            Util.CMDLine.SetColor(ConsoleColor.Magenta);
+            Util.CmdLine.SetColor(ConsoleColor.Magenta);
 
             Console.WriteLine("current build (git): {0}", ThisAssembly.Git.Tag);
 
-            Util.CMDLine.SetColor();
+            Util.CmdLine.SetColor();
             Console.WriteLine("skipping logging into and starting discord client\n");
 
-            Util.CMDLine.SetColor(ConsoleColor.Green);
+            Util.CmdLine.SetColor(ConsoleColor.Green);
             Console.WriteLine("ready for console input\n");
             Console.Beep();
 
-            Util.CMDLine.SetColor();
+            Util.CmdLine.SetColor();
             if (!BotSettings.Global.Default.DisableRedditOnStart) await ReadyReddit();
         }
 
@@ -188,7 +188,7 @@ namespace xubot.src
         {
             IUserMessage log = Util.Log.PersistLog("setting up bot web agent for reddit use", context).Result;
 
-            if (JSONKeys["keys"].Contents.reddit.user.ToString() == "" && JSONKeys["keys"].Contents.reddit.pass.ToString() == "")
+            if (JsonKeys["keys"].Contents.reddit.user.ToString() == "" && JsonKeys["keys"].Contents.reddit.pass.ToString() == "")
             {
                 Util.Log.PersistLog("reddit info not provided within keys, aborting", log);
             }
@@ -197,15 +197,15 @@ namespace xubot.src
                 try
                 {
                     redditEnabled = true;
-                    webAgent = new BotWebAgent(
-                        JSONKeys["keys"].Contents.reddit.user.ToString(),
-                        JSONKeys["keys"].Contents.reddit.pass.ToString(),
-                        JSONKeys["keys"].Contents.reddit.id.ToString(),
-                        JSONKeys["keys"].Contents.reddit.secret.ToString(),
+                    WebAgent = new BotWebAgent(
+                        JsonKeys["keys"].Contents.reddit.user.ToString(),
+                        JsonKeys["keys"].Contents.reddit.pass.ToString(),
+                        JsonKeys["keys"].Contents.reddit.id.ToString(),
+                        JsonKeys["keys"].Contents.reddit.secret.ToString(),
                         "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
 
                     Util.Log.PersistLog("setting up reddit client", log);
-                    reddit = new Reddit(webAgent, true);
+                    Reddit = new Reddit(WebAgent, true);
                     //_red.Wait();
 
                     stepTimes[0] = DateTime.Now;
@@ -223,7 +223,7 @@ namespace xubot.src
 
         public static Task ClientReady()
         {
-            Util.CMDLine.SetColor(ConsoleColor.Green);
+            Util.CmdLine.SetColor(ConsoleColor.Green);
 
             Console.WriteLine("]] ready for action");
             Console.Beep();
@@ -233,33 +233,33 @@ namespace xubot.src
 
         public static Task ReadMessages()
         {
-            xuClient.MessageReceived += (message) =>
+            XuClient.MessageReceived += (message) =>
             {
-                Util.CMDLine.SetColor();
+                Util.CmdLine.SetColor();
                 Console.WriteLine($"[{message.Timestamp}] {{{message.Source}}} {message.Author}: {message.Content}");
 
                 return Task.CompletedTask;
             };
 
             //console logs hhheeerrrrrrrr
-            xuClient.Connected += XuClient_Connected;
-            xuClient.Disconnected += XuClient_Disconnected;
+            XuClient.Connected += XuClient_Connected;
+            XuClient.Disconnected += XuClient_Disconnected;
 
-            xuClient.LoggedIn +=  () => { Console.WriteLine("]] logged into discord");   return Task.CompletedTask; };
-            xuClient.LoggedOut += () => { Console.WriteLine("]] logged out of discord"); return Task.CompletedTask; };
+            XuClient.LoggedIn +=  () => { Console.WriteLine("]] logged into discord");   return Task.CompletedTask; };
+            XuClient.LoggedOut += () => { Console.WriteLine("]] logged out of discord"); return Task.CompletedTask; };
 
-            xuClient.JoinedGuild += (SocketGuild arg) => { Console.WriteLine($"]] added to a guild, {arg.Name}"); return Task.CompletedTask; };
-            xuClient.LeftGuild +=   (SocketGuild arg) => { Console.WriteLine($"]] left a guild, {arg.Name}");     return Task.CompletedTask; };
+            XuClient.JoinedGuild += (SocketGuild arg) => { Console.WriteLine($"]] added to a guild, {arg.Name}"); return Task.CompletedTask; };
+            XuClient.LeftGuild +=   (SocketGuild arg) => { Console.WriteLine($"]] left a guild, {arg.Name}");     return Task.CompletedTask; };
 
             return Task.CompletedTask;
         }
 
         private static Task XuClient_Connected()
         {
-            Util.CMDLine.SetColor(ConsoleColor.Green);
+            Util.CmdLine.SetColor(ConsoleColor.Green);
             Console.WriteLine("]] connection to discord successful");
 
-            connectStart = DateTime.Now;
+            ConnectStart = DateTime.Now;
 
             return Task.CompletedTask;
         }
@@ -287,8 +287,8 @@ namespace xubot.src
 
         public static async Task CommandInitiation()
         {
-            xuClient.MessageReceived += HandleCommands;
-            await xuCommand.AddModulesAsync(Assembly.GetEntryAssembly(), null);
+            XuClient.MessageReceived += HandleCommands;
+            await XuCommand.AddModulesAsync(Assembly.GetEntryAssembly(), null);
         }
 
         public static async Task HandleCommands(SocketMessage messageParameters)
@@ -298,12 +298,12 @@ namespace xubot.src
 
             int argumentPosition = 0;
 
-            if (!(message.HasStringPrefix(prefix, ref argumentPosition) || message.HasMentionPrefix(xuClient.CurrentUser, ref argumentPosition) || message.HasStringPrefix(BotSettings.Global.Default.HardcodedPrefix, ref argumentPosition)))
+            if (!(message.HasStringPrefix(prefix, ref argumentPosition) || message.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || message.HasStringPrefix(BotSettings.Global.Default.HardcodedPrefix, ref argumentPosition)))
                 return;
 
-            CommandContext context = new CommandContext(xuClient, message);
+            CommandContext context = new CommandContext(XuClient, message);
 
-            IResult result = await xuCommand.ExecuteAsync(context, argumentPosition, null);
+            IResult result = await XuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)
             {
                 await Util.Error.BuildError(result, context);
@@ -317,12 +317,12 @@ namespace xubot.src
 
             int argumentPosition = 0;
 
-            if (!(msg.HasStringPrefix(prefix, ref argumentPosition) || msg.HasMentionPrefix(xuClient.CurrentUser, ref argumentPosition) || msg.HasStringPrefix(BotSettings.Global.Default.HardcodedPrefix, ref argumentPosition)))
+            if (!(msg.HasStringPrefix(prefix, ref argumentPosition) || msg.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || msg.HasStringPrefix(BotSettings.Global.Default.HardcodedPrefix, ref argumentPosition)))
                 return;
 
             CommandContext context = new CommandContext(Offline.OfflineHandlers.DefaultOfflineClient, msg);
 
-            IResult result = await xuCommand.ExecuteAsync(context, argumentPosition, null);
+            IResult result = await XuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)
             {
                 await Util.Error.BuildError(result, context);

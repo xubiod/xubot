@@ -72,9 +72,9 @@ namespace xubot.src.Modular
         {
             switch (wanted)
             {
-                case RequestProperty.Name: return Program.xuClient.CurrentUser.Username; break;
-                case RequestProperty.ID: return Program.xuClient.CurrentUser.Id; break;
-                case RequestProperty.Discrim: return Program.xuClient.CurrentUser.DiscriminatorValue; break;
+                case RequestProperty.Name: return Program.XuClient.CurrentUser.Username; break;
+                case RequestProperty.ID: return Program.XuClient.CurrentUser.Id; break;
+                case RequestProperty.Discrim: return Program.XuClient.CurrentUser.DiscriminatorValue; break;
                 default: return null;
             }
         }

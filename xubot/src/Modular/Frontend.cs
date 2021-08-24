@@ -32,14 +32,14 @@ namespace xubot.src.Modular
             [Command("reload", RunMode = RunMode.Async), Alias("r"), Summary("Reloads a module."), RequireOwner]
             public async Task Reload(string module)
             {
-                await ReplyAsync(ModularSystem.modules[module].Reload());
+                await ReplyAsync(ModularSystem.Modules[module].Reload());
             }
 
             [ExampleAttribute("examplemodule")]
             [Command("unload", RunMode = RunMode.Async), Alias("u"), Summary("Unloads a module."), RequireOwner]
             public async Task Unload(string module)
             {
-                await ReplyAsync(ModularSystem.modules[module].Unload());
+                await ReplyAsync(ModularSystem.Modules[module].Unload());
             }
 
             [ExampleAttribute("examplemodule")]
@@ -48,7 +48,7 @@ namespace xubot.src.Modular
             {
                 string list = "";
 
-                foreach (ICommandModule cmd in ModularSystem.modules[module].commandInstances)
+                foreach (ICommandModule cmd in ModularSystem.Modules[module].commandInstances)
                     foreach (MethodInfo item in cmd.GetType().GetMethods().Where(x => (x.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name != ""))
                         list += item.GetCustomAttribute<CmdNameAttribute>().Name + " - " + (item.GetCustomAttribute<CmdSummaryAttribute>() != null ? item.GetCustomAttribute<CmdSummaryAttribute>().Summary : "Not set in module") + "\n";
                 //list += cmd.GetType().getM + " - " + "NotImplement" + "\n";
@@ -63,7 +63,7 @@ namespace xubot.src.Modular
             {
                 string list = "";
 
-                foreach (KeyValuePair<string, ModularSystem.ModuleEntry> mod in ModularSystem.modules)
+                foreach (KeyValuePair<string, ModularSystem.ModuleEntry> mod in ModularSystem.Modules)
                     list += $"{mod.Key} - { (mod.Value.commandInstances.Count > 0 ? mod.Value.commandInstances.Count + " cmds" : "Not loaded/no cmds")}\n";
 
                 EmbedBuilder embed = GetTemplate("Module Listing", "Note: *some of these might not be loaded*", list);

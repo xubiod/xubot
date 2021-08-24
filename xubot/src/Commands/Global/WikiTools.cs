@@ -82,7 +82,7 @@ namespace xubot.src.Commands.Global
 			return "noone";
 		}
 
-		public static async void AddEditArticle(ICommandContext Context, string article, string content)
+		public static async void AddEditArticle(ICommandContext context, string article, string content)
 		{
 			bool exist = false;
 			var xdoc = XDocument.Load("Wiki.xml");
@@ -103,12 +103,12 @@ namespace xubot.src.Commands.Global
 					try
 					{
 						xdoc.XPathSelectElement("//article[@name='" + article.ToLower() + "']").Value = content;
-						item.lasteditor.Value = Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator;
+						item.lasteditor.Value = context.Message.Author.Username + "#" + context.Message.Author.Discriminator;
 						xdoc.Save("Wiki.xml");
 					}
 					catch (Exception exp)
 					{
-						await Util.Error.BuildError(exp, Context);
+						await Util.Error.BuildError(exp, context);
 					}
 
 					await Task.CompletedTask;
@@ -119,11 +119,11 @@ namespace xubot.src.Commands.Global
 			{
 				XElement element = new XElement("article");
 
-				XAttribute name_att = new XAttribute("name", article);
-				XAttribute editor_att = new XAttribute("lasteditor", Context.Message.Author);
+				XAttribute nameAtt = new XAttribute("name", article);
+				XAttribute editorAtt = new XAttribute("lasteditor", context.Message.Author);
 
-				element.Add(name_att);
-				element.Add(editor_att);
+				element.Add(nameAtt);
+				element.Add(editorAtt);
 				element.SetValue(content);
 
 				xdoc.Root.Add(element);

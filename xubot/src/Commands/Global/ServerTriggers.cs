@@ -47,15 +47,15 @@ namespace xubot.src.Commands.Global
                 {
                     XElement element = new XElement("server");
 
-                    XAttribute id_att = new XAttribute("id", Context.Guild.Id.ToString());
-                    XAttribute onwake_att = new XAttribute("onwake", onwake);
-                    XAttribute nsfw_att = new XAttribute("nsfwoverride", nsfwOverride);
-                    XAttribute useMarkov_att = new XAttribute("useMarkov", useMarkov);
+                    XAttribute idAtt = new XAttribute("id", Context.Guild.Id.ToString());
+                    XAttribute onwakeAtt = new XAttribute("onwake", onwake);
+                    XAttribute nsfwAtt = new XAttribute("nsfwoverride", nsfwOverride);
+                    XAttribute useMarkovAtt = new XAttribute("useMarkov", useMarkov);
 
-                    element.Add(id_att);
-                    element.Add(onwake_att);
-                    element.Add(nsfw_att);
-                    element.Add(useMarkov_att);
+                    element.Add(idAtt);
+                    element.Add(onwakeAtt);
+                    element.Add(nsfwAtt);
+                    element.Add(useMarkovAtt);
 
                     xdoc.Root.Add(element);
                     xdoc.Save("PerServTrigg.xml");

@@ -25,40 +25,40 @@ namespace xubot.src.Commands.Connections
     {
         private partial class Entry
         {
-            public ulong UserID { get; private set; }
-            public ulong GuildID { get; private set; }
+            public ulong UserId { get; private set; }
+            public ulong GuildId { get; private set; }
             public string Key { get; private set; }
 
             public Entry(ulong userId, ulong guildId, string key)
             {
-                this.UserID = userId;
-                this.GuildID = guildId;
+                this.UserId = userId;
+                this.GuildId = guildId;
                 this.Key = key;
             }
         }
 
-        public readonly static BooruSharp.Booru.ABooru danbooru =       new BooruSharp.Booru.DanbooruDonmai();
-        public readonly static BooruSharp.Booru.ABooru e621 =           new BooruSharp.Booru.E621();
-        public readonly static BooruSharp.Booru.ABooru rule34 =         new BooruSharp.Booru.Rule34();
-        public readonly static BooruSharp.Booru.ABooru gelbooru =       new BooruSharp.Booru.Gelbooru();
-        public readonly static BooruSharp.Booru.ABooru yandere =        new BooruSharp.Booru.Yandere();
-        public readonly static BooruSharp.Booru.ABooru e926 =           new BooruSharp.Booru.E926();
-        public readonly static BooruSharp.Booru.ABooru safebooru =      new BooruSharp.Booru.Safebooru();
-        public readonly static BooruSharp.Booru.ABooru konachan =       new BooruSharp.Booru.Konachan();
-        public readonly static BooruSharp.Booru.ABooru allthefallen =   new BooruSharp.Booru.Atfbooru();
-        public readonly static BooruSharp.Booru.ABooru sankakucomplex = new BooruSharp.Booru.SankakuComplex();
-        public readonly static BooruSharp.Booru.ABooru sakugabooru =    new BooruSharp.Booru.Sakugabooru();
+        public static readonly BooruSharp.Booru.ABooru Danbooru =       new BooruSharp.Booru.DanbooruDonmai();
+        public static readonly BooruSharp.Booru.ABooru E621 =           new BooruSharp.Booru.E621();
+        public static readonly BooruSharp.Booru.ABooru Rule34 =         new BooruSharp.Booru.Rule34();
+        public static readonly BooruSharp.Booru.ABooru Gelbooru =       new BooruSharp.Booru.Gelbooru();
+        public static readonly BooruSharp.Booru.ABooru Yandere =        new BooruSharp.Booru.Yandere();
+        public static readonly BooruSharp.Booru.ABooru E926 =           new BooruSharp.Booru.E926();
+        public static readonly BooruSharp.Booru.ABooru Safebooru =      new BooruSharp.Booru.Safebooru();
+        public static readonly BooruSharp.Booru.ABooru Konachan =       new BooruSharp.Booru.Konachan();
+        public static readonly BooruSharp.Booru.ABooru Allthefallen =   new BooruSharp.Booru.Atfbooru();
+        public static readonly BooruSharp.Booru.ABooru Sankakucomplex = new BooruSharp.Booru.SankakuComplex();
+        public static readonly BooruSharp.Booru.ABooru Sakugabooru =    new BooruSharp.Booru.Sakugabooru();
 
-        private readonly static Dictionary<Entry, string> caughtFromBeingSent = new Dictionary<Entry, string>();
+        private static readonly Dictionary<Entry, string> CaughtFromBeingSent = new Dictionary<Entry, string>();
 
         private async Task GetRandomPostFrom(ICommandContext context, BooruSharp.Booru.ABooru booru, params string[] inputs)
         {
             try
             {
-                string last_input = inputs.Last();
+                string lastInput = inputs.Last();
                 bool hide = false;
 
-                if (bool.TryParse(last_input, out hide))
+                if (bool.TryParse(lastInput, out hide))
                 {
                     inputs = inputs.Where(x => x != inputs.Last()).ToArray<string>();
                 }
@@ -69,7 +69,7 @@ namespace xubot.src.Commands.Connections
 
                 BooruSharp.Search.Post.SearchResult post = await booru.GetRandomPostAsync(inputs);
 
-                await PostNSFWMessage(context, $"{(hide ? "|| " : "")}{post.FileUrl.AbsoluteUri}{(hide ? " ||" : "")}", post.Rating != BooruSharp.Search.Post.Rating.Safe);
+                await PostNsfwMessage(context, $"{(hide ? "|| " : "")}{post.FileUrl.AbsoluteUri}{(hide ? " ||" : "")}", post.Rating != BooruSharp.Search.Post.Rating.Safe);
             }
             catch (Exception e)
             {
@@ -77,21 +77,21 @@ namespace xubot.src.Commands.Connections
             }
         }
 
-        private async Task PostNSFWMessage(ICommandContext context, string message, bool forceFail = false)
+        private async Task PostNsfwMessage(ICommandContext context, string message, bool forceFail = false)
         {
-            if ((await Util.IsDMChannel(Context)) && !BotSettings.Global.Default.DMsAlwaysNSFW)
+            if ((await Util.IsDmChannel(Context)) && !BotSettings.Global.Default.DMsAlwaysNSFW)
             {
                 await ReplyAsync("The bot got a post deemed questionable or explicit in a DM. DMs are set to not be NSFW, so move to a server.");
                 return;
             }
 
-            if (forceFail && !(await Util.IsChannelNSFW(context)))
+            if (forceFail && !(await Util.IsChannelNsfw(context)))
             {
-                string retrieve_key = Util.String.RandomHexadecimal(8);
+                string retrieveKey = Util.String.RandomHexadecimal(8);
 
-                await ReplyAsync($"The bot got a post deemed questionable or explicit. Try again in a NSFW channel.\nYou (the requestor) can retrieve this image *once* appropriate later with the key `{Program.prefix}booru-get {retrieve_key}` on **this server only**.\n" +
+                await ReplyAsync($"The bot got a post deemed questionable or explicit. Try again in a NSFW channel.\nYou (the requestor) can retrieve this image *once* appropriate later with the key `{Program.prefix}booru-get {retrieveKey}` on **this server only**.\n" +
                                   "The server limitation is here to keep in line Discord's age gating.");
-                caughtFromBeingSent.Add(new Entry(context.Message.Author.Id, context.Guild.Id, retrieve_key), message);
+                CaughtFromBeingSent.Add(new Entry(context.Message.Author.Id, context.Guild.Id, retrieveKey), message);
                 return;
             }
 
@@ -99,105 +99,105 @@ namespace xubot.src.Commands.Connections
         }
 
         [Example("night")]
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
         [Command("danbooru", RunMode = RunMode.Async), Summary("Retrives a post from danbooru.donmani.us. If the last input is a boolean, it counts as a spoiler toggle.")]
-        public async Task Danbooru(params string[] inputs)
+        public async Task DanbooruTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                GetRandomPostFrom(Context, danbooru, inputs);
+                GetRandomPostFrom(Context, Danbooru, inputs);
         }
 
         [Example("male true")]
-        [NSFWPossibilty("Porn, snuff, whatever gets drawn.")]
+        [NsfwPossibilty("Porn, snuff, whatever gets drawn.")]
         [Command("e621", RunMode = RunMode.Async), Summary("Retrives a post from e621.net. If the last input is a boolean, it counts as a spoiler toggle.")]
-        public async Task E621(params string[] inputs)
+        public async Task E621Task(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                GetRandomPostFrom(Context, e621, inputs);
+                GetRandomPostFrom(Context, E621, inputs);
         }
 
         [Example("sex true")]
-        [NSFWPossibilty("Porn, snuff, whatever gets drawn.")]
+        [NsfwPossibilty("Porn, snuff, whatever gets drawn.")]
         [Command("rule34", RunMode = RunMode.Async), Summary("Retrives a post from rule34.xxx, to the bot's dismay. If the last input is a boolean, it counts as a spoiler toggle.")]
-        public async Task R34(params string[] inputs)
+        public async Task R34Task(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                GetRandomPostFrom(Context, rule34, inputs);
+                GetRandomPostFrom(Context, Rule34, inputs);
         }
 
         [Example("solo true")]
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
         [Command("gelbooru", RunMode = RunMode.Async), Summary("Retrives a post from gelbooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
-        public async Task Gelbooru(params string[] inputs)
+        public async Task GelbooruTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                GetRandomPostFrom(Context, gelbooru, inputs);
+                GetRandomPostFrom(Context, Gelbooru, inputs);
         }
 
         [Example("thighhighs true")]
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
         [Command("yandere", RunMode = RunMode.Async), Summary("Retrives a post from yande.re. If the last input is a boolean, it counts as a spoiler toggle.")]
-        public async Task Yandere(params string[] inputs)
+        public async Task YandereTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                GetRandomPostFrom(Context, yandere, inputs);
+                GetRandomPostFrom(Context, Yandere, inputs);
         }
 
         [Example("male")]
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
         [Command("e926", RunMode = RunMode.Async), Summary("Retrives a post from e926.net. If the last input is a boolean, it counts as a spoiler toggle.")]
-        public async Task E926(params string[] inputs)
+        public async Task E926Task(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                GetRandomPostFrom(Context, e926, inputs);
+                GetRandomPostFrom(Context, E926, inputs);
         }
 
         [Example("sky false")]
         [Command("safebooru", RunMode = RunMode.Async), Summary("Retrives a post from safebooru.org. If the last input is a boolean, it counts as a spoiler toggle.")]
-        public async Task Safebooru(params string[] inputs)
+        public async Task SafebooruTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                GetRandomPostFrom(Context, safebooru, inputs);
+                GetRandomPostFrom(Context, Safebooru, inputs);
         }
 
         [Example("thighhighs true")]
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
         [Command("konachan", RunMode = RunMode.Async), Summary("Retrives a post from konachan.com. If the last input is a boolean, it counts as a spoiler toggle.")]
-        public async Task Konachan(params string[] inputs)
+        public async Task KonachanTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                GetRandomPostFrom(Context, konachan, inputs);
+                GetRandomPostFrom(Context, Konachan, inputs);
         }
 
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
         [Command("atfbooru", RunMode = RunMode.Async), Summary("Retrives a post from booru.allthefallen.moe. If the last input is a boolean, it counts as a spoiler toggle.")]
-        public async Task ATFBooru(params string[] inputs)
+        public async Task AtfBooruTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                GetRandomPostFrom(Context, allthefallen, inputs);
+                GetRandomPostFrom(Context, Allthefallen, inputs);
         }
 
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
         [Command("sankakucomplex", RunMode = RunMode.Async), Summary("Retrives a post from beta.sankakucomplex.com. If the last input is a boolean, it counts as a spoiler toggle.")]
-        public async Task SankakuComplex(params string[] inputs)
+        public async Task SankakuComplexTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                GetRandomPostFrom(Context, sankakucomplex, inputs);
+                GetRandomPostFrom(Context, Sankakucomplex, inputs);
         }
 
-        [NSFWPossibilty("Is a possibilty (although not guranteed).")]
+        [NsfwPossibilty("Is a possibilty (although not guranteed).")]
         [Command("sakugabooru", RunMode = RunMode.Async), Summary("Retrives a post from sakugabooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
-        public async Task Sakugabooru(params string[] inputs)
+        public async Task SakugabooruTask(params string[] inputs)
         {
             using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
-                GetRandomPostFrom(Context, sakugabooru, inputs);
+                GetRandomPostFrom(Context, Sakugabooru, inputs);
         }
 
         [Example("00000000")]
         [Command("booru-get", RunMode = RunMode.Async), Summary("Gets an image you requested that wasn't appropriate for the orginial context with a given key.")]
-        public async Task GetStoredImageURI(string key, bool hide = false)
+        public async Task GetStoredImageUri(string key, bool hide = false)
         {
-            if (await Util.IsDMChannel(Context))
+            if (await Util.IsDmChannel(Context))
             {
                 await ReplyAsync("You can only use this command with your retrieve key on the server you made the request from, not from a DM with the bot.");
                 return;
@@ -205,14 +205,14 @@ namespace xubot.src.Commands.Connections
 
             try
             {
-                Entry exists = caughtFromBeingSent.First(x => (x.Key.UserID == Context.Message.Author.Id) && (x.Key.GuildID == Context.Guild.Id) && (x.Key.Key == key)).Key;
+                Entry exists = CaughtFromBeingSent.First(x => (x.Key.UserId == Context.Message.Author.Id) && (x.Key.GuildId == Context.Guild.Id) && (x.Key.Key == key)).Key;
 
                 if (exists != null)
                 {
                     string value;
-                    caughtFromBeingSent.Remove(exists, out value);
+                    CaughtFromBeingSent.Remove(exists, out value);
 
-                    await PostNSFWMessage(Context, $"{(hide ? "|| " : "")}{value}{(hide ? " ||" : "")}");
+                    await PostNsfwMessage(Context, $"{(hide ? "|| " : "")}{value}{(hide ? " ||" : "")}");
                 }
                 else
                 {

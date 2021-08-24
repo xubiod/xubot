@@ -15,11 +15,11 @@ namespace xubot.src
             public ItsFuckingBrokenException(string message, Exception inner) : base(message, inner) { }
         }
 
-        public class IHaveNoFuckingIdeaException : Exception
+        public class HaveNoFuckingIdeaException : Exception
         {
-            public IHaveNoFuckingIdeaException() { }
-            public IHaveNoFuckingIdeaException(string message) : base(message) { }
-            public IHaveNoFuckingIdeaException(string message, Exception inner) : base(message, inner) { }
+            public HaveNoFuckingIdeaException() { }
+            public HaveNoFuckingIdeaException(string message) : base(message) { }
+            public HaveNoFuckingIdeaException(string message, Exception inner) : base(message, inner) { }
         }
 
         public class PleaseKillMeException : Exception
@@ -57,11 +57,11 @@ namespace xubot.src
             public InsertBetterExceptionNameException(string message, Exception inner) : base(message, inner) { }
         }
 
-        public class IHateDiscordDotNetException : Exception
+        public class HateDiscordDotNetException : Exception
         {
-            public IHateDiscordDotNetException() { }
-            public IHateDiscordDotNetException(string message) : base(message) { }
-            public IHateDiscordDotNetException(string message, Exception inner) : base(message, inner) { }
+            public HateDiscordDotNetException() { }
+            public HateDiscordDotNetException(string message) : base(message) { }
+            public HateDiscordDotNetException(string message, Exception inner) : base(message, inner) { }
         }
 
         public class FuckYouException : Exception
@@ -78,11 +78,11 @@ namespace xubot.src
             public IfThisExceptionShowsUpMyWillToLiveWillDropByARatherLot(string message, Exception inner) : base(message, inner) { }
         }
 
-        public class ICannotBeArsedToFixThisException : Exception
+        public class CannotBeArsedToFixThisException : Exception
         {
-            public ICannotBeArsedToFixThisException() { }
-            public ICannotBeArsedToFixThisException(string message) : base(message) { }
-            public ICannotBeArsedToFixThisException(string message, Exception inner) : base(message, inner) { }
+            public CannotBeArsedToFixThisException() { }
+            public CannotBeArsedToFixThisException(string message) : base(message) { }
+            public CannotBeArsedToFixThisException(string message, Exception inner) : base(message, inner) { }
         }
 
         public class DeprecatedToBeRemoved : Exception

@@ -18,7 +18,7 @@ using xubot.src.Attributes;
 
 namespace xubot.src.Commands.Connections
 {
-    public class RandomAPIS : ModuleBase
+    public class RandomApis : ModuleBase
     {
         public static HttpClient httpClient = new HttpClient();
 
@@ -141,7 +141,7 @@ namespace xubot.src.Commands.Connections
             settings.Async = true;
 
             string final = "";
-            string link = "http://thecatapi.com/api/images/get?api_key=" + $"{Program.JSONKeys["keys"].Contents.cat}&format=xml";
+            string link = "http://thecatapi.com/api/images/get?api_key=" + $"{Program.JsonKeys["keys"].Contents.cat}&format=xml";
 
             var xdoc = XDocument.Load(link);
 
@@ -202,7 +202,7 @@ namespace xubot.src.Commands.Connections
                 cont = cont.Trim('[', ']', '"');
                 Console.WriteLine(cont);
 
-                if (Util.Globals.RNG.Next(100) == 0)
+                if (Util.Globals.Rng.Next(100) == 0)
                 {
                     await ReplyAsync($"Birb.\n{cont}");
                 }

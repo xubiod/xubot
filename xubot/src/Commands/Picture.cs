@@ -28,20 +28,20 @@ namespace xubot.src.Commands
         [Group("manip"), Summary("Manipulates images. Can be used to deepfry.")]
         public class Manipulation : ModuleBase
         {
-            private readonly static Dictionary<string, IQuantizer> all_quantizers = new Dictionary<string, IQuantizer>() {
+            private static readonly Dictionary<string, IQuantizer> AllQuantizers = new Dictionary<string, IQuantizer>() {
                 { "websafe", KnownQuantizers.WebSafe }, { "web", KnownQuantizers.WebSafe }, { "web-safe", KnownQuantizers.WebSafe },
                 { "werner", KnownQuantizers.Werner }, { "1821", KnownQuantizers.Werner },
                 { "wu", KnownQuantizers.Wu }, { "xiaolin-wu", KnownQuantizers.Wu }, { "high", KnownQuantizers.Wu }, { "highquality", KnownQuantizers.Wu }, { "high-quality", KnownQuantizers.Wu },
                 { "octree", KnownQuantizers.Octree }, { "fast", KnownQuantizers.Octree }, { "adaptive", KnownQuantizers.Octree }, { "f", KnownQuantizers.Octree }
             };
 
-            private readonly static Dictionary<string, IDither> all_dithering =
+            private static readonly Dictionary<string, IDither> AllDithering =
                 new Dictionary<string, IDither>() {
                     { "atkinson", KnownDitherings.Atkinson }, { "bayer2", KnownDitherings.Bayer2x2 }, { "bayer4", KnownDitherings.Bayer4x4}, { "bayer8", KnownDitherings.Bayer8x8}, { "burks", KnownDitherings.Burks},
                     { "floydsteinberg", KnownDitherings.FloydSteinberg }, {"jarvisjudiceninke", KnownDitherings.JarvisJudiceNinke}, { "ordered3", KnownDitherings.Ordered3x3}, { "sierra2", KnownDitherings.Sierra2}, { "sierra3", KnownDitherings.Sierra3},
                     { "sierralite", KnownDitherings.SierraLite}, { "stevensonarce", KnownDitherings.StevensonArce}, { "stucki", KnownDitherings.Stucki } };
 
-            private readonly static Dictionary<string, ColorBlindnessMode> colour_blindness_map =
+            private static readonly Dictionary<string, ColorBlindnessMode> ColourBlindnessMap =
                 new Dictionary<string, ColorBlindnessMode>() {
                     { "achromatomaly", ColorBlindnessMode.Achromatomaly }, { "part-mono",    ColorBlindnessMode.Achromatomaly },
                     { "weak-color",    ColorBlindnessMode.Achromatomaly }, { "color-weak",   ColorBlindnessMode.Achromatomaly },
@@ -59,7 +59,7 @@ namespace xubot.src.Commands
 
             [ExampleAttribute(true)]
             [Command("bw", RunMode = RunMode.Async), Summary("Makes an image black and white.")]
-            public async Task BW() { HandleFilter(Context, mut => mut.BlackWhite()); }
+            public async Task Bw() { HandleFilter(Context, mut => mut.BlackWhite()); }
 
             [ExampleAttribute(true)]
             [Command("invert", RunMode = RunMode.Async), Summary("iNVERTS THE COLORS OF AN IMAGE.")]
@@ -102,7 +102,7 @@ namespace xubot.src.Commands
 
                 [ExampleAttribute("4 4 1.5", true)]
                 [Command("bokeh", RunMode = RunMode.Async), Summary("Applies bokeh blur to an image.")]
-                public async Task Bokeh(int radius, int kernel_count, float gamma) { HandleFilter(Context, mut => mut.BokehBlur(radius, kernel_count, gamma)); }
+                public async Task Bokeh(int radius, int kernelCount, float gamma) { HandleFilter(Context, mut => mut.BokehBlur(radius, kernelCount, gamma)); }
 
                 [ExampleAttribute(true)]
                 [Command("box", RunMode = RunMode.Async), Summary("Applies a basic box blur to an image.")]
@@ -138,17 +138,17 @@ namespace xubot.src.Commands
 
                 [ExampleAttribute("blue-blind", true)]
                 [Command("colorblind", RunMode = RunMode.Async), Alias("colourblind"), Summary("Applies a filter to simulate colourblindness.")]
-                public async Task EmulateColourblindness(string _type)
+                public async Task EmulateColourblindness(string type)
                 {
-                    _type = _type.ToLower();
+                    type = type.ToLower();
 
-                    if (!colour_blindness_map.ContainsKey(_type))
+                    if (!ColourBlindnessMap.ContainsKey(type))
                     {
                         await ReplyAsync("I wasn't given a valid filter name...");
                         return;
                     }
 
-                    HandleFilter(Context, mut => mut.ColorBlindness(colour_blindness_map[_type]));
+                    HandleFilter(Context, mut => mut.ColorBlindness(ColourBlindnessMap[type]));
                 }
 
                 [Command("colorblind?list", RunMode = RunMode.Async), Alias("colourblind?list"), Summary("Lists the colourblindness filters.")]
@@ -216,14 +216,14 @@ namespace xubot.src.Commands
 
                 [ExampleAttribute("fast", true)]
                 [Command("quantize", RunMode = RunMode.Async), Summary("Applies a quantize filter to an image. 4 are available, accessible with 0 - 3 which is modulo'd with 4.")]
-                public async Task Quantize(string name) { HandleFilter(Context, mut => mut.Quantize(all_quantizers[name])); }
+                public async Task Quantize(string name) { HandleFilter(Context, mut => mut.Quantize(AllQuantizers[name])); }
 
                 [Command("quantizers", RunMode = RunMode.Async), Summary("Returns all valid inputs for quantizers.")]
                 public async Task QuantizerListing()
                 {
                     string list = "";
 
-                    foreach (string item in all_quantizers.Keys)
+                    foreach (string item in AllQuantizers.Keys)
                         list += item + "\n";
 
                     await Context.Channel.SendMessageAsync("", false, GetListEmbed("Quantizer Methods", "Valid Methods", list).Build());
@@ -241,8 +241,8 @@ namespace xubot.src.Commands
                 [Command("basic-dither", RunMode = RunMode.Async), Summary("Applies a binary dithering effect to an image. 13 are available, accessible with its name. Use `pic manip ditherings` to get all valid names.")]
                 public async Task BinaryDither(string name)
                 {
-                    if (!all_dithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
-                    HandleFilter(Context, mut => mut.BinaryDither(all_dithering[name.ToLower()]));
+                    if (!AllDithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
+                    HandleFilter(Context, mut => mut.BinaryDither(AllDithering[name.ToLower()]));
                 }
 
                 [ExampleAttribute("bayer8 FF000000 FFFFFFFF FFFFF000 FF000FFF", true)]
@@ -253,10 +253,10 @@ namespace xubot.src.Commands
                     for (int i = 0; i < palette.Length; i++)
                         colours[i] = new SixLabors.ImageSharp.Color(Tools.ColorFromHexString(palette[i]));
 
-                    ReadOnlyMemory<SixLabors.ImageSharp.Color> rom_palette = colours;
+                    ReadOnlyMemory<SixLabors.ImageSharp.Color> romPalette = colours;
 
-                    if (!all_dithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
-                    HandleFilter(Context, mut => mut.Dither(all_dithering[name.ToLower()], rom_palette));
+                    if (!AllDithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
+                    HandleFilter(Context, mut => mut.Dither(AllDithering[name.ToLower()], romPalette));
                 }
 
                 [Command("ditherings", RunMode = RunMode.Async), Summary("Returns all ditherings names.")]
@@ -264,7 +264,7 @@ namespace xubot.src.Commands
                 {
                     string list = "";
 
-                    foreach (string item in all_dithering.Keys)
+                    foreach (string item in AllDithering.Keys)
                         list += item + "\n";
 
                     await Context.Channel.SendMessageAsync("", false, GetListEmbed("Dithering Methods", "Valid Ditherings", list).Build());
@@ -284,18 +284,18 @@ namespace xubot.src.Commands
                 return filename;
             }
 
-            private static async void HandleFilter(ICommandContext Context, System.Action<IImageProcessingContext> mutation)
+            private static async void HandleFilter(ICommandContext context, System.Action<IImageProcessingContext> mutation)
             {
-                using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
+                using (Util.WorkingBlock wb = new Util.WorkingBlock(context))
                 {
                     string loadas = Path.GetTempPath() + "manip";
 
-                    await Util.File.DownloadLastAttachmentAsync(Context, loadas, true);
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentURL(Context));
+                    await Util.File.DownloadLastAttachmentAsync(context, loadas, true);
+                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(context));
 
                     string filename = ApplyFilter(loadas, type, mutation);
 
-                    await Context.Channel.SendFileAsync(filename);
+                    await context.Channel.SendFileAsync(filename);
                 }
             }
 

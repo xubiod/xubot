@@ -19,11 +19,11 @@ namespace xubot.src.Commands.Global
         [Command(""), Alias("get"), Summary("Gets xubot's opinion on something. Was funny but now has been forgotten.")]
         public async Task OpinionGet(string input)
         {
-            Random _reply_decide = Util.Globals.RNG;
+            Random replyDecide = Util.Globals.Rng;
 
             string reply = "";
 
-            switch (_reply_decide.Next(3))
+            switch (replyDecide.Next(3))
             {
                 case 0: reply = "I don't have an opinion on that yet."; break;
                 case 1: reply = "I got no opinion on that yet."; break;
@@ -31,7 +31,7 @@ namespace xubot.src.Commands.Global
                 case 3: reply = "No opinion for this yet."; break;
             }
 
-            reply = (Program.JSONKeys["opinion"].Contents as JObject).Value<string>(input) ?? reply;
+            reply = (Program.JsonKeys["opinion"].Contents as JObject).Value<string>(input) ?? reply;
 
             await ReplyAsync(reply);
         }
@@ -39,10 +39,10 @@ namespace xubot.src.Commands.Global
         [Command("set"), Summary("Sets xubot's opinion on something. Owner only."), RequireOwner]
         public async Task OpinionSet(string input, string output)
         {
-            if ((Program.JSONKeys["opinion"].Contents as JObject).ContainsKey(input)) (Program.JSONKeys["opinion"].Contents as JObject)[input] = output;
-            else (Program.JSONKeys["opinion"].Contents as JObject).Add(input, output);
+            if ((Program.JsonKeys["opinion"].Contents as JObject).ContainsKey(input)) (Program.JsonKeys["opinion"].Contents as JObject)[input] = output;
+            else (Program.JsonKeys["opinion"].Contents as JObject).Add(input, output);
 
-            Util.JSON.SaveKeyAsJSON("opinion");
+            Util.Json.SaveKeyAsJson("opinion");
 
             await ReplyAsync("Opinion set.");
         }

@@ -5,16 +5,16 @@ using System.Text;
 namespace xubot.src.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    public class NSFWPossibiltyAttribute : Attribute
+    public class NsfwPossibiltyAttribute : Attribute
     {
         public string Warnings { get; }
 
-        public NSFWPossibiltyAttribute()
+        public NsfwPossibiltyAttribute()
         {
             this.Warnings = "Unspecified";
         }
 
-        public NSFWPossibiltyAttribute(string warnings)
+        public NsfwPossibiltyAttribute(string warnings)
         {
             this.Warnings = warnings;
         }

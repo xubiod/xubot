@@ -58,7 +58,7 @@ namespace xubot.src.Commands
             if (page < 1) page = 1;
             int itemsPerPage = BotSettings.Global.Default.EmbedListMaxLength;
 
-            List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
+            List<CommandInfo> commList = Program.XuCommand.Commands.ToList();
 
             string items = "";
 
@@ -103,7 +103,7 @@ namespace xubot.src.Commands
                 if (page < 1) page = 1;
                 int itemsPerPage = BotSettings.Global.Default.EmbedListMaxLength;
 
-                List<CommandInfo> commList = Program.xuCommand.Commands.ToList();
+                List<CommandInfo> commList = Program.XuCommand.Commands.ToList();
                 List<CommandInfo> compatibles = new List<CommandInfo>();
 
                 bool add;
@@ -155,17 +155,17 @@ namespace xubot.src.Commands
         {
             try
             {
-                List<CommandInfo> commList_e = Program.xuCommand.Commands.ToList();
-                List<ModuleInfo> moduList_e = Program.xuCommand.Modules.ToList();
+                List<CommandInfo> commListE = Program.XuCommand.Commands.ToList();
+                List<ModuleInfo> moduListE = Program.XuCommand.Modules.ToList();
 
-                commList_e = commList_e.FindAll(ci => ci.Name == (lookup.Split(' ').Last()));
+                commListE = commListE.FindAll(ci => ci.Name == (lookup.Split(' ').Last()));
 
-                List<CommandInfo> commList = commList_e;
+                List<CommandInfo> commList = commListE;
 
                 if (exact)
                 {
                     commList = new List<CommandInfo>();
-                    foreach (var item in commList_e)
+                    foreach (var item in commListE)
                     {
                         foreach (var alias in item.Aliases)
                         {
@@ -193,35 +193,35 @@ namespace xubot.src.Commands
                     return;
                 }
 
-                string all_alias = "";
-                IReadOnlyList<string> _aliases = comm.Aliases ?? new List<string>();
+                string allAlias = "";
+                IReadOnlyList<string> aliases = comm.Aliases ?? new List<string>();
 
                 string trueName = comm.Name;
 
-                if (_aliases.ToList().Find(al => al == lookup) == lookup)
+                if (aliases.ToList().Find(al => al == lookup) == lookup)
                 {
                     trueName = lookup;
                 }
 
-                if (_aliases.Count != 0)
+                if (aliases.Count != 0)
                 {
                     foreach (string alias in comm.Aliases)
                     {
-                        all_alias += alias + "\n";
+                        allAlias += alias + "\n";
                     }
                 }
 
-                string all_para = "No parameters.";
-                string example_para = "";
-                IReadOnlyList<ParameterInfo> _params = comm.Parameters.ToList() ?? new List<ParameterInfo>();
+                string allPara = "No parameters.";
+                string examplePara = "";
+                IReadOnlyList<ParameterInfo> @params = comm.Parameters.ToList() ?? new List<ParameterInfo>();
 
-                if (_params.Count != 0)
+                if (@params.Count != 0)
                 {
-                    all_para = "";
+                    allPara = "";
                     foreach (var para in comm.Parameters)
                     {
-                        all_para += (para.IsMultiple ? "params " : "") + Util.String.SimplifyTypes(para.Type.ToString()) + " " + para.Name + (para.IsOptional ? " (optional) // default value = " + para.DefaultValue.ToString() : "") +"\n";
-                        example_para += para.Name + " ";
+                        allPara += (para.IsMultiple ? "params " : "") + Util.String.SimplifyTypes(para.Type.ToString()) + " " + para.Name + (para.IsOptional ? " (optional) // default value = " + para.DefaultValue.ToString() : "") +"\n";
+                        examplePara += para.Name + " ";
                     }
                 }
 
@@ -230,17 +230,17 @@ namespace xubot.src.Commands
 
                 bool dep = comm.Attributes.Contains(new DeprecatedAttribute()) || comm.Module.Attributes.Contains(new DeprecatedAttribute());
 
-                string nsfwPossibility = comm.Attributes.Where(x => x is NSFWPossibiltyAttribute).Count() > 0 ? (comm.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).Warnings : "";
-                nsfwPossibility += comm.Module.Attributes.Where(x => x is NSFWPossibiltyAttribute).Count() > 0 ? "Groupwide:\n\n" + (comm.Module.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).Warnings : "";
+                string nsfwPossibility = comm.Attributes.Where(x => x is NsfwPossibiltyAttribute).Count() > 0 ? (comm.Attributes.First(x => x is NsfwPossibiltyAttribute) as NsfwPossibiltyAttribute).Warnings : "";
+                nsfwPossibility += comm.Module.Attributes.Where(x => x is NsfwPossibiltyAttribute).Count() > 0 ? "Groupwide:\n\n" + (comm.Module.Attributes.First(x => x is NsfwPossibiltyAttribute) as NsfwPossibiltyAttribute).Warnings : "";
 
                 if (comm.Attributes.Where(x => x is ExampleAttribute).Count() > 0)
                 {
                     ExampleAttribute ex = (comm.Attributes.First(x => x is ExampleAttribute) as ExampleAttribute);
-                    if (ex.ExampleParameters != "") example_para = ex.ExampleParameters;
-                    example_para += ex.AttachmentNeeded ? "\n\n[You need to upload a file to use this.]" : "";
+                    if (ex.ExampleParameters != "") examplePara = ex.ExampleParameters;
+                    examplePara += ex.AttachmentNeeded ? "\n\n[You need to upload a file to use this.]" : "";
                 }
 
-                string exampleUsage = $"{Program.prefix}{trueName} " + example_para;
+                string exampleUsage = $"{Program.prefix}{trueName} " + examplePara;
 
                 EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"The newer *better* help. Showing result #{index} out of {allMatchs} match(s).", Discord.Color.Magenta);
                 embed.Fields = new List<EmbedFieldBuilder>()
@@ -260,13 +260,13 @@ namespace xubot.src.Commands
                     new EmbedFieldBuilder
                     {
                         Name = "Known Aliases",
-                        Value = $"```\n{all_alias}```",
+                        Value = $"```\n{allAlias}```",
                         IsInline = false
                     },
                     new EmbedFieldBuilder
                     {
                         Name = "Parameters",
-                        Value = $"```cs\n{all_para}```",
+                        Value = $"```cs\n{allPara}```",
                         IsInline = true
                     },
                     new EmbedFieldBuilder
@@ -303,7 +303,7 @@ namespace xubot.src.Commands
         {
             try
             {
-                List<ModuleInfo> moduList = Program.xuCommand.Modules.ToList().FindAll(ci => ci.Group == (lookup.Split(' ').Last()));
+                List<ModuleInfo> moduList = Program.XuCommand.Modules.ToList().FindAll(ci => ci.Group == (lookup.Split(' ').Last()));
 
                 int allMatchs = moduList.Count;
 
@@ -320,21 +320,21 @@ namespace xubot.src.Commands
                     return;
                 }
 
-                string all_alias = "";
-                IReadOnlyList<string> _aliases = group.Aliases ?? new List<string>();
+                string allAlias = "";
+                IReadOnlyList<string> aliases = group.Aliases ?? new List<string>();
 
                 string trueName = group.Name;
 
-                if (_aliases.ToList().Find(al => al == lookup) == lookup)
+                if (aliases.ToList().Find(al => al == lookup) == lookup)
                 {
                     trueName = lookup;
                 }
 
-                if (_aliases.Count != 0)
+                if (aliases.Count != 0)
                 {
                     foreach (string alias in group.Aliases)
                     {
-                        all_alias += alias + "\n";
+                        allAlias += alias + "\n";
                     }
                 }
 
@@ -364,7 +364,7 @@ namespace xubot.src.Commands
                 if (group.Summary != null) trueSumm = group.Summary;
 
                 bool dep = group.Attributes.Contains(new DeprecatedAttribute());
-                string nsfwPossibility = group.Attributes.Contains(new NSFWPossibiltyAttribute()) ? (group.Attributes.First(x => x is NSFWPossibiltyAttribute) as NSFWPossibiltyAttribute).Warnings : null;
+                string nsfwPossibility = group.Attributes.Contains(new NsfwPossibiltyAttribute()) ? (group.Attributes.First(x => x is NsfwPossibiltyAttribute) as NsfwPossibiltyAttribute).Warnings : null;
 
                 EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", "The newer *better* help. For more specifics, combine the group and command.", Discord.Color.Magenta);
                 embed.Fields = new List<EmbedFieldBuilder>()
@@ -378,7 +378,7 @@ namespace xubot.src.Commands
                     new EmbedFieldBuilder
                     {
                         Name = "Known Aliases",
-                        Value = $"```\n{all_alias}```",
+                        Value = $"```\n{allAlias}```",
                         IsInline = true
                     },
                     new EmbedFieldBuilder

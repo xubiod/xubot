@@ -19,7 +19,7 @@ namespace xubot.src
 {
     public class InterpLanguages : ModuleBase
     {
-        public static Embed BuildEmbed(ICommandContext context, string language, string description, string syntax_highlighting, string input, string result)
+        public static Embed BuildEmbed(ICommandContext context, string language, string description, string syntaxHighlighting, string input, string result)
         {
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(context, "**Language:** `" + language + "`", description, Discord.Color.Orange);
             embed.Fields = new List<EmbedFieldBuilder>()
@@ -27,7 +27,7 @@ namespace xubot.src
                 new EmbedFieldBuilder
                 {
                     Name = "Input",
-                    Value = "```" + syntax_highlighting + "\n" + input + "```",
+                    Value = "```" + syntaxHighlighting + "\n" + input + "```",
                     IsInline = false
                 },
                 new EmbedFieldBuilder
@@ -59,10 +59,10 @@ namespace xubot.src
         }
 
         [Group("interp"), Summary("Interperts other languages and displays output.")]
-        public class codeCompile : ModuleBase
+        public class CodeCompile : ModuleBase
         {
             [Command("js", RunMode = RunMode.Async), Summary("Executes JavaScript.")]
-            public async Task JS(string input)
+            public async Task Js(string input)
             {
                 await ReplyAsync("I'm sorry, but the .NET Core port does not have this yet. I'm trying my best to make it work out, promise! (but don't count on it soon)\n\n- xubiod#0258");
                 /*
@@ -153,20 +153,20 @@ namespace xubot.src
 
             [Example("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.")]
             [Command("brainfuck", RunMode = RunMode.Async), Alias("brainf***", "brainf**k", "b****fuck", "bf"), Summary("Interperts Brainfuck and outputs the result.")]
-            public async Task Brainfuck(string input, string ascii_input = "")
+            public async Task Brainfuck(string input, string asciiInput = "")
             {
-                string embed_input;
-                if (ascii_input != "")
+                string embedInput;
+                if (asciiInput != "")
                 {
-                    embed_input = $"Code: {input.Replace("\n", String.Empty)}\n\nASCII Input: {ascii_input}";
+                    embedInput = $"Code: {input.Replace("\n", String.Empty)}\n\nASCII Input: {asciiInput}";
                 }
                 else
                 {
-                    embed_input = $"Code: {input.Replace("\n", String.Empty)}";
+                    embedInput = $"Code: {input.Replace("\n", String.Empty)}";
                 }
-                string result = Commands.SmallLangInterps.Brainfuck.Execute(input, ascii_input);
+                string result = Commands.SmallLangInterps.Brainfuck.Execute(input, asciiInput);
 
-                await ReplyAsync("", false, BuildEmbed(Context, "Brainfuck", "using a built-in interpeter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf", embed_input, result));
+                await ReplyAsync("", false, BuildEmbed(Context, "Brainfuck", "using a built-in interpeter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf", embedInput, result));
             }
         }
     }

@@ -15,8 +15,8 @@ namespace xubot.src.Commands
 {
     public class Information : ModuleBase
     {
-        private static readonly string[] DISCORD_COLOR = { "Blue", "Grey", "Green", "Yellow", "Red" };
-        private static readonly string DISCORD_REGEX = "(.+[^#])*(#{1}([0-9]{4})){1}";
+        private static readonly string[] DiscordColor = { "Blue", "Grey", "Green", "Yellow", "Red" };
+        private static readonly string DiscordRegex = "(.+[^#])*(#{1}([0-9]{4})){1}";
 
         //INFORMATION ABOUT SERVER/CHANNEL/USER
         [Group("info"), Summary("Gets information about various things.")]
@@ -118,7 +118,7 @@ namespace xubot.src.Commands
                     new EmbedFieldBuilder
                     {
                         Name = "NSFW?",
-                        Value = (await Util.IsChannelNSFW(Context)),
+                        Value = (await Util.IsChannelNsfw(Context)),
                         IsInline = true
                     }
                 };
@@ -134,34 +134,34 @@ namespace xubot.src.Commands
                 {
                     //throw new SpecialException.IHaveNoFuckingIdeaException();
 
-                    Discord.IUser _user0 = Context.Message.Author;
+                    Discord.IUser user0 = Context.Message.Author;
 
-                    if (id != ulong.MaxValue) { _user0 = Program.xuClient.GetUser(id); }
+                    if (id != ulong.MaxValue) { user0 = Program.XuClient.GetUser(id); }
 
-                    if (_user0 == null) { await ReplyAsync("You either messed up the ID, or I don't share a server with this person."); return; }
+                    if (user0 == null) { await ReplyAsync("You either messed up the ID, or I don't share a server with this person."); return; }
 
-                    string act = (_user0.Activity == null) ? "Nothing." : _user0.Activity.Type + " " + _user0.Activity.Name + " " + _user0.Activity.Details;
+                    string act = (user0.Activity == null) ? "Nothing." : user0.Activity.Type + " " + user0.Activity.Name + " " + user0.Activity.Details;
 
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + _user0, "User information details", Discord.Color.Red);
-                    embed.ThumbnailUrl = _user0.GetAvatarUrl();
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + user0, "User information details", Discord.Color.Red);
+                    embed.ThumbnailUrl = user0.GetAvatarUrl();
                     embed.Fields = new List<EmbedFieldBuilder>()
                     {
                         new EmbedFieldBuilder
                         {
                             Name = "ID",
-                            Value = _user0.Id,
+                            Value = user0.Id,
                             IsInline = true
                         },
                         new EmbedFieldBuilder
                         {
                             Name = "Status",
-                            Value = _user0.Status,
+                            Value = user0.Status,
                             IsInline = true
                         },
                         new EmbedFieldBuilder
                         {
                             Name = "Automation",
-                            Value = (_user0.Id != 198146693672337409) ? _user0.IsBot || _user0.IsWebhook ? "Yes (" + ((_user0.IsBot ? "bot" : "") + (_user0.IsWebhook ? "webhook" : "") + ")") : "No (Human probably)" : "Indeterminate",
+                            Value = (user0.Id != 198146693672337409) ? user0.IsBot || user0.IsWebhook ? "Yes (" + ((user0.IsBot ? "bot" : "") + (user0.IsWebhook ? "webhook" : "") + ")") : "No (Human probably)" : "Indeterminate",
                             IsInline = true
                         },
                         new EmbedFieldBuilder
@@ -173,54 +173,54 @@ namespace xubot.src.Commands
                         new EmbedFieldBuilder
                         {
                             Name = "Created on",
-                            Value = _user0.CreatedAt,
+                            Value = user0.CreatedAt,
                             IsInline = true
                         },
                         new EmbedFieldBuilder
                         {
                             Name = "Random Fact(s)",
-                            Value = "Default Icon Color: **" + DISCORD_COLOR[_user0.DiscriminatorValue % 5] + "**",
+                            Value = "Default Icon Color: **" + DiscordColor[user0.DiscriminatorValue % 5] + "**",
                             IsInline = true
                         }
                     };
 
                     if (Context.Guild != null)
                     {
-                        IGuildUser _user1 = await Context.Guild.GetUserAsync(_user0.Id);
+                        IGuildUser user1 = await Context.Guild.GetUserAsync(user0.Id);
 
-                        string _role_list = "";
+                        string roleList = "";
 
-                        foreach (var role in _user1.RoleIds) { _role_list += Context.Guild.GetRole(role).Mention + " "; }
+                        foreach (var role in user1.RoleIds) { roleList += Context.Guild.GetRole(role).Mention + " "; }
 
                         List<EmbedFieldBuilder> guildData = new List<EmbedFieldBuilder>(){
                             new EmbedFieldBuilder
                             {
                                 Name = "Deafened?",
-                                Value = (_user1.IsDeafened ? "Yes" : "No") + (_user1.IsSelfDeafened ? " (self)" : ""),
+                                Value = (user1.IsDeafened ? "Yes" : "No") + (user1.IsSelfDeafened ? " (self)" : ""),
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Muted?",
-                                Value = (_user1.IsMuted ? "Yes" : "No") + (_user1.IsSelfMuted ? " (self)" : ""),
+                                Value = (user1.IsMuted ? "Yes" : "No") + (user1.IsSelfMuted ? " (self)" : ""),
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Joined server on",
-                                Value = _user1.JoinedAt,
+                                Value = user1.JoinedAt,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
                                 Name = "Nickname",
-                                Value = _user1.Nickname,
+                                Value = user1.Nickname,
                                 IsInline = true
                             },
                             new EmbedFieldBuilder
                             {
-                                Name = "Has " + (_user1.RoleIds.Count) + "roles:",
-                                Value = _role_list,
+                                Name = "Has " + (user1.RoleIds.Count) + "roles:",
+                                Value = roleList,
                                 IsInline = true
                             },
                         };
@@ -245,9 +245,9 @@ namespace xubot.src.Commands
                 string complete = username.Length == 1 ? username[0] : "";
                 if (username.Length > 1) foreach (string part in username) { complete += part + (username.Last() != part ? " " : ""); }
 
-                if (Regex.Match(complete, DISCORD_REGEX).Success)
+                if (Regex.Match(complete, DiscordRegex).Success)
                 {
-                    var _ = Program.xuClient.GetUser(complete.Split("#")[0], complete.Split("#")[1]);
+                    var _ = Program.XuClient.GetUser(complete.Split("#")[0], complete.Split("#")[1]);
 
                     if (_ == null)
                     {
@@ -303,7 +303,7 @@ namespace xubot.src.Commands
                 new EmbedFieldBuilder
                 {
                     Name = "APIs",
-                    Value = String.Join("", Program.JSONKeys["apis"].Contents.apis),
+                    Value = String.Join("", Program.JsonKeys["apis"].Contents.apis),
                     IsInline = false
                 }
             };
@@ -323,7 +323,7 @@ namespace xubot.src.Commands
                 new EmbedFieldBuilder
                 {
                     Name = "Credits",
-                    Value = String.Join("", Program.JSONKeys["apis"].Contents.credits),
+                    Value = String.Join("", Program.JsonKeys["apis"].Contents.credits),
                     IsInline = false
                 }
             };
@@ -332,7 +332,7 @@ namespace xubot.src.Commands
         }
 
         [Command("version"), Summary("Returns the current build via the latest commit.")]
-        public async Task VersionCMD()
+        public async Task VersionCmd()
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.Async = true;
@@ -366,11 +366,11 @@ namespace xubot.src.Commands
         [Command("donate"), Summary("Returns a link to donate to the developer.")]
         public async Task Donate()
         {
-            await ReplyAsync("To donate to the creator of this bot, please visit:\n" + Program.JSONKeys["keys"].Contents.donate_link);
+            await ReplyAsync("To donate to the creator of this bot, please visit:\n" + Program.JsonKeys["keys"].Contents.donate_link);
         }
 
         [Command("privacy-policy")]
-        public async Task PP()
+        public async Task Pp()
         {
             File.WriteAllText(Path.GetTempPath() + "pripol.txt", Properties.Resources.PrivacyPolicy);
             await Context.Channel.SendFileAsync(Path.GetTempPath() + "pripol.txt");

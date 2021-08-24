@@ -177,7 +177,7 @@ namespace xubot.src
             }
         }
 
-        public class JSON
+        public class Json
         {
             public class Entry
             {
@@ -197,26 +197,26 @@ namespace xubot.src
                     Log.QuickLog($"a json file was missing: {Path.GetFileName(jsonFile)}");
                     return;
                 }
-                Program.JSONKeys.Add(key, new Entry(jsonFile, JObject.Parse(System.IO.File.ReadAllText(jsonFile))));
+                Program.JsonKeys.Add(key, new Entry(jsonFile, JObject.Parse(System.IO.File.ReadAllText(jsonFile))));
             }
 
             public static void ProcessObject(string key, object toSerialize)
             {
-                Program.JSONKeys.Add(key, new Entry(null, JObject.Parse(JsonConvert.SerializeObject(toSerialize))));
+                Program.JsonKeys.Add(key, new Entry(null, JObject.Parse(JsonConvert.SerializeObject(toSerialize))));
             }
 
-            public static void SaveKeyAsJSON(string key)
+            public static void SaveKeyAsJson(string key)
             {
-                System.IO.File.WriteAllText(Program.JSONKeys[key].Filename, JsonConvert.SerializeObject(Program.JSONKeys[key].Contents));
+                System.IO.File.WriteAllText(Program.JsonKeys[key].Filename, JsonConvert.SerializeObject(Program.JsonKeys[key].Contents));
             }
 
-            public static void SaveObjectAsJSON(object save, string path)
+            public static void SaveObjectAsJson(object save, string path)
             {
                 System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(save));
             }
         }
 
-        public class CMDLine
+        public class CmdLine
         {
             public static void SetColor(ConsoleColor foreground = ConsoleColor.White, ConsoleColor background = ConsoleColor.Black)
             {
@@ -227,7 +227,7 @@ namespace xubot.src
 
         public class String
         {
-            private static Dictionary<string, string> TypeToString = new Dictionary<string, string>() {
+            private static readonly Dictionary<string, string> _typeToString = new Dictionary<string, string>() {
                 { "System.Boolean", "bool"},
                 { "System.Byte",    "byte" },       { "System.SByte",   "sbyte" },  { "System.Char",    "char" },
                 { "System.Decimal", "decimal" },    { "System.Double",  "double" }, { "System.Single",  "float" },
@@ -238,7 +238,7 @@ namespace xubot.src
                 { "System.String",  "string" },     { "System.Object",  "object" }
             };
 
-            private static Dictionary<string, string> TypeToGenericString = new Dictionary<string, string>() {
+            private static readonly Dictionary<string, string> _typeToGenericString = new Dictionary<string, string>() {
                 { "System.Boolean", "switch"},
                 { "System.Byte",    "byte" },      { "System.SByte",   "byte" },   { "System.Char",    "char" },
                 { "System.Decimal", "number" },    { "System.Double",  "number" }, { "System.Single",  "number" },
@@ -249,17 +249,17 @@ namespace xubot.src
                 { "System.String",  "string" },    { "System.Object",  "object" }
             };
 
-            public static string StripHTML(string input)
+            public static string StripHtml(string input)
             {
                 return Regex.Replace(input, "<.*?>", string.Empty);
             }
 
             public static string SimplifyTypes(string input)
             {
-                return BotSettings.Global.Default.SuperSimpleTypes ? TypeToGenericString[input] : TypeToString[input];
+                return BotSettings.Global.Default.SuperSimpleTypes ? _typeToGenericString[input] : _typeToString[input];
             }
 
-            public static bool ValidateURL(string url)
+            public static bool ValidateUrl(string url)
             {
                 Uri result;
                 return Uri.TryCreate(url, UriKind.Absolute, out result) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
@@ -268,7 +268,7 @@ namespace xubot.src
             public static string RandomHexadecimal(int length = 32)
             {
                 string output = "";
-                for (int i = 0; i < length; i++) output += Globals.HexadecimalChars[Globals.RNG.Next(Globals.HexadecimalChars.Length)];
+                for (int i = 0; i < length; i++) output += Globals.HexadecimalChars[Globals.Rng.Next(Globals.HexadecimalChars.Length)];
 
                 return output;
             }
@@ -281,41 +281,41 @@ namespace xubot.src
 
         public class File
         {
-            public static string ReturnLastAttachmentURL(ICommandContext Context)
+            public static string ReturnLastAttachmentUrl(ICommandContext context)
             {
-                var attach = Context.Message.Attachments;
+                var attach = context.Message.Attachments;
                 IAttachment attached = null;
 
-                foreach (IAttachment _att in attach)
+                foreach (IAttachment att in attach)
                 {
-                    attached = _att;
+                    attached = att;
                 }
 
                 return attached.Url;
             }
 
-            public static List<string> ReturnAttachmentURLs(ICommandContext Context)
+            public static List<string> ReturnAttachmentUrLs(ICommandContext context)
             {
-                var attach = Context.Message.Attachments;
+                var attach = context.Message.Attachments;
                 IAttachment attached = null;
                 List<string> results = new List<string>();
 
-                foreach (IAttachment _att in attach)
+                foreach (IAttachment att in attach)
                 {
-                    results.Add(_att.Url);
+                    results.Add(att.Url);
                 }
 
                 return results;
             }
 
-            public static async Task DownloadLastAttachmentAsync(ICommandContext Context, string localurl, bool autoApplyFT = false)
+            public static async Task DownloadLastAttachmentAsync(ICommandContext context, string localurl, bool autoApplyFt = false)
             {
-                string url = ReturnLastAttachmentURL(Context);
+                string url = ReturnLastAttachmentUrl(context);
                 using (HttpClient client = new HttpClient())
                 using (HttpResponseMessage response = await client.GetAsync(url))
                 using (HttpContent content = response.Content)
                 {
-                    if (!autoApplyFT)
+                    if (!autoApplyFt)
                     {
                         System.IO.File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
                     }
@@ -327,13 +327,13 @@ namespace xubot.src
                 }
             }
 
-            public static async Task DownloadFromURLAsync(string localurl, string url, bool autoApplyFT = false)
+            public static async Task DownloadFromUrlAsync(string localurl, string url, bool autoApplyFt = false)
             {
                 using (HttpClient client = new HttpClient())
                 using (HttpResponseMessage response = await client.GetAsync(url))
                 using (HttpContent content = response.Content)
                 {
-                    if (!autoApplyFT)
+                    if (!autoApplyFt)
                     {
                         System.IO.File.WriteAllBytes(localurl, await content.ReadAsByteArrayAsync());
                     }
@@ -371,64 +371,64 @@ namespace xubot.src
 
         public class Globals
         {
-            public readonly static Random RNG = new Random();
-            public readonly static char[] HexadecimalChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-            public readonly static Emoji Working = new Emoji(BotSettings.Global.Default.WorkingReaction);
-            public readonly static Emoji Completed = new Emoji(BotSettings.Global.Default.WorkCompletedReaction);
-            public readonly static Emoji LongerThanExpected = new Emoji(BotSettings.Global.Default.WorkTakingLongerReaction);
-            public readonly static string EmbedFooter = "xubot :p";
+            public static readonly Random Rng = new Random();
+            public static readonly char[] HexadecimalChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+            public static readonly Emoji Working = new Emoji(BotSettings.Global.Default.WorkingReaction);
+            public static readonly Emoji Completed = new Emoji(BotSettings.Global.Default.WorkCompletedReaction);
+            public static readonly Emoji LongerThanExpected = new Emoji(BotSettings.Global.Default.WorkTakingLongerReaction);
+            public static readonly string EmbedFooter = "xubot :p";
         }
 
         public class WorkingBlock : IDisposable
         {
-            private ICommandContext Context;
-            private bool started;
-            private bool completed;
-            private Task UntilLonger;
-            private readonly int Delay = BotSettings.Global.Default.TakingLongerMilliseconds;
-            private readonly int TaskPollLength = BotSettings.Global.Default.TaskPollLength;
-            private readonly CancellationTokenSource cancelToken = new CancellationTokenSource();
+            private readonly ICommandContext _context;
+            private bool _started;
+            private bool _completed;
+            private Task _untilLonger;
+            private readonly int _delay = BotSettings.Global.Default.TakingLongerMilliseconds;
+            private readonly int _taskPollLength = BotSettings.Global.Default.TaskPollLength;
+            private readonly CancellationTokenSource _cancelToken = new CancellationTokenSource();
 
-            private static IEmote[] RemoveEmotesOnDispose = new IEmote[] { Util.Globals.Working, Util.Globals.LongerThanExpected };
+            private static readonly IEmote[] _removeEmotesOnDispose = new IEmote[] { Util.Globals.Working, Util.Globals.LongerThanExpected };
 
             public WorkingBlock(ICommandContext ctx)
             {
-                Context = ctx;
-                started = false;
+                _context = ctx;
+                _started = false;
                 Start();
             }
 
             public void Start()
             {
-                if (started || completed) return;
-                Context.Message.AddReactionAsync(Util.Globals.Working);
+                if (_started || _completed) return;
+                _context.Message.AddReactionAsync(Util.Globals.Working);
 
-                UntilLonger = Task.Factory.StartNew(() =>
+                _untilLonger = Task.Factory.StartNew(() =>
                 {
-                    for (int i = 0; i < (Delay / TaskPollLength); i++) {
-                        System.Threading.Thread.Sleep(TaskPollLength);
-                        if (cancelToken.IsCancellationRequested)
+                    for (int i = 0; i < (_delay / _taskPollLength); i++) {
+                        System.Threading.Thread.Sleep(_taskPollLength);
+                        if (_cancelToken.IsCancellationRequested)
                             return;
                     }
-                    Context.Message.AddReactionAsync(Util.Globals.LongerThanExpected);
-                }, cancelToken.Token);
+                    _context.Message.AddReactionAsync(Util.Globals.LongerThanExpected);
+                }, _cancelToken.Token);
 
-                started = true;
+                _started = true;
             }
 
             public void Dispose()
             {
-                completed = true;
-                if (!started) return;
+                _completed = true;
+                if (!_started) return;
 
-                Context.Message.RemoveReactionsAsync(Program.xuClient.CurrentUser, RemoveEmotesOnDispose);
+                _context.Message.RemoveReactionsAsync(Program.XuClient.CurrentUser, _removeEmotesOnDispose);
 
-                Context.Message.AddReactionAsync(Util.Globals.Completed);
+                _context.Message.AddReactionAsync(Util.Globals.Completed);
 
-                cancelToken.Cancel();
+                _cancelToken.Cancel();
 
-                System.Threading.Thread.Sleep(TaskPollLength);
-                cancelToken.Dispose();
+                System.Threading.Thread.Sleep(_taskPollLength);
+                _cancelToken.Dispose();
             }
         }
 
@@ -466,7 +466,7 @@ namespace xubot.src
             }
         }
 
-        public static bool IsUserTrusted(ICommandContext Context)
+        public static bool IsUserTrusted(ICommandContext context)
         {
             var xdoc = XDocument.Load("Trusted.xml");
 
@@ -478,7 +478,7 @@ namespace xubot.src
 
             foreach (var item in items)
             {
-                if (item.user == Context.Message.Author.Id.ToString())
+                if (item.user == context.Message.Author.Id.ToString())
                 {
                     return true;
                 }
@@ -487,28 +487,28 @@ namespace xubot.src
             return false;
         }
 
-        public static async Task<bool> IsChannelNSFW(ICommandContext Context)
+        public static async Task<bool> IsChannelNsfw(ICommandContext context)
         {
             if (!BotSettings.Global.Default.BotwideNSFWEnabled) return false;
 
-            IDMChannel ifDM = await Context.Message.Author.GetOrCreateDMChannelAsync();
+            IDMChannel ifDm = await context.Message.Author.GetOrCreateDMChannelAsync();
 
-            if (ifDM.Id == Context.Channel.Id)
+            if (ifDm.Id == context.Channel.Id)
             {
                 return BotSettings.Global.Default.DMsAlwaysNSFW;
             }
             else
             {
-                ITextChannel _c = Context.Channel as ITextChannel;
-                return _c.IsNsfw;
+                ITextChannel c = context.Channel as ITextChannel;
+                return c.IsNsfw;
             }
         }
 
-        public static async Task<bool> IsDMChannel(ICommandContext Context)
+        public static async Task<bool> IsDmChannel(ICommandContext context)
         {
-            IDMChannel ifDM = await Context.Message.Author.GetOrCreateDMChannelAsync();
+            IDMChannel ifDm = await context.Message.Author.GetOrCreateDMChannelAsync();
 
-            return ifDM.Id == Context.Channel.Id;
+            return ifDm.Id == context.Channel.Id;
         }
 
         public static DateTime UnixTimeStampToDateTime(ulong unixTimeStamp)

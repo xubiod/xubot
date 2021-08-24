@@ -88,28 +88,28 @@ namespace xubot.src.Offline
             return null;
         }
 
-        public Task<IUserMessage> SendFileAsync(string filePath, string text = null, bool isTTS = false, Embed embed = null, RequestOptions options = null, bool isSpoiler = false, AllowedMentions allowedMentions = null, MessageReference messageReference = null)
+        public Task<IUserMessage> SendFileAsync(string filePath, string text = null, bool isTts = false, Embed embed = null, RequestOptions options = null, bool isSpoiler = false, AllowedMentions allowedMentions = null, MessageReference messageReference = null)
         {
-            return SendMessageAsync(text, isTTS, embed, options, allowedMentions, messageReference);
+            return SendMessageAsync(text, isTts, embed, options, allowedMentions, messageReference);
         }
 
-        public Task<IUserMessage> SendFileAsync(Stream stream, string filename, string text = null, bool isTTS = false, Embed embed = null, RequestOptions options = null, bool isSpoiler = false, AllowedMentions allowedMentions = null, MessageReference messageReference = null)
+        public Task<IUserMessage> SendFileAsync(Stream stream, string filename, string text = null, bool isTts = false, Embed embed = null, RequestOptions options = null, bool isSpoiler = false, AllowedMentions allowedMentions = null, MessageReference messageReference = null)
         {
-            return SendMessageAsync(text, isTTS, embed, options, allowedMentions, messageReference);
+            return SendMessageAsync(text, isTts, embed, options, allowedMentions, messageReference);
         }
 
-        public Task<IUserMessage> SendMessageAsync(string text = null, bool isTTS = false, Embed embed = null, RequestOptions options = null, AllowedMentions allowedMentions = null, MessageReference messageReference = null)
+        public Task<IUserMessage> SendMessageAsync(string text = null, bool isTts = false, Embed embed = null, RequestOptions options = null, AllowedMentions allowedMentions = null, MessageReference messageReference = null)
         {
-            OfflineMessage new_msg = new OfflineMessage() {
+            OfflineMessage newMsg = new OfflineMessage() {
                 Content = text
             };
 
-            new_msg.EmbedsWritable.Add(embed);
+            newMsg.EmbedsWritable.Add(embed);
 
-            Messages.Add(new_msg);
-            Console.WriteLine($"{new_msg.Resolve()}\n");
+            Messages.Add(newMsg);
+            Console.WriteLine($"{newMsg.Resolve()}\n");
 
-            return Task.FromResult<IUserMessage>(new_msg);
+            return Task.FromResult<IUserMessage>(newMsg);
         }
 
         public Task TriggerTypingAsync(RequestOptions options = null)

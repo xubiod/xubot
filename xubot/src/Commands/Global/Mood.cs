@@ -17,7 +17,7 @@ namespace xubot.src.Commands.Global
         public static XDocument xdoc = new XDocument();
 
         [Command("mood"), Summary("Get's your mood/emotion value from xubot.")]
-        public async Task GetMoodCMD()
+        public async Task GetMoodCmd()
         {
             MoodTools.AddOrRefreshMood(Context.Message.Author);
             double mood = MoodTools.ReadMood(Context.Message.Author);

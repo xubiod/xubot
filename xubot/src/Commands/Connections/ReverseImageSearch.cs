@@ -19,11 +19,11 @@ namespace xubot.src.Commands.Connections
         {
             private const string SingleResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=1";
             private const string TopResultUrl = "https://saucenao.com/search.php?db=999&output_type=2&numres=";
-            private static readonly string APIKey = $"&api_key={Program.JSONKeys["keys"].Contents.saucenao}&url=";
+            private static readonly string ApiKey = $"&api_key={Program.JsonKeys["keys"].Contents.saucenao}&url=";
 
             private enum RequestsLeftType { NoFormatting, Message, Embed }
 
-            private static HttpClient client = new HttpClient();
+            private static readonly HttpClient _client = new HttpClient();
 
             [Example(true)]
             [Command("get", RunMode = RunMode.Async), Alias(""), Summary("Uses SauceNAO to get the \"sauce\" of an attached image, returning the number 1 result.")]
@@ -34,14 +34,14 @@ namespace xubot.src.Commands.Connections
                     await Util.Error.BuildError("No attachments or parameters were given.", Context);
                     return;
                 }
-                await GetSauce(Util.File.ReturnLastAttachmentURL(Context));
+                await GetSauce(Util.File.ReturnLastAttachmentUrl(Context));
             }
 
             [Example("example.com/example_img")]
             [Command("get", RunMode = RunMode.Async), Alias(""), Summary("Uses SauceNAO to get the \"sauce\" of the given URL, returning the number 1 result.")]
             public async Task GetSauce(string url)
             {
-                if (!Util.String.ValidateURL(url))
+                if (!Util.String.ValidateUrl(url))
                 {
                     await Util.Error.BuildError("Invalid URL", Context);
                     return;
@@ -49,12 +49,12 @@ namespace xubot.src.Commands.Connections
 
                 using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 {
-                    string assembledURL = SingleResultUrl + APIKey + HttpUtility.UrlEncode(url);
-                    dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
+                    string assembledUrl = SingleResultUrl + ApiKey + HttpUtility.UrlEncode(url);
+                    dynamic keys = JObject.Parse(await _client.GetStringAsync(assembledUrl));
 
                     if (keys.header.status != 0)
                     {
-                        BuildSauceNAOError(keys, Context);
+                        BuildSauceNaoError(keys, Context);
                         return;
                     }
 
@@ -79,7 +79,7 @@ namespace xubot.src.Commands.Connections
                     await Util.Error.BuildError("No attachments or parameters were given.", Context);
                     return;
                 }
-                await GetTop(Util.File.ReturnLastAttachmentURL(Context), amount);
+                await GetTop(Util.File.ReturnLastAttachmentUrl(Context), amount);
             }
 
             [Example("5 example.com/example_img")]
@@ -88,23 +88,23 @@ namespace xubot.src.Commands.Connections
             {
                 amount = (int)MathF.Max(1.0f, MathF.Min(5.0f, amount));
 
-                if (!Util.String.ValidateURL(url))
+                if (!Util.String.ValidateUrl(url))
                 {
                     await Util.Error.BuildError("Invalid URL", Context);
                     return;
                 }
                 using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 {
-                    string assembledURL = TopResultUrl + amount.ToString() + APIKey + HttpUtility.UrlEncode(url);
-                    dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
+                    string assembledUrl = TopResultUrl + amount.ToString() + ApiKey + HttpUtility.UrlEncode(url);
+                    dynamic keys = JObject.Parse(await _client.GetStringAsync(assembledUrl));
 
                     if (keys.header.status != 0)
                     {
-                        BuildSauceNAOError(keys, Context);
+                        BuildSauceNaoError(keys, Context);
                         return;
                     }
 
-                    JArray ext_urls;
+                    JArray extUrls;
 
                     string similarity, src;
                     string extraData = "";
@@ -115,9 +115,9 @@ namespace xubot.src.Commands.Connections
                     {
                         similarity = (keys.results[i].header.similarity ?? "No similarity given").ToString();
                         src = (keys.results[i].data.source ?? "").ToString();
-                        ext_urls = (keys.results[i].data.ext_urls ?? null);
+                        extUrls = (keys.results[i].data.ext_urls ?? null);
 
-                        if (ext_urls is JArray) extraData = (src == "" ? "" : ", ") + String.Join(", ", ext_urls);
+                        if (extUrls is JArray) extraData = (src == "" ? "" : ", ") + String.Join(", ", extUrls);
 
                         embedFields.Add(new EmbedFieldBuilder
                         {
@@ -144,14 +144,14 @@ namespace xubot.src.Commands.Connections
                     await Util.Error.BuildError("No attachments or parameters were given.", Context);
                     return;
                 }
-                await GetDetails(Util.File.ReturnLastAttachmentURL(Context));
+                await GetDetails(Util.File.ReturnLastAttachmentUrl(Context));
             }
 
             [Example("example.com/example_img")]
             [Command("details", RunMode = RunMode.Async), Alias("detail", "full"), Summary("Uses SauceNAO to get the \"sauce\" of a URL, returning a detailed report on it.")]
             public async Task GetDetails(string url)
             {
-                if (!Util.String.ValidateURL(url))
+                if (!Util.String.ValidateUrl(url))
                 {
                     await Util.Error.BuildError("Invalid URL", Context);
                     return;
@@ -159,12 +159,12 @@ namespace xubot.src.Commands.Connections
 
                 using (Util.WorkingBlock wb = new Util.WorkingBlock(Context))
                 {
-                    string assembledURL = SingleResultUrl + APIKey + HttpUtility.UrlEncode(url);
-                    dynamic keys = JObject.Parse(await client.GetStringAsync(assembledURL));
+                    string assembledUrl = SingleResultUrl + ApiKey + HttpUtility.UrlEncode(url);
+                    dynamic keys = JObject.Parse(await _client.GetStringAsync(assembledUrl));
 
                     if (keys.header.status != 0)
                     {
-                        BuildSauceNAOError(keys, Context);
+                        BuildSauceNaoError(keys, Context);
                         return;
                     }
 
@@ -210,38 +210,38 @@ namespace xubot.src.Commands.Connections
 
             private string GetRequestsLeft(dynamic keys, RequestsLeftType type)
             {
-                int short_remain = ((JObject)keys.header).Value<int>("short_remaining");
-                int long_remain =  ((JObject)keys.header).Value<int>("long_remaining");
+                int shortRemain = ((JObject)keys.header).Value<int>("short_remaining");
+                int longRemain =  ((JObject)keys.header).Value<int>("long_remaining");
 
                 switch (type)
                 {
                     case RequestsLeftType.Message:
                         {
-                            return $"> *I have __{short_remain} requests__ left for the next __30 seconds__, " +
-                                   $"and __{long_remain} requests__ left for the next __24 hours__.*\n\n" +
+                            return $"> *I have __{shortRemain} requests__ left for the next __30 seconds__, " +
+                                   $"and __{longRemain} requests__ left for the next __24 hours__.*\n\n" +
                                    $"> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***";
                         }
                     case RequestsLeftType.Embed:
                         {
-                            return $"*I have __{short_remain} requests__ left for the next __30 seconds__, " +
-                                   $"and __{long_remain} requests__ left for the next __24 hours__.* " +
+                            return $"*I have __{shortRemain} requests__ left for the next __30 seconds__, " +
+                                   $"and __{longRemain} requests__ left for the next __24 hours__.* " +
                                    $"***__Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.__***";
                         }
                     case RequestsLeftType.NoFormatting:
                     default:
                         {
-                            return $"I have {short_remain} requests left for the next 30 seconds, " +
-                                   $"and {long_remain} requests left for the next 24 hours.\n" +
+                            return $"I have {shortRemain} requests left for the next 30 seconds, " +
+                                   $"and {longRemain} requests left for the next 24 hours.\n" +
                                    $"Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.";
                         }
                 }
             }
 
-            private async Task BuildSauceNAOError(dynamic keys, ICommandContext Context)
+            private async Task BuildSauceNaoError(dynamic keys, ICommandContext context)
             {
                 string requestsLeft = GetRequestsLeft(keys, RequestsLeftType.NoFormatting);
 
-                await Util.Error.BuildError($"SauceNAO returned an error:\n\n{Util.String.StripHTML(keys.header.message.ToString())}\n\n[NOTE]\n{requestsLeft}", Context);
+                await Util.Error.BuildError($"SauceNAO returned an error:\n\n{Util.String.StripHtml(keys.header.message.ToString())}\n\n[NOTE]\n{requestsLeft}", context);
             }
 
             private EmbedBuilder GetTemplate(dynamic keys, string title, List<EmbedFieldBuilder> embedFields)
