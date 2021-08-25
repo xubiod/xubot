@@ -52,7 +52,7 @@ namespace xubot.Commands
         {
             src.BotSettings.Global.Default.Save();
 
-            await ReplyAsync($"All setting changes have been saved.");
+            await ReplyAsync("All setting changes have been saved.");
         }
 
         [Command("reload"), Alias("undo", "unset"), RequireOwner]
@@ -60,7 +60,7 @@ namespace xubot.Commands
         {
             src.BotSettings.Global.Default.Reload();
 
-            await ReplyAsync($"All setting changes have been undone.");
+            await ReplyAsync("All setting changes have been undone.");
         }
 
         [Command("reset"), Alias("default"), RequireOwner]
@@ -68,7 +68,7 @@ namespace xubot.Commands
         {
             src.BotSettings.Global.Default.Reset();
 
-            await ReplyAsync($"All setting changes have been reset to default values.");
+            await ReplyAsync("All setting changes have been reset to default values.");
         }
 
         [Command("list")]
@@ -101,7 +101,7 @@ namespace xubot.Commands
                 $"Showing a few of the **{collection.Length}** settings.\n**Note: Only the bot owner can set these.**", Color.DarkBlue
             );
 
-            embed.Fields = new List<EmbedFieldBuilder>()
+            embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
                 {

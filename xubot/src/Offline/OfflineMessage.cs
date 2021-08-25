@@ -57,7 +57,7 @@ namespace xubot.Offline
 
         public DateTimeOffset CreatedAt => DateTimeOffset.Now;
 
-        public ulong Id { get; private set; }
+        public ulong Id { get; }
 
         public IReadOnlyCollection<ISticker> Stickers => throw new NotImplementedException();
 
@@ -89,7 +89,8 @@ namespace xubot.Offline
 
         public Task ModifyAsync(Action<MessageProperties> func, RequestOptions options = null)
         {
-            MessageProperties messageProperties = new MessageProperties() {
+            MessageProperties messageProperties = new MessageProperties
+            {
                 Content = Content
             };
 

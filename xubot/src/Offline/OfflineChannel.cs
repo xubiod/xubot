@@ -53,13 +53,14 @@ namespace xubot.Offline
         {
             int index = Messages.FindIndex(x => x.Id == fromMessageId);
 
-            if (dir == Direction.Before)
+            switch (dir)
             {
-                index = Math.Max(0, index - limit);
-            }
-            else if (dir == Direction.Around)
-            {
-                index = Math.Max(0, index - (int)(limit / 2));
+                case Direction.Before:
+                    index = Math.Max(0, index - limit);
+                    break;
+                case Direction.Around:
+                    index = Math.Max(0, index - limit / 2);
+                    break;
             }
 
             IReadOnlyCollection<IMessage> results = Messages.GetRange(index, limit);
@@ -98,7 +99,8 @@ namespace xubot.Offline
 
         public Task<IUserMessage> SendMessageAsync(string text = null, bool isTts = false, Embed embed = null, RequestOptions options = null, AllowedMentions allowedMentions = null, MessageReference messageReference = null)
         {
-            OfflineMessage newMsg = new OfflineMessage() {
+            OfflineMessage newMsg = new OfflineMessage
+            {
                 Content = text
             };
 

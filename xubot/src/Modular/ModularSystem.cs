@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using xubot.src.Attributes;
 using XubotSharedModule;
+using XubotSharedModule.DiscordThings;
+using XubotSharedModule.Events;
 
 namespace xubot.Modular
 {
@@ -40,19 +42,19 @@ namespace xubot.Modular
 
                 assembly = moduleContext.LoadFromAssemblyPath(assemblyFileName);
 
-                startInstance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IModuleEntrypoint))).Select(type => { return (IModuleEntrypoint)Activator.CreateInstance(type); }).FirstOrDefault();
-                commandInstances = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(ICommandModule))).Select(type => { return (ICommandModule)Activator.CreateInstance(type); }).ToList();
+                startInstance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IModuleEntrypoint))).Select(type => (IModuleEntrypoint)Activator.CreateInstance(type)).FirstOrDefault();
+                commandInstances = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(ICommandModule))).Select(type => (ICommandModule)Activator.CreateInstance(type)).ToList();
 
-                XubotSharedModule.Events.Messages.OnMessageSend += SendModuleMessage; Util.Log.QuickLog("Sub.MsgSend");
-                XubotSharedModule.Events.Requestor.OnRequest += SendRequestedThing; Util.Log.QuickLog("Sub.OnReq");
+                Messages.OnMessageSend += SendModuleMessage; Util.Log.QuickLog("Sub.MsgSend");
+                Requestor.OnRequest += SendRequestedThing; Util.Log.QuickLog("Sub.OnReq");
             }
 
-            private object SendRequestedThing(XubotSharedModule.Events.Requestor.RequestType what, XubotSharedModule.Events.Requestor.RequestProperty want)
+            private object SendRequestedThing(Requestor.RequestType what, Requestor.RequestProperty want)
             {
                 return Requestee.Get(context, what, want);
             }
 
-            private Task SendModuleMessage(XubotSharedModule.DiscordThings.SendableMsg message)
+            private Task SendModuleMessage(SendableMsg message)
             {
                 if (context == null) return Task.CompletedTask;
                 return ModularUtil.SendMessage(context, message);
@@ -62,8 +64,8 @@ namespace xubot.Modular
             {
                 this.context = context;
 
-                var temp = commandInstances.First(x => x.GetType().GetMethods().Count(x => (CustomAttributeExtensions.GetCustomAttribute<CmdNameAttribute>((MemberInfo)x) ?? new CmdNameAttribute("")).Name == command) > 0);
-                temp.GetType().GetMethods().First(x => CustomAttributeExtensions.GetCustomAttributes<CmdNameAttribute>((MemberInfo)x).First().Name == command).Invoke(temp, new object[] { parameters }); //.Where(x => x is CmdNameAttribute).First() as CmdNameAttribute).name == command) //.GetMethods("Execute").Invoke(temp, new object[]{ parameters });
+                var temp = commandInstances.First(x => x.GetType().GetMethods().Count(x => (x.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name == command) > 0);
+                temp.GetType().GetMethods().First(x => x.GetCustomAttributes<CmdNameAttribute>().First().Name == command).Invoke(temp, new object[] { parameters }); //.Where(x => x is CmdNameAttribute).First() as CmdNameAttribute).name == command) //.GetMethods("Execute").Invoke(temp, new object[]{ parameters });
             }
 
             public string Unload()
@@ -72,8 +74,8 @@ namespace xubot.Modular
 
                 Util.Log.QuickLog($"Module unloading: {id}\nUnload msg: {msg}");
 
-                XubotSharedModule.Events.Messages.OnMessageSend -= SendModuleMessage; Util.Log.QuickLog("Unsub.MsgSend");
-                XubotSharedModule.Events.Requestor.OnRequest -= SendRequestedThing; Util.Log.QuickLog("Unsub.OnReq");
+                Messages.OnMessageSend -= SendModuleMessage; Util.Log.QuickLog("Unsub.MsgSend");
+                Requestor.OnRequest -= SendRequestedThing; Util.Log.QuickLog("Unsub.OnReq");
 
                 moduleContext.Unload();
                 startInstance = null;

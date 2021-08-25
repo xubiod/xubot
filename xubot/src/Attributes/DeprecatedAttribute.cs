@@ -2,9 +2,8 @@
 
 namespace xubot.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class DeprecatedAttribute : Attribute
     {
-        public DeprecatedAttribute() {}
     }
 }

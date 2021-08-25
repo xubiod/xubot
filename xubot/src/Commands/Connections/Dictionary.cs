@@ -29,10 +29,8 @@ namespace xubot.Commands.Connections
             {
                 return $"https://od-api.oxforddictionaries.com:443/api/v1/{ inputs.get.ToLower() }/{inputs.langId.ToLower() }/{inputs.word.ToLower() + inputs.filters.ToLower()}";
             }
-            else
-            {
-                return $"https://od-api.oxforddictionaries.com:443/api/v1/{ inputs.get.ToLower()}";
-            }
+
+            return $"https://od-api.oxforddictionaries.com:443/api/v1/{ inputs.get.ToLower()}";
         }
 
         public static Task GetJson(DictInputs inputs)
@@ -299,18 +297,18 @@ namespace xubot.Commands.Connections
 
                 dynamic keys = JObject.Parse(text);
 
-                List<string> allMonolingualDicts = new List<string>();
-                List<string> allBilingualDicts = new List<string>();
+                List<string> allMonolingualDictionaries = new List<string>();
+                List<string> allBilingualDictionaries = new List<string>();
 
                 foreach (var key in keys.results)
                 {
                     if (key.targetLanguage != null)
                     {
-                        allBilingualDicts.Add($"{key.source } ({key.sourceLanguage.language } (**{key.sourceLanguage.id }**) => {key.targetLanguage.language } (**{key.targetLanguage.id }**))\n".ToString());
+                        allBilingualDictionaries.Add($"{key.source } ({key.sourceLanguage.language } (**{key.sourceLanguage.id }**) => {key.targetLanguage.language } (**{key.targetLanguage.id }**))\n".ToString());
                     }
                     else
                     {
-                        allMonolingualDicts.Add($"{key.source } ({key.sourceLanguage.language } (**{key.sourceLanguage.id }**))\n".ToString());
+                        allMonolingualDictionaries.Add($"{key.source } ({key.sourceLanguage.language } (**{key.sourceLanguage.id }**))\n".ToString());
                     }
                 }
 
@@ -324,7 +322,7 @@ namespace xubot.Commands.Connections
 
                 int count = 0;
 
-                foreach (var dictionary in allMonolingualDicts)
+                foreach (var dictionary in allMonolingualDictionaries)
                 {
                     if (count < 10)
                     {
@@ -339,7 +337,7 @@ namespace xubot.Commands.Connections
 
                 count = 0;
 
-                foreach (var dictionary in allBilingualDicts)
+                foreach (var dictionary in allBilingualDictionaries)
                 {
                     if (count < 10)
                     {
@@ -352,8 +350,9 @@ namespace xubot.Commands.Connections
                     count++;
                 }
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Dictionaries: Complete List (IDs bolded)", Color.Orange);
-                embed.Fields = new List<EmbedFieldBuilder>() {
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Oxford Dictionary API", "Dictionaries: Complete List (IDs in bold)", Color.Orange);
+                embed.Fields = new List<EmbedFieldBuilder>
+                {
                     new()
                     {
                         Name = "Monolingual (pt 1)",

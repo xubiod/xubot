@@ -11,21 +11,21 @@ namespace xubot.Commands.Global
 {
 	public class WikiTools
 	{
-		public static EmbedBuilder BuildEmbed(string article, string lasteditor, string name)
+		public static EmbedBuilder BuildEmbed(string article, string lastEditor, string name)
 		{
 			return new EmbedBuilder
 			{
 				Title = "Wiki",
 				Color = Color.Gold,
-				Description = @"Article: ""**" + name.ToLower() + @"**"". Was last edited by **" + lasteditor + "**",
+				Description = @"Article: ""**" + name.ToLower() + @"**"". Was last edited by **" + lastEditor + "**",
 
 				Footer = new EmbedFooterBuilder
 				{
 					Text = Util.Globals.EmbedFooter
 				},
 				Timestamp = DateTime.UtcNow,
-				Fields = new List<EmbedFieldBuilder>()
-						{
+				Fields = new List<EmbedFieldBuilder>
+				{
 							new()
 							{
 								Name = name.ToLower(),
@@ -38,9 +38,9 @@ namespace xubot.Commands.Global
 
 		public static string ReadArticle(string article)
 		{
-			var xdoc = XDocument.Load("Wiki.xml");
+			var xDocument = XDocument.Load("Wiki.xml");
 
-			var items = from i in xdoc.Descendants("article")
+			var items = from i in xDocument.Descendants("article")
 						select new
 						{
 							name = (string)i.Attribute("name"),
@@ -60,9 +60,9 @@ namespace xubot.Commands.Global
 		}
 		public static string ReadLastEdit(string article)
 		{
-			var xdoc = XDocument.Load("Wiki.xml");
+			var xDocument = XDocument.Load("Wiki.xml");
 
-			var items = from i in xdoc.Descendants("article")
+			var items = from i in xDocument.Descendants("article")
 						select new
 						{
 							name = (string)i.Attribute("name"),
@@ -84,9 +84,9 @@ namespace xubot.Commands.Global
 		public static async void AddEditArticle(ICommandContext context, string article, string content)
 		{
 			bool exist = false;
-			var xdoc = XDocument.Load("Wiki.xml");
+			var xDocument = XDocument.Load("Wiki.xml");
 
-			var items = from i in xdoc.Descendants("article")
+			var items = from i in xDocument.Descendants("article")
 						select new
 						{
 							name = i.Attribute("name"),
@@ -101,9 +101,9 @@ namespace xubot.Commands.Global
 					exist = true;
 					try
 					{
-						xdoc.XPathSelectElement("//article[@name='" + article.ToLower() + "']").Value = content;
+						xDocument.XPathSelectElement("//article[@name='" + article.ToLower() + "']").Value = content;
 						item.lasteditor.Value = context.Message.Author.Username + "#" + context.Message.Author.Discriminator;
-						xdoc.Save("Wiki.xml");
+						xDocument.Save("Wiki.xml");
 					}
 					catch (Exception exp)
 					{
@@ -125,8 +125,8 @@ namespace xubot.Commands.Global
 				element.Add(editorAtt);
 				element.SetValue(content);
 
-				xdoc.Root.Add(element);
-				xdoc.Save("Wiki.xml");
+				xDocument.Root.Add(element);
+				xDocument.Save("Wiki.xml");
 
 				await Task.CompletedTask;
 			}

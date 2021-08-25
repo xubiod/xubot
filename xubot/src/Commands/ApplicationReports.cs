@@ -9,11 +9,11 @@ namespace xubot.Commands
 {
     public class ApplicationReports : ModuleBase
     {
-        [Group("uptime"), Summary("Gets application and/or connection uptime.")]
-        public class Uptime : ModuleBase
+        [Group("up-time"), Summary("Gets application and/or connection up-time.")]
+        public class UpTime : ModuleBase
         {
-            private readonly TimeSpan _appUptime = DateTime.Now - Program.AppStart;
-            private readonly TimeSpan _conUptime = DateTime.Now - Program.ConnectStart;
+            private readonly TimeSpan _appUpTime = DateTime.Now - Program.AppStart;
+            private readonly TimeSpan _conUpTime = DateTime.Now - Program.ConnectStart;
 
             private readonly TimeSpan _appToRedCli = Program.stepTimes[0] - Program.AppStart;
             private readonly TimeSpan _appToDis = Program.stepTimes[2] - Program.AppStart;
@@ -21,22 +21,22 @@ namespace xubot.Commands
             private readonly TimeSpan _redCliToSub = Program.stepTimes[1] - Program.stepTimes[0];
             private readonly TimeSpan _subToDiscord = Program.stepTimes[2] - Program.stepTimes[1];
 
-            [Command, Summary("Gets application uptime.")]
+            [Command, Summary("Gets application up-time.")]
             public async Task Basic()
             {
-                await ReplyAsync($"Uptime (from application start) is **{_appUptime.Days} days, {_appUptime.Hours} hours, {_appUptime.Minutes} minutes, {_appUptime.Seconds} seconds.**");
+                await ReplyAsync($"Up-time (from application start) is **{_appUpTime.Days} days, {_appUpTime.Hours} hours, {_appUpTime.Minutes} minutes, {_appUpTime.Seconds} seconds.**");
             }
 
-            [Command("report", RunMode = RunMode.Async), Summary("Gets application and connection uptimes.")]
+            [Command("report", RunMode = RunMode.Async), Summary("Gets application and connection up-times.")]
             public async Task Report()
             {
-                await BuildReport(Context, new List<EmbedFieldBuilder>()
-                {
+                await BuildReport(Context, new List<EmbedFieldBuilder>
+                    {
                     new()
                     {
                         Name = "Broad report",
-                        Value = $"App uptime: **{_appUptime}**\n" +
-                                $"Connection uptime: **{_conUptime}**\n\n" ,
+                        Value = $"App up-time: **{_appUpTime}**\n" +
+                                $"Connection up-time: **{_conUpTime}**\n\n" ,
                         IsInline = true
                     },
                     new()
@@ -51,19 +51,19 @@ namespace xubot.Commands
                 }
                 );
 
-                //await ReplyAsync("Uptime (from application start) is **{uptime.Days } days, {uptime.Hours } hours, {uptime.Minutes } minutes, {uptime.Seconds } seconds.**");
+                //await ReplyAsync("Up-time (from application start) is **{up-time.Days } days, {up-time.Hours } hours, {up-time.Minutes } minutes, {up-time.Seconds } seconds.**");
             }
 
-            [Command("report?human", RunMode = RunMode.Async), Summary("Gets application and connection uptimes in a more friendlier layout.")]
+            [Command("report?human", RunMode = RunMode.Async), Summary("Gets application and connection up-times in a more friendlier layout.")]
             public async Task ReportHuman()
             {
-                await BuildReport(Context, new List<EmbedFieldBuilder>()
-                {
+                await BuildReport(Context, new List<EmbedFieldBuilder>
+                    {
                     new()
                     {
                         Name = "Broad report",
-                        Value = $"App uptime: **{_appUptime.Days }d, {_appUptime.Hours }h, {_appUptime.Minutes }min, {_appUptime.Seconds }s, {_appUptime.Milliseconds }ms**\n" +
-                                $"Connection uptime: **{_conUptime.Days }d, {_conUptime.Hours }h, {_conUptime.Minutes }min, {_conUptime.Seconds }s, {_conUptime.Milliseconds }ms**\n\n" ,
+                        Value = $"App up-time: **{_appUpTime.Days }d, {_appUpTime.Hours }h, {_appUpTime.Minutes }min, {_appUpTime.Seconds }s, {_appUpTime.Milliseconds }ms**\n" +
+                                $"Connection up-time: **{_conUpTime.Days }d, {_conUpTime.Hours }h, {_conUpTime.Minutes }min, {_conUpTime.Seconds }s, {_conUpTime.Milliseconds }ms**\n\n" ,
                         IsInline = true
                     },
                     new()
@@ -78,20 +78,20 @@ namespace xubot.Commands
                 }
                 );
 
-                //await ReplyAsync("Uptime (from application start) is **{uptime.Days } days, {uptime.Hours } hours, {uptime.Minutes } minutes, {uptime.Seconds } seconds.**");
+                //await ReplyAsync("Up-time (from application start) is **{up-time.Days } days, {up-time.Hours } hours, {up-time.Minutes } minutes, {up-time.Seconds } seconds.**");
             }
 
-            [Command("report?ticks", RunMode = RunMode.Async), Summary("Gets application and connection uptimes into C# ticks.")]
+            [Command("report?ticks", RunMode = RunMode.Async), Summary("Gets application and connection up-times into C# ticks.")]
             public async Task ReportTicks()
             {
                 await BuildReport(Context,
-                    new List<EmbedFieldBuilder>()
+                    new List<EmbedFieldBuilder>
                     {
                         new()
                         {
                             Name = "Broad report",
-                            Value = $"App uptime: **{_appUptime.Ticks } ticks**\n" +
-                                    $"Connection uptime: **{_conUptime.Ticks } ticks**\n\n" ,
+                            Value = $"App up-time: **{_appUpTime.Ticks } ticks**\n" +
+                                    $"Connection up-time: **{_conUpTime.Ticks } ticks**\n\n" ,
                             IsInline = true
                         },
                         new()
@@ -106,44 +106,44 @@ namespace xubot.Commands
                     }
                 );
 
-                //await ReplyAsync("Uptime (from application start) is **{uptime.Days } days, {uptime.Hours } hours, {uptime.Minutes } minutes, {uptime.Seconds } seconds.**");
+                //await ReplyAsync("Up-time (from application start) is **{up-time.Days } days, {up-time.Hours } hours, {up-time.Minutes } minutes, {up-time.Seconds } seconds.**");
             }
 
-            [Command("report?doom-tics", RunMode = RunMode.Async), Summary("Gets application and connection uptimes into DOOM realtics (1/35ths of a second).")]
+            [Command("report?doom-tics", RunMode = RunMode.Async), Summary("Gets application and connection up-times into DOOM realtics (1/35ths of a second).")]
             public async Task ReportDoomTics()
             {
                 float tic = 35;
 
                 await BuildReport(Context,
-                    new List<EmbedFieldBuilder>()
+                    new List<EmbedFieldBuilder>
                     {
                         new()
                         {
                             Name = "Broad report",
-                            Value = $"App uptime: **{System.Math.Round(_appUptime.TotalSeconds / tic*100)/100 } DOOM realtics**\n" +
-                                    $"Connection uptime: **{System.Math.Round(_conUptime.TotalSeconds / tic*100)/ 100 } DOOM realtics**\n\n" ,
+                            Value = $"App up-time: **{System.Math.Round(_appUpTime.TotalSeconds / tic*100)/100 } DOOM real-tics**\n" +
+                                    $"Connection up-time: **{System.Math.Round(_conUpTime.TotalSeconds / tic*100)/ 100 } DOOM real-tics**\n\n" ,
                             IsInline = true
                         },
                         new()
                         {
                             Name = "Specific connections report",
-                            Value = $"Connection to Reddit: **{System.Math.Round(_appToRedCli.TotalSeconds / tic*100)/100 } DOOM realtics**\n" +
-                                    $"Connection to Discord: **{System.Math.Round(_appToDis.TotalSeconds / tic*100)/100 } DOOM realtics**\n" +
-                                    $"Reddit Connection to Default Sub: **{System.Math.Round(_redCliToSub.TotalSeconds / tic*100)/100 } DOOM realtics**\n" +
-                                    $"Default Sub to Discord: **{System.Math.Round(_subToDiscord.TotalSeconds / tic*100)/100 } DOOM realtics**\n\n",
+                            Value = $"Connection to Reddit: **{System.Math.Round(_appToRedCli.TotalSeconds / tic*100)/100 } DOOM real-tics**\n" +
+                                    $"Connection to Discord: **{System.Math.Round(_appToDis.TotalSeconds / tic*100)/100 } DOOM real-tics**\n" +
+                                    $"Reddit Connection to Default Sub: **{System.Math.Round(_redCliToSub.TotalSeconds / tic*100)/100 } DOOM real-tics**\n" +
+                                    $"Default Sub to Discord: **{System.Math.Round(_subToDiscord.TotalSeconds / tic*100)/100 } DOOM real-tics**\n\n",
                             IsInline = true
                         }
                     }
                 );
 
-                //await ReplyAsync("Uptime (from application start) is **{uptime.Days } days, {uptime.Hours } hours, {uptime.Minutes } minutes, {uptime.Seconds } seconds.**");
+                //await ReplyAsync("Up-time (from application start) is **{up-time.Days } days, {up-time.Hours } hours, {up-time.Minutes } minutes, {up-time.Seconds } seconds.**");
             }
 
             [Command("report?no-span", RunMode = RunMode.Async), Summary("Gets application and connection starting time.")]
             public async Task ReportDate()
             {
                 await BuildReport(Context,
-                    new List<EmbedFieldBuilder>()
+                    new List<EmbedFieldBuilder>
                     {
                         new()
                         {
@@ -162,7 +162,7 @@ namespace xubot.Commands
                         }
                     });
 
-                //await ReplyAsync("Uptime (from application start) is **{uptime.Days } days, {uptime.Hours } hours, {uptime.Minutes } minutes, {uptime.Seconds } seconds.**");
+                //await ReplyAsync("Up-time (from application start) is **{up-time.Days } days, {up-time.Hours } hours, {up-time.Minutes } minutes, {up-time.Seconds } seconds.**");
             }
         }
 
@@ -191,8 +191,8 @@ namespace xubot.Commands
                 double pm = (double)currentProcess.PagedMemorySize64 / 1000000;
                 double ppm = (double)currentProcess.PeakPagedMemorySize64 / 1000000;
 
-                await BuildReport(Context, new List<EmbedFieldBuilder>()
-                {
+                await BuildReport(Context, new List<EmbedFieldBuilder>
+                    {
                     new()
                     {
                         Name = "Working Set",
@@ -218,7 +218,7 @@ namespace xubot.Commands
 
         public static async Task BuildReport(ICommandContext context, List<EmbedFieldBuilder> fields)
         {
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(context, "Uptime Report", $"Report from {DateTime.Now}", Color.Red);
+            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(context, "Up-time Report", $"Report from {DateTime.Now}", Color.Red);
             embed.Fields = fields;
 
             await context.Channel.SendMessageAsync("", false, embed.Build());

@@ -8,14 +8,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.CodeDom.Compiler;
+using System.Configuration;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+
 namespace xubot.src.BotSettings {
     
     
-    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
-    internal sealed partial class Global : global::System.Configuration.ApplicationSettingsBase {
+    [CompilerGenerated()]
+    [GeneratedCode("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
+    internal sealed partial class Global : ApplicationSettingsBase {
         
-        private static Global defaultInstance = ((Global)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Global())));
+        private static Global defaultInstance = ((Global)(Synchronized(new Global())));
         
         public static Global Default {
             get {
@@ -23,9 +28,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("False")]
         public bool DMsAlwaysNSFW {
             get {
                 return ((bool)(this["DMsAlwaysNSFW"]));
@@ -35,9 +40,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("15")]
         public int EmbedListMaxLength {
             get {
                 return ((int)(this["EmbedListMaxLength"]));
@@ -47,9 +52,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("False")]
         public bool DisableRedditOnStart {
             get {
                 return ((bool)(this["DisableRedditOnStart"]));
@@ -59,9 +64,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("./Exceptions/")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("./Exceptions/")]
         public string ExceptionLogLocation {
             get {
                 return ((string)(this["ExceptionLogLocation"]));
@@ -71,9 +76,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("True")]
         public bool SendStacktraceOnError {
             get {
                 return ((bool)(this["SendStacktraceOnError"]));
@@ -83,9 +88,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("False")]
         public bool SendBigStacktraceOnError {
             get {
                 return ((bool)(this["SendBigStacktraceOnError"]));
@@ -95,9 +100,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("True")]
         public bool BotwideNSFWEnabled {
             get {
                 return ((bool)(this["BotwideNSFWEnabled"]));
@@ -107,9 +112,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("💭")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("💭")]
         public string WorkingReaction {
             get {
                 return ((string)(this["WorkingReaction"]));
@@ -119,9 +124,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("✅")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("✅")]
         public string WorkCompletedReaction {
             get {
                 return ((string)(this["WorkCompletedReaction"]));
@@ -131,9 +136,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("🕒")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("🕒")]
         public string WorkTakingLongerReaction {
             get {
                 return ((string)(this["WorkTakingLongerReaction"]));
@@ -143,9 +148,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("5000")]
         public int TakingLongerMilliseconds {
             get {
                 return ((int)(this["TakingLongerMilliseconds"]));
@@ -155,9 +160,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("50")]
         public int TaskPollLength {
             get {
                 return ((int)(this["TaskPollLength"]));
@@ -167,9 +172,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("notinteresting")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("notinteresting")]
         public string StartingSubreddit {
             get {
                 return ((string)(this["StartingSubreddit"]));
@@ -179,9 +184,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("")]
         public string StartingRedditQuery {
             get {
                 return ((string)(this["StartingRedditQuery"]));
@@ -191,9 +196,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("0")]
         public int StartingRedditSorting {
             get {
                 return ((int)(this["StartingRedditSorting"]));
@@ -203,9 +208,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("False")]
         public bool StartingRedditHideOutput {
             get {
                 return ((bool)(this["StartingRedditHideOutput"]));
@@ -215,9 +220,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("False")]
         public bool SuperSimpleTypes {
             get {
                 return ((bool)(this["SuperSimpleTypes"]));
@@ -227,9 +232,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("xub>")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("xub>")]
         public string HardcodedPrefix {
             get {
                 return ((string)(this["HardcodedPrefix"]));
@@ -239,9 +244,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("[>")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("[>")]
         public string DefaultPrefix {
             get {
                 return ((string)(this["DefaultPrefix"]));
@@ -251,9 +256,9 @@ namespace xubot.src.BotSettings {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("d>")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("d>")]
         public string DefaultDevPrefix {
             get {
                 return ((string)(this["DefaultDevPrefix"]));

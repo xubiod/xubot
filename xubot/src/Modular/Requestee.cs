@@ -26,8 +26,6 @@ namespace xubot.Modular
 
                 case RequestType.Message:
                     return MessageRequest(context, wanted);
-
-                default: break;
             }
 
             return null;

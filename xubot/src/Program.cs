@@ -9,6 +9,11 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using RedditSharp;
+using RedditSharp.Things;
+using xubot.Commands;
+using xubot.Modular;
+using xubot.Offline;
+using xubot.src.BotSettings;
 
 namespace xubot
 {
@@ -19,11 +24,11 @@ namespace xubot
 
         public static bool IsOffline;
 
-        public static string prefix = src.BotSettings.Global.Default.DefaultPrefix;
+        public static string prefix = Global.Default.DefaultPrefix;
 
         public static BotWebAgent WebAgent { get; private set; }
         public static Reddit Reddit { get; private set; }
-        public static RedditSharp.Things.Subreddit Subreddit { get; set; }
+        public static Subreddit Subreddit { get; set; }
 
         public static bool redditEnabled;
 
@@ -31,7 +36,7 @@ namespace xubot
 
         public static bool enableNsfw = false;
 
-        public static bool spinning = false;
+        // public static bool spinning = false;
 
         public static DateTime AppStart { get; private set; }
         public static DateTime ConnectStart { get; private set; }
@@ -49,8 +54,8 @@ namespace xubot
                 XuClient.Ready += ClientReady;
                 XuClient.UserJoined += XuClient_UserJoined;
 
-                Commands.Shitpost.Populate();
-                Modular.ModularSystem.Initialize();
+                ShitPost.Populate();
+                ModularSystem.Initialize();
 
                 await Task.Delay(-1);
             }
@@ -59,9 +64,10 @@ namespace xubot
                 IsOffline = true;
                 BeginOfflineStart();
 
-                Commands.Shitpost.Populate();
-                Modular.ModularSystem.Initialize();
+                ShitPost.Populate();
+                ModularSystem.Initialize();
 
+                // ReSharper disable once TooWideLocalVariableScope
                 string input;
                 SocketUserMessage offlineMessage;
 
@@ -92,7 +98,7 @@ namespace xubot
             await CommandInitiation();
             await ReadMessages();
 
-            XuClient.Log += (message) => { Console.WriteLine($"{message}"); return Task.CompletedTask; };
+            XuClient.Log += message => { Console.WriteLine($"{message}"); return Task.CompletedTask; };
 
             Util.CmdLine.SetColor();
 
@@ -117,9 +123,9 @@ namespace xubot
 
 #if (DEBUG)
             Console.WriteLine("  > this version of xubot was compiled as debug build");
-            prefix = src.BotSettings.Global.Default.DefaultDevPrefix;
+            prefix = Global.Default.DefaultDevPrefix;
 #endif
-            if (prefix != src.BotSettings.Global.Default.DefaultDevPrefix)
+            if (prefix != Global.Default.DefaultDevPrefix)
             {
                 await XuClient.LoginAsync(TokenType.Bot, JsonKeys["keys"].Contents.discord.ToString());
             }
@@ -132,7 +138,7 @@ namespace xubot
             Console.WriteLine("* setting up discord connection: starting client");
 
             await XuClient.StartAsync();
-            if (!src.BotSettings.Global.Default.DisableRedditOnStart) await ReadyReddit();
+            if (!Global.Default.DisableRedditOnStart) await ReadyReddit();
         }
 
         private static async Task BeginOfflineStart()
@@ -167,7 +173,7 @@ namespace xubot
             Console.Beep();
 
             Util.CmdLine.SetColor();
-            if (!src.BotSettings.Global.Default.DisableRedditOnStart) await ReadyReddit();
+            if (!Global.Default.DisableRedditOnStart) await ReadyReddit();
         }
 
         public static async Task ReadyReddit(ICommandContext context = null)
@@ -219,7 +225,7 @@ namespace xubot
 
         public static Task ReadMessages()
         {
-            XuClient.MessageReceived += (message) =>
+            XuClient.MessageReceived += message =>
             {
                 Util.CmdLine.SetColor();
                 Console.WriteLine($"[{message.Timestamp}] {{{message.Source}}} {message.Author}: {message.Content}");
@@ -259,8 +265,8 @@ namespace xubot
             Console.Beep();
             Console.Beep();
 
-            Directory.CreateDirectory(Environment.CurrentDirectory + src.BotSettings.Global.Default.ExceptionLogLocation);
-            File.WriteAllText(Environment.CurrentDirectory + src.BotSettings.Global.Default.ExceptionLogLocation + DateTime.UtcNow.ToLongTimeString().Replace(':', '_') + ".txt", arg.ToString());
+            Directory.CreateDirectory(Environment.CurrentDirectory + Global.Default.ExceptionLogLocation);
+            File.WriteAllText(Environment.CurrentDirectory + Global.Default.ExceptionLogLocation + DateTime.UtcNow.ToLongTimeString().Replace(':', '_') + ".txt", arg.ToString());
 
             Thread.Sleep(2500);
 
@@ -284,7 +290,7 @@ namespace xubot
 
             int argumentPosition = 0;
 
-            if (!(message.HasStringPrefix(prefix, ref argumentPosition) || message.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || message.HasStringPrefix(src.BotSettings.Global.Default.HardcodedPrefix, ref argumentPosition)))
+            if (!(message.HasStringPrefix(prefix, ref argumentPosition) || message.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || message.HasStringPrefix(Global.Default.HardcodedPrefix, ref argumentPosition)))
                 return;
 
             CommandContext context = new CommandContext(XuClient, message);
@@ -298,15 +304,17 @@ namespace xubot
 
         public static async Task HandleOfflineCommands(string message)
         {
-            Offline.OfflineMessage msg = new Offline.OfflineMessage();
-            msg.Content = message;
+            OfflineMessage msg = new OfflineMessage
+            {
+                Content = message
+            };
 
             int argumentPosition = 0;
 
-            if (!(msg.HasStringPrefix(prefix, ref argumentPosition) || msg.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || msg.HasStringPrefix(src.BotSettings.Global.Default.HardcodedPrefix, ref argumentPosition)))
+            if (!(msg.HasStringPrefix(prefix, ref argumentPosition) || msg.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || msg.HasStringPrefix(Global.Default.HardcodedPrefix, ref argumentPosition)))
                 return;
 
-            CommandContext context = new CommandContext(Offline.OfflineHandlers.DefaultOfflineClient, msg);
+            CommandContext context = new CommandContext(OfflineHandlers.DefaultOfflineClient, msg);
 
             IResult result = await XuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)

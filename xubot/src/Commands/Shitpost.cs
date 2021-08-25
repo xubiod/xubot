@@ -11,7 +11,7 @@ using SLImage = SixLabors.ImageSharp.Image;
 
 namespace xubot.Commands
 {
-    public class Shitpost : ModuleBase
+    public class ShitPost : ModuleBase
     {
         public static FontCollection fontCollect = new();
         public static Font font;
@@ -35,18 +35,18 @@ namespace xubot.Commands
             public static int tbMargin;
 
             [Example("\"0,0,example,24\"",true)]
-            [Command("direct", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```The optional parameter has a specific format too: ```\"textwrap width,r,g,b\"```")]
+            [Command("direct", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```The optional parameter has a specific format too: ```\"text-wrap width,r,g,b\"```")]
             public async Task Direct(string parameter, string optional = "")
             {
-                DirectUtils.InterpParameters(parameter);
-                if (optional != "") DirectUtils.InterpOptionalParameters(optional);
+                DirectUtils.InterpretParameters(parameter);
+                if (optional != "") DirectUtils.InterpretOptionalParameters(optional);
 
-                await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
+                await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "text-overlay", true);
                 string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
 
                 font = new Font(fontCollect.Find("Roboto"), Size);
 
-                using (var img = SLImage.Load(Path.GetTempPath() + "textoverlay" + type))
+                using (var img = await SLImage.LoadAsync(Path.GetTempPath() + "text-overlay" + type))
                 using (Image<Rgba32> container = new Image<Rgba32>(img.Width * 5, img.Height * 5))
                 {
                     container.Mutate(mut => mut.DrawImage(img, new Point(img.Width * 2, img.Height * 2), PixelColorBlendingMode.Normal, 1.0F));
@@ -66,24 +66,24 @@ namespace xubot.Commands
                     // produces a "bts" result scaled down
                     // container.Mutate(mut => mut.Resize(new ResizeOptions() { Mode = ResizeMode.Crop, Size = new Size(img.Width, img.Height) }));
 
-                    container.Save(Path.GetTempPath() + "textoverlay_new" + type);
+                    await container.SaveAsync(Path.GetTempPath() + "text-overlay_new" + type);
                 }
-                await Context.Channel.SendFileAsync(Path.GetTempPath() + "textoverlay_new" + type);
+                await Context.Channel.SendFileAsync(Path.GetTempPath() + "text-overlay_new" + type);
             }
 
             [Example("\"36,4,24,example,24\"", true)]
             [Command("header", RunMode = RunMode.Async), Summary("Makes a header on up of an image. The parameter string has a very specific format that **must** be followed: ```\"header height,left-right margin,top-bottom margin,text,size\"```The optional parameter has a specific format too: ```\"r, g, b\"```")]
             public async Task Header(string parameter, string optional = "")
             {
-                HeaderUtils.InterpParameters(parameter);
-                if (optional != "") HeaderUtils.InterpOptionalParameters(optional);
+                HeaderUtils.InterpretParameters(parameter);
+                if (optional != "") HeaderUtils.InterpretOptionalParameters(optional);
 
-                await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "textoverlay", true);
+                await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "text-overlay", true);
                 string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
 
                 font = new Font(fontCollect.Find("Roboto"), Size);
 
-                using (var img = SLImage.Load(Path.GetTempPath() + "textoverlay" + type))
+                using (var img = await SLImage.LoadAsync(Path.GetTempPath() + "text-overlay" + type))
                 using (Image<Rgba32> container = new Image<Rgba32>(img.Width, img.Height + HeaderHeight))
                 {
                     // forced parameters
@@ -103,14 +103,14 @@ namespace xubot.Commands
                         container.Mutate(mut => mut.DrawText(Text, font, Rgba32.ParseHex("000000"), new PointF(X, Y)));
                     }
 
-                    container.Save(Path.GetTempPath() + "textoverlay_new" + type);
+                    await container.SaveAsync(Path.GetTempPath() + "text-overlay_new" + type);
                 }
-                await Context.Channel.SendFileAsync(Path.GetTempPath() + "textoverlay_new" + type);
+                await Context.Channel.SendFileAsync(Path.GetTempPath() + "text-overlay_new" + type);
             }
 
             public class DirectUtils
             {
-                public static void InterpParameters(string input)
+                public static void InterpretParameters(string input)
                 {
                     string[] split = input.Split(",");
 
@@ -120,7 +120,7 @@ namespace xubot.Commands
                     Size = int.Parse(split[3]);
                 }
 
-                public static void InterpOptionalParameters(string input)
+                public static void InterpretOptionalParameters(string input)
                 {
                     string[] split = input.Split(",");
 
@@ -132,7 +132,7 @@ namespace xubot.Commands
 
             public class HeaderUtils
             {
-                public static void InterpParameters(string input)
+                public static void InterpretParameters(string input)
                 {
                     string[] split = input.Split(",");
 
@@ -143,7 +143,7 @@ namespace xubot.Commands
                     Size = int.Parse(split[4]);
                 }
 
-                public static void InterpOptionalParameters(string input)
+                public static void InterpretOptionalParameters(string input)
                 {
                     string[] split = input.Split(",");
 

@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 using Discord;
 using Discord.Commands;
@@ -26,7 +26,7 @@ namespace xubot.Commands.Connections
             public async Task Trivia(int number)
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync($"http://numbersapi.com/{number}/trivia");
-                var final = System.Text.Encoding.Default.GetString(trivia);
+                var final = Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
             }
@@ -35,7 +35,7 @@ namespace xubot.Commands.Connections
             public async Task Trivia()
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/trivia");
-                var final = System.Text.Encoding.Default.GetString(trivia);
+                var final = Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
             }
@@ -45,7 +45,7 @@ namespace xubot.Commands.Connections
             public async Task Year(int number)
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync($"http://numbersapi.com/{number}/year");
-                var final = System.Text.Encoding.Default.GetString(trivia);
+                var final = Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
             }
@@ -54,7 +54,7 @@ namespace xubot.Commands.Connections
             public async Task Year()
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/year");
-                var final = System.Text.Encoding.Default.GetString(trivia);
+                var final = Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
             }
@@ -64,7 +64,7 @@ namespace xubot.Commands.Connections
             public async Task Math(int number)
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync($"http://numbersapi.com/{number}/math");
-                var final = System.Text.Encoding.Default.GetString(trivia);
+                var final = Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
             }
@@ -73,7 +73,7 @@ namespace xubot.Commands.Connections
             public async Task Math()
             {
                 byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/math");
-                var final = System.Text.Encoding.Default.GetString(trivia);
+                var final = Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
             }
@@ -89,17 +89,17 @@ namespace xubot.Commands.Connections
             request.ContentType = "application/json; charset=utf-8";
 
             string text;
-            var response = (HttpWebResponse)request.GetResponse();
+            var response = (HttpWebResponse)await request.GetResponseAsync();
 
             using (var sr = new StreamReader(response.GetResponseStream() ?? throw new NullReferenceException()))
             {
-                text = sr.ReadToEnd();
+                text = await sr.ReadToEndAsync();
             }
 
             dynamic parsedTxt = JObject.Parse(text);
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Validator.pizza Email Validator", $"**{parsedTxt.remaining_requests}** requests left for the hour", Color.Orange);
-            embed.Fields = new List<EmbedFieldBuilder>()
+            embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
                 {
@@ -133,15 +133,17 @@ namespace xubot.Commands.Connections
         [Command("cat", RunMode = RunMode.Async), Summary("Gets random cat picture. Best utilized when sad.")]
         public async Task CatImage()
         {
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.Async = true;
-
+            /*XmlReaderSettings settings = new XmlReaderSettings
+            {
+                Async = true
+            };
+            */
             string final = "";
             string link = "http://thecatapi.com/api/images/get?api_key=" + $"{Program.JsonKeys["keys"].Contents.cat}&format=xml";
 
-            var xdoc = XDocument.Load(link);
+            var xDocument = XDocument.Load(link);
 
-            var items = from i in xdoc.Descendants("url")
+            var items = from i in xDocument.Descendants("url")
                         select new
                         {
                             i.Value

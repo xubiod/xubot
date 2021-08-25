@@ -7,13 +7,17 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Newtonsoft.Json.Linq;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using Tweetinvi;
 using Tweetinvi.Models;
 using xubot.Attributes;
+using xubot.Commands.Global;
 using static xubot.SpecialException;
+using Color = Discord.Color;
+using IUser = Discord.IUser;
 using SLImage = SixLabors.ImageSharp.Image;
 
 namespace xubot.Commands
@@ -50,13 +54,13 @@ namespace xubot.Commands
 
             [Example("\"polly want a cracker\" 5 \" \"")]
             [Command("repeat"), Alias("r"), Summary("Repeats a string a given amount of times."), RequireUserPermission(ChannelPermission.ManageMessages)]
-            public async Task Repeat(string blegh, int loop, string sep)
+            public async Task Repeat(string message, int loop, string sep)
             {
                 string echoRes = "";
 
                 for (int i = 0; i <= loop; i++)
                 {
-                    echoRes += blegh + sep;
+                    echoRes += message + sep;
                 }
 
                 await ReplyAsync(echoRes);
@@ -67,7 +71,7 @@ namespace xubot.Commands
         [Group("insult"), Summary("Get insulted by software.")]
         public class Insult : ModuleBase
         {
-            [Command("init"), Summary("Initalizes the insult choices.")]
+            [Command("init"), Summary("Initializes the insult choices.")]
             public async Task Init()
             {
                 Array.Clear(insultVictim, 0, 128);
@@ -109,6 +113,7 @@ namespace xubot.Commands
                 }
                 v += "]`";
 
+                // ReSharper disable once StringLiteralTypo
                 string a = "**A**(djective): `[";
                 for (int i = 0; i < insultAdjectiveIndex; i++)
                 {
@@ -133,8 +138,8 @@ namespace xubot.Commands
                 }
                 n += "]`";
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "List of Insults", "To add something to any list, use `[>insult add [LIST LETTER in BOLD] [STRING]`.", Discord.Color.Orange);
-                embed.Fields = new List<EmbedFieldBuilder>()
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "List of Insults", "To add something to any list, use `[>insult add [LIST LETTER in BOLD] [STRING]`.", Color.Orange);
+                embed.Fields = new List<EmbedFieldBuilder>
                 {
                     new()
                     {
@@ -221,7 +226,7 @@ namespace xubot.Commands
                 await ReplyAsync("You didn't give me a service... ;<");
             }
 
-            //[Command("reddit"), Alias("r", "redd"), Summary("Attempts to post a text post to Reddit.")]
+            //[Command("reddit"), Alias("r", "reddit"), Summary("Attempts to post a text post to Reddit.")]
             //public async Task RedditPost(string title, string content)
             //{
             //    if (Program.redditEnabled == false)
@@ -260,14 +265,14 @@ namespace xubot.Commands
 
         [Example("316712338042650624")]
         [Command("discord-api-link-gen"), Alias("discord-bot", "db"), Summary("Generates a bot adding link (without any permissions.)")]
-        public async Task Dalg(string id)
+        public async Task GenerateDiscordBotLink(string id)
         {
             await ReplyAsync($"https://discordapp.com/api/oauth2/authorize?client_id={id}&scope=bot&permissions=0");
         }
 
         [Example("316712338042650624 7")]
         [Command("discord-api-link-gen"), Alias("discord-bot", "db"), Summary("Generates a bot adding link with a given permission number.")]
-        public async Task Dalg(string id, string permission)
+        public async Task GenerateDiscordBotLink(string id, string permission)
         {
             await ReplyAsync($"https://discordapp.com/api/oauth2/authorize?client_id={ id}&scope=bot&permissions={permission}");
         }
@@ -277,8 +282,8 @@ namespace xubot.Commands
         [Group("debug"), Summary("A group of debug commands for quick debug work. Cannot be used by anyone except owner, and don't have examples given."), RequireOwner]
         public class Debug : ModuleBase
         {
-            [Command("return_attachs")]
-            public async Task ReturnAttachs()
+            [Command("return_attach")]
+            public async Task ReturnAttachments()
             {
                 var attach = Context.Message.Attachments;
                 IAttachment attached = null;
@@ -310,8 +315,8 @@ namespace xubot.Commands
             [Command("get_mood")]
             public async Task Test003(ulong id)
             {
-                Global.MoodTools.AddOrRefreshMood(Program.XuClient.GetUser(id));
-                double mood = Global.MoodTools.ReadMood(Program.XuClient.GetUser(id));
+                MoodTools.AddOrRefreshMood(Program.XuClient.GetUser(id));
+                double mood = MoodTools.ReadMood(Program.XuClient.GetUser(id));
 
                 string moodAsStr = mood switch
                 {
@@ -354,13 +359,13 @@ namespace xubot.Commands
             [Command("ct")]
             public async Task Test005()
             {
-                await ReplyAsync(Discord.Color.LightOrange.ToString());
+                await ReplyAsync(Color.LightOrange.ToString());
             }
 
             [Command("li")]
             public async Task Test006()
             {
-                List<Discord.WebSocket.SocketGuild> guildList = Program.XuClient.Guilds.ToList();
+                List<SocketGuild> guildList = Program.XuClient.Guilds.ToList();
                 string all = "";
 
                 foreach (var item in guildList)
@@ -376,9 +381,9 @@ namespace xubot.Commands
             {
                 string all = $"c: {Context.Message.Attachments.Count}\nl: <{Util.File.ReturnLastAttachmentUrl(Context)}>\nf:";
 
-                await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "/downloadsuccess.data");
+                await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "/download_success.data");
 
-                await Context.Channel.SendFileAsync(Path.GetTempPath() + "/downloadsuccess.data", all);
+                await Context.Channel.SendFileAsync(Path.GetTempPath() + "/download_success.data", all);
             }
 
             [Command("manipulation")]
@@ -392,11 +397,11 @@ namespace xubot.Commands
                     await ReplyAsync("type retrieved");
 
                     await ReplyAsync("going into the `using (var img = SLImage.Load(Path.GetTempPath() + \"manip\" + type))` block");
-                    using (var img = SLImage.Load(Path.GetTempPath() + "manip" + type))
+                    using (var img = await SLImage.LoadAsync(Path.GetTempPath() + "manip" + type))
                     {
                         img.Mutate(mut => mut.Invert());
                         await ReplyAsync("img manipulated");
-                        img.Save(Util.String.RandomTempFilename() + type);
+                        await img.SaveAsync(Util.String.RandomTempFilename() + type);
                         await ReplyAsync("img save");
                     }
 
@@ -444,7 +449,7 @@ namespace xubot.Commands
             [Command("new error handling")]
             public async Task Test011()
             {
-                await Util.Error.BuildError("you triggered the debug command\ncongratu-fucking-lations bitch", Context);
+                await Util.Error.BuildError("you triggered the debug command", Context);
             }
 
             //[Command("get_settings")]
@@ -474,7 +479,7 @@ namespace xubot.Commands
                     Environment.Exit(0);
                 }
 
-                [Group("nsfw-commands"), Summary("The toggle for the defunct NSFW restrictor (Bot now uses channel's NSFW flag instead.)")]
+                [Group("nsfw-commands"), Summary("The toggle for the defunct NSFW restriction (Bot now uses channel's NSFW flag instead.)")]
                 public class NsfwSet : ModuleBase
                 {
                     [Command]
@@ -484,10 +489,10 @@ namespace xubot.Commands
                     }
 
                     [Command("set"), RequireOwner]
-                    public async Task Set(bool newval)
+                    public async Task Set(bool newValue)
                     {
-                        Program.enableNsfw = newval;
-                        await ReplyAsync($"NSFW execution is now: **{newval.ToString().ToLower()}**");
+                        Program.enableNsfw = newValue;
+                        await ReplyAsync($"NSFW execution is now: **{newValue.ToString().ToLower()}**");
                     }
                 }
 
@@ -615,16 +620,29 @@ namespace xubot.Commands
 
             //thx dickcord
 
-            [Command("existental_crisis"), Alias("ext_crisis", "ext_cri"), Summary("Give the bot an existential crisis.")]
+            [Command("existential_crisis"), Alias("ext_crisis", "ext_cri"), Summary("Give the bot an existential crisis.")]
             public async Task Crisis()
             {
                 Random rand = Util.Globals.Rng;
                 int o = rand.Next(5);
-                if (o == 0) { await ReplyAsync($"Do we exist?"); }
-                else if (o == 1) { await ReplyAsync($"WHO AM I?!?!?!??!?!?!??!"); }
-                else if (o == 2) { await ReplyAsync($"Does life matter?"); }
-                else if (o == 3) { await ReplyAsync($"Is this real?"); }
-                else if (o == 4) { await ReplyAsync($"... *sob*"); }
+                switch (o)
+                {
+                    case 0:
+                        await ReplyAsync("Do we exist?");
+                        break;
+                    case 1:
+                        await ReplyAsync("WHO AM I?!?!?!??!?!?!??!");
+                        break;
+                    case 2:
+                        await ReplyAsync("Does life matter?");
+                        break;
+                    case 3:
+                        await ReplyAsync("Is this real?");
+                        break;
+                    case 4:
+                        await ReplyAsync("... *sob*");
+                        break;
+                }
             }
 
             [Command("bake_cake"), Alias("make_cake"), Summary("Makes a cake.")]
@@ -632,45 +650,72 @@ namespace xubot.Commands
             {
                 Random rand = Util.Globals.Rng;
                 int o = rand.Next(5);
-                if (o == 0) { await ReplyAsync($"Red velvet or green velvet?"); }
-                else if (o == 1) { await ReplyAsync($"The last time it was burnt and raw, so hehhehehe!"); }
-                else if (o == 2) { await ReplyAsync($"Not feelin' it right now."); }
-                else if (o == 3) { await ReplyAsync($"nom nom nom nom nom"); }
-                else if (o == 4) { await ReplyAsync($"Do you smell something burning?"); }
+                switch (o)
+                {
+                    case 0:
+                        await ReplyAsync("Red velvet or green velvet?");
+                        break;
+                    case 1:
+                        await ReplyAsync("The last time it was burnt and raw, so hehhehehe!");
+                        break;
+                    case 2:
+                        await ReplyAsync("Not feelin' it right now.");
+                        break;
+                    case 3:
+                        await ReplyAsync("nom nom nom nom nom");
+                        break;
+                    case 4:
+                        await ReplyAsync("Do you smell something burning?");
+                        break;
+                }
             }
 
+            // ReSharper disable once StringLiteralTypo
             [Command("read_me_a_story"), Alias("rmas"), Summary("Reads a story.")]
             public async Task Story()
             {
                 Random rand = Util.Globals.Rng;
                 int o = rand.Next(5);
-                if (o == 0) { await ReplyAsync($"Jack and Jill went up a hill. Then they died."); }
-                else if (o == 1) { await ReplyAsync($"A prince turned into a frog. Then an eagle eat him."); }
-                else if (o == 2) { await ReplyAsync($"A planet was existing. Then it blew up."); }
-                else if (o == 3) { await ReplyAsync($"No."); }
-                else if (o == 4) { await ReplyAsync($"Read one yourself."); }
+                switch (o)
+                {
+                    case 0:
+                        await ReplyAsync("Jack and Jill went up a hill. Then they died.");
+                        break;
+                    case 1:
+                        await ReplyAsync("A prince turned into a frog. Then an eagle eat him.");
+                        break;
+                    case 2:
+                        await ReplyAsync("A planet was existing. Then it blew up.");
+                        break;
+                    case 3:
+                        await ReplyAsync("No.");
+                        break;
+                    case 4:
+                        await ReplyAsync("Read one yourself.");
+                        break;
+                }
             }
 
-            [Command("microbrew_some_local_kombucha"), Summary("Microbrews some local kombucha.")]
-            public async Task Mslk()
+            [Command("micro_brew_some_local_kombucha"), Summary("Micro-brews some local kombucha.")]
+            public async Task MBSLK()
             {
-                await ReplyAsync($"WTF is kombucha anyway?");
+                await ReplyAsync("WTF is kombucha anyway?");
             }
 
             [Command("record_a_mixtape"), Summary("Makes a mixtape.")]
-            public async Task Ram()
+            public async Task RAM()
             {
-                await ReplyAsync($"Last time it blew up a star. So, no.");
+                await ReplyAsync("Last time it blew up a star. So, no.");
             }
 
             [Command("paint_a_happy_little_tree"), Summary("Paints a happy little tree.")]
-            public async Task Pahlt()
+            public async Task RAHLT()
             {
-                await ReplyAsync($"***You*** are a ***un***happy little accident.");
+                await ReplyAsync("***You*** are a ***un***happy little accident.");
             }
 
             [Example("\"This is an example\"")]
-            [Command("leetspeak"), Alias("1337"), Summary("Takes input and returns leetspeak.")]
+            [Command("leet-speak"), Alias("1337"), Summary("Takes input and returns leet-speak.")]
             public async Task LeetSpeak(string input)
             {
                 input = input.Replace('i', '!');
@@ -709,7 +754,8 @@ namespace xubot.Commands
             }
 
             [Example("\"This is an example\"")]
-            [Command("moarleetspeak"), Alias("moar1337"), Summary("Takes input and returns leetspeak. (more character subtitutions)")]
+            // ReSharper disable once StringLiteralTypo
+            [Command("moar-leet-speak"), Alias("moar1337"), Summary("Takes input and returns leet-speak. (more character substitution)")]
             public async Task LeetSpeakAdv(string input)
             {
                 input = input.Replace('a', '@');
@@ -797,20 +843,20 @@ namespace xubot.Commands
         [Group("trust"), Summary("Management for trust. Cannot be used by anyone except owner."), RequireOwner]
         public class Trust : ModuleBase
         {
-            private XDocument _xdoc;
+            private XDocument _xDocument;
 
             [Command("add"), Summary("Adds a user the the trusted list.")]
-            public async Task Add(string username, string discrim)
+            public async Task Add(string username, string discriminator)
             {
                 try
                 {
-                    Discord.IUser add = Program.XuClient.GetUser(username, discrim);
+                    IUser add = Program.XuClient.GetUser(username, discriminator);
 
                     bool exists = false;
 
-                    _xdoc = XDocument.Load("Trusted.xml");
+                    _xDocument = XDocument.Load("Trusted.xml");
 
-                    var items = from i in _xdoc.Descendants("trust")
+                    var items = from i in _xDocument.Descendants("trust")
                                 select new
                                 {
                                     user = i.Attribute("id")
@@ -833,8 +879,8 @@ namespace xubot.Commands
 
                         xelm.Add(user);
 
-                        _xdoc.Root.Add(xelm);
-                        _xdoc.Save("Trusted.xml");
+                        _xDocument.Root.Add(xelm);
+                        _xDocument.Save("Trusted.xml");
 
                         var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
 
@@ -856,7 +902,7 @@ namespace xubot.Commands
             [Command("remove"), Summary("Revokes a user from the trusted list.")]
             public async Task Remove(string user, string discrim)
             {
-                Discord.IUser remove = Program.XuClient.GetUser(user, discrim);
+                IUser remove = Program.XuClient.GetUser(user, discrim);
 
                 XDocument xdoc = XDocument.Load("Trusted.xml");
                 xdoc.Descendants("trust")
@@ -873,7 +919,7 @@ namespace xubot.Commands
             [Command("add"), Summary("Adds a user to the trusted list.")]
             public async Task Add(ulong id)
             {
-                Discord.IUser add = Program.XuClient.GetUser(id);
+                IUser add = Program.XuClient.GetUser(id);
 
                 await Add(add.Username, add.Discriminator);
 
@@ -883,9 +929,9 @@ namespace xubot.Commands
 
                     bool exists = false;
 
-                    xdoc = XDocument.Load("Trusted.xml");
+                    xDocument = XDocument.Load("Trusted.xml");
 
-                    var items = from i in xdoc.Descendants("trust")
+                    var items = from i in xDocument.Descendants("trust")
                                 select new
                                 {
                                     username = i.Attribute("id")
@@ -908,8 +954,8 @@ namespace xubot.Commands
 
                         xelm.Add(_user);
 
-                        xdoc.Root.Add(xelm);
-                        xdoc.Save("Trusted.xml");
+                        xDocument.Root.Add(xelm);
+                        xDocument.Save("Trusted.xml");
 
                         var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
 
@@ -931,14 +977,14 @@ namespace xubot.Commands
             [Command("remove"), Summary("Revokes a user from the trusted list.")]
             public async Task Remove(ulong id)
             {
-                Discord.IUser remove = Program.XuClient.GetUser(id);
+                IUser remove = Program.XuClient.GetUser(id);
 
-                XDocument xdoc = XDocument.Load("Trusted.xml");
-                xdoc.Descendants("trust")
+                XDocument xDocument = XDocument.Load("Trusted.xml");
+                xDocument.Descendants("trust")
                     .Where(x => (string)x.Attribute("id") == remove.Id.ToString())
                     .Remove();
 
-                xdoc.Save("Trusted.xml");
+                xDocument.Save("Trusted.xml");
 
                 var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
 
@@ -955,9 +1001,8 @@ namespace xubot.Commands
                 var webClient = new WebClient();
                 // var webClient2 = new WebClient();
                 string link = $"https://www.amdoren.com/api/timezone.php?api_key={ Program.JsonKeys["keys"].Contents.amdoren}&loc={loc}";
-                string textJ;
 
-                textJ = webClient.DownloadString(link);
+                var textJ = webClient.DownloadString(link);
                 //text_j = text_j.Substring(1, text_j.Length - 2);
 
                 //await ReplyAsync(text);
@@ -965,9 +1010,9 @@ namespace xubot.Commands
 
                 if (keys.error_message.ToString() != "-")
                 {
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", "Error!", Discord.Color.Red);
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", "Error!", Color.Red);
                     embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
-                    embed.Fields = new List<EmbedFieldBuilder>()
+                    embed.Fields = new List<EmbedFieldBuilder>
                     {
                         new()
                         {
@@ -981,9 +1026,9 @@ namespace xubot.Commands
                 }
                 else
                 {
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", $"Timezone and time for {loc}", Discord.Color.Red);
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", $"Timezone and time for {loc}", Color.Red);
                     embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
-                    embed.Fields = new List<EmbedFieldBuilder>()
+                    embed.Fields = new List<EmbedFieldBuilder>
                     {
                         new()
                         {

@@ -27,10 +27,10 @@ namespace xubot
                 { "hammer",                 new[]{ "01101", "11111", "10101", "00100", "00100" } },
                 { "paper",                  new[]{ "11111", "10001", "11111", "10001", "11111" } } };
 
-        public static string ReturnQuery(string searchterm, int patternId)
+        public static string ReturnQuery(string searchTerm, int patternId)
         {
             int index = (patternId - 1) % 5;
-            return Patterns.ContainsKey(searchterm) ? Patterns[searchterm][index] : "FAILURE";
+            return Patterns.ContainsKey(searchTerm) ? Patterns[searchTerm][index] : "FAILURE";
         }
     }
 }

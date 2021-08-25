@@ -2,7 +2,7 @@
 
 namespace xubot.Commands
 {
-    public static class SmallLangInterps
+    public static class SmallLangInterpreters
     {
         //adapted from https://esolangs.org/wiki/Deadfish#C.23
         public class Deadfish
@@ -20,22 +20,23 @@ namespace xubot.Commands
 
                 foreach (char c in input)
                 {
-                    if (c == 'i')
+                    switch (c)
                     {
-                        _cell++;
-                    }
-                    else if (c == 'd')
-                    {
-                        _cell--;
-                    }
-                    else if (c == 's')
-                    {
-                        int i = _cell * _cell;
-                        _cell = i;
-                    }
-                    else if (c == 'o')
-                    {
-                        _output += _cell.ToString();
+                        case 'i':
+                            _cell++;
+                            break;
+                        case 'd':
+                            _cell--;
+                            break;
+                        case 's':
+                        {
+                            int i = _cell * _cell;
+                            _cell = i;
+                            break;
+                        }
+                        case 'o':
+                            _output += _cell.ToString();
+                            break;
                     }
 
                     if (_cell == -1 || _cell == 256)

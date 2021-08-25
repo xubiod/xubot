@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BooruSharp.Booru;
+using BooruSharp.Search.Post;
 using Discord.Commands;
 using xubot.Attributes;
+using SearchResult = BooruSharp.Search.Post.SearchResult;
 
 namespace xubot.Commands.Connections
 {
@@ -23,21 +26,21 @@ namespace xubot.Commands.Connections
             }
         }
 
-        public static readonly BooruSharp.Booru.ABooru Danbooru =       new BooruSharp.Booru.DanbooruDonmai();
-        public static readonly BooruSharp.Booru.ABooru E621 =           new BooruSharp.Booru.E621();
-        public static readonly BooruSharp.Booru.ABooru Rule34 =         new BooruSharp.Booru.Rule34();
-        public static readonly BooruSharp.Booru.ABooru Gelbooru =       new BooruSharp.Booru.Gelbooru();
-        public static readonly BooruSharp.Booru.ABooru Yandere =        new BooruSharp.Booru.Yandere();
-        public static readonly BooruSharp.Booru.ABooru E926 =           new BooruSharp.Booru.E926();
-        public static readonly BooruSharp.Booru.ABooru Safebooru =      new BooruSharp.Booru.Safebooru();
-        public static readonly BooruSharp.Booru.ABooru Konachan =       new BooruSharp.Booru.Konachan();
-        public static readonly BooruSharp.Booru.ABooru Allthefallen =   new BooruSharp.Booru.Atfbooru();
-        public static readonly BooruSharp.Booru.ABooru Sankakucomplex = new BooruSharp.Booru.SankakuComplex();
-        public static readonly BooruSharp.Booru.ABooru Sakugabooru =    new BooruSharp.Booru.Sakugabooru();
+        public static readonly ABooru Danbooru =       new DanbooruDonmai();
+        public static readonly ABooru E621 =           new E621();
+        public static readonly ABooru Rule34 =         new Rule34();
+        public static readonly ABooru Gelbooru =       new Gelbooru();
+        public static readonly ABooru Yandere =        new Yandere();
+        public static readonly ABooru E926 =           new E926();
+        public static readonly ABooru Safebooru =      new Safebooru();
+        public static readonly ABooru Konachan =       new Konachan();
+        public static readonly ABooru Allthefallen =   new Atfbooru();
+        public static readonly ABooru Sankakucomplex = new SankakuComplex();
+        public static readonly ABooru Sakugabooru =    new Sakugabooru();
 
         private static readonly Dictionary<Entry, string> CaughtFromBeingSent = new();
 
-        private async Task GetRandomPostFrom(ICommandContext context, BooruSharp.Booru.ABooru booru, params string[] inputs)
+        private async Task GetRandomPostFrom(ICommandContext context, ABooru booru, params string[] inputs)
         {
             try
             {
@@ -52,9 +55,9 @@ namespace xubot.Commands.Connections
                     hide = false;
                 }
 
-                BooruSharp.Search.Post.SearchResult post = await booru.GetRandomPostAsync(inputs);
+                SearchResult post = await booru.GetRandomPostAsync(inputs);
 
-                await PostNsfwMessage(context, $"{(hide ? "|| " : "")}{post.FileUrl.AbsoluteUri}{(hide ? " ||" : "")}", post.Rating != BooruSharp.Search.Post.Rating.Safe);
+                await PostNsfwMessage(context, $"{(hide ? "|| " : "")}{post.FileUrl.AbsoluteUri}{(hide ? " ||" : "")}", post.Rating != Rating.Safe);
             }
             catch (Exception e)
             {
@@ -179,7 +182,7 @@ namespace xubot.Commands.Connections
         }
 
         [Example("00000000")]
-        [Command("booru-get", RunMode = RunMode.Async), Summary("Gets an image you requested that wasn't appropriate for the orginial context with a given key.")]
+        [Command("booru-get", RunMode = RunMode.Async), Summary("Gets an image you requested that wasn't appropriate for the original context with a given key.")]
         public async Task GetStoredImageUri(string key, bool hide = false)
         {
             if (await Util.IsDmChannel(Context))

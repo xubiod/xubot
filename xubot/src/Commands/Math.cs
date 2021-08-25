@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
@@ -47,7 +48,7 @@ namespace xubot.Commands
         }
 
         [Example("4220 5")]
-        [Command("mod"), Alias("modulo"), Summary("Modulos the floats given.")]
+        [Command("mod"), Alias("modulo"), Summary("Modulus the floats given.")]
         public async Task Mod(float input, float modBy)
         {
             float result = input % modBy;
@@ -67,7 +68,7 @@ namespace xubot.Commands
             }
             else
             {
-                await ReplyAsync($"The result was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync("The result was changed to Infinity or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -83,7 +84,7 @@ namespace xubot.Commands
             }
             else
             {
-                await ReplyAsync($"The result was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync("The result was changed to Infinity or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -100,7 +101,7 @@ namespace xubot.Commands
             }
             else
             {
-                await ReplyAsync($"The sine was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync("The sine was changed to Infinity or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -116,23 +117,23 @@ namespace xubot.Commands
             }
             else
             {
-                await ReplyAsync($"The hyperbolic sine was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync("The hyperbolic sine was changed to Infinity or -Infinity. Please use smaller numbers.");
             }
         }
 
         [Example("45")]
-        [Command("asin"), Alias("asine"), Summary("Gets the asine of a number and returns an angle.")]
-        public async Task Asine([Summary("double")] double num)
+        [Command("asin"), Summary("Gets the asin of a number and returns an angle.")]
+        public async Task Asin([Summary("double")] double num)
         {
             double result = System.Math.Asin(num);
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync($"The asine of {num} is: {result}.");
+                await ReplyAsync($"The asin of {num} is: {result}.");
             }
             else
             {
-                await ReplyAsync($"The asine was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync("The asin was changed to Infinity or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -148,12 +149,12 @@ namespace xubot.Commands
             }
             else
             {
-                await ReplyAsync($"The cosine was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync("The cosine was changed to Infinity or -Infinity. Please use smaller numbers.");
             }
         }
 
         [Example("4")]
-        [Command("cosh"), Alias("cosineh"), Summary("Returns the hyperbolic cosine of a number.")]
+        [Command("cosh"), Alias("hyperbolic-cosine"), Summary("Returns the hyperbolic cosine of a number.")]
         public async Task HyperbolicCosine([Summary("double")] double num)
         {
             double result = System.Math.Cosh(num);
@@ -164,23 +165,23 @@ namespace xubot.Commands
             }
             else
             {
-                await ReplyAsync($"The hyperbolic cosine was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync("The hyperbolic cosine was changed to Infinity or -Infinity. Please use smaller numbers.");
             }
         }
 
         [Example("22.5")]
-        [Command("acos"), Alias("acosine"), Summary("Gets the acosine of a number and returns an angle.")]
-        public async Task Acosine([Summary("double")] double num)
+        [Command("acos"), Alias("acos"), Summary("Gets the acos of a number and returns an angle.")]
+        public async Task Acos([Summary("double")] double num)
         {
             double result = System.Math.Acos(num);
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync($"The acosine of {num} is: {result}.");
+                await ReplyAsync($"The acos of {num} is: {result}.");
             }
             else
             {
-                await ReplyAsync($"The acosine was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync("The acos was changed to Infinity or -Infinity. Please use smaller numbers.");
             }
         }
 
@@ -196,12 +197,12 @@ namespace xubot.Commands
             }
             else
             {
-                await ReplyAsync($"The tanget was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync("The tangent was changed to Infinity or -Infinity. Please use smaller numbers.");
             }
         }
 
         [Example("1")]
-        [Command("tanh"), Alias("tangenth"), Summary("Gets the hyperbolic tangent of a number.")]
+        [Command("tanh"), Alias("hyperbolic-tan"), Summary("Gets the hyperbolic tangent of a number.")]
         public async Task HyperbolicTangent([Summary("double")] double num)
         {
             double result = System.Math.Tanh(num);
@@ -212,34 +213,34 @@ namespace xubot.Commands
             }
             else
             {
-                await ReplyAsync($"The hyperbolic tangent was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync("The hyperbolic tangent was changed to Infinity or -Infinity. Please use smaller numbers.");
             }
         }
 
         [Example("15")]
-        [Command("atan"), Alias("atangent"), Summary("Gets the atangent of a number and returns an angle.")]
-        public async Task Atangent([Summary("double")] double num)
+        [Command("atan"), Summary("Gets the atan of a number and returns an angle.")]
+        public async Task Atan([Summary("double")] double num)
         {
             double result = System.Math.Atan(num);
 
             if (!Double.IsInfinity(result))
             {
-                await ReplyAsync($"The atangent of {num} is: {result}.");
+                await ReplyAsync($"The atan of {num} is: {result}.");
             }
             else
             {
-                await ReplyAsync($"The atangent was changed to Infinty or -Infinity. Please use smaller numbers.");
+                await ReplyAsync("The atan was changed to Infinity or -Infinity. Please use smaller numbers.");
             }
         }
 
         //OTHER
         [Example("\"4+2*5\"")]
-        [Command("quickeval"), Alias("eval", "quickdo", "do"), Summary("Does quick math operations with integers.")]
-        public async Task Evalutare([Summary("eval input")] string input)
+        [Command("quick-eval"), Alias("eval", "quick-do", "do"), Summary("Does quick math operations with integers.")]
+        public async Task Evaluate([Summary("eval input")] string input)
         {
-            System.Data.DataTable table = new System.Data.DataTable();
+            DataTable table = new DataTable();
             table.Columns.Add("expression", string.Empty.GetType(), input);
-            System.Data.DataRow row = table.NewRow();
+            DataRow row = table.NewRow();
             table.Rows.Add(row);
             int result = int.Parse((string)row["expression"]);
             await ReplyAsync($"The equation was evaluated and returned **{result}**.");
@@ -250,29 +251,31 @@ namespace xubot.Commands
         {
             [Example("32 f2c")]
             [Command("temperature"), Alias("temp"), Summary("Converts Celsius or Fahrenheit to the other using `c2f` and `f2c`.")]
-            public async Task Temp([Summary("double 1")] double num1, string fromto)
+            public async Task Temp([Summary("double 1")] double num1, string fromTo)
             {
-                if (fromto == "c2f")
+                switch (fromTo)
                 {
-                    await ReplyAsync($"*Celsius to Fahrenheit:* {num1 / 9 * (5 + 32)}");
-                }
-                else if (fromto == "f2c")
-                {
-                    await ReplyAsync($"*Fahrenheit to Celsius:* {(num1 - 32) * ((double)9 / 5)}");
+                    case "c2f":
+                        await ReplyAsync($"*Celsius to Fahrenheit:* {num1 / 9 * (5 + 32)}");
+                        break;
+                    case "f2c":
+                        await ReplyAsync($"*Fahrenheit to Celsius:* {(num1 - 32) * ((double)9 / 5)}");
+                        break;
                 }
             }
 
             [Example("1 m2ft")]
             [Command("length"), Alias("height"), Summary("Converts feet to meters to the other using `ft2m` and `m2ft`.")]
-            public async Task Length([Summary("double 1")] double num1, string fromto)
+            public async Task Length([Summary("double 1")] double num1, string fromTo)
             {
-                if (fromto == "ft2m")
+                switch (fromTo)
                 {
-                    await ReplyAsync($"*Feet to Meters:* {num1 * 0.3048}");
-                }
-                else if (fromto == "m2ft")
-                {
-                    await ReplyAsync($"*Meters to Feet:* {num1 / 0.3048}");
+                    case "ft2m":
+                        await ReplyAsync($"*Feet to Meters:* {num1 * 0.3048}");
+                        break;
+                    case "m2ft":
+                        await ReplyAsync($"*Meters to Feet:* {num1 / 0.3048}");
+                        break;
                 }
             }
         }

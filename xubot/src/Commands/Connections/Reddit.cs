@@ -1,4 +1,5 @@
 ﻿// using static xubot.src.RedditTools.ParseSorting;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using RedditSharp;
 using RedditSharp.Things;
 using xubot.Attributes;
 using static xubot.Util;
+// ReSharper disable StringLiteralTypo
 
 namespace xubot.Commands.Connections
 {
@@ -67,7 +69,7 @@ namespace xubot.Commands.Connections
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Subreddit: {input}", "Details of a subreddit", Color.Orange);
             embed.ThumbnailUrl = image;
-            embed.Fields = new List<EmbedFieldBuilder>()
+            embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
                 {
@@ -126,7 +128,7 @@ namespace xubot.Commands.Connections
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Subreddit: {input}", "Subreddit Wiki Pages", Color.Orange);
             embed.ThumbnailUrl = image;
-            embed.Fields = new List<EmbedFieldBuilder>()
+            embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
                 {

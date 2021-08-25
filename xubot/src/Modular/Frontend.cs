@@ -58,7 +58,7 @@ namespace xubot.Modular
                 await ReplyAsync("", false, embed.Build());
             }
 
-            [Command("listall", RunMode = RunMode.Async), Alias("la"), Summary("Lists all modules.")]
+            [Command("list-all", RunMode = RunMode.Async), Alias("la"), Summary("Lists all modules.")]
             public async Task ListAll()
             {
                 string list = "";
@@ -73,20 +73,20 @@ namespace xubot.Modular
 
             private EmbedBuilder GetTemplate(string title, string description, string listing)
             {
-                return new EmbedBuilder()
+                return new EmbedBuilder
                 {
                     Title = title,
                     Description = description,
                     Color = Color.Orange,
                     ThumbnailUrl = Context.Client.CurrentUser.GetAvatarUrl(),
 
-                    Footer = new EmbedFooterBuilder()
+                    Footer = new EmbedFooterBuilder
                     {
                         Text = Util.Globals.EmbedFooter,
                         IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                     },
                     Timestamp = DateTime.Now,
-                    Fields = new List<EmbedFieldBuilder>()
+                    Fields = new List<EmbedFieldBuilder>
                     {
                         new()
                         {

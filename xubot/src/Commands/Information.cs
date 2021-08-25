@@ -9,25 +9,26 @@ using System.Xml;
 using Discord;
 using Discord.Commands;
 using xubot.Attributes;
+using xubot.Properties;
 
 namespace xubot.Commands
 {
     public class Information : ModuleBase
     {
         private static readonly string[] DiscordColor = { "Blue", "Grey", "Green", "Yellow", "Red" };
-        private static readonly string DiscordRegex = "(.+[^#])*(#{1}([0-9]{4})){1}";
+        private const string DiscordRegex = "(.+[^#])*(#{1}([0-9]{4})){1}";
 
         //INFORMATION ABOUT SERVER/CHANNEL/USER
         [Group("info"), Summary("Gets information about various things.")]
         public class Info : ModuleBase
         {
             [Command("server"), Alias("server-info", "si"), Summary("Gets information about the server.")]
-            public async Task Serverinfo()
+            public async Task ServerInfo()
             {
                 string verifyLvl = Context.Guild.VerificationLevel.ToString();
-                string afkchannelid = Context.Guild.AFKChannelId.ToString();
+                string afkChannelId = Context.Guild.AFKChannelId.ToString();
 
-                if (afkchannelid == "") { afkchannelid = "No AFK Channel"; }
+                if (afkChannelId == "") { afkChannelId = "No AFK Channel"; }
 
                 verifyLvl = verifyLvl switch
                 {
@@ -43,7 +44,7 @@ namespace xubot.Commands
 
                 EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + Context.Guild.Name, "Server information details", Color.Red);
                 embed.ThumbnailUrl = Context.Guild.IconUrl;
-                embed.Fields = new List<EmbedFieldBuilder>()
+                embed.Fields = new List<EmbedFieldBuilder>
                 {
                     new()
                     {
@@ -72,13 +73,13 @@ namespace xubot.Commands
                     new()
                     {
                         Name = "AFK",
-                        Value = $"ID: {afkchannelid}\nTimeout: {Context.Guild.AFKTimeout} seconds",
+                        Value = $"ID: {afkChannelId}\nTimeout: {Context.Guild.AFKTimeout} seconds",
                         IsInline = true
                     },
                     new()
                     {
                         Name = "Miscellaneous",
-                        Value = $"# of Roles: {Context.Guild.Roles.Count}\n# of Emotes: {Context.Guild.Emotes.Count}\nWelcomes go to: <#{welcomeChannel.Id}>\nDefault MSG Notifs.: {Context.Guild.DefaultMessageNotifications}",
+                        Value = $"# of Roles: {Context.Guild.Roles.Count}\n# of Emotes: {Context.Guild.Emotes.Count}\nWelcomes go to: <#{welcomeChannel.Id}>\nDefault MSG Notifications.: {Context.Guild.DefaultMessageNotifications}",
                         IsInline = false
                     }
                 };
@@ -87,11 +88,11 @@ namespace xubot.Commands
             }
 
             [Command("channel"), Alias("channel-info", "ci"), Summary("Gets information about the current channel")]
-            public async Task Channelinfo()
+            public async Task ChannelInfo()
             {
                 EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + Context.Channel.Name, "Channel information details", Color.Red);
                 embed.ThumbnailUrl = Context.Guild.IconUrl;
-                embed.Fields = new List<EmbedFieldBuilder>()
+                embed.Fields = new List<EmbedFieldBuilder>
                 {
                     new()
                     {
@@ -146,7 +147,7 @@ namespace xubot.Commands
 
                     EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + user0, "User information details", Color.Red);
                     embed.ThumbnailUrl = user0.GetAvatarUrl();
-                    embed.Fields = new List<EmbedFieldBuilder>()
+                    embed.Fields = new List<EmbedFieldBuilder>
                     {
                         new()
                         {
@@ -194,7 +195,8 @@ namespace xubot.Commands
 
                         foreach (var role in user1.RoleIds) { roleList += Context.Guild.GetRole(role).Mention + " "; }
 
-                        List<EmbedFieldBuilder> guildData = new List<EmbedFieldBuilder>(){
+                        List<EmbedFieldBuilder> guildData = new List<EmbedFieldBuilder>
+                        {
                             new()
                             {
                                 Name = "Deafened?",
@@ -269,7 +271,7 @@ namespace xubot.Commands
             public async Task HostMachine()
             {
                 EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Runtime Information", "Details of the bot and OS", new Color(194, 24, 91));
-                embed.Fields = new List<EmbedFieldBuilder>()
+                embed.Fields = new List<EmbedFieldBuilder>
                 {
                     new()
                     {
@@ -300,7 +302,7 @@ namespace xubot.Commands
         public async Task About()
         {
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "About Xubot", $"Version {ThisAssembly.Git.BaseTag}", Color.Orange);
-            embed.Fields = new List<EmbedFieldBuilder>()
+            embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
                 {
@@ -316,11 +318,13 @@ namespace xubot.Commands
         [Command("credits"), Summary("Returns people that inspired or helped produce this bot.")]
         public async Task Credits()
         {
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.Async = true;
+            XmlReaderSettings settings = new XmlReaderSettings
+            {
+                Async = true
+            };
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Xubot Development Credits", $"Version {ThisAssembly.Git.BaseTag}", Color.Orange);
-            embed.Fields = new List<EmbedFieldBuilder>()
+            embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
                 {
@@ -336,11 +340,13 @@ namespace xubot.Commands
         [Command("version"), Summary("Returns the current build via the latest commit.")]
         public async Task VersionCmd()
         {
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.Async = true;
+            XmlReaderSettings settings = new XmlReaderSettings
+            {
+                Async = true
+            };
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Xubot Version", "The specifics.", Color.Orange);
-            embed.Fields = new List<EmbedFieldBuilder>()
+            embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
                 {
@@ -351,7 +357,7 @@ namespace xubot.Commands
                 new()
                 {
                     Name = "Build Commit",
-                    Value = $"On {ThisAssembly.Git.Branch}:\n{ThisAssembly.Git.Sha}\n\nCommited at {ThisAssembly.Git.CommitDate}",
+                    Value = $"On {ThisAssembly.Git.Branch}:\n{ThisAssembly.Git.Sha}\n\nCommitted at {ThisAssembly.Git.CommitDate}",
                     IsInline = false
                 },
                 new()
@@ -374,8 +380,8 @@ namespace xubot.Commands
         [Command("privacy-policy")]
         public async Task Pp()
         {
-            File.WriteAllText(Path.GetTempPath() + "pripol.txt", Properties.Resources.PrivacyPolicy);
-            await Context.Channel.SendFileAsync(Path.GetTempPath() + "pripol.txt");
+            await File.WriteAllTextAsync(Path.GetTempPath() + "privacy.txt", Resources.PrivacyPolicy);
+            await Context.Channel.SendFileAsync(Path.GetTempPath() + "privacy.txt");
         }
     }
 }

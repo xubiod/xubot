@@ -7,6 +7,7 @@ using Discord;
 using Discord.Commands;
 using SteamKit2;
 using xubot.Attributes;
+// ReSharper disable StringLiteralTypo
 
 namespace xubot.Commands.Connections
 {
@@ -63,12 +64,12 @@ namespace xubot.Commands.Connections
 
                 if (mostWeekIn != "")
                 {
-                    mostWeekField.Value = $"In App\n**__{mostWeekIn}__**: {$"{mostWeek:#,###}"} minutes\n{$"{mostWeek / 60:#,###0.0}"} hours";
+                    mostWeekField.Value = $"In App\n**__{mostWeekIn}__**: {mostWeek:#,###} minutes\n{mostWeek / 60:#,###0.0} hours";
                 }
 
                 if (mostTimeIn != "")
                 {
-                    mostTimeField.Value = $"In App\n**__{mostTimeIn}__**: {$"{mostTime:#,###}"} minutes\n{$"{mostTime / 60:#,###0.0}"} hours";
+                    mostTimeField.Value = $"In App\n**__{mostTimeIn}__**: {mostTime:#,###} minutes\n{mostTime / 60:#,###0.0} hours";
                 }
 
                 ulong lastLogOffUnsigned = playerSummaries["lastlogoff"].AsUnsignedLong();
@@ -88,7 +89,7 @@ namespace xubot.Commands.Connections
 
                 if (playerSummaries["communityvisibilitystate"].AsInteger(1) == 3 /* public, don't ask why */)
                 {
-                    embed.Fields = new List<EmbedFieldBuilder>()
+                    embed.Fields = new List<EmbedFieldBuilder>
                     {
                         new()
                         {
@@ -132,7 +133,7 @@ namespace xubot.Commands.Connections
                 }
                 else
                 {
-                    embed.Fields = new List<EmbedFieldBuilder>()
+                    embed.Fields = new List<EmbedFieldBuilder>
                     {
                         new()
                         {

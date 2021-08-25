@@ -2,7 +2,7 @@
 
 namespace xubot.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = false)]
     public class NsfwPossibilityAttribute : Attribute
     {
         public string Warnings { get; }

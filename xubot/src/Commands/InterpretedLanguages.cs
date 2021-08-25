@@ -1,18 +1,19 @@
-﻿using Discord;
-using Discord.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using xubot.Attributes;
 
 namespace xubot.Commands
 {
-    public class InterpLanguages : ModuleBase
+    public class InterpretedLanguages : ModuleBase
     {
         public static Embed BuildEmbed(ICommandContext context, string language, string description, string syntaxHighlighting, string input, string result)
         {
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(context, "**Language:** `" + language + "`", description, Color.Orange);
-            embed.Fields = new List<EmbedFieldBuilder>()
+            embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
                 {
@@ -29,7 +30,7 @@ namespace xubot.Commands
             };
 
             return embed.Build();
-            //await ReplyAsync("", false, embedd);
+            //await ReplyAsync("", false, embed);
         }
 
 /*
@@ -50,7 +51,7 @@ namespace xubot.Commands
         }
 */
 
-        [Group("interp"), Summary("Interperts other languages and displays output.")]
+        [Group("interpret"), Summary("Interprets other languages and displays output.")]
         public class CodeCompile : ModuleBase
         {
             [Command("js", RunMode = RunMode.Async), Summary("Executes JavaScript.")]
@@ -63,7 +64,7 @@ namespace xubot.Commands
 
                 Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-compiler.exe", "js " + eval);
 
-                string uri = Path.GetTempPath() + "InterpResult.xubot";
+                string uri = Path.GetTempPath() + "InterpretedResult.xubot";
 
                 code_handler.WaitForExit(_timeout * 1000);
 
@@ -108,7 +109,7 @@ namespace xubot.Commands
 
                 Process code_handler = Process.Start(Environment.CurrentDirectory + "\\code-handler\\xubot-code-compiler.exe", "lua " + eval);
 
-                string uri = Path.GetTempPath() + "InterpResult.xubot";
+                string uri = Path.GetTempPath() + "InterpretedResult.xubot";
 
                 code_handler.WaitForExit(_timeout * 1000);
 
@@ -135,16 +136,18 @@ namespace xubot.Commands
                 }*/
             }
 
+            // ReSharper disable once StringLiteralTypo
             [Example("diissisdo")]
-            [Command("deadfish", RunMode = RunMode.Async), Summary("Interperts Deadfish and outputs the results.")]
+            [Command("deadfish", RunMode = RunMode.Async), Summary("Interprets Deadfish and outputs the results.")]
             public async Task Deadfish(string input)
             {
-                string result = SmallLangInterps.Deadfish.Execute(input);
-                await ReplyAsync("", false, BuildEmbed(Context, "Deadfish", "using a built-in interpeter (adapted from https://esolangs.org)", "", input, result));
+                string result = SmallLangInterpreters.Deadfish.Execute(input);
+                await ReplyAsync("", false, BuildEmbed(Context, "Deadfish", "using a built-in interpreter (adapted from https://esolangs.org)", "", input, result));
             }
 
             [Example("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.")]
-            [Command("brainfuck", RunMode = RunMode.Async), Alias("brainf***", "brainf**k", "b****fuck", "bf"), Summary("Interperts Brainfuck and outputs the result.")]
+            [Command("brainfuck", RunMode = RunMode.Async), Alias("brainf***", "brainf**k", "b****fuck", "bf"), Summary("Interprets Brainfuck and outputs the result.")]
+            [SuppressMessage("ReSharper", "StringLiteralTypo")]
             public async Task Brainfuck(string input, string asciiInput = "")
             {
                 string embedInput;
@@ -156,9 +159,9 @@ namespace xubot.Commands
                 {
                     embedInput = $"Code: {input.Replace("\n", String.Empty)}";
                 }
-                string result = SmallLangInterps.Brainfuck.Execute(input, asciiInput);
+                string result = SmallLangInterpreters.Brainfuck.Execute(input, asciiInput);
 
-                await ReplyAsync("", false, BuildEmbed(Context, "Brainfuck", "using a built-in interpeter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf", embedInput, result));
+                await ReplyAsync("", false, BuildEmbed(Context, "Brainfuck", "using a built-in interpreter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf", embedInput, result));
             }
         }
     }

@@ -4,10 +4,10 @@ using xubot.Attributes;
 
 namespace xubot.Commands
 {
-    public class Miscellanous : ModuleBase
+    public class Miscellaneous : ModuleBase
     {
         [Command("dog-unrolling-from-bubble-wrap"), Summary("I honestly forgot why this is here.")]
-        public async Task Dufbw()
+        public async Task BubbleWrap()
         {
             await ReplyAsync("https://68.media.tumblr.com/6dd362a8aafe8bbdacf8fb32a5c6b528/tumblr_ncmv90I1gM1qj26eao1_400.gif");
         }
@@ -30,7 +30,7 @@ namespace xubot.Commands
         }
 
         [Command("no-need-to-be-upset"), Summary(":)")]
-        public async Task Nntbu()
+        public async Task NoNeedToBeUpset()
         {
             await ReplyAsync("https://youtu.be/GJDNkVDGM_s");
         }
@@ -43,19 +43,20 @@ namespace xubot.Commands
 
         [Example("uwu")]
         [Command("make-this-middle-finger"), Summary("Takes text and makes it rude.")]
-        public async Task Mtmf(string face)
+        public async Task MiddleFinger(string face)
         {
             await ReplyAsync("(凸 " + face + ")凸");
         }
 
         [Command("rm -rf"), Alias("rm -rf --no-preserve-root /"), Summary("Deletes xubot and the rest of the computer it's running on.")]
-        public async Task Rmrf()
+        public async Task DeleteLinux()
         {
             await ReplyAsync("no u");
         }
 
+        // ReSharper disable once StringLiteralTypo
         [Command("yritwh"), Alias("you-reposted-in-the-wrong-neighborhood"), Summary("Use as a reaction to a meme that has been reposted inappropriately.")]
-        public async Task Yritwh()
+        public async Task WrongNeighbourhood()
         {
             await ReplyAsync("https://youtu.be/0cOAUSVBGX8");
         }
@@ -73,13 +74,14 @@ namespace xubot.Commands
         }
 
         [Command("english-motherfucker"), Alias("english-mf"), Summary("DO YOU SPEAK IT???")]
-        public async Task WhatIsntACountryIveHeardOf()
+        public async Task WhatIsNotACountryIveHeardOf()
         {
             await ReplyAsync("https://youtu.be/a0x6vIAtFcI");
         }
 
+        // ReSharper disable once StringLiteralTypo
         [Command("what-does-a-cat-in-zero-g-look-like"), Alias("wdacizgll")]
-        public async Task Wdacizgll()
+        public async Task ZeroGCat()
         {
             await ReplyAsync("A cat in a zero G flight looks like this: https://youtu.be/hb4Yd4mEVsE");
         }

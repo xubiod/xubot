@@ -27,7 +27,7 @@ namespace xubot.Commands
             }
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Superuser - Directory", where, Color.DarkOrange);
-            embed.Fields = new List<EmbedFieldBuilder>()
+            embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
                 {

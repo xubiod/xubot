@@ -23,8 +23,7 @@ namespace xubot.Commands
         public async Task HelpCmd(params string[] lookupAsAll)
         {
             string all = "";
-            int count;
-            count = lookupAsAll.Length;
+            var count = lookupAsAll.Length;
 
             if (Int32.TryParse(lookupAsAll[count - 1], out var page))
                 count--;
@@ -79,7 +78,7 @@ namespace xubot.Commands
             if (items == "") items = "There's nothing here, I think you went out of bounds.";
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"Showing page #{page} out of {System.Math.Ceiling((float)commList.Count / itemsPerPage)} pages.\nShowing a few of the **{commList.Count}** cmds.", Color.Magenta);
-            embed.Fields = new List<EmbedFieldBuilder>()
+            embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
                 {
@@ -134,7 +133,7 @@ namespace xubot.Commands
             if (cmds == "") cmds = "I don't think any command called that exists...";
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help - Search", $"Showing page #{page} out of {System.Math.Ceiling((float)compatibles.Count / itemsPerPage)} pages.\nShowing a few of the **{compatibles.Count}** cmds with the lookup.", Color.Magenta);
-            embed.Fields = new List<EmbedFieldBuilder>()
+            embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
                 {
@@ -152,7 +151,7 @@ namespace xubot.Commands
             try
             {
                 List<CommandInfo> commListE = Program.XuCommand.Commands.ToList();
-                // List<ModuleInfo> moduListE = Program.XuCommand.Modules.ToList();
+                // List<ModuleInfo> moduleListE = Program.XuCommand.Modules.ToList();
 
                 commListE = commListE.FindAll(ci => ci.Name == lookup.Split(' ').Last());
 
@@ -174,7 +173,7 @@ namespace xubot.Commands
                     }
                 }
 
-                int allMatchs = commList.Count;
+                int allMatches = commList.Count;
 
                 CommandInfo comm;
 
@@ -182,7 +181,7 @@ namespace xubot.Commands
                 {
                     comm = commList[index - 1];
                 }
-                catch (ArgumentOutOfRangeException aoore)
+                catch (ArgumentOutOfRangeException e)
                 {
                     //not a command
                     GroupHandling(lookup);
@@ -221,15 +220,15 @@ namespace xubot.Commands
                     }
                 }
 
-                string trueSumm = "No summary given.";
-                if (comm.Summary != null) trueSumm = comm.Summary;
+                string trueSummary = "No summary given.";
+                if (comm.Summary != null) trueSummary = comm.Summary;
 
                 bool dep = comm.Attributes.Contains(new DeprecatedAttribute()) || comm.Module.Attributes.Contains(new DeprecatedAttribute());
 
-                string nsfwPossibility = comm.Attributes.Where(x => x is NsfwPossibilityAttribute).Count() > 0 ? (comm.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
-                nsfwPossibility += comm.Module.Attributes.Where(x => x is NsfwPossibilityAttribute).Count() > 0 ? "Groupwide:\n\n" + (comm.Module.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
+                string nsfwPossibility = comm.Attributes.Count(x => x is NsfwPossibilityAttribute) > 0 ? (comm.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
+                nsfwPossibility += comm.Module.Attributes.Count(x => x is NsfwPossibilityAttribute) > 0 ? "Group-wide:\n\n" + (comm.Module.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
 
-                if (comm.Attributes.Where(x => x is ExampleAttribute).Count() > 0)
+                if (comm.Attributes.Count(x => x is ExampleAttribute) > 0)
                 {
                     ExampleAttribute ex = comm.Attributes.First(x => x is ExampleAttribute) as ExampleAttribute;
                     if (ex.ExampleParameters != "") examplePara = ex.ExampleParameters;
@@ -238,8 +237,8 @@ namespace xubot.Commands
 
                 string exampleUsage = $"{Program.prefix}{trueName} " + examplePara;
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"The newer *better* help. Showing result #{index} out of {allMatchs} match(s).", Color.Magenta);
-                embed.Fields = new List<EmbedFieldBuilder>()
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"The newer *better* help. Showing result #{index} out of {allMatches} match(s).", Color.Magenta);
+                embed.Fields = new List<EmbedFieldBuilder>
                 {
                     new()
                     {
@@ -250,7 +249,7 @@ namespace xubot.Commands
                     new()
                     {
                         Name = "Summary",
-                        Value = trueSumm,
+                        Value = trueSummary,
                         IsInline = true
                     },
                     new()
@@ -273,14 +272,14 @@ namespace xubot.Commands
                     }
                 };
 
-                if (dep) embed.Fields.Add(new EmbedFieldBuilder()
+                if (dep) embed.Fields.Add(new EmbedFieldBuilder
                 {
                     Name = "Deprecated",
                     Value = "__**All commands in this group are deprecated. They are going to be removed in a future update.**__",
                     IsInline = true
                 });
 
-                if (nsfwPossibility != "") embed.Fields.Add(new EmbedFieldBuilder()
+                if (nsfwPossibility != "") embed.Fields.Add(new EmbedFieldBuilder
                 {
                     Name = "NSFW Possibility",
                     Value = $"This can show NSFW content. NSFW content is restricted to NSFW channels.\n**{nsfwPossibility}**",
@@ -309,7 +308,7 @@ namespace xubot.Commands
                 {
                     group = moduList[0];
                 }
-                catch (ArgumentOutOfRangeException aoore)
+                catch (ArgumentOutOfRangeException e)
                 {
                     //not a command OR group
                     await ReplyAsync("This command does not exist. (Trust me, I looked everywhere.)\nMaybe try the full name?");
@@ -356,19 +355,19 @@ namespace xubot.Commands
                     }
                 }
 
-                string trueSumm = "No summary given.";
-                if (group.Summary != null) trueSumm = group.Summary;
+                string trueSummary = "No summary given.";
+                if (group.Summary != null) trueSummary = group.Summary;
 
                 bool dep = group.Attributes.Contains(new DeprecatedAttribute());
                 string nsfwPossibility = group.Attributes.Contains(new NsfwPossibilityAttribute()) ? (group.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : null;
 
                 EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", "The newer *better* help. For more specifics, combine the group and command.", Color.Magenta);
-                embed.Fields = new List<EmbedFieldBuilder>()
+                embed.Fields = new List<EmbedFieldBuilder>
                 {
                     new()
                     {
                         Name = "Module Name and Summary",
-                        Value = $"`{trueName}`\n*{trueSumm}*",
+                        Value = $"`{trueName}`\n*{trueSummary}*",
                         IsInline = true
                     },
                     new()
@@ -391,14 +390,14 @@ namespace xubot.Commands
                     }
                 };
 
-                if (dep) embed.Fields.Add(new EmbedFieldBuilder()
+                if (dep) embed.Fields.Add(new EmbedFieldBuilder
                 {
                     Name = "Deprecated",
                     Value = "__**All commands in this group are deprecated. They are going to be removed in a future update.**__",
                     IsInline = true
                 });
 
-                if (nsfwPossibility != null) embed.Fields.Add(new EmbedFieldBuilder()
+                if (nsfwPossibility != null) embed.Fields.Add(new EmbedFieldBuilder
                 {
                     Name = "NSFW Possibility",
                     Value = $"This can show NSFW content. NSFW content is restricted to NSFW channels.\n**{nsfwPossibility}**",

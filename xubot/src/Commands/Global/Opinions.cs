@@ -10,7 +10,7 @@ namespace xubot.Commands.Global
     public class Opinions : ModuleBase
     {
         [Example("xubot")]
-        [Command(""), Alias("get"), Summary("Gets xubot's opinion on something. Was funny but now has been forgotten.")]
+        [Command(""), Alias("get"), Summary("Gets the bot's opinion on something. Was funny but now has been forgotten.")]
         public async Task OpinionGet(string input)
         {
             Random replyDecide = Util.Globals.Rng;
@@ -30,7 +30,7 @@ namespace xubot.Commands.Global
             await ReplyAsync(reply);
         }
 
-        [Command("set"), Summary("Sets xubot's opinion on something. Owner only."), RequireOwner]
+        [Command("set"), Summary("Sets the bot's opinion on something. Owner only."), RequireOwner]
         public async Task OpinionSet(string input, string output)
         {
             if ((Program.JsonKeys["opinion"].Contents as JObject).ContainsKey(input)) (Program.JsonKeys["opinion"].Contents as JObject)[input] = output;

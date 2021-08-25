@@ -171,15 +171,15 @@ namespace xubot.Commands.Connections
                     return;
                 }
 
-                List<EmbedFieldBuilder> embedFields = new List<EmbedFieldBuilder>();
-
-                embedFields.Add(new EmbedFieldBuilder { Name = "Similarity", IsInline = true, Value = (keys.results[0].header.similarity ?? "Not given").ToString() });
-                embedFields.Add(new EmbedFieldBuilder { Name = "Source", IsInline = true, Value = (keys.results[0].data.source ?? "Not given").ToString() });
-                embedFields.Add(new EmbedFieldBuilder { Name = "Thumbnail", IsInline = true, Value = (keys.results[0].header.thumbnail ?? "Not given").ToString() });
-                embedFields.Add(new EmbedFieldBuilder { Name = "Index", IsInline = true, Value = (keys.results[0].header.index_id ?? "ID Not given").ToString() + "\n" + (keys.results[0].header.index_name ?? "Name Not given").ToString() });
-
-                embedFields.Add(new EmbedFieldBuilder { Name = "Title", IsInline = true, Value = (keys.results[0].data.title ?? "Not given").ToString() });
-                embedFields.Add(new EmbedFieldBuilder { Name = "Extra Links", IsInline = true, Value = String.Join(", ", (JArray)keys.results[0].data.ext_urls).ToString() });
+                List<EmbedFieldBuilder> embedFields = new List<EmbedFieldBuilder>
+                {
+                    new() { Name = "Similarity", IsInline = true, Value = (keys.results[0].header.similarity ?? "Not given").ToString() },
+                    new() { Name = "Source", IsInline = true, Value = (keys.results[0].data.source ?? "Not given").ToString() },
+                    new() { Name = "Thumbnail", IsInline = true, Value = (keys.results[0].header.thumbnail ?? "Not given").ToString() },
+                    new() { Name = "Index", IsInline = true, Value = (keys.results[0].header.index_id ?? "ID Not given").ToString() + "\n" + (keys.results[0].header.index_name ?? "Name Not given").ToString() },
+                    new() { Name = "Title", IsInline = true, Value = (keys.results[0].data.title ?? "Not given").ToString() },
+                    new() { Name = "Extra Links", IsInline = true, Value = String.Join(", ", (JArray)keys.results[0].data.ext_urls).ToString() }
+                };
 
                 EmbedBuilder embed = GetTemplate(keys, "SauceNAO of given image - Detailed output", embedFields);
 
@@ -212,19 +212,19 @@ namespace xubot.Commands.Connections
                         {
                             return $"> *I have __{shortRemain} requests__ left for the next __30 seconds__, " +
                                    $"and __{longRemain} requests__ left for the next __24 hours__.*\n\n" +
-                                   $"> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***";
+                                   "> ***__Please be respectful to the developers of SauceNAO and their API,__***\n> ***__and make sure others who have the bot can use this command.__***";
                         }
                     case RequestsLeftType.Embed:
                         {
                             return $"*I have __{shortRemain} requests__ left for the next __30 seconds__, " +
                                    $"and __{longRemain} requests__ left for the next __24 hours__.* " +
-                                   $"***__Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.__***";
+                                   "***__Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.__***";
                         }
                     default:
                         {
                             return $"I have {shortRemain} requests left for the next 30 seconds, " +
                                    $"and {longRemain} requests left for the next 24 hours.\n" +
-                                   $"Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.";
+                                   "Please be respectful to the developers of SauceNAO and their API, and make sure others who have the bot can use this command.";
                         }
                 }
             }
@@ -238,7 +238,7 @@ namespace xubot.Commands.Connections
 
             private EmbedBuilder GetTemplate(dynamic keys, string title, List<EmbedFieldBuilder> embedFields)
             {
-                return new EmbedBuilder()
+                return new EmbedBuilder
                 {
                     Title = title,
                     Description = GetRequestsLeft(keys, RequestsLeftType.Embed),

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Discord;
@@ -10,6 +11,7 @@ using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Processing.Processors.Dithering;
 using SixLabors.ImageSharp.Processing.Processors.Quantization;
 using xubot.Attributes;
+using Color = Discord.Color;
 using SLImage = SixLabors.ImageSharp.Image;
 
 namespace xubot.Commands
@@ -17,10 +19,12 @@ namespace xubot.Commands
     [Group("pic"), Summary("Does shit with images.")]
     public class Picture : ModuleBase
     {
-        [Group("manip"), Summary("Manipulates images. Can be used to deepfry.")]
+        // ReSharper disable once StringLiteralTypo
+        [Group("manip"), Summary("Manipulates images. Can be used to deep-fry.")]
         public class Manipulation : ModuleBase
         {
-            private static readonly Dictionary<string, IQuantizer> AllQuantizers = new() {
+            // ReSharper disable once IdentifierTypo
+            private static readonly Dictionary<string, IQuantizer> AllQuantizer = new() {
                 { "websafe", KnownQuantizers.WebSafe }, { "web", KnownQuantizers.WebSafe }, { "web-safe", KnownQuantizers.WebSafe },
                 { "werner", KnownQuantizers.Werner }, { "1821", KnownQuantizers.Werner },
                 { "wu", KnownQuantizers.Wu }, { "xiaolin-wu", KnownQuantizers.Wu }, { "high", KnownQuantizers.Wu }, { "highquality", KnownQuantizers.Wu }, { "high-quality", KnownQuantizers.Wu },
@@ -54,6 +58,7 @@ namespace xubot.Commands
             public async Task Bw() { HandleFilter(Context, mut => mut.BlackWhite()); }
 
             [Example(true)]
+            // ReSharper disable once StringLiteralTypo
             [Command("invert", RunMode = RunMode.Async), Summary("iNVERTS THE COLORS OF AN IMAGE.")]
             public async Task Invert() { HandleFilter(Context, mut => mut.Invert()); }
 
@@ -74,7 +79,7 @@ namespace xubot.Commands
             public async Task Sepia() { HandleFilter(Context, mut => mut.Sepia()); }
 
             [Example(true)]
-            [Command("oilpaint", RunMode = RunMode.Async), Summary("Applies a basic oilpaint filter to an image.")]
+            [Command("oil-paint", RunMode = RunMode.Async), Summary("Applies a basic oil-paint filter to an image.")]
             public async Task OilPaint() { HandleFilter(Context, mut => mut.OilPaint()); }
 
             [Example(true)]
@@ -85,7 +90,7 @@ namespace xubot.Commands
             [Command("glow", RunMode = RunMode.Async), Summary("Applies a basic glow to an image.")]
             public async Task Glow() { HandleFilter(Context, mut => mut.Glow()); }
 
-            [Group("blur"), Summary("Differnet blur and sharpen effects.")]
+            [Group("blur"), Summary("Different blur and sharpen effects.")]
             public class Blur : ModuleBase
             {
                 [Example(true)]
@@ -146,8 +151,8 @@ namespace xubot.Commands
                 [Command("colorblind?list", RunMode = RunMode.Async), Alias("colourblind?list"), Summary("Lists the colourblindness filters.")]
                 public async Task ColourblindnessList()
                 {
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Colourblind Filter List", "All the filters for the colourblindness emulation.", Discord.Color.Magenta);
-                    embed.Fields = new List<EmbedFieldBuilder>()
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Colourblind Filter List", "All the filters for the colourblindness emulation.", Color.Magenta);
+                    embed.Fields = new List<EmbedFieldBuilder>
                     {
                         new()
                         {
@@ -195,11 +200,11 @@ namespace xubot.Commands
                 public async Task BinaryThreshold(float threshold) { HandleFilter(Context, mut => mut.BinaryThreshold(threshold)); }
 
                 [Example("3 6", true)]
-                [Command("oilpaint", RunMode = RunMode.Async), Summary("Applies an oil paint filter to an image.")]
+                [Command("oil-paint", RunMode = RunMode.Async), Summary("Applies an oil paint filter to an image.")]
                 public async Task OilPaint(int levels, int brushSize) { HandleFilter(Context, mut => mut.OilPaint(levels, brushSize)); }
 
                 [Example("8", true)]
-                [Command("pixelate", RunMode = RunMode.Async), Summary("Applies a pixelation filter to an image.")]
+                [Command("pixelate", RunMode = RunMode.Async), Summary("Applies a pixelate filter to an image.")]
                 public async Task Pixelate(int pixelSize) { HandleFilter(Context, mut => mut.Pixelate(pixelSize)); }
 
                 [Example("720.0 480.0", true)]
@@ -207,18 +212,18 @@ namespace xubot.Commands
                 public async Task Vignette(float radiusX, float radiusY) { HandleFilter(Context, mut => mut.Vignette(radiusX, radiusY)); }
 
                 [Example("fast", true)]
-                [Command("quantize", RunMode = RunMode.Async), Summary("Applies a quantize filter to an image. 4 are available, accessible with 0 - 3 which is modulo'd with 4.")]
-                public async Task Quantize(string name) { HandleFilter(Context, mut => mut.Quantize(AllQuantizers[name])); }
+                [Command("quantize", RunMode = RunMode.Async), Summary("Applies a quantize filter to an image. 4 are available, accessible with 0 - 3 which is modulo with 4.")]
+                public async Task Quantize(string name) { HandleFilter(Context, mut => mut.Quantize(AllQuantizer[name])); }
 
-                [Command("quantizers", RunMode = RunMode.Async), Summary("Returns all valid inputs for quantizers.")]
-                public async Task QuantizerListing()
+                [Command("quantize", RunMode = RunMode.Async), Summary("Returns all valid inputs to quantize.")]
+                public async Task QuantizeListing()
                 {
                     string list = "";
 
-                    foreach (string item in AllQuantizers.Keys)
+                    foreach (string item in AllQuantizer.Keys)
                         list += item + "\n";
 
-                    await Context.Channel.SendMessageAsync("", false, GetListEmbed("Quantizer Methods", "Valid Methods", list).Build());
+                    await Context.Channel.SendMessageAsync("", false, GetListEmbed("Quantize Methods", "Valid Methods", list).Build());
                 }
 
                 [Example("120", true)]
@@ -226,11 +231,11 @@ namespace xubot.Commands
                 public async Task Glow(float radius) { HandleFilter(Context, mut => mut.Glow(radius)); }
 
                 [Example("0.50", true)]
-                [Command("entropycrop", RunMode = RunMode.Async), Alias("entropy-crop"), Summary("Crops an image to the area of greatest entropy using a given threshold. Defaults to 0.5.")]
+                [Command("entropy-crop", RunMode = RunMode.Async), Summary("Crops an image to the area of greatest entropy using a given threshold. Defaults to 0.5.")]
                 public async Task EntropyCrop(float threshold = 0.5F) { HandleFilter(Context, mut => mut.EntropyCrop(threshold)); }
 
                 [Example("bayer8", true)]
-                [Command("basic-dither", RunMode = RunMode.Async), Summary("Applies a binary dithering effect to an image. 13 are available, accessible with its name. Use `pic manip ditherings` to get all valid names.")]
+                [Command("basic-dither", RunMode = RunMode.Async), Summary("Applies a binary dithering effect to an image. 13 are available, accessible with its name. Use `pic manip dithering-pattern` to get all valid names.")]
                 public async Task BinaryDither(string name)
                 {
                     if (!AllDithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
@@ -238,7 +243,7 @@ namespace xubot.Commands
                 }
 
                 [Example("bayer8 FF000000 FFFFFFFF FFFFF000 FF000FFF", true)]
-                [Command("dither", RunMode = RunMode.Async), Summary("Applies a dithering effect to an image. 13 are available, accessible with its name (use `pic manip ditherings` to get all valid names). The full palette is RGBA32 colors as hexadecimal strings.")]
+                [Command("dither", RunMode = RunMode.Async), Summary("Applies a dithering effect to an image. 13 are available, accessible with its name (use `pic manip dithering-pattern` to get all valid names). The full palette is RGBA32 colors as hexadecimal strings.")]
                 public async Task Dither(string name, params string[] palette)
                 {
                     SixLabors.ImageSharp.Color[] colours = new SixLabors.ImageSharp.Color[palette.Length];
@@ -251,7 +256,7 @@ namespace xubot.Commands
                     HandleFilter(Context, mut => mut.Dither(AllDithering[name.ToLower()], romPalette));
                 }
 
-                [Command("ditherings", RunMode = RunMode.Async), Summary("Returns all ditherings names.")]
+                [Command("dithering-pattern", RunMode = RunMode.Async), Summary("Returns all dithering pattern names.")]
                 public async Task DitherListing()
                 {
                     string list = "";
@@ -259,7 +264,7 @@ namespace xubot.Commands
                     foreach (string item in AllDithering.Keys)
                         list += item + "\n";
 
-                    await Context.Channel.SendMessageAsync("", false, GetListEmbed("Dithering Methods", "Valid Ditherings", list).Build());
+                    await Context.Channel.SendMessageAsync("", false, GetListEmbed("Dithering Methods", "Valid Dithering Patterns", list).Build());
                 }
             }
 
@@ -277,12 +282,12 @@ namespace xubot.Commands
             private static async void HandleFilter(ICommandContext context, Action<IImageProcessingContext> mutation)
             {
                 using Util.WorkingBlock wb = new Util.WorkingBlock(context);
-                string loadas = Path.GetTempPath() + "manip";
+                string loadAs = Path.GetTempPath() + "manip";
 
-                await Util.File.DownloadLastAttachmentAsync(context, loadas, true);
+                await Util.File.DownloadLastAttachmentAsync(context, loadAs, true);
                 string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(context));
 
-                string filename = ApplyFilter(loadas, type, mutation);
+                string filename = ApplyFilter(loadAs, type, mutation);
 
                 await context.Channel.SendFileAsync(filename);
             }
@@ -292,7 +297,7 @@ namespace xubot.Commands
                 return new EmbedBuilder
                 {
                     Title = title,
-                    Color = Discord.Color.Blue,
+                    Color = Color.Blue,
                     Description = "So you don't need to look at the source!",
 
                     Footer = new EmbedFooterBuilder
@@ -300,8 +305,8 @@ namespace xubot.Commands
                         Text = Util.Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>()
-                        {
+                    Fields = new List<EmbedFieldBuilder>
+                    {
                             new()
                             {
                                 Name = name,
@@ -322,8 +327,8 @@ namespace xubot.Commands
             {
                 Rgba32 colour = ColorFromHexString(hex);
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Color", "Colors!", new Discord.Color(colour.R, colour.G, colour.B));
-                embed.Fields = new List<EmbedFieldBuilder>()
+                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Color", "Colors!", new Color(colour.R, colour.G, colour.B));
+                embed.Fields = new List<EmbedFieldBuilder>
                 {
                     new()
                     {
@@ -348,9 +353,9 @@ namespace xubot.Commands
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
 
-            public static Rgba32 ColorFromHexString(string hexstring)
+            public static Rgba32 ColorFromHexString(string hexString)
             {
-                return new Rgba32(uint.Parse(hexstring.ToLower().Replace("0x", "").Replace("&h", ""), System.Globalization.NumberStyles.AllowHexSpecifier));
+                return new Rgba32(uint.Parse(hexString.ToLower().Replace("0x", "").Replace("&h", ""), NumberStyles.AllowHexSpecifier));
             }
         }
     }
