@@ -312,11 +312,14 @@ namespace xubot.Commands
             {
                 Global.MoodTools.AddOrRefreshMood(Program.XuClient.GetUser(id));
                 double mood = Global.MoodTools.ReadMood(Program.XuClient.GetUser(id));
-                string moodAsStr = "invalid";
 
-                if (-16 <= mood && mood <= 16) { moodAsStr = "neutral"; }
-                else if (-16 >= mood) { moodAsStr = "negative"; }
-                else if (mood >= 16) { moodAsStr = "positive"; }
+                string moodAsStr = mood switch
+                {
+                    >= -16 and <= 16 => "neutral",
+                    <= -16 => "negative",
+                    >= 16 => "positive",
+                    _ => "invalid"
+                };
 
                 await ReplyAsync($"{mood} / {moodAsStr}");
             }

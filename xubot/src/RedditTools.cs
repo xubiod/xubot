@@ -9,38 +9,52 @@ namespace xubot
         {
             public static Sorting FromString(string sorting)
             {
-                if (sorting.ToLower() == "relevance" || sorting.ToLower() == "relevant") { return Sorting.Relevance; }
-                else if (sorting.ToLower() == "new") { return Sorting.New; }
-                else if (sorting.ToLower() == "top") { return Sorting.Top; }
-                else if (sorting.ToLower() == "comments") { return Sorting.Comments; }
-                else { return Sorting.New; }
+                return sorting switch
+                {
+                    "relevance" => Sorting.Relevance,
+                    "relevant" => Sorting.Relevance,
+                    "new" => Sorting.New,
+                    "top" => Sorting.Top,
+                    "comments" => Sorting.Comments,
+                    _ => Sorting.New
+                };
             }
 
             public static Sorting FromInt(int sorting)
             {
-                if (sorting == 0) { return Sorting.Relevance; }
-                else if (sorting == 1) { return Sorting.New; }
-                else if (sorting == 2) { return Sorting.Top; }
-                else if (sorting == 3) { return Sorting.Comments; }
-                else { return Sorting.New; }
+                return sorting switch
+                {
+                    0 => Sorting.Relevance,
+                    1 => Sorting.New,
+                    2 => Sorting.Top,
+                    3 => Sorting.Comments,
+                    _ => Sorting.New
+                };
             }
 
             public static Subreddit.Sort FromIntSort(int sorting)
             {
-                if (sorting == 0) { return Subreddit.Sort.Rising; }
-                else if (sorting == 1) { return Subreddit.Sort.New; }
-                else if (sorting == 2) { return Subreddit.Sort.Top; }
-                else if (sorting == 3) { return Subreddit.Sort.Controversial; }
-                else { return Subreddit.Sort.New; }
+                return sorting switch
+                {
+                    0 => Subreddit.Sort.Rising,
+                    1 => Subreddit.Sort.New,
+                    2 => Subreddit.Sort.Top,
+                    3 => Subreddit.Sort.Controversial,
+                    _ => Subreddit.Sort.New
+                };
             }
 
             public static int StringToInt(string sorting)
             {
-                if (sorting.ToLower() == "relevance" || sorting.ToLower() == "relevant") { return 0; }
-                else if (sorting.ToLower() == "new") { return 1; }
-                else if (sorting.ToLower() == "top") { return 2; }
-                else if (sorting.ToLower() == "comments") { return 3; }
-                else { return 1; }
+                return sorting switch
+                {
+                    "relevance" => 0,
+                    "relevant" => 0,
+                    "new" => 1,
+                    "top" => 2,
+                    "comments" => 3,
+                    _ => 1
+                };
             }
         }
     }

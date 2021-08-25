@@ -29,12 +29,15 @@ namespace xubot.Commands
 
                 if (afkchannelid == "") { afkchannelid = "No AFK Channel"; }
 
-                if (verifyLvl == "None") { verifyLvl = "None ._.\n**Unrestricted**"; }
-                else if (verifyLvl == "Low") { verifyLvl = "Low >_>\n**Verified email**"; }
-                else if (verifyLvl == "Medium") { verifyLvl = "Medium o_o\n**Verified email**, and **Account age 5min+**"; }
-                else if (verifyLvl == "High") { verifyLvl = "(╯°□°）╯︵ ┻━┻ (High)\n**Email**, **5min+ old acct.**, **On server 10min+**"; }
-                else if (verifyLvl == "Very High") { verifyLvl = "┻━┻ミヽ(ಠ益ಠ)ﾉ彡 ┻━┻ (Very High)\n**Verified phone**"; }
-                else { verifyLvl = "Inconclusive"; }
+                verifyLvl = verifyLvl switch
+                {
+                    "None" => "None ._.\n**Unrestricted**",
+                    "Low" => "Low >_>\n**Verified email**",
+                    "Medium" => "Medium o_o\n**Verified email**, and **Account age 5min+**",
+                    "High" => "(╯°□°）╯︵ ┻━┻ (High)\n**Email**, **5min+ old acct.**, **On server 10min+**",
+                    "Very High" => "┻━┻ミヽ(ಠ益ಠ)ﾉ彡 ┻━┻ (Very High)\n**Verified phone**",
+                    _ => "Inconclusive"
+                };
 
                 IGuildChannel welcomeChannel = await Context.Guild.GetChannelAsync(Context.Guild.SystemChannelId ?? 0);
 
