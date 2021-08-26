@@ -48,5 +48,5 @@ For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.co
 
 **Confirmed working on:** Windows 10 x64, Ubuntu LTS, Debian (published as `linux-x64`)
 
-## License ![GitHub](https://img.shields.io/github/license/xubiod/xubot)
+## License
 The source code provided here on GitHub is licensed under **AGPLv3**. You can look at the license [here.](LICENSE)
