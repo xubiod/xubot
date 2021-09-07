@@ -260,7 +260,7 @@ namespace xubot
         {
             Console.WriteLine("]] connection to discord lost");
             Console.WriteLine();
-            Console.WriteLine($"]] exception logged at: {Environment.CurrentDirectory}\\Exceptions\\{DateTime.UtcNow.ToLongTimeString()}.txt");
+            Console.WriteLine($"]] exception logged at: {Global.Default.ExceptionLogLocation}{DateTime.UtcNow.ToLongTimeString()}.txt");
             Console.Beep();
             Console.Beep();
             Console.Beep();
