@@ -39,6 +39,9 @@ namespace xubot
             {
                 EmbedBuilder embed = GetErrorBoilerplate();
 
+                var error = result.Error;
+                if (error == null) return;
+
                 embed.Fields = new List<EmbedFieldBuilder>
                 {
                     new()
@@ -50,7 +53,7 @@ namespace xubot
                     new()
                     {
                         Name = "What it is",
-                        Value = "```" + result.Error.GetType() + "```",
+                        Value = "```" + error.GetType() + "```",
                         IsInline = false
                     }
                 };
@@ -78,9 +81,11 @@ namespace xubot
             public static async Task BuildError(Exception exp, ICommandContext context)
             {
                 string stack = exp.StackTrace;
+                if (stack == null) return;
+
                 string file = Environment.CurrentDirectory + Global.Default.ExceptionLogLocation + DateTime.UtcNow.ToLongTimeString().Replace(':', '_') + ".nonfatal.txt";
 
-                bool stacktraceToFile = exp.StackTrace.Length > 512;
+                bool stacktraceToFile = stack.Length > 512;
 
                 Directory.CreateDirectory(Environment.CurrentDirectory + Global.Default.ExceptionLogLocation);
                 await System.IO.File.WriteAllTextAsync(file, stack);
@@ -203,7 +208,12 @@ namespace xubot
 
             public static void SaveKeyAsJson(string key)
             {
-                System.IO.File.WriteAllText(Program.JsonKeys[key].Filename, JsonConvert.SerializeObject(Program.JsonKeys[key].Contents));
+                SaveKeyAsJson(key, Program.JsonKeys[key].Filename);
+            }
+
+            public static void SaveKeyAsJson(string key, string filename)
+            {
+                System.IO.File.WriteAllText(filename, JsonConvert.SerializeObject(Program.JsonKeys[key].Contents));
             }
 
             public static void SaveObjectAsJson(object save, string path)
@@ -286,7 +296,7 @@ namespace xubot
                     attached = att;
                 }
 
-                return attached.Url;
+                return attached != null ? attached.Url : System.String.Empty;
             }
 
             public static List<string> ReturnAttachmentUrLs(ICommandContext context)
@@ -303,13 +313,13 @@ namespace xubot
                 return results;
             }
 
-            public static async Task DownloadLastAttachmentAsync(ICommandContext context, string localUrl, bool autoApplyFt = false)
+            public static async Task DownloadLastAttachmentAsync(ICommandContext context, string localUrl, bool autoApplyFileType = false)
             {
                 string url = ReturnLastAttachmentUrl(context);
                 using HttpClient client = new HttpClient();
                 using HttpResponseMessage response = await client.GetAsync(url);
                 using HttpContent content = response.Content;
-                if (!autoApplyFt)
+                if (!autoApplyFileType)
                 {
                     await System.IO.File.WriteAllBytesAsync(localUrl, await content.ReadAsByteArrayAsync());
                 }
@@ -320,12 +330,12 @@ namespace xubot
                 }
             }
 
-            public static async Task DownloadFromUrlAsync(string localUrl, string url, bool autoApplyFt = false)
+            public static async Task DownloadFromUrlAsync(string localUrl, string url, bool autoApplyFileType = false)
             {
                 using HttpClient client = new HttpClient();
                 using HttpResponseMessage response = await client.GetAsync(url);
                 using HttpContent content = response.Content;
-                if (!autoApplyFt)
+                if (!autoApplyFileType)
                 {
                     await System.IO.File.WriteAllBytesAsync(localUrl, await content.ReadAsByteArrayAsync());
                 }
@@ -430,12 +440,14 @@ namespace xubot
         {
             public static object Get(string key)
             {
-                return Global.Default.GetType().GetProperty(key).GetValue(Global.Default);
+                var property = Global.Default.GetType().GetProperty(key);
+                return property != null ? property.GetValue(Global.Default) : null;
             }
 
             public static void Set<T>(string key, T newValue)
             {
-                Global.Default.GetType().GetProperty(key).SetValue(Global.Default, newValue);
+                var property = Global.Default.GetType().GetProperty(key);
+                if (property != null) property.SetValue(Global.Default, newValue);
             }
         }
 
@@ -485,15 +497,10 @@ namespace xubot
         {
             if (!Global.Default.BotwideNSFWEnabled) return false;
 
-            IDMChannel ifDm = await context.Message.Author.GetOrCreateDMChannelAsync();
-
-            if (ifDm.Id == context.Channel.Id)
-            {
-                return Global.Default.DMsAlwaysNSFW;
-            }
+            if (await IsDmChannel(context)) return Global.Default.DMsAlwaysNSFW;
 
             ITextChannel c = context.Channel as ITextChannel;
-            return c.IsNsfw;
+            return c?.IsNsfw ?? false;
         }
 
         public static async Task<bool> IsDmChannel(ICommandContext context)
