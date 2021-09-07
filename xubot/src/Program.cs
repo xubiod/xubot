@@ -88,7 +88,7 @@ namespace xubot
         {
             AppStart = DateTime.Now;
 
-            string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location ?? "./");
+            string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
             Util.Json.ProcessFile("keys", Path.Combine(currentDir, "Keys.json"));
             Util.Json.ProcessFile("apis", Path.Combine(currentDir, "API.json"));
@@ -228,7 +228,7 @@ namespace xubot
             XuClient.MessageReceived += message =>
             {
                 Util.CmdLine.SetColor();
-                Console.WriteLine($"[{message.Timestamp}] {{{message.Source}}} {message.Author}: {message.Content}");
+                if (Global.Default.PrintMessagesToConsole) Console.WriteLine($"[{message.Timestamp}] {{{message.Source}}} {message.Author}: {message.Content}");
 
                 return Task.CompletedTask;
             };
