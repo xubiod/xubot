@@ -274,5 +274,41 @@ namespace xubot.src.BotSettings {
                 this["PrintMessagesToConsole"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ForceOfflineOnNextLaunch {
+            get {
+                return ((bool)(this["ForceOfflineOnNextLaunch"]));
+            }
+            set {
+                this["ForceOfflineOnNextLaunch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ResetOfflineSettingOnNextLaunch {
+            get {
+                return ((bool)(this["ResetOfflineSettingOnNextLaunch"]));
+            }
+            set {
+                this["ResetOfflineSettingOnNextLaunch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string OfflineModePrefix {
+            get {
+                return ((string)(this["OfflineModePrefix"]));
+            }
+            set {
+                this["OfflineModePrefix"] = value;
+            }
+        }
     }
 }

@@ -47,7 +47,7 @@ namespace xubot
 
         public static async Task Main(string[] args)
         {
-            if (!args.Contains("offline"))
+            if (!(args.Contains("offline") || Global.Default.ForceOfflineOnNextLaunch))
             {
                 BeginOnlineStart();
 
@@ -62,6 +62,12 @@ namespace xubot
             else
             {
                 IsOffline = true;
+                if (Global.Default.ResetOfflineSettingOnNextLaunch)
+                {
+                    Global.Default.ForceOfflineOnNextLaunch = false;
+                    Global.Default.Save();
+                }
+
                 BeginOfflineStart();
 
                 ShitPost.Populate();
@@ -169,6 +175,8 @@ namespace xubot
             Console.WriteLine("skipping logging into and starting discord client\n");
 
             Util.CmdLine.SetColor(ConsoleColor.Green);
+            prefix = Global.Default.OfflineModePrefix;
+
             Console.WriteLine("ready for console input\n");
             Console.Beep();
 
