@@ -107,7 +107,10 @@ namespace xubot.Offline
             newMsg.EmbedsWritable.Add(embed);
 
             Messages.Add(newMsg);
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"{newMsg.Resolve()}\n");
+            Console.ForegroundColor = ConsoleColor.White;
 
             return Task.FromResult<IUserMessage>(newMsg);
         }
