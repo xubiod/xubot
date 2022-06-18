@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.202
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xubot", "xubot\xubot.csproj", "{0F429396-2B0B-468A-88EB-95DA7F8C2BC2}"
 EndProject
@@ -20,9 +20,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "repository", "repository", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{448B2F32-CCE7-41FB-B011-00AD69D9D4DE}"
 	ProjectSection(SolutionItems) = preProject
-		docs\_config.yml = docs\_config.yml
 		docs\README.md = docs\README.md
 		docs\xublogo.png = docs\xublogo.png
+		docs\_config.yml = docs\_config.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config-example", "config-example", "{3C81F374-8EAB-4406-A970-4EDF3EB93413}"
@@ -32,7 +32,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config-example", "config-ex
 		config-example\Core\Moods.json = config-example\Core\Moods.json
 		config-example\Core\Opinions.json = config-example\Core\Opinions.json
 		config-example\Core\README.md = config-example\Core\README.md
-		config-example\Core\Trusted.xml = config-example\Core\Trusted.xml
 		config-example\Core\Wiki.xml = config-example\Core\Wiki.xml
 	EndProjectSection
 EndProject
