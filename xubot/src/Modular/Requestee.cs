@@ -35,9 +35,9 @@ namespace xubot.Modular
         {
             switch (wanted)
             {
-                case RequestProperty.Name: return context.Guild.Name; break;
-                case RequestProperty.ID: return context.Guild.Id; break;
-                default: return null; break;
+                case RequestProperty.Name: return context.Guild.Name;
+                case RequestProperty.ID: return context.Guild.Id;
+                default: return null;
             }
         }
 
@@ -45,9 +45,9 @@ namespace xubot.Modular
         {
             switch (wanted)
             {
-                case RequestProperty.Name: return context.Channel.Name; break;
-                case RequestProperty.ID: return context.Channel.Id; break;
-                default: return null; break;
+                case RequestProperty.Name: return context.Channel.Name;
+                case RequestProperty.ID: return context.Channel.Id;
+                default: return null;
             }
         }
 
@@ -55,10 +55,10 @@ namespace xubot.Modular
         {
             switch (wanted)
             {
-                case RequestProperty.Name: return context.User.Username; break;
-                case RequestProperty.ID: return context.User.Id; break;
-                case RequestProperty.Discrim: return context.User.Discriminator; break;
-                default: return null; break;
+                case RequestProperty.Name: return context.User.Username;
+                case RequestProperty.ID: return context.User.Id;
+                case RequestProperty.Discrim: return context.User.Discriminator;
+                default: return null;
             }
         }
 
@@ -66,9 +66,9 @@ namespace xubot.Modular
         {
             switch (wanted)
             {
-                case RequestProperty.Name: return Program.XuClient.CurrentUser.Username; break;
-                case RequestProperty.ID: return Program.XuClient.CurrentUser.Id; break;
-                case RequestProperty.Discrim: return Program.XuClient.CurrentUser.DiscriminatorValue; break;
+                case RequestProperty.Name: return Program.XuClient.CurrentUser.Username;
+                case RequestProperty.ID: return Program.XuClient.CurrentUser.Id;
+                case RequestProperty.Discrim: return Program.XuClient.CurrentUser.DiscriminatorValue;
                 default: return null;
             }
         }
@@ -77,9 +77,9 @@ namespace xubot.Modular
         {
             switch (wanted)
             {
-                case RequestProperty.ID: return context.Message.Id; break;
-                case RequestProperty.Content: return context.Message.Content; break;
-                default: return null; break;
+                case RequestProperty.ID: return context.Message.Id;
+                case RequestProperty.Content: return context.Message.Content;
+                default: return null;
             }
         }
     }

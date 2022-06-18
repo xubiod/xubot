@@ -420,7 +420,7 @@ namespace xubot.Commands
             {
                 try
                 {
-                    IDMChannel ifDm = await Context.Message.Author.GetOrCreateDMChannelAsync();
+                    IDMChannel ifDm = await Context.Message.Author.CreateDMChannelAsync();
                     // ITextChannel dMtoTxt = ifDm as ITextChannel;
                     // ITextChannel sTtoTxt = Context.Channel as ITextChannel;
 
@@ -882,13 +882,13 @@ namespace xubot.Commands
                         _xDocument.Root.Add(xelm);
                         _xDocument.Save("Trusted.xml");
 
-                        var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
+                        var pri = await Context.Message.Author.CreateDMChannelAsync();
 
                         await pri.SendMessageAsync($"**{add.Username}#{add.Discriminator}** has been trusted.");
                     }
                     else
                     {
-                        var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
+                        var pri = await Context.Message.Author.CreateDMChannelAsync();
 
                         await pri.SendMessageAsync($"**{add.Username}#{add.Discriminator}** has already been trusted.");
                     }
@@ -911,7 +911,7 @@ namespace xubot.Commands
 
                 xdoc.Save("Trusted.xml");
 
-                var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
+                var pri = await Context.Message.Author.CreateDMChannelAsync();
 
                 await pri.SendMessageAsync($"**{remove.Username}#{remove.Discriminator}** has been untrusted.");
             }
@@ -986,7 +986,7 @@ namespace xubot.Commands
 
                 xDocument.Save("Trusted.xml");
 
-                var pri = await Context.Message.Author.GetOrCreateDMChannelAsync();
+                var pri = await Context.Message.Author.CreateDMChannelAsync();
 
                 await pri.SendMessageAsync($"**{remove.Username}#{remove.Discriminator}** has been untrusted.");
             }

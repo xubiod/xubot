@@ -302,8 +302,7 @@ namespace xubot
             public static List<string> ReturnAttachmentUrLs(ICommandContext context)
             {
                 var attach = context.Message.Attachments;
-                IAttachment attached = null;
-                List<string> results = new List<string>();
+                List<string> results = new();
 
                 foreach (IAttachment att in attach)
                 {
@@ -316,7 +315,7 @@ namespace xubot
             public static async Task DownloadLastAttachmentAsync(ICommandContext context, string localUrl, bool autoApplyFileType = false)
             {
                 string url = ReturnLastAttachmentUrl(context);
-                using HttpClient client = new HttpClient();
+                using HttpClient client = new();
                 using HttpResponseMessage response = await client.GetAsync(url);
                 using HttpContent content = response.Content;
                 if (!autoApplyFileType)
@@ -351,7 +350,7 @@ namespace xubot
         {
             public static async Task QuickLog(string message, ICommandContext context = null)
             {
-                PersistLog(message, context);
+                await PersistLog(message, context);
             }
 
             public static async Task<IUserMessage> PersistLog(string message, ICommandContext context)
@@ -489,7 +488,7 @@ namespace xubot
 
         public static async Task<bool> IsDmChannel(ICommandContext context)
         {
-            IDMChannel ifDm = await context.Message.Author.GetOrCreateDMChannelAsync();
+            IDMChannel ifDm = await context.Message.Author.CreateDMChannelAsync();
 
             return ifDm.Id == context.Channel.Id;
         }

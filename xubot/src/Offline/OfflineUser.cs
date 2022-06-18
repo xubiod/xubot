@@ -50,6 +50,10 @@ namespace xubot.Offline
 
         public string Locale => throw new NotImplementedException();
 
+        IReadOnlyCollection<ClientType> IPresence.ActiveClients => throw new NotImplementedException();
+
+        IReadOnlyCollection<IActivity> IPresence.Activities => throw new NotImplementedException();
+
         public string GetAvatarUrl(ImageFormat format = ImageFormat.Auto, ushort size = 128)
         {
             return "";
@@ -66,6 +70,11 @@ namespace xubot.Offline
         }
 
         public Task ModifyAsync(Action<SelfUserProperties> func, RequestOptions options = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IDMChannel> CreateDMChannelAsync(RequestOptions options = null)
         {
             throw new NotImplementedException();
         }

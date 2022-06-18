@@ -18,7 +18,7 @@ namespace xubot.Commands
 
         public static void Populate()
         {
-            fontCollect.Install("./include/Roboto-Regular.ttf");
+            fontCollect.Add("./include/Roboto-Regular.ttf");
         }
 
         [Group("text-overlay"), Summary("A couple of commands relating to overlaying text on an attached image."), Deprecated]
@@ -44,7 +44,7 @@ namespace xubot.Commands
                 await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "text-overlay", true);
                 string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
 
-                font = new Font(fontCollect.Find("Roboto"), Size);
+                font = new Font(fontCollect.Get("Roboto"), Size);
 
                 using (var img = await SLImage.LoadAsync(Path.GetTempPath() + "text-overlay" + type))
                 using (Image<Rgba32> container = new Image<Rgba32>(img.Width * 5, img.Height * 5))
@@ -81,7 +81,7 @@ namespace xubot.Commands
                 await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "text-overlay", true);
                 string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
 
-                font = new Font(fontCollect.Find("Roboto"), Size);
+                font = new Font(fontCollect.Get("Roboto"), Size);
 
                 using (var img = await SLImage.LoadAsync(Path.GetTempPath() + "text-overlay" + type))
                 using (Image<Rgba32> container = new Image<Rgba32>(img.Width, img.Height + HeaderHeight))

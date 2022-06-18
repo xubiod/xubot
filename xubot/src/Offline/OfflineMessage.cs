@@ -61,6 +61,14 @@ namespace xubot.Offline
 
         public IReadOnlyCollection<ISticker> Stickers => throw new NotImplementedException();
 
+        public string CleanContent => throw new NotImplementedException();
+
+        public IReadOnlyCollection<IMessageComponent> Components => throw new NotImplementedException();
+
+        IReadOnlyCollection<IStickerItem> IMessage.Stickers => throw new NotImplementedException();
+
+        public IMessageInteraction Interaction => throw new NotImplementedException();
+
         public OfflineMessage()
         {
             Id = OfflineHandlers.DefaultOfflineChannel.LastMessageId++;

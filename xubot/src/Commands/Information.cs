@@ -143,7 +143,7 @@ namespace xubot.Commands
 
                     if (user0 == null) { await ReplyAsync("You either messed up the ID, or I don't share a server with this person."); return; }
 
-                    string act = user0.Activity == null ? "Nothing." : user0.Activity.Type + " " + user0.Activity.Name + " " + user0.Activity.Details;
+                    string act = user0.Activities == null ? "Nothing." : user0.Activities.First().Type + " " + user0.Activities.First().Name + " " + user0.Activities.First().Details;
 
                     EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + user0, "User information details", Color.Red);
                     embed.ThumbnailUrl = user0.GetAvatarUrl();
@@ -318,11 +318,6 @@ namespace xubot.Commands
         [Command("credits"), Summary("Returns people that inspired or helped produce this bot.")]
         public async Task Credits()
         {
-            XmlReaderSettings settings = new XmlReaderSettings
-            {
-                Async = true
-            };
-
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Xubot Development Credits", $"Version {ThisAssembly.Git.BaseTag}", Color.Orange);
             embed.Fields = new List<EmbedFieldBuilder>
             {
@@ -340,11 +335,6 @@ namespace xubot.Commands
         [Command("version"), Summary("Returns the current build via the latest commit.")]
         public async Task VersionCmd()
         {
-            XmlReaderSettings settings = new XmlReaderSettings
-            {
-                Async = true
-            };
-
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Xubot Version", "The specifics.", Color.Orange);
             embed.Fields = new List<EmbedFieldBuilder>
             {

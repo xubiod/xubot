@@ -22,7 +22,7 @@ namespace xubot
         public static readonly CommandService XuCommand = new();
         public static readonly DiscordSocketClient XuClient = new(new DiscordSocketConfig { LogLevel = LogSeverity.Warning });
 
-        public static bool IsOffline;
+        public static bool IsOffline { get; private set; }
 
         public static string prefix = Global.Default.DefaultPrefix;
 
@@ -43,7 +43,7 @@ namespace xubot
 
         public static DateTime[] stepTimes = new DateTime[8];
 
-        private static bool _firstLaunch = true;
+        // private static bool _firstLaunch = true;
 
         public static async Task Main(string[] args)
         {
@@ -75,7 +75,7 @@ namespace xubot
 
                 // ReSharper disable once TooWideLocalVariableScope
                 string input;
-                SocketUserMessage offlineMessage;
+                // SocketUserMessage offlineMessage;
 
                 do
                 {
@@ -214,7 +214,7 @@ namespace xubot
                     // subreddit = await reddit.GetSubredditAsync("/r/xubot_subreddit");
                     stepTimes[1] = DateTime.Now;
                 }
-                catch (Exception e)
+                catch
                 {
                     Console.ReadLine();
                 }
@@ -293,15 +293,14 @@ namespace xubot
 
         public static async Task HandleCommands(SocketMessage messageParameters)
         {
-            SocketUserMessage message = messageParameters as SocketUserMessage;
-            if (message == null) return;
+            if (messageParameters is not SocketUserMessage message) return;
 
             int argumentPosition = 0;
 
             if (!(message.HasStringPrefix(prefix, ref argumentPosition) || message.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || message.HasStringPrefix(Global.Default.HardcodedPrefix, ref argumentPosition)))
                 return;
 
-            CommandContext context = new CommandContext(XuClient, message);
+            CommandContext context = new(XuClient, message);
 
             IResult result = await XuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)
@@ -312,7 +311,7 @@ namespace xubot
 
         public static async Task HandleOfflineCommands(string message)
         {
-            OfflineMessage msg = new OfflineMessage
+            OfflineMessage msg = new()
             {
                 Content = message
             };
@@ -322,7 +321,7 @@ namespace xubot
             if (!(msg.HasStringPrefix(prefix, ref argumentPosition) || msg.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || msg.HasStringPrefix(Global.Default.HardcodedPrefix, ref argumentPosition)))
                 return;
 
-            CommandContext context = new CommandContext(OfflineHandlers.DefaultOfflineClient, msg);
+            CommandContext context = new(OfflineHandlers.DefaultOfflineClient, msg);
 
             IResult result = await XuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)
