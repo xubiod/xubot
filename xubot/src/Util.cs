@@ -474,22 +474,6 @@ namespace xubot
 
         public static bool IsUserTrusted(ICommandContext context)
         {
-            var xdoc = XDocument.Load("Trusted.xml");
-
-            var items = from i in xdoc.Descendants("trust")
-                        select new
-                        {
-                            user = (string)i.Attribute("id")
-                        };
-
-            foreach (var item in items)
-            {
-                if (item.user == context.Message.Author.Id.ToString())
-                {
-                    return true;
-                }
-            }
-
             return false;
         }
 
