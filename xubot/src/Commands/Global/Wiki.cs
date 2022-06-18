@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using xubot.Attributes;
 
 namespace xubot.Commands.Global
 {
@@ -12,17 +13,17 @@ namespace xubot.Commands.Global
 
 	public class Wiki : ModuleBase
 	{
-		[Group("wiki")]
+		[Group("wiki"), Deprecated]
 		public class WikiCmd : ModuleBase
 		{
-			[Command]
+			[Command, Deprecated]
 			public async Task Get(string article)
 			{
 				EmbedBuilder embed = WikiTools.BuildEmbed(WikiTools.ReadArticle(article), WikiTools.ReadLastEdit(article), article);
 				await ReplyAsync("", false, embed.Build());
 			}
 
-			[Command("edit")]
+			[Command("edit"), Deprecated]
 			public async Task Edit(string article, string content)
 			{
 				WikiTools.AddEditArticle(Context, article, content);
