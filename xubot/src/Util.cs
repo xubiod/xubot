@@ -288,18 +288,10 @@ namespace xubot
         {
             public static string ReturnLastAttachmentUrl(ICommandContext context)
             {
-                var attach = context.Message.Attachments;
-                IAttachment attached = null;
-
-                foreach (IAttachment att in attach)
-                {
-                    attached = att;
-                }
-
-                return attached != null ? attached.Url : System.String.Empty;
+                return ReturnAttachmentUrls(context).Last();
             }
 
-            public static List<string> ReturnAttachmentUrLs(ICommandContext context)
+            public static List<string> ReturnAttachmentUrls(ICommandContext context)
             {
                 var attach = context.Message.Attachments;
                 List<string> results = new();
@@ -314,24 +306,12 @@ namespace xubot
 
             public static async Task DownloadLastAttachmentAsync(ICommandContext context, string localUrl, bool autoApplyFileType = false)
             {
-                string url = ReturnLastAttachmentUrl(context);
-                using HttpClient client = new();
-                using HttpResponseMessage response = await client.GetAsync(url);
-                using HttpContent content = response.Content;
-                if (!autoApplyFileType)
-                {
-                    await System.IO.File.WriteAllBytesAsync(localUrl, await content.ReadAsByteArrayAsync());
-                }
-                else
-                {
-                    string type = Path.GetExtension(url);
-                    await System.IO.File.WriteAllBytesAsync(localUrl + type, await content.ReadAsByteArrayAsync());
-                }
+                await DownloadFromUrlAsync(localUrl, ReturnLastAttachmentUrl(context), autoApplyFileType);
             }
 
             public static async Task DownloadFromUrlAsync(string localUrl, string url, bool autoApplyFileType = false)
             {
-                using HttpClient client = new HttpClient();
+                using HttpClient client = new();
                 using HttpResponseMessage response = await client.GetAsync(url);
                 using HttpContent content = response.Content;
                 if (!autoApplyFileType)
