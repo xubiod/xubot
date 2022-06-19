@@ -78,7 +78,7 @@ namespace xubot.Commands.Connections
             {
                 string retrieveKey = Util.String.RandomHexadecimal(8);
 
-                await ReplyAsync($"The bot got a post deemed questionable or explicit. Try again in a NSFW channel.\nYou (the requester) can retrieve this image *once* appropriate later with the key `{Program.prefix}booru-get {retrieveKey}` on **this server only**.\n" +
+                await ReplyAsync($"The bot got a post deemed questionable or explicit. Try again in a NSFW channel.\nYou (the requester) can retrieve this image *once* appropriate later with the key `{Program.Prefix}booru-get {retrieveKey}` on **this server only**.\n" +
                                   "The server limitation is here to keep in line Discord's age gating.");
                 CaughtFromBeingSent.Add(new Entry(context.Message.Author.Id, context.Guild.Id, retrieveKey), message);
                 return;

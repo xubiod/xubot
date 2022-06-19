@@ -69,7 +69,7 @@ namespace xubot
                 {
                     new()
                     {
-                        Name = "Error",
+                        Name = "CommandError Error",
                         Value = "```" + err + "```",
                         IsInline = false
                     }

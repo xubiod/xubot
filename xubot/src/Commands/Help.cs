@@ -235,7 +235,7 @@ namespace xubot.Commands
                     examplePara += ex.AttachmentNeeded ? "\n\n[You need to upload a file to use this.]" : "";
                 }
 
-                string exampleUsage = $"{Program.prefix}{trueName} " + examplePara;
+                string exampleUsage = $"{Program.Prefix}{trueName} " + examplePara;
 
                 EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"The newer *better* help. Showing result #{index} out of {allMatches} match(s).", Color.Magenta);
                 embed.Fields = new List<EmbedFieldBuilder>

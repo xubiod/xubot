@@ -15,11 +15,11 @@ namespace xubot.Commands
             private readonly TimeSpan _appUpTime = DateTime.Now - Program.AppStart;
             private readonly TimeSpan _conUpTime = DateTime.Now - Program.ConnectStart;
 
-            private readonly TimeSpan _appToRedCli = Program.stepTimes[0] - Program.AppStart;
-            private readonly TimeSpan _appToDis = Program.stepTimes[2] - Program.AppStart;
+            private readonly TimeSpan _appToRedCli = Program.StepTimes[0] - Program.AppStart;
+            private readonly TimeSpan _appToDis = Program.StepTimes[2] - Program.AppStart;
 
-            private readonly TimeSpan _redCliToSub = Program.stepTimes[1] - Program.stepTimes[0];
-            private readonly TimeSpan _subToDiscord = Program.stepTimes[2] - Program.stepTimes[1];
+            private readonly TimeSpan _redCliToSub = Program.StepTimes[1] - Program.StepTimes[0];
+            private readonly TimeSpan _subToDiscord = Program.StepTimes[2] - Program.StepTimes[1];
 
             [Command, Summary("Gets application up-time.")]
             public async Task Basic()
@@ -155,9 +155,9 @@ namespace xubot.Commands
                         new()
                         {
                             Name = "Specific connections report",
-                            Value = $"Connection to Reddit: **{Program.stepTimes[0] }**\n" +
-                                    $"Connection to Default Sub: **{Program.stepTimes[1] }**\n" +
-                                    $"Connection to Discord: **{Program.stepTimes[2] }**\n",
+                            Value = $"Connection to Reddit: **{Program.StepTimes[0] }**\n" +
+                                    $"Connection to Default Sub: **{Program.StepTimes[1] }**\n" +
+                                    $"Connection to Discord: **{Program.StepTimes[2] }**\n",
                             IsInline = true
                         }
                     });

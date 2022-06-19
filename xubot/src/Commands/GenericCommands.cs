@@ -485,13 +485,13 @@ namespace xubot.Commands
                     [Command]
                     public async Task Get()
                     {
-                        await ReplyAsync($"Currently NSFW execution is: **{Program.enableNsfw.ToString().ToLower()}** *(true means NSFW commands are executable)*");
+                        await ReplyAsync($"Currently NSFW execution is: **{Program.EnableNsfw.ToString().ToLower()}** *(true means NSFW commands are executable)*");
                     }
 
                     [Command("set"), RequireOwner]
                     public async Task Set(bool newValue)
                     {
-                        Program.enableNsfw = newValue;
+                        Program.EnableNsfw = newValue;
                         await ReplyAsync($"NSFW execution is now: **{newValue.ToString().ToLower()}**");
                     }
                 }
@@ -583,7 +583,7 @@ namespace xubot.Commands
                 [Command("temp_prefix"), Alias("prefix"), Summary("Sets the prefix for current session."), RequireOwner]
                 public async Task Prefix(string newPrefix)
                 {
-                    Program.prefix = newPrefix;
+                    Program.Prefix = newPrefix;
                     await ReplyAsync($"*Prefix* has been set for this session to: **{newPrefix}**");
                 }
 

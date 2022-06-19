@@ -24,24 +24,24 @@ namespace xubot
 
         public static bool IsOffline { get; private set; }
 
-        public static string prefix = Global.Default.DefaultPrefix;
+        public static string Prefix = Global.Default.DefaultPrefix;
 
         public static BotWebAgent WebAgent { get; private set; }
         public static Reddit Reddit { get; private set; }
         public static Subreddit Subreddit { get; set; }
 
-        public static bool redditEnabled;
+        public static bool RedditEnabled;
 
         public static readonly Dictionary<string, Util.Json.Entry> JsonKeys = new();
 
-        public static bool enableNsfw = false;
+        public static bool EnableNsfw = false;
 
         // public static bool spinning = false;
 
         public static DateTime AppStart { get; private set; }
         public static DateTime ConnectStart { get; private set; }
 
-        public static DateTime[] stepTimes = new DateTime[8];
+        public static DateTime[] StepTimes = new DateTime[8];
 
         // private static bool _firstLaunch = true;
 
@@ -129,9 +129,9 @@ namespace xubot
 
 #if (DEBUG)
             Console.WriteLine("  > this version of xubot was compiled as debug build");
-            prefix = Global.Default.DefaultDevPrefix;
+            Prefix = Global.Default.DefaultDevPrefix;
 #endif
-            if (prefix != Global.Default.DefaultDevPrefix)
+            if (Prefix != Global.Default.DefaultDevPrefix)
             {
                 await XuClient.LoginAsync(TokenType.Bot, JsonKeys["keys"].Contents.discord.ToString());
             }
@@ -139,7 +139,7 @@ namespace xubot
             {
                 await XuClient.LoginAsync(TokenType.Bot, JsonKeys["keys"].Contents.discord_dev.ToString());
             }
-            stepTimes[2] = DateTime.Now;
+            StepTimes[2] = DateTime.Now;
 
             Console.WriteLine("* setting up discord connection: starting client");
 
@@ -175,7 +175,7 @@ namespace xubot
             Console.WriteLine("skipping logging into and starting discord client\n");
 
             Util.CmdLine.SetColor(ConsoleColor.Green);
-            prefix = Global.Default.OfflineModePrefix;
+            Prefix = Global.Default.OfflineModePrefix;
 
             Console.WriteLine("ready for console input\n");
             Console.Beep();
@@ -196,7 +196,7 @@ namespace xubot
             {
                 try
                 {
-                    redditEnabled = true;
+                    RedditEnabled = true;
                     WebAgent = new BotWebAgent(
                         JsonKeys["keys"].Contents.reddit.user.ToString(),
                         JsonKeys["keys"].Contents.reddit.pass.ToString(),
@@ -208,11 +208,11 @@ namespace xubot
                     Reddit = new Reddit(WebAgent, true);
                     //_red.Wait();
 
-                    stepTimes[0] = DateTime.Now;
+                    StepTimes[0] = DateTime.Now;
 
                     // Console.WriteLine("* setting up default subreddit of /r/xubot_subreddit");
                     // subreddit = await reddit.GetSubredditAsync("/r/xubot_subreddit");
-                    stepTimes[1] = DateTime.Now;
+                    StepTimes[1] = DateTime.Now;
                 }
                 catch
                 {
@@ -297,7 +297,7 @@ namespace xubot
 
             int argumentPosition = 0;
 
-            if (!(message.HasStringPrefix(prefix, ref argumentPosition) || message.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || message.HasStringPrefix(Global.Default.HardcodedPrefix, ref argumentPosition)))
+            if (!(message.HasStringPrefix(Prefix, ref argumentPosition) || message.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || message.HasStringPrefix(Global.Default.HardcodedPrefix, ref argumentPosition)))
                 return;
 
             CommandContext context = new(XuClient, message);
@@ -318,7 +318,7 @@ namespace xubot
 
             int argumentPosition = 0;
 
-            if (!(msg.HasStringPrefix(prefix, ref argumentPosition) || msg.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || msg.HasStringPrefix(Global.Default.HardcodedPrefix, ref argumentPosition)))
+            if (!(msg.HasStringPrefix(Prefix, ref argumentPosition) || msg.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || msg.HasStringPrefix(Global.Default.HardcodedPrefix, ref argumentPosition)))
                 return;
 
             CommandContext context = new(OfflineHandlers.DefaultOfflineClient, msg);
