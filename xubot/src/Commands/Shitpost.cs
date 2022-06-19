@@ -13,8 +13,8 @@ namespace xubot.Commands
 {
     public class ShitPost : ModuleBase
     {
-        public static FontCollection fontCollect = new();
-        public static Font font;
+        private static readonly FontCollection fontCollect = new();
+        private static Font font;
 
         public static void Populate()
         {
@@ -24,15 +24,15 @@ namespace xubot.Commands
         [Group("text-overlay"), Summary("A couple of commands relating to overlaying text on an attached image."), Deprecated]
         public class TextOverlay : ModuleBase
         {
-            public static int Size, X, Y;
-            public static string Text;
+            private static int Size, X, Y;
+            private static string Text;
 
-            public static int Wraparound;
-            public static int R, G, B;
+            private static int Wraparound;
+            private static int R, G, B;
 
-            public static int HeaderHeight;
-            public static int lrMargin;
-            public static int tbMargin;
+            private static int HeaderHeight;
+            private static int lrMargin;
+            private static int tbMargin;
 
             [Example("\"0,0,example,24\"",true)]
             [Command("direct", RunMode = RunMode.Async), Summary("Overlays text on an image. The parameter string has a very specific format that **must** be followed: ```\"x,y,text,size\"```The optional parameter has a specific format too: ```\"text-wrap width,r,g,b\"```")]
@@ -47,7 +47,7 @@ namespace xubot.Commands
                 font = new Font(fontCollect.Get("Roboto"), Size);
 
                 using (var img = await SLImage.LoadAsync(Path.GetTempPath() + "text-overlay" + type))
-                using (Image<Rgba32> container = new Image<Rgba32>(img.Width * 5, img.Height * 5))
+                using (Image<Rgba32> container = new(img.Width * 5, img.Height * 5))
                 {
                     container.Mutate(mut => mut.DrawImage(img, new Point(img.Width * 2, img.Height * 2), PixelColorBlendingMode.Normal, 1.0F));
 
@@ -84,7 +84,7 @@ namespace xubot.Commands
                 font = new Font(fontCollect.Get("Roboto"), Size);
 
                 using (var img = await SLImage.LoadAsync(Path.GetTempPath() + "text-overlay" + type))
-                using (Image<Rgba32> container = new Image<Rgba32>(img.Width, img.Height + HeaderHeight))
+                using (Image<Rgba32> container = new(img.Width, img.Height + HeaderHeight))
                 {
                     // forced parameters
                     X = lrMargin;

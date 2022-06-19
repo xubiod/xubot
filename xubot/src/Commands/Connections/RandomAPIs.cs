@@ -16,7 +16,7 @@ namespace xubot.Commands.Connections
 {
     public class RandomApis : ModuleBase
     {
-        public static HttpClient httpClient = new();
+        private static readonly HttpClient httpClient = new();
 
         [Group("number"), Summary("LEARNING AAAAAAAAAAAA")]
         public class Number : ModuleBase
@@ -172,7 +172,7 @@ namespace xubot.Commands.Connections
             try
             {
                 string cont;
-                using (HttpClient hc = new HttpClient()) { cont = await hc.GetStringAsync("http://shibe.online/api/shibes"); }
+                using (HttpClient hc = new()) { cont = await hc.GetStringAsync("http://shibe.online/api/shibes"); }
                 cont = cont.Trim('[', ']', '"');
                 Console.WriteLine(cont);
 
@@ -196,7 +196,7 @@ namespace xubot.Commands.Connections
             try
             {
                 string cont;
-                using (HttpClient hc = new HttpClient()) { cont = await hc.GetStringAsync("http://shibe.online/api/birds"); }
+                using (HttpClient hc = new()) { cont = await hc.GetStringAsync("http://shibe.online/api/birds"); }
                 cont = cont.Trim('[', ']', '"');
                 Console.WriteLine(cont);
 
