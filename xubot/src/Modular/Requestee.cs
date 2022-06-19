@@ -9,78 +9,67 @@ namespace xubot.Modular
         {
             if (context == null) return null;
 
-            switch (what)
+            return what switch
             {
-                case RequestType.Guild:
-                    return GuildRequest(context, wanted);
-
-                case RequestType.Channel:
-                    return ChannelRequest(context, wanted);
-
-                case RequestType.User:
-                    return UserRequest(context, wanted);
-
-                case RequestType.Client:
-                case RequestType.Self:
-                    return ClientRequest(context, wanted);
-
-                case RequestType.Message:
-                    return MessageRequest(context, wanted);
-            }
-
-            return null;
+                RequestType.Guild => GuildRequest(context, wanted),
+                RequestType.Channel => ChannelRequest(context, wanted),
+                RequestType.User => UserRequest(context, wanted),
+                RequestType.Client or RequestType.Self => ClientRequest(context, wanted),
+                RequestType.Message => MessageRequest(context, wanted),
+                _ => null,
+            };
         }
 
         private static object GuildRequest(ICommandContext context, RequestProperty wanted)
         {
-            switch (wanted)
+            return wanted switch
             {
-                case RequestProperty.Name: return context.Guild.Name;
-                case RequestProperty.ID: return context.Guild.Id;
-                default: return null;
-            }
+                RequestProperty.Name => context.Guild.Name,
+                RequestProperty.ID => context.Guild.Id,
+                _ => null,
+            };
         }
 
         private static object ChannelRequest(ICommandContext context, RequestProperty wanted)
         {
-            switch (wanted)
+            return wanted switch
             {
-                case RequestProperty.Name: return context.Channel.Name;
-                case RequestProperty.ID: return context.Channel.Id;
-                default: return null;
-            }
+                RequestProperty.Name => context.Channel.Name,
+                RequestProperty.ID => context.Channel.Id,
+                _ => null,
+            };
         }
 
         private static object UserRequest(ICommandContext context, RequestProperty wanted)
         {
-            switch (wanted)
+            return wanted switch
             {
-                case RequestProperty.Name: return context.User.Username;
-                case RequestProperty.ID: return context.User.Id;
-                case RequestProperty.Discrim: return context.User.Discriminator;
-                default: return null;
-            }
+                RequestProperty.Name => context.User.Username,
+                RequestProperty.ID => context.User.Id,
+                RequestProperty.Discrim => context.User.Discriminator,
+                _ => null,
+            };
         }
 
         private static object ClientRequest(ICommandContext context, RequestProperty wanted)
         {
-            switch (wanted)
+            return wanted switch
             {
-                case RequestProperty.Name: return Program.XuClient.CurrentUser.Username;
-                case RequestProperty.ID: return Program.XuClient.CurrentUser.Id;
-                case RequestProperty.Discrim: return Program.XuClient.CurrentUser.DiscriminatorValue;
-                default: return null;
-            }
+                RequestProperty.Name => Program.XuClient.CurrentUser.Username,
+                RequestProperty.ID => Program.XuClient.CurrentUser.Id,
+                RequestProperty.Discrim => Program.XuClient.CurrentUser.DiscriminatorValue,
+                _ => null,
+            };
         }
 
         private static object MessageRequest(ICommandContext context, RequestProperty wanted)
         {
-            switch (wanted)
+            return wanted switch
             {
-                case RequestProperty.ID: return context.Message.Id;
-                case RequestProperty.Content: return context.Message.Content;
-                default: return null;
-            }
+                RequestProperty.ID => context.Message.Id,
+                RequestProperty.Content => context.Message.Content,
+                _ => null,
+            };
         }
     }
 }
