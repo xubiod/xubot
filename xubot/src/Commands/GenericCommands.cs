@@ -15,7 +15,7 @@ using Tweetinvi;
 using Tweetinvi.Models;
 using xubot.Attributes;
 using xubot.Commands.Global;
-using static xubot.SpecialException;
+using static xubot.JokeException;
 using Color = Discord.Color;
 using IUser = Discord.IUser;
 using SLImage = SixLabors.ImageSharp.Image;

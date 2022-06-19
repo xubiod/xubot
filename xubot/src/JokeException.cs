@@ -2,7 +2,7 @@
 
 namespace xubot
 {
-    public static class SpecialException
+    public static class JokeException
     {
         public class ItsFuckingBrokenException : Exception
         {
