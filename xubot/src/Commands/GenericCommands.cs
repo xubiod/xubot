@@ -9,31 +9,26 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Newtonsoft.Json.Linq;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
 using Tweetinvi;
 using Tweetinvi.Models;
 using xubot.Attributes;
-using xubot.Commands.Global;
-using static xubot.JokeException;
 using Color = Discord.Color;
 using IUser = Discord.IUser;
-using SLImage = SixLabors.ImageSharp.Image;
 
 namespace xubot.Commands
 {
     public class GenericCommands : ModuleBase
     {
-        public static string[] insultVictim = new string[128];
-        public static int insultVictimIndex;
+        private static readonly string[] insultVictim = new string[128];
+        private static int insultVictimIndex;
 
-        public static string[] insultAdjective = new string[128];
-        public static int insultAdjectiveIndex;
+        private static readonly string[] insultAdjective = new string[128];
+        private static int insultAdjectiveIndex;
 
-        public static string[] insultNoun = new string[128];
-        public static int insultNounIndex;
+        private static readonly string[] insultNoun = new string[128];
+        private static int insultNounIndex;
 
-        public static string[] pattern = { "01110", "11011", "10001", "11011", "01110" };
+        private static readonly string[] pattern = { "01110", "11011", "10001", "11011", "01110" };
 
         private static readonly TwitterClient Twitter = new(
             new TwitterCredentials(
@@ -217,13 +212,13 @@ namespace xubot.Commands
             }
         }
 
-        [Group("post"), Alias("p"), Summary("post to ...")]
+        [Group("post"), Alias("p"), Summary("Post to ...")]
         public class Post2Media : ModuleBase
         {
             [Command("")]
             public async Task Default_()
             {
-                await ReplyAsync("You didn't give me a service... ;<");
+                await ReplyAsync("You didn't give me a service.");
             }
 
             //[Command("reddit"), Alias("r", "reddit"), Summary("Attempts to post a text post to Reddit.")]
@@ -254,7 +249,6 @@ namespace xubot.Commands
                     ITweet twt = await Twitter.Tweets.PublishTweetAsync($"{Context.Message.Author.Username}#{Context.Message.Author.Discriminator}: {result}");
 
                     await ReplyAsync(twt.Url);
-                    //await ReplyAsync("Your post has been submitted to twitter. Go to https://twitter.com/xubot_bot to find it!");
                 }
                 else
                 {
@@ -263,209 +257,12 @@ namespace xubot.Commands
             }
         }
 
-        [Example("316712338042650624")]
-        [Command("discord-api-link-gen"), Alias("discord-bot", "db"), Summary("Generates a bot adding link (without any permissions.)")]
-        public async Task GenerateDiscordBotLink(string id)
-        {
-            await ReplyAsync($"https://discordapp.com/api/oauth2/authorize?client_id={id}&scope=bot&permissions=0");
-        }
-
         [Example("316712338042650624 7")]
         [Command("discord-api-link-gen"), Alias("discord-bot", "db"), Summary("Generates a bot adding link with a given permission number.")]
-        public async Task GenerateDiscordBotLink(string id, string permission)
+        public async Task GenerateDiscordBotLink(string id, long permission = 0)
         {
-            await ReplyAsync($"https://discordapp.com/api/oauth2/authorize?client_id={ id}&scope=bot&permissions={permission}");
+            await ReplyAsync($"https://discordapp.com/api/oauth2/authorize?client_id={id}&scope=bot&permissions={permission}");
         }
-
-#if (DEBUG)
-
-        [Group("debug"), Summary("A group of debug commands for quick debug work. Cannot be used by anyone except owner, and don't have examples given."), RequireOwner]
-        public class Debug : ModuleBase
-        {
-            [Command("return_attach")]
-            public async Task ReturnAttachments()
-            {
-                var attach = Context.Message.Attachments;
-                IAttachment attached = null;
-
-                foreach (var tempAttachment in attach)
-                {
-                    attached = tempAttachment;
-                }
-
-                await ReplyAsync($"{attach}\nURL:{(attached != null ? attached.Url : "No url")}");
-            }
-
-            [Command("return_source")]
-            public async Task Test001()
-            {
-                var stuff = Context.Message.Source;
-
-                await ReplyAsync(stuff.ToString());
-            }
-
-            [Command("return_type")]
-            public async Task Test002()
-            {
-                var stuff = Context.Message.Type;
-
-                await ReplyAsync(stuff.ToString());
-            }
-
-            [Command("get_mood")]
-            public async Task Test003(ulong id)
-            {
-                MoodTools.AddOrRefreshMood(Program.XuClient.GetUser(id));
-                double mood = MoodTools.ReadMood(Program.XuClient.GetUser(id));
-
-                string moodAsStr = mood switch
-                {
-                    >= -16 and <= 16 => "neutral",
-                    <= -16 => "negative",
-                    >= 16 => "positive",
-                    _ => "invalid"
-                };
-
-                await ReplyAsync($"{mood} / {moodAsStr}");
-            }
-
-            [Command("throw_new")]
-            public async Task Test004(int id)
-            {
-                try
-                {
-                    switch (id)
-                    {
-                        case 0: throw new ItsFuckingBrokenException();
-                        case 1: throw new HaveNoFuckingIdeaException();
-                        case 2: throw new PleaseKillMeException();
-                        case 3: throw new ShitCodeException();
-                        case 4: throw new StopDoingThisMethodException();
-                        case 5: throw new ExceptionException();
-                        case 6: throw new InsertBetterExceptionNameException();
-                        default:
-                            {
-                                await ReplyAsync("invaild id");
-                                break;
-                            }
-                    }
-                }
-                catch (Exception exp)
-                {
-                    await Util.Error.BuildError(exp, Context);
-                }
-            }
-
-            [Command("ct")]
-            public async Task Test005()
-            {
-                await ReplyAsync(Color.LightOrange.ToString());
-            }
-
-            [Command("li")]
-            public async Task Test006()
-            {
-                List<SocketGuild> guildList = Program.XuClient.Guilds.ToList();
-                string all = "";
-
-                foreach (var item in guildList)
-                {
-                    all += $"{item.Name } ({item.Id})\n";
-                }
-
-                await ReplyAsync(all);
-            }
-
-            [Command("attachment data")]
-            public async Task Test007()
-            {
-                string all = $"c: {Context.Message.Attachments.Count}\nl: <{Util.File.ReturnLastAttachmentUrl(Context)}>\nf:";
-
-                await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "/download_success.data");
-
-                await Context.Channel.SendFileAsync(Path.GetTempPath() + "/download_success.data", all);
-            }
-
-            [Command("manipulation")]
-            public async Task Test008()
-            {
-                try
-                {
-                    await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
-                    await ReplyAsync("past download");
-                    string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
-                    await ReplyAsync("type retrieved");
-
-                    await ReplyAsync("going into the `using (var img = SLImage.Load(Path.GetTempPath() + \"manip\" + type))` block");
-                    using (var img = await SLImage.LoadAsync(Path.GetTempPath() + "manip" + type))
-                    {
-                        img.Mutate(mut => mut.Invert());
-                        await ReplyAsync("img manipulated");
-                        await img.SaveAsync(Util.String.RandomTempFilename() + type);
-                        await ReplyAsync("img save");
-                    }
-
-                    await ReplyAsync("begin send");
-                    await Context.Channel.SendFileAsync(Util.String.RandomTempFilename() + type);
-                    await ReplyAsync("end send");
-                }
-                catch (Exception e)
-                {
-                    await Util.Error.BuildError(e, Context);
-                }
-            }
-
-            [Command("channels")]
-            public async Task Test009()
-            {
-                try
-                {
-                    IDMChannel ifDm = await Context.Message.Author.CreateDMChannelAsync();
-                    // ITextChannel dMtoTxt = ifDm as ITextChannel;
-                    // ITextChannel sTtoTxt = Context.Channel as ITextChannel;
-
-                    await ReplyAsync(ifDm.Id.ToString());
-                    await ReplyAsync(Context.Channel.Id.ToString());
-                }
-                catch (Exception e)
-                {
-                    await Util.Error.BuildError(e, Context);
-                }
-            }
-
-            [Command("nsfw")]
-            public async Task Test010()
-            {
-                try
-                {
-                    await ReplyAsync((await Util.IsChannelNsfw(Context)).ToString());
-                }
-                catch (Exception e)
-                {
-                    await Util.Error.BuildError(e, Context);
-                }
-            }
-
-            [Command("new error handling")]
-            public async Task Test011()
-            {
-                await Util.Error.BuildError("you triggered the debug command", Context);
-            }
-
-            //[Command("get_settings")]
-            //public async Task Test012()
-            //{
-            //    PropertyInfo setting = Util.Settings.GetPropertyInfo("DMsAlwaysNSFW");
-            //    await ReplyAsync($"{setting.ToString()}");
-            //    await ReplyAsync($"{setting.Name}");
-            //    await ReplyAsync($"{setting.GetMethod.Name}");
-            //    await ReplyAsync($"{setting.GetMethod.ReturnType.ToString()}");
-            //    await ReplyAsync($"{setting.GetMethod.Invoke(src.Settings.Global.Default, null)}");
-            //    await ReplyAsync($"{Util.Settings.GetValueFromString("DMsAlwaysNSFW")}");
-            //}
-        }
-
-#endif
 
         public class SettingsComm : ModuleBase
         {
@@ -620,7 +417,7 @@ namespace xubot.Commands
 
             //thx dickcord
 
-            [Command("existential_crisis"), Alias("ext_crisis", "ext_cri"), Summary("Give the bot an existential crisis.")]
+            [Command("existential_crisis"), Alias("ext_crisis", "ext_cri"), Summary("Give the bot an existential crisis."), Deprecated]
             public async Task Crisis()
             {
                 Random rand = Util.Globals.Rng;
@@ -645,7 +442,7 @@ namespace xubot.Commands
                 }
             }
 
-            [Command("bake_cake"), Alias("make_cake"), Summary("Makes a cake.")]
+            [Command("bake_cake"), Alias("make_cake"), Summary("Makes a cake."), Deprecated]
             public async Task BakeCake()
             {
                 Random rand = Util.Globals.Rng;
@@ -671,7 +468,7 @@ namespace xubot.Commands
             }
 
             // ReSharper disable once StringLiteralTypo
-            [Command("read_me_a_story"), Alias("rmas"), Summary("Reads a story.")]
+            [Command("read_me_a_story"), Alias("rmas"), Summary("Reads a story."), Deprecated]
             public async Task Story()
             {
                 Random rand = Util.Globals.Rng;
@@ -696,19 +493,19 @@ namespace xubot.Commands
                 }
             }
 
-            [Command("micro_brew_some_local_kombucha"), Summary("Micro-brews some local kombucha.")]
+            [Command("micro_brew_some_local_kombucha"), Summary("Micro-brews some local kombucha."), Deprecated]
             public async Task MBSLK()
             {
                 await ReplyAsync("WTF is kombucha anyway?");
             }
 
-            [Command("record_a_mixtape"), Summary("Makes a mixtape.")]
+            [Command("record_a_mixtape"), Summary("Makes a mixtape."), Deprecated]
             public async Task RAM()
             {
                 await ReplyAsync("Last time it blew up a star. So, no.");
             }
 
-            [Command("paint_a_happy_little_tree"), Summary("Paints a happy little tree.")]
+            [Command("paint_a_happy_little_tree"), Summary("Paints a happy little tree."), Deprecated]
             public async Task RAHLT()
             {
                 await ReplyAsync("***You*** are a ***un***happy little accident.");
@@ -840,7 +637,7 @@ namespace xubot.Commands
             }
         }
 
-        [Group("trust"), Summary("Management for trust. Cannot be used by anyone except owner."), RequireOwner]
+        [Group("trust"), Summary("Management for trust. Cannot be used by anyone except owner."), RequireOwner, Deprecated]
         public class Trust : ModuleBase
         {
             private XDocument _xDocument;
@@ -989,73 +786,6 @@ namespace xubot.Commands
                 var pri = await Context.Message.Author.CreateDMChannelAsync();
 
                 await pri.SendMessageAsync($"**{remove.Username}#{remove.Discriminator}** has been untrusted.");
-            }
-        }
-
-        [Example("\"New York City\"")]
-        [Command("timezone", RunMode = RunMode.Async), Summary("Returns the timezone from a given string.")]
-        public async Task Timezone(string loc)
-        {
-            try
-            {
-                var webClient = new WebClient();
-                // var webClient2 = new WebClient();
-                string link = $"https://www.amdoren.com/api/timezone.php?api_key={ Program.JsonKeys["keys"].Contents.amdoren}&loc={loc}";
-
-                var textJ = webClient.DownloadString(link);
-                //text_j = text_j.Substring(1, text_j.Length - 2);
-
-                //await ReplyAsync(text);
-                dynamic keys = JObject.Parse(textJ);
-
-                if (keys.error_message.ToString() != "-")
-                {
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", "Error!", Color.Red);
-                    embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
-                    embed.Fields = new List<EmbedFieldBuilder>
-                    {
-                        new()
-                        {
-                            Name = "The API returned: ",
-                            Value = $"**{keys.error_message}**",
-                            IsInline = false
-                        }
-                    };
-
-                    await ReplyAsync("", false, embed.Build());
-                }
-                else
-                {
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", $"Timezone and time for {loc}", Color.Red);
-                    embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
-                    embed.Fields = new List<EmbedFieldBuilder>
-                    {
-                        new()
-                        {
-                                Name = "Timezone: ",
-                                Value = $"**{keys.timezone}**",
-                                IsInline = true
-                            },
-                            new()
-                            {
-                                Name = "Current Time: ",
-                                Value = $"**{keys.time}**",
-                                IsInline = true
-                            }
-                    };
-
-                    await ReplyAsync("", false, embed.Build());
-                }
-                //string text = webClient.DownloadString(link);
-                //text = text.Substring(1, text.Length - 2);
-                //await ReplyAsync(text);
-                //dynamic keys = JObject.Parse(text);
-
-                //await ReplyAsync(keys.file_url.ToString());
-            }
-            catch (Exception exp)
-            {
-                await Util.Error.BuildError(exp, Context);
             }
         }
     }

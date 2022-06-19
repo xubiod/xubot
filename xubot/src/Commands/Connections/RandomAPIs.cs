@@ -214,5 +214,74 @@ namespace xubot.Commands.Connections
                 await Util.Error.BuildError(e, Context);
             }
         }
+
+
+
+        [Example("\"New York City\"")]
+        [Command("timezone", RunMode = RunMode.Async), Summary("Returns the timezone from a given string.")]
+        public async Task Timezone(string loc)
+        {
+            try
+            {
+                var webClient = new WebClient();
+                // var webClient2 = new WebClient();
+                string link = $"https://www.amdoren.com/api/timezone.php?api_key={Program.JsonKeys["keys"].Contents.amdoren}&loc={loc}";
+
+                var textJ = webClient.DownloadString(link);
+                //text_j = text_j.Substring(1, text_j.Length - 2);
+
+                //await ReplyAsync(text);
+                dynamic keys = JObject.Parse(textJ);
+
+                if (keys.error_message.ToString() != "-")
+                {
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", "Error!", Color.Red);
+                    embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
+                    embed.Fields = new List<EmbedFieldBuilder>
+                    {
+                        new()
+                        {
+                            Name = "The API returned: ",
+                            Value = $"**{keys.error_message}**",
+                            IsInline = false
+                        }
+                    };
+
+                    await ReplyAsync("", false, embed.Build());
+                }
+                else
+                {
+                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", $"Timezone and time for {loc}", Color.Red);
+                    embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
+                    embed.Fields = new List<EmbedFieldBuilder>
+                    {
+                        new()
+                        {
+                                Name = "Timezone: ",
+                                Value = $"**{keys.timezone}**",
+                                IsInline = true
+                            },
+                            new()
+                            {
+                                Name = "Current Time: ",
+                                Value = $"**{keys.time}**",
+                                IsInline = true
+                            }
+                    };
+
+                    await ReplyAsync("", false, embed.Build());
+                }
+                //string text = webClient.DownloadString(link);
+                //text = text.Substring(1, text.Length - 2);
+                //await ReplyAsync(text);
+                //dynamic keys = JObject.Parse(text);
+
+                //await ReplyAsync(keys.file_url.ToString());
+            }
+            catch (Exception exp)
+            {
+                await Util.Error.BuildError(exp, Context);
+            }
+        }
     }
 }
