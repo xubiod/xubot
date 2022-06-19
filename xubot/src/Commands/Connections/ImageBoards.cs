@@ -26,17 +26,18 @@ namespace xubot.Commands.Connections
             }
         }
 
-        public static readonly ABooru Danbooru =       new DanbooruDonmai();
-        public static readonly ABooru E621 =           new E621();
-        public static readonly ABooru Rule34 =         new Rule34();
-        public static readonly ABooru Gelbooru =       new Gelbooru();
-        public static readonly ABooru Yandere =        new Yandere();
-        public static readonly ABooru E926 =           new E926();
-        public static readonly ABooru Safebooru =      new Safebooru();
-        public static readonly ABooru Konachan =       new Konachan();
-        public static readonly ABooru Allthefallen =   new Atfbooru();
-        public static readonly ABooru Sankakucomplex = new SankakuComplex();
-        public static readonly ABooru Sakugabooru =    new Sakugabooru();
+        private static readonly ABooru Danbooru =       new DanbooruDonmai();
+        private static readonly ABooru E621 =           new E621();
+        private static readonly ABooru Rule34 =         new Rule34();
+        private static readonly ABooru Gelbooru =       new Gelbooru();
+        private static readonly ABooru Yandere =        new Yandere();
+        private static readonly ABooru E926 =           new E926();
+        private static readonly ABooru Safebooru =      new Safebooru();
+        private static readonly ABooru Konachan =       new Konachan();
+        private static readonly ABooru Allthefallen =   new Atfbooru();
+        private static readonly ABooru Sankakucomplex = new SankakuComplex();
+        private static readonly ABooru Sakugabooru =    new Sakugabooru();
+        private static readonly ABooru Realbooru =      new Realbooru();
 
         private static readonly Dictionary<Entry, string> CaughtFromBeingSent = new();
 
@@ -91,8 +92,8 @@ namespace xubot.Commands.Connections
         [Command("danbooru", RunMode = RunMode.Async), Summary("Retrieves a post from danbooru.donmani.us. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task DanbooruTask(params string[] inputs)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-            GetRandomPostFrom(Context, Danbooru, inputs);
+            using Util.WorkingBlock wb = new(Context);
+            await GetRandomPostFrom(Context, Danbooru, inputs);
         }
 
         [Example("male true")]
@@ -100,8 +101,8 @@ namespace xubot.Commands.Connections
         [Command("e621", RunMode = RunMode.Async), Summary("Retrieves a post from e621.net. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task E621Task(params string[] inputs)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-            GetRandomPostFrom(Context, E621, inputs);
+            using Util.WorkingBlock wb = new(Context);
+            await GetRandomPostFrom(Context, E621, inputs);
         }
 
         [Example("sex true")]
@@ -109,8 +110,8 @@ namespace xubot.Commands.Connections
         [Command("rule34", RunMode = RunMode.Async), Summary("Retrieves a post from rule34.xxx, to the bot's dismay. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task R34Task(params string[] inputs)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-            GetRandomPostFrom(Context, Rule34, inputs);
+            using Util.WorkingBlock wb = new(Context);
+            await GetRandomPostFrom(Context, Rule34, inputs);
         }
 
         [Example("solo true")]
@@ -118,8 +119,8 @@ namespace xubot.Commands.Connections
         [Command("gelbooru", RunMode = RunMode.Async), Summary("Retrieves a post from gelbooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task GelbooruTask(params string[] inputs)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-            GetRandomPostFrom(Context, Gelbooru, inputs);
+            using Util.WorkingBlock wb = new(Context);
+            await GetRandomPostFrom(Context, Gelbooru, inputs);
         }
 
         [Example("thighhighs true")]
@@ -127,8 +128,8 @@ namespace xubot.Commands.Connections
         [Command("yandere", RunMode = RunMode.Async), Summary("Retrieves a post from yande.re. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task YandereTask(params string[] inputs)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-            GetRandomPostFrom(Context, Yandere, inputs);
+            using Util.WorkingBlock wb = new(Context);
+            await GetRandomPostFrom(Context, Yandere, inputs);
         }
 
         [Example("male")]
@@ -136,16 +137,16 @@ namespace xubot.Commands.Connections
         [Command("e926", RunMode = RunMode.Async), Summary("Retrieves a post from e926.net. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task E926Task(params string[] inputs)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-            GetRandomPostFrom(Context, E926, inputs);
+            using Util.WorkingBlock wb = new(Context);
+            await GetRandomPostFrom(Context, E926, inputs);
         }
 
         [Example("sky false")]
         [Command("safebooru", RunMode = RunMode.Async), Summary("Retrieves a post from safebooru.org. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task SafebooruTask(params string[] inputs)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-            GetRandomPostFrom(Context, Safebooru, inputs);
+            using Util.WorkingBlock wb = new(Context);
+            await GetRandomPostFrom(Context, Safebooru, inputs);
         }
 
         [Example("thighhighs true")]
@@ -153,32 +154,40 @@ namespace xubot.Commands.Connections
         [Command("konachan", RunMode = RunMode.Async), Summary("Retrieves a post from konachan.com. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task KonachanTask(params string[] inputs)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-            GetRandomPostFrom(Context, Konachan, inputs);
+            using Util.WorkingBlock wb = new(Context);
+            await GetRandomPostFrom(Context, Konachan, inputs);
         }
 
         [NsfwPossibility("Is a possibility (although not guaranteed).")]
         [Command("atfbooru", RunMode = RunMode.Async), Summary("Retrieves a post from booru.allthefallen.moe. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task AtfBooruTask(params string[] inputs)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-            GetRandomPostFrom(Context, Allthefallen, inputs);
+            using Util.WorkingBlock wb = new(Context);
+            await GetRandomPostFrom(Context, Allthefallen, inputs);
         }
 
         [NsfwPossibility("Is a possibility (although not guaranteed).")]
         [Command("sankakucomplex", RunMode = RunMode.Async), Summary("Retrieves a post from beta.sankakucomplex.com. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task SankakuComplexTask(params string[] inputs)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-            GetRandomPostFrom(Context, Sankakucomplex, inputs);
+            using Util.WorkingBlock wb = new(Context);
+            await GetRandomPostFrom(Context, Sankakucomplex, inputs);
         }
 
         [NsfwPossibility("Is a possibility (although not guaranteed).")]
         [Command("sakugabooru", RunMode = RunMode.Async), Summary("Retrieves a post from sakugabooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
         public async Task SakugabooruTask(params string[] inputs)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-            GetRandomPostFrom(Context, Sakugabooru, inputs);
+            using Util.WorkingBlock wb = new(Context);
+            await GetRandomPostFrom(Context, Sakugabooru, inputs);
+        }
+
+        [NsfwPossibility("Is a possibility (although not guaranteed).")]
+        [Command("realbooru", RunMode = RunMode.Async), Summary("Retrieves a post from sakugabooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
+        public async Task RealbooruTask(params string[] inputs)
+        {
+            using Util.WorkingBlock wb = new(Context);
+            await GetRandomPostFrom(Context, Realbooru, inputs);
         }
 
         [Example("00000000")]
@@ -206,7 +215,7 @@ namespace xubot.Commands.Connections
                     await ReplyAsync("Your ID is not associated with that retrieve key on this server.");
                 }
             }
-            catch (InvalidOperationException ioe)
+            catch
             {
                 await ReplyAsync("Your ID is not associated with that retrieve key on this server.");
             }
