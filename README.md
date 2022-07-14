@@ -4,6 +4,9 @@
 <hr />
 
 #### Joke Badges
+<details>
+<summary>Click to expand</summary>
+
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/made-with-crayons.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
@@ -25,7 +28,7 @@
 
 [![forthebadge](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
-
+</details>
 
 ## Building (.NET Core)
 *Use xubot-core to build with .NET Core. You need .NET Core 3.1 on the target machine.*
