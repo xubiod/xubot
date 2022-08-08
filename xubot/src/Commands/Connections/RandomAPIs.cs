@@ -85,15 +85,13 @@ namespace xubot.Commands.Connections
         {
             string link = "https://www.validator.pizza/email/" + email;
 
-            var request = WebRequest.Create(link);
-            request.ContentType = "application/json; charset=utf-8";
-
             string text;
-            var response = (HttpWebResponse)await request.GetResponseAsync();
-
-            using (var sr = new StreamReader(response.GetResponseStream() ?? throw new NullReferenceException()))
+            using (var httpClient = new HttpClient())
             {
-                text = await sr.ReadToEndAsync();
+                var request = await httpClient.GetAsync(link);
+                // request.ContentType = "application/json; charset=utf-8";
+
+                text = await request.Content.ReadAsStringAsync();
             }
 
             dynamic parsedTxt = JObject.Parse(text);
@@ -223,11 +221,17 @@ namespace xubot.Commands.Connections
         {
             try
             {
-                var webClient = new WebClient();
-                // var webClient2 = new WebClient();
                 string link = $"https://www.amdoren.com/api/timezone.php?api_key={Program.JsonKeys["keys"].Contents.amdoren}&loc={loc}";
 
-                var textJ = webClient.DownloadString(link);
+                string textJ;
+
+                using (HttpClient httpClient = new())
+                {
+                    textJ = await httpClient.GetStringAsync(link);
+                }
+
+                // var webClient2 = new WebClient();
+
                 //text_j = text_j.Substring(1, text_j.Length - 2);
 
                 //await ReplyAsync(text);

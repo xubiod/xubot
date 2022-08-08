@@ -39,12 +39,12 @@ namespace xubot.Commands
             await ReplyAsync("", false, embed.Build());
         }
 
-        [Command("update")]
-        public async Task UpdateBot(/* location for update script */)
-        {
-            // run update script/application
-            // then kill xubot
-            // with a msg
-        }
+        //[Command("update")]
+        //public async Task UpdateBot(/* location for update script */)
+        //{
+        //    // run update script/application
+        //    // then kill xubot
+        //    // with a msg
+        //}
     }
 }

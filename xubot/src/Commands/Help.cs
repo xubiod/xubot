@@ -35,7 +35,7 @@ namespace xubot.Commands
 
             if (lookupAsAll[0].ToLower() == "search")
             {
-                Search(all.Replace("search ", ""), true, page);
+                await Search(all.Replace("search ", ""), true, page);
                 return;
             }
 
@@ -181,10 +181,10 @@ namespace xubot.Commands
                 {
                     comm = commList[index - 1];
                 }
-                catch (ArgumentOutOfRangeException e)
+                catch
                 {
                     //not a command
-                    GroupHandling(lookup);
+                    await GroupHandling(lookup);
                     return;
                 }
 
@@ -225,10 +225,10 @@ namespace xubot.Commands
 
                 bool dep = comm.Attributes.Contains(new DeprecatedAttribute()) || comm.Module.Attributes.Contains(new DeprecatedAttribute());
 
-                string nsfwPossibility = comm.Attributes.Count(x => x is NsfwPossibilityAttribute) > 0 ? (comm.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
-                nsfwPossibility += comm.Module.Attributes.Count(x => x is NsfwPossibilityAttribute) > 0 ? "Group-wide:\n\n" + (comm.Module.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
+                string nsfwPossibility = comm.Attributes.Any(x => x is NsfwPossibilityAttribute) ? (comm.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
+                nsfwPossibility += comm.Module.Attributes.Any(x => x is NsfwPossibilityAttribute) ? "Group-wide:\n\n" + (comm.Module.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
 
-                if (comm.Attributes.Count(x => x is ExampleAttribute) > 0)
+                if (comm.Attributes.Any(x => x is ExampleAttribute))
                 {
                     ExampleAttribute ex = comm.Attributes.First(x => x is ExampleAttribute) as ExampleAttribute;
                     if (ex.ExampleParameters != "") examplePara = ex.ExampleParameters;
@@ -308,7 +308,7 @@ namespace xubot.Commands
                 {
                     group = moduList[0];
                 }
-                catch (ArgumentOutOfRangeException e)
+                catch
                 {
                     //not a command OR group
                     await ReplyAsync("This command does not exist. (Trust me, I looked everywhere.)\nMaybe try the full name?");
@@ -412,7 +412,7 @@ namespace xubot.Commands
             }
         }
 
-        private string GetAllGroups(ModuleInfo module)
+        private static string GetAllGroups(ModuleInfo module)
         {
             if (module == null) return "";
             if (module.Group == null) return "";

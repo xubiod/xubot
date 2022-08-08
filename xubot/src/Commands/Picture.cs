@@ -55,75 +55,75 @@ namespace xubot.Commands
 
             [Example(true)]
             [Command("bw", RunMode = RunMode.Async), Summary("Makes an image black and white.")]
-            public async Task Bw() { HandleFilter(Context, mut => mut.BlackWhite()); }
+            public async Task Bw() { await HandleFilter(Context, mut => mut.BlackWhite()); }
 
             [Example(true)]
             // ReSharper disable once StringLiteralTypo
             [Command("invert", RunMode = RunMode.Async), Summary("iNVERTS THE COLORS OF AN IMAGE.")]
-            public async Task Invert() { HandleFilter(Context, mut => mut.Invert()); }
+            public async Task Invert() { await HandleFilter(Context, mut => mut.Invert()); }
 
             [Example(true)]
             [Command("kodachrome", RunMode = RunMode.Async), Summary("Applies a kodachrome filter to an image.")]
-            public async Task Kodachrome() { HandleFilter(Context, mut => mut.Kodachrome()); }
+            public async Task Kodachrome() { await HandleFilter(Context, mut => mut.Kodachrome()); }
 
             [Example(true)]
             [Command("lomograph", RunMode = RunMode.Async), Summary("Applies a lomograph filter to an image.")]
-            public async Task Lomograph() { HandleFilter(Context, mut => mut.Lomograph()); }
+            public async Task Lomograph() { await HandleFilter(Context, mut => mut.Lomograph()); }
 
             [Example(true)]
             [Command("polaroid", RunMode = RunMode.Async), Summary("Applies a polaroid filter to an image.")]
-            public async Task Polaroid() { HandleFilter(Context, mut => mut.Polaroid()); }
+            public async Task Polaroid() { await HandleFilter(Context, mut => mut.Polaroid()); }
 
             [Example(true)]
             [Command("sepia", RunMode = RunMode.Async), Summary("Applies a sepia filter to an image.")]
-            public async Task Sepia() { HandleFilter(Context, mut => mut.Sepia()); }
+            public async Task Sepia() { await HandleFilter(Context, mut => mut.Sepia()); }
 
             [Example(true)]
             [Command("oil-paint", RunMode = RunMode.Async), Summary("Applies a basic oil-paint filter to an image.")]
-            public async Task OilPaint() { HandleFilter(Context, mut => mut.OilPaint()); }
+            public async Task OilPaint() { await HandleFilter(Context, mut => mut.OilPaint()); }
 
             [Example(true)]
             [Command("vignette", RunMode = RunMode.Async), Summary("Applies a basic vignette to an image.")]
-            public async Task Vignette() { HandleFilter(Context, mut => mut.Vignette()); }
+            public async Task Vignette() { await HandleFilter(Context, mut => mut.Vignette()); }
 
             [Example(true)]
             [Command("glow", RunMode = RunMode.Async), Summary("Applies a basic glow to an image.")]
-            public async Task Glow() { HandleFilter(Context, mut => mut.Glow()); }
+            public async Task Glow() { await HandleFilter(Context, mut => mut.Glow()); }
 
             [Group("blur"), Summary("Different blur and sharpen effects.")]
             public class Blur : ModuleBase
             {
                 [Example(true)]
                 [Command("bokeh", RunMode = RunMode.Async), Summary("Applies a basic bokeh blur to an image.")]
-                public async Task Bokeh() { HandleFilter(Context, mut => mut.BokehBlur()); }
+                public async Task Bokeh() { await HandleFilter(Context, mut => mut.BokehBlur()); }
 
                 [Example("4 4 1.5", true)]
                 [Command("bokeh", RunMode = RunMode.Async), Summary("Applies bokeh blur to an image.")]
-                public async Task Bokeh(int radius, int kernelCount, float gamma) { HandleFilter(Context, mut => mut.BokehBlur(radius, kernelCount, gamma)); }
+                public async Task Bokeh(int radius, int kernelCount, float gamma) { await HandleFilter(Context, mut => mut.BokehBlur(radius, kernelCount, gamma)); }
 
                 [Example(true)]
                 [Command("box", RunMode = RunMode.Async), Summary("Applies a basic box blur to an image.")]
-                public async Task Box() { HandleFilter(Context, mut => mut.BoxBlur()); }
+                public async Task Box() { await HandleFilter(Context, mut => mut.BoxBlur()); }
 
                 [Example("4", true)]
                 [Command("box", RunMode = RunMode.Async), Summary("Applies box blur to an image.")]
-                public async Task Box(int radius) { HandleFilter(Context, mut => mut.BoxBlur(radius)); }
+                public async Task Box(int radius) { await HandleFilter(Context, mut => mut.BoxBlur(radius)); }
 
                 [Example(true)]
                 [Command("gaussian", RunMode = RunMode.Async), Summary("Applies a basic Gaussian blur to an image.")]
-                public async Task Gaussian() { HandleFilter(Context, mut => mut.GaussianBlur()); }
+                public async Task Gaussian() { await HandleFilter(Context, mut => mut.GaussianBlur()); }
 
                 [Example("2.5", true)]
                 [Command("gaussian", RunMode = RunMode.Async), Summary("Applies Gaussian blur to an image.")]
-                public async Task Gaussian(float weight) { HandleFilter(Context, mut => mut.GaussianBlur(weight)); }
+                public async Task Gaussian(float weight) { await HandleFilter(Context, mut => mut.GaussianBlur(weight)); }
 
                 [Example(true)]
                 [Command("gaussian-sharp", RunMode = RunMode.Async), Summary("Applies a basic Gaussian sharpen to an image.")]
-                public async Task GaussianSharp() { HandleFilter(Context, mut => mut.GaussianSharpen()); }
+                public async Task GaussianSharp() { await HandleFilter(Context, mut => mut.GaussianSharpen()); }
 
                 [Example("2.5", true)]
                 [Command("gaussian-sharp", RunMode = RunMode.Async), Summary("Applies a basic Gaussian sharpen to an image.")]
-                public async Task GaussianSharp(float weight) { HandleFilter(Context, mut => mut.GaussianSharpen(weight)); }
+                public async Task GaussianSharp(float weight) { await HandleFilter(Context, mut => mut.GaussianSharpen(weight)); }
             }
 
             [Group("params"), Alias("p"), Summary("Filters with parameters.")]
@@ -131,7 +131,7 @@ namespace xubot.Commands
             {
                 [Example("1.50", true)]
                 [Command("brightness", RunMode = RunMode.Async), Summary("Increases/decreases the brightness of the image.")]
-                public async Task Brightness(float amt) { HandleFilter(Context, mut => mut.Brightness(amt)); }
+                public async Task Brightness(float amt) { await HandleFilter(Context, mut => mut.Brightness(amt)); }
 
                 [Example("blue-blind", true)]
                 [Command("colorblind", RunMode = RunMode.Async), Alias("colourblind"), Summary("Applies a filter to simulate colourblindness.")]
@@ -145,7 +145,7 @@ namespace xubot.Commands
                         return;
                     }
 
-                    HandleFilter(Context, mut => mut.ColorBlindness(ColourBlindnessMap[type]));
+                    await HandleFilter(Context, mut => mut.ColorBlindness(ColourBlindnessMap[type]));
                 }
 
                 [Command("colorblind?list", RunMode = RunMode.Async), Alias("colourblind?list"), Summary("Lists the colourblindness filters.")]
@@ -185,35 +185,35 @@ namespace xubot.Commands
 
                 [Example("2.00", true)]
                 [Command("contrast", RunMode = RunMode.Async), Summary("Increases/decreases the contrast of an image.")]
-                public async Task Contrast(float amt) { HandleFilter(Context, mut => mut.Contrast(amt)); }
+                public async Task Contrast(float amt) { await HandleFilter(Context, mut => mut.Contrast(amt)); }
 
                 [Example("180.0", true)]
                 [Command("hue-rotate", RunMode = RunMode.Async), Summary("Shifts/rotates the hues of an image by a given amount of degrees.")]
-                public async Task RotateHue(float deg) { HandleFilter(Context, mut => mut.Hue(deg)); }
+                public async Task RotateHue(float deg) { await HandleFilter(Context, mut => mut.Hue(deg)); }
 
                 [Example("2.00", true)]
                 [Command("saturate", RunMode = RunMode.Async), Summary("Increases/decreases the saturation of an image.")]
-                public async Task Saturate(float amount) { HandleFilter(Context, mut => mut.Saturate(amount)); }
+                public async Task Saturate(float amount) { await HandleFilter(Context, mut => mut.Saturate(amount)); }
 
                 [Example("0.50", true)]
                 [Command("threshold", RunMode = RunMode.Async), Summary("Applies a binary threshold to an image.")]
-                public async Task BinaryThreshold(float threshold) { HandleFilter(Context, mut => mut.BinaryThreshold(threshold)); }
+                public async Task BinaryThreshold(float threshold) { await HandleFilter(Context, mut => mut.BinaryThreshold(threshold)); }
 
                 [Example("3 6", true)]
                 [Command("oil-paint", RunMode = RunMode.Async), Summary("Applies an oil paint filter to an image.")]
-                public async Task OilPaint(int levels, int brushSize) { HandleFilter(Context, mut => mut.OilPaint(levels, brushSize)); }
+                public async Task OilPaint(int levels, int brushSize) { await HandleFilter(Context, mut => mut.OilPaint(levels, brushSize)); }
 
                 [Example("8", true)]
                 [Command("pixelate", RunMode = RunMode.Async), Summary("Applies a pixelate filter to an image.")]
-                public async Task Pixelate(int pixelSize) { HandleFilter(Context, mut => mut.Pixelate(pixelSize)); }
+                public async Task Pixelate(int pixelSize) { await HandleFilter(Context, mut => mut.Pixelate(pixelSize)); }
 
                 [Example("720.0 480.0", true)]
                 [Command("vignette", RunMode = RunMode.Async), Summary("Applies a vignette to an image.")]
-                public async Task Vignette(float radiusX, float radiusY) { HandleFilter(Context, mut => mut.Vignette(radiusX, radiusY)); }
+                public async Task Vignette(float radiusX, float radiusY) { await HandleFilter(Context, mut => mut.Vignette(radiusX, radiusY)); }
 
                 [Example("fast", true)]
                 [Command("quantize", RunMode = RunMode.Async), Summary("Applies a quantize filter to an image. 4 are available, accessible with 0 - 3 which is modulo with 4.")]
-                public async Task Quantize(string name) { HandleFilter(Context, mut => mut.Quantize(AllQuantizer[name])); }
+                public async Task Quantize(string name) { await HandleFilter(Context, mut => mut.Quantize(AllQuantizer[name])); }
 
                 [Command("quantize", RunMode = RunMode.Async), Summary("Returns all valid inputs to quantize.")]
                 public async Task QuantizeListing()
@@ -228,18 +228,18 @@ namespace xubot.Commands
 
                 [Example("120", true)]
                 [Command("glow", RunMode = RunMode.Async), Summary("Applies a glow to an image.")]
-                public async Task Glow(float radius) { HandleFilter(Context, mut => mut.Glow(radius)); }
+                public async Task Glow(float radius) { await HandleFilter(Context, mut => mut.Glow(radius)); }
 
                 [Example("0.50", true)]
                 [Command("entropy-crop", RunMode = RunMode.Async), Summary("Crops an image to the area of greatest entropy using a given threshold. Defaults to 0.5.")]
-                public async Task EntropyCrop(float threshold = 0.5F) { HandleFilter(Context, mut => mut.EntropyCrop(threshold)); }
+                public async Task EntropyCrop(float threshold = 0.5F) { await HandleFilter(Context, mut => mut.EntropyCrop(threshold)); }
 
                 [Example("bayer8", true)]
                 [Command("basic-dither", RunMode = RunMode.Async), Summary("Applies a binary dithering effect to an image. 13 are available, accessible with its name. Use `pic manip dithering-pattern` to get all valid names.")]
                 public async Task BinaryDither(string name)
                 {
                     if (!AllDithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
-                    HandleFilter(Context, mut => mut.BinaryDither(AllDithering[name.ToLower()]));
+                    await HandleFilter(Context, mut => mut.BinaryDither(AllDithering[name.ToLower()]));
                 }
 
                 [Example("bayer8 FF000000 FFFFFFFF FFFFF000 FF000FFF", true)]
@@ -253,7 +253,7 @@ namespace xubot.Commands
                     ReadOnlyMemory<SixLabors.ImageSharp.Color> romPalette = colours;
 
                     if (!AllDithering.ContainsKey(name.ToLower())) { await ReplyAsync("That's not a dithering I know about..."); return; }
-                    HandleFilter(Context, mut => mut.Dither(AllDithering[name.ToLower()], romPalette));
+                    await HandleFilter(Context, mut => mut.Dither(AllDithering[name.ToLower()], romPalette));
                 }
 
                 [Command("dithering-pattern", RunMode = RunMode.Async), Summary("Returns all dithering pattern names.")]
@@ -279,7 +279,7 @@ namespace xubot.Commands
                 return filename;
             }
 
-            private static async void HandleFilter(ICommandContext context, Action<IImageProcessingContext> mutation)
+            private static async Task<IUserMessage> HandleFilter(ICommandContext context, Action<IImageProcessingContext> mutation)
             {
                 using Util.WorkingBlock wb = new Util.WorkingBlock(context);
                 string loadAs = Path.GetTempPath() + "manip";
@@ -289,7 +289,7 @@ namespace xubot.Commands
 
                 string filename = ApplyFilter(loadAs, type, mutation);
 
-                await context.Channel.SendFileAsync(filename);
+                return await context.Channel.SendFileAsync(filename);
             }
 
             private static EmbedBuilder GetListEmbed(string title, string name, string list)

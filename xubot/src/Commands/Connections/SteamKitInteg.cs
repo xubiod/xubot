@@ -227,7 +227,7 @@ namespace xubot.Commands.Connections
                 name += args[i] + (i < args.Length - 2 ? " " : "");
             }
 
-            await News(ReturnAppId(name, Context), cap);
+            await News(await ReturnAppId(name, Context), cap);
         }
 
         public static string ReturnAppName(int appId)
@@ -239,7 +239,7 @@ namespace xubot.Commands.Connections
             return app?["name"].AsString();
         }
 
-        public static int ReturnAppId(string appName, ICommandContext context)
+        public async static Task<int> ReturnAppId(string appName, ICommandContext context)
         {
             try
             {
@@ -250,7 +250,7 @@ namespace xubot.Commands.Connections
             }
             catch (Exception exp)
             {
-                Util.Error.BuildError(exp, context);
+                await Util.Error.BuildError(exp, context);
                 return -1;
             }
         }

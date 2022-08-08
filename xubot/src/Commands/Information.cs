@@ -259,7 +259,7 @@ namespace xubot.Commands
                         return;
                     }
 
-                    User(_.Id);
+                    await User(_.Id);
                 }
                 else
                 {

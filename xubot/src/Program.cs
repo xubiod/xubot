@@ -49,7 +49,7 @@ namespace xubot
         {
             if (!(args.Contains("offline") || Global.Default.ForceOfflineOnNextLaunch))
             {
-                BeginOnlineStart();
+                await BeginOnlineStart();
 
                 XuClient.Ready += ClientReady;
                 XuClient.UserJoined += XuClient_UserJoined;
@@ -68,7 +68,7 @@ namespace xubot
                     Global.Default.Save();
                 }
 
-                BeginOfflineStart();
+                await BeginOfflineStart();
 
                 ShitPost.Populate();
                 ModularSystem.Initialize();
@@ -80,7 +80,7 @@ namespace xubot
                 do
                 {
                     input = Console.ReadLine();
-                    HandleOfflineCommands(input);
+                    await HandleOfflineCommands(input);
                 } while (true);
             }
         }
@@ -190,7 +190,7 @@ namespace xubot
 
             if (JsonKeys["keys"].Contents.reddit.user.ToString() == "" && JsonKeys["keys"].Contents.reddit.pass.ToString() == "")
             {
-                Util.Log.PersistLog("reddit info not provided within keys, aborting", log);
+                await Util.Log.PersistLog("reddit info not provided within keys, aborting", log);
             }
             else
             {
@@ -204,7 +204,7 @@ namespace xubot
                         JsonKeys["keys"].Contents.reddit.secret.ToString(),
                         "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
 
-                    Util.Log.PersistLog("setting up reddit client", log);
+                    await Util.Log.PersistLog("setting up reddit client", log);
                     Reddit = new Reddit(WebAgent, true);
                     //_red.Wait();
 

@@ -19,9 +19,9 @@ namespace xubot.Modular
         {
             [Example("examplemodule examplecmd exampleparams...")]
             [Command("run", RunMode = RunMode.Async), Alias("~", ""), Summary("Runs a command from a module.")]
-            public async Task Execute(string module, string command, params string[] parameters)
+            public void Execute(string module, string command, params string[] parameters)
             {
-                await ModularSystem.Execute(Context, module, command, parameters);
+                ModularSystem.Execute(Context, module, command, parameters);
             }
         }
 
@@ -32,14 +32,14 @@ namespace xubot.Modular
             [Command("reload", RunMode = RunMode.Async), Alias("r"), Summary("Reloads a module."), RequireOwner]
             public async Task Reload(string module)
             {
-                await ReplyAsync(ModularSystem.Modules[module].Reload());
+                await ReplyAsync(await ModularSystem.Modules[module].Reload());
             }
 
             [Example("examplemodule")]
             [Command("unload", RunMode = RunMode.Async), Alias("u"), Summary("Unloads a module."), RequireOwner]
             public async Task Unload(string module)
             {
-                await ReplyAsync(ModularSystem.Modules[module].Unload());
+                await ReplyAsync(await ModularSystem.Modules[module].Unload());
             }
 
             [Example("examplemodule")]

@@ -126,7 +126,7 @@ namespace xubot.Commands
                             _memory[_memoryPointer] = _inputs[_inputPointer];
                             _inputPointer++;
                         }
-                        catch (Exception e)
+                        catch
                         {
                             // ignored
                         }

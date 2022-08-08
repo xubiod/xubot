@@ -35,7 +35,7 @@ namespace xubot.Modular
                 Initialize();
             }
 
-            private void Initialize()
+            private async void Initialize()
             {
                 moduleContext = new AssemblyLoadContext(id, true);
                 moduleContext.Unloading += ContextUnloaded;
@@ -45,8 +45,8 @@ namespace xubot.Modular
                 startInstance = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IModuleEntrypoint))).Select(type => (IModuleEntrypoint)Activator.CreateInstance(type)).FirstOrDefault();
                 commandInstances = assembly.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(ICommandModule))).Select(type => (ICommandModule)Activator.CreateInstance(type)).ToList();
 
-                Messages.OnMessageSend += SendModuleMessage; Util.Log.QuickLog("Sub.MsgSend");
-                Requestor.OnRequest += SendRequestedThing; Util.Log.QuickLog("Sub.OnReq");
+                Messages.OnMessageSend += SendModuleMessage; await Util.Log.QuickLog("Sub.MsgSend");
+                Requestor.OnRequest += SendRequestedThing; await Util.Log.QuickLog("Sub.OnReq");
             }
 
             private object SendRequestedThing(Requestor.RequestType what, Requestor.RequestProperty want)
@@ -68,14 +68,14 @@ namespace xubot.Modular
                 temp.GetType().GetMethods().First(x => x.GetCustomAttributes<CmdNameAttribute>().First().Name == command).Invoke(temp, new object[] { parameters }); //.Where(x => x is CmdNameAttribute).First() as CmdNameAttribute).name == command) //.GetMethods("Execute").Invoke(temp, new object[]{ parameters });
             }
 
-            public string Unload()
+            public async Task<string> Unload()
             {
                 string msg = startInstance != null ? (startInstance.Unload() ?? "No unload message").ToString() : "No startInstance";
 
-                Util.Log.QuickLog($"Module unloading: {id}\nUnload msg: {msg}");
+                await Util.Log.QuickLog($"Module unloading: {id}\nUnload msg: {msg}");
 
-                Messages.OnMessageSend -= SendModuleMessage; Util.Log.QuickLog("Unsub.MsgSend");
-                Requestor.OnRequest -= SendRequestedThing; Util.Log.QuickLog("Unsub.OnReq");
+                Messages.OnMessageSend -= SendModuleMessage; await Util.Log.QuickLog("Unsub.MsgSend");
+                Requestor.OnRequest -= SendRequestedThing; await Util.Log.QuickLog("Unsub.OnReq");
 
                 moduleContext.Unload();
                 startInstance = null;
@@ -87,19 +87,19 @@ namespace xubot.Modular
                 return msg;
             }
 
-            private void ContextUnloaded(AssemblyLoadContext obj)
+            private async void ContextUnloaded(AssemblyLoadContext obj)
             {
-                Util.Log.QuickLog($"Module unloaded: {id}");
+                await Util.Log.QuickLog($"Module unloaded: {id}");
                 moduleContext = null;
             }
 
-            public string Reload()
+            public async Task<string> Reload()
             {
-                if (startInstance != null) Unload();
+                if (startInstance != null) await Unload();
 
                 Initialize();
                 string msg = startInstance.Reload().ToString();
-                Util.Log.QuickLog($"Module reloaded: {id}\nReload msg: {msg}");
+                await Util.Log.QuickLog($"Module reloaded: {id}\nReload msg: {msg}");
                 return msg;
             }
         }
@@ -112,7 +112,7 @@ namespace xubot.Modular
             LoadFromDirectory();
         }
 
-        public static void LoadFromFile(string filename)
+        public static async void LoadFromFile(string filename)
         {
             if (!File.Exists(filename)) throw new FileNotFoundException("File does not exist");
             if (Path.GetExtension(filename).ToLower() != ".dll") return;
@@ -124,19 +124,19 @@ namespace xubot.Modular
 
             if (Modules[name].startInstance == null)
             {
-                Modules[name].Unload();
+                await Modules[name].Unload();
                 Modules.Remove(name);
                 return;
             }
 
-            Util.Log.QuickLog($"Module loaded: {name}\nLoad msg: {Modules[name].startInstance.Load()}");
+            await Util.Log.QuickLog($"Module loaded: {name}\nLoad msg: {Modules[name].startInstance.Load()}");
         }
 
-        public static void LoadFromDirectory(string directory = "/Modules", bool isFull = false)
+        public static async void LoadFromDirectory(string directory = "/Modules", bool isFull = false)
         {
             if (!Directory.Exists((isFull ? "" : Directory.GetCurrentDirectory()) + directory))
             {
-                Util.Log.QuickLog("there's no modules, skipping");
+                await Util.Log.QuickLog("there's no modules, skipping");
                 return;
             }
 
@@ -147,7 +147,7 @@ namespace xubot.Modular
                 LoadFromFile(filename);
         }
 
-        public static async Task Execute(ICommandContext context, string module, string command, string[] parameters = null)
+        public static void Execute(ICommandContext context, string module, string command, string[] parameters = null)
         {
             Modules[module].Execute(context, command, parameters);
         }

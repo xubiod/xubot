@@ -54,7 +54,7 @@ namespace xubot.Commands.Connections
             // is the reddit fuck off?
             if (!Program.RedditEnabled)
             {
-                Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
+                await Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
                 return;
             }
 
@@ -118,7 +118,7 @@ namespace xubot.Commands.Connections
             // is the reddit fuck off?
             if (!Program.RedditEnabled)
             {
-                Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
+                await Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
                 return;
             }
 
@@ -187,7 +187,7 @@ namespace xubot.Commands.Connections
             // is the reddit fuck off?
             if (!Program.RedditEnabled)
             {
-                context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
+                await context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
                 return;
             }
 
