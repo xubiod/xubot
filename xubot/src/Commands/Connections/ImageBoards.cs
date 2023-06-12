@@ -62,19 +62,19 @@ namespace xubot.Commands.Connections
             }
             catch (Exception e)
             {
-                await Util.Error.BuildError(e, context);
+                await Util.Error.BuildErrorAsync(e, context);
             }
         }
 
         private async Task PostNsfwMessage(ICommandContext context, string message, bool forceFail = false)
         {
-            if (await Util.IsDmChannel(Context) && !src.BotSettings.Global.Default.DMsAlwaysNSFW)
+            if (await Util.IsDmChannelAsync(Context) && !src.BotSettings.Global.Default.DMsAlwaysNSFW)
             {
                 await ReplyAsync("The bot got a post deemed questionable or explicit in a DM. DMs are set to not be NSFW, so move to a server.");
                 return;
             }
 
-            if (forceFail && !await Util.IsChannelNsfw(context))
+            if (forceFail && !await Util.IsChannelNsfwAsync(context))
             {
                 string retrieveKey = Util.String.RandomHexadecimal(8);
 
@@ -194,7 +194,7 @@ namespace xubot.Commands.Connections
         [Command("booru-get", RunMode = RunMode.Async), Summary("Gets an image you requested that wasn't appropriate for the original context with a given key.")]
         public async Task GetStoredImageUri(string key, bool hide = false)
         {
-            if (await Util.IsDmChannel(Context))
+            if (await Util.IsDmChannelAsync(Context))
             {
                 await ReplyAsync("You can only use this command with your retrieve key on the server you made the request from, not from a DM with the bot.");
                 return;

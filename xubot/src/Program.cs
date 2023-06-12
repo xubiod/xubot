@@ -183,11 +183,11 @@ namespace xubot
 
         public static async Task ReadyReddit(ICommandContext context = null)
         {
-            IUserMessage log = Util.Log.PersistLog("setting up bot web agent for reddit use", context).Result;
+            IUserMessage log = Util.Log.PersistLogAsync("setting up bot web agent for reddit use", context).Result;
 
             if (JsonKeys["keys"].Contents.reddit.user.ToString() == "" && JsonKeys["keys"].Contents.reddit.pass.ToString() == "")
             {
-                await Util.Log.PersistLog("reddit info not provided within keys, aborting", log);
+                await Util.Log.PersistLogAsync("reddit info not provided within keys, aborting", log);
             }
             else
             {
@@ -201,7 +201,7 @@ namespace xubot
                         JsonKeys["keys"].Contents.reddit.secret.ToString(),
                         "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING");
 
-                    await Util.Log.PersistLog("setting up reddit client", log);
+                    await Util.Log.PersistLogAsync("setting up reddit client", log);
                     Reddit = new Reddit(WebAgent, true);
                     //_red.Wait();
 
@@ -302,7 +302,7 @@ namespace xubot
             IResult result = await XuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)
             {
-                await Util.Error.BuildError(result, context);
+                await Util.Error.BuildErrorAsync(result, context);
             }
         }
 
@@ -323,7 +323,7 @@ namespace xubot
             IResult result = await XuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)
             {
-                await Util.Error.BuildError(result, context);
+                await Util.Error.BuildErrorAsync(result, context);
             }
         }
     }

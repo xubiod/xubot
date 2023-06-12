@@ -89,7 +89,7 @@ namespace xubot {
             }
             catch (Exception exp)
             {
-                await Util.Error.BuildError(exp, Context);
+                await Util.Error.BuildErrorAsync(exp, Context);
             }
         }
 
@@ -148,7 +148,7 @@ namespace xubot {
             }
             catch (Exception e)
             {
-                await Util.Error.BuildError(e, Context);
+                await Util.Error.BuildErrorAsync(e, Context);
             }
         }
 
@@ -166,7 +166,7 @@ namespace xubot {
             }
             catch (Exception e)
             {
-                await Util.Error.BuildError(e, Context);
+                await Util.Error.BuildErrorAsync(e, Context);
             }
         }
 
@@ -175,18 +175,18 @@ namespace xubot {
         {
             try
             {
-                await ReplyAsync((await Util.IsChannelNsfw(Context)).ToString());
+                await ReplyAsync((await Util.IsChannelNsfwAsync(Context)).ToString());
             }
             catch (Exception e)
             {
-                await Util.Error.BuildError(e, Context);
+                await Util.Error.BuildErrorAsync(e, Context);
             }
         }
 
         [Command("new error handling")]
         public async Task Test011()
         {
-            await Util.Error.BuildError("you triggered the debug command", Context);
+            await Util.Error.BuildErrorAsync("you triggered the debug command", Context);
         }
 
         //[Command("get_settings")]

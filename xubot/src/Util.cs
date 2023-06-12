@@ -34,7 +34,7 @@ namespace xubot
                 };
             }
 
-            public static async Task BuildError(IResult result, CommandContext context)
+            public static async Task BuildErrorAsync(IResult result, CommandContext context)
             {
                 EmbedBuilder embed = GetErrorBoilerplate();
 
@@ -60,7 +60,7 @@ namespace xubot
                 await context.Channel.SendMessageAsync("", false, embed.Build());
             }
 
-            public static async Task BuildError(CommandError err, CommandContext context)
+            public static async Task BuildErrorAsync(CommandError err, CommandContext context)
             {
                 EmbedBuilder embed = GetErrorBoilerplate();
 
@@ -77,7 +77,7 @@ namespace xubot
                 await context.Channel.SendMessageAsync("", false, embed.Build());
             }
 
-            public static async Task BuildError(Exception exp, ICommandContext context)
+            public static async Task BuildErrorAsync(Exception exp, ICommandContext context)
             {
                 string stack = exp.StackTrace;
                 if (stack == null) return;
@@ -137,7 +137,7 @@ namespace xubot
                 }
             }
 
-            public static async Task BuildError(string problem, ICommandContext context)
+            public static async Task BuildErrorAsync(string problem, ICommandContext context)
             {
                 EmbedBuilder embed = GetErrorBoilerplate();
                 embed.Fields = new List<EmbedFieldBuilder>
@@ -153,7 +153,7 @@ namespace xubot
                 await context.Channel.SendMessageAsync("", false, embed.Build());
             }
 
-            public static async Task BuildError(object problem, ICommandContext context)
+            public static async Task BuildErrorAsync(object problem, ICommandContext context)
             {
                 EmbedBuilder embed = GetErrorBoilerplate();
 
@@ -171,7 +171,7 @@ namespace xubot
                 await context.Channel.SendMessageAsync("", false, embed.Build());
             }
 
-            public static async Task Deprecated(ICommandContext context)
+            public static async Task DeprecatedAsync(ICommandContext context)
             {
                 await context.Channel.SendMessageAsync("", false, Embed.GetDefaultEmbed(context, "Deprecated!", "This command/feature of xubot is going to be removed in the future.", Color.DarkRed).Build());
             }
@@ -194,7 +194,7 @@ namespace xubot
             {
                 if (!System.IO.File.Exists(jsonFile))
                 {
-                    await Log.QuickLog($"a json file was missing: {Path.GetFileName(jsonFile)}");
+                    await Log.QuickLogAsync($"a json file was missing: {Path.GetFileName(jsonFile)}");
                     return;
                 }
                 Program.JsonKeys.Add(key, new Entry(jsonFile, JObject.Parse(System.IO.File.ReadAllText(jsonFile))));
@@ -327,12 +327,12 @@ namespace xubot
 
         public class Log
         {
-            public static async Task QuickLog(string message, ICommandContext context = null)
+            public static async Task QuickLogAsync(string message, ICommandContext context = null)
             {
-                await PersistLog(message, context);
+                await PersistLogAsync(message, context);
             }
 
-            public static async Task<IUserMessage> PersistLog(string message, ICommandContext context)
+            public static async Task<IUserMessage> PersistLogAsync(string message, ICommandContext context)
             {
                 string logAs = $"{DateTime.Now.ToLongTimeString()}]: {message}";
                 Console.WriteLine(logAs);
@@ -340,7 +340,7 @@ namespace xubot
                 return null;
             }
 
-            public static async Task PersistLog(string message, IUserMessage append)
+            public static async Task PersistLogAsync(string message, IUserMessage append)
             {
                 string logAs = $"[{DateTime.Now.ToLongTimeString()}]: {message}";
                 Console.WriteLine(logAs);
@@ -455,17 +455,17 @@ namespace xubot
             return false;
         }
 
-        public static async Task<bool> IsChannelNsfw(ICommandContext context)
+        public static async Task<bool> IsChannelNsfwAsync(ICommandContext context)
         {
             if (!Global.Default.BotwideNSFWEnabled) return false;
 
-            if (await IsDmChannel(context)) return Global.Default.DMsAlwaysNSFW;
+            if (await IsDmChannelAsync(context)) return Global.Default.DMsAlwaysNSFW;
 
             ITextChannel c = context.Channel as ITextChannel;
             return c?.IsNsfw ?? false;
         }
 
-        public static async Task<bool> IsDmChannel(ICommandContext context)
+        public static async Task<bool> IsDmChannelAsync(ICommandContext context)
         {
             IDMChannel ifDm = await context.Message.Author.CreateDMChannelAsync();
 

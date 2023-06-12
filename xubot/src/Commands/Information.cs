@@ -120,7 +120,7 @@ namespace xubot.Commands
                     new()
                     {
                         Name = "NSFW?",
-                        Value = await Util.IsChannelNsfw(Context),
+                        Value = await Util.IsChannelNsfwAsync(Context),
                         IsInline = true
                     }
                 };
@@ -237,7 +237,7 @@ namespace xubot.Commands
                 }
                 catch (Exception e)
                 {
-                    await Util.Error.BuildError(e, Context);
+                    await Util.Error.BuildErrorAsync(e, Context);
                 }
             }
 

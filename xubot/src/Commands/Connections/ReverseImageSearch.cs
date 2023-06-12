@@ -29,7 +29,7 @@ namespace xubot.Commands.Connections
             {
                 if (Context.Message.Attachments.Count == 0)
                 {
-                    await Util.Error.BuildError("No attachments or parameters were given.", Context);
+                    await Util.Error.BuildErrorAsync("No attachments or parameters were given.", Context);
                     return;
                 }
                 await GetSauce(Util.File.ReturnLastAttachmentUrl(Context));
@@ -41,7 +41,7 @@ namespace xubot.Commands.Connections
             {
                 if (!Util.String.ValidateUrl(url))
                 {
-                    await Util.Error.BuildError("Invalid URL", Context);
+                    await Util.Error.BuildErrorAsync("Invalid URL", Context);
                     return;
                 }
 
@@ -72,7 +72,7 @@ namespace xubot.Commands.Connections
             {
                 if (Context.Message.Attachments.Count == 0)
                 {
-                    await Util.Error.BuildError("No attachments or parameters were given.", Context);
+                    await Util.Error.BuildErrorAsync("No attachments or parameters were given.", Context);
                     return;
                 }
                 await GetTop(Util.File.ReturnLastAttachmentUrl(Context), amount);
@@ -86,7 +86,7 @@ namespace xubot.Commands.Connections
 
                 if (!Util.String.ValidateUrl(url))
                 {
-                    await Util.Error.BuildError("Invalid URL", Context);
+                    await Util.Error.BuildErrorAsync("Invalid URL", Context);
                     return;
                 }
 
@@ -136,7 +136,7 @@ namespace xubot.Commands.Connections
             {
                 if (Context.Message.Attachments.Count == 0)
                 {
-                    await Util.Error.BuildError("No attachments or parameters were given.", Context);
+                    await Util.Error.BuildErrorAsync("No attachments or parameters were given.", Context);
                     return;
                 }
                 await GetDetails(Util.File.ReturnLastAttachmentUrl(Context));
@@ -148,7 +148,7 @@ namespace xubot.Commands.Connections
             {
                 if (!Util.String.ValidateUrl(url))
                 {
-                    await Util.Error.BuildError("Invalid URL", Context);
+                    await Util.Error.BuildErrorAsync("Invalid URL", Context);
                     return;
                 }
 
@@ -233,7 +233,7 @@ namespace xubot.Commands.Connections
             {
                 string requestsLeft = GetRequestsLeft(keys, RequestsLeftType.NoFormatting);
 
-                await Util.Error.BuildError($"SauceNAO returned an error:\n\n{Util.String.StripHtml(keys.header.message.ToString())}\n\n[NOTE]\n{requestsLeft}", context);
+                await Util.Error.BuildErrorAsync($"SauceNAO returned an error:\n\n{Util.String.StripHtml(keys.header.message.ToString())}\n\n[NOTE]\n{requestsLeft}", context);
             }
 
             private EmbedBuilder GetTemplate(dynamic keys, string title, List<EmbedFieldBuilder> embedFields)

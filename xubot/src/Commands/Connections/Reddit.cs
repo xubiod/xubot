@@ -34,7 +34,7 @@ namespace xubot.Commands.Connections
         [Command("reddit?nsfwmap"), Summary("Returns a URL to a visual map of many NSFW subreddits and how they link.")]
         public async Task GetNsfwMap()
         {
-            if (await IsChannelNsfw(Context)) await ReplyAsync("Alright... then... " + "https://electronsoup.net/nsfw_subreddits/#");
+            if (await IsChannelNsfwAsync(Context)) await ReplyAsync("Alright... then... " + "https://electronsoup.net/nsfw_subreddits/#");
             else await ReplyAsync("Move to a NSFW channel.");
         }
 

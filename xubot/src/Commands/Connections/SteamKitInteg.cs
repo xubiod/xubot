@@ -155,7 +155,7 @@ namespace xubot.Commands.Connections
             }
             catch (Exception ex)
             {
-                await Util.Error.BuildError(ex, Context);
+                await Util.Error.BuildErrorAsync(ex, Context);
             }
         }
 
@@ -204,7 +204,7 @@ namespace xubot.Commands.Connections
             }
             catch (Exception exp)
             {
-                await Util.Error.BuildError(exp, Context);
+                await Util.Error.BuildErrorAsync(exp, Context);
             }
         }
 
@@ -250,7 +250,7 @@ namespace xubot.Commands.Connections
             }
             catch (Exception exp)
             {
-                await Util.Error.BuildError(exp, context);
+                await Util.Error.BuildErrorAsync(exp, context);
                 return -1;
             }
         }

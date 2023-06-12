@@ -290,7 +290,7 @@ namespace xubot.Commands
             }
             catch (Exception e)
             {
-                await Util.Error.BuildError(e, Context);
+                await Util.Error.BuildErrorAsync(e, Context);
             }
         }
 
@@ -408,7 +408,7 @@ namespace xubot.Commands
             }
             catch (Exception e)
             {
-                await Util.Error.BuildError(e, Context);
+                await Util.Error.BuildErrorAsync(e, Context);
             }
         }
 
