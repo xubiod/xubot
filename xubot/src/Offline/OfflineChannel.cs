@@ -74,7 +74,7 @@ namespace xubot.Offline
 
         public Task<IReadOnlyCollection<IMessage>> GetPinnedMessagesAsync(RequestOptions options = null)
         {
-            return null;
+            return (Task<IReadOnlyCollection<IMessage>>)Task.CompletedTask;
         }
 
         public Task<IUser> GetUserAsync(ulong id, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
