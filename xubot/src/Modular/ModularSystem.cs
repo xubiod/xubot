@@ -64,7 +64,7 @@ namespace xubot.Modular
             {
                 this.context = context;
 
-                var temp = commandInstances.First(x => x.GetType().GetMethods().Count(x => (x.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name == command) > 0);
+                var temp = commandInstances.First(x => x.GetType().GetMethods().Any(y => (y.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name == command));
                 temp.GetType().GetMethods().First(x => x.GetCustomAttributes<CmdNameAttribute>().First().Name == command).Invoke(temp, new object[] { parameters }); //.Where(x => x is CmdNameAttribute).First() as CmdNameAttribute).name == command) //.GetMethods("Execute").Invoke(temp, new object[]{ parameters });
             }
 
