@@ -34,7 +34,7 @@ namespace xubot.Commands.Connections
         [Command("reddit?nsfwmap"), Summary("Returns a URL to a visual map of many NSFW subreddits and how they link.")]
         public async Task GetNsfwMap()
         {
-            if (await IsChannelNsfw(Context)) await ReplyAsync("Alright... then... " + "http://electronsoup.net/nsfw_subreddits/#");
+            if (await IsChannelNsfw(Context)) await ReplyAsync("Alright... then... " + "https://electronsoup.net/nsfw_subreddits/#");
             else await ReplyAsync("Move to a NSFW channel.");
         }
 
@@ -55,61 +55,61 @@ namespace xubot.Commands.Connections
             if (!Program.RedditEnabled)
             {
                 await Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
-                return;
+                // return;
             }
 
-            Program.Subreddit = await Program.Reddit.GetSubredditAsync(input);
-
-            string display = Program.Subreddit.DisplayName;
-            string fullname = Program.Subreddit.FullName;
-            string nsfw = Program.Subreddit.NSFW.ToString();
-            string sub = string.Format("{0:#,###0}", Program.Subreddit.Subscribers);
-            string image = Program.Subreddit.HeaderImage;
-            string desc = Program.Subreddit.Description.Split('\n')[0];
-
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Subreddit: {input}", "Details of a subreddit", Color.Orange);
-            embed.ThumbnailUrl = image;
-            embed.Fields = new List<EmbedFieldBuilder>
-            {
-                new()
-                {
-                    Name = "First line of Description",
-                    Value = desc,
-                    IsInline = false
-                },
-                new()
-                {
-                    Name = "Subscriber Count",
-                    Value = sub,
-                    IsInline = true
-                },
-                new()
-                {
-                    Name = "Display Name",
-                    Value = display,
-                    IsInline = true
-                },
-                new()
-                {
-                    Name = "Internal Name",
-                    Value = fullname,
-                    IsInline = true
-                },
-                new()
-                {
-                    Name = "NSFW?",
-                    Value = nsfw,
-                    IsInline = true
-                },
-                new()
-                {
-                    Name = "Link",
-                    Value = "https://reddit.com/r/"+input,
-                    IsInline = true
-                }
-            };
-
-            await ReplyAsync("", false, embed.Build());
+            // Program.Subreddit = await Program.Reddit.GetSubredditAsync(input);
+            //
+            // string display = Program.Subreddit.DisplayName;
+            // string fullname = Program.Subreddit.FullName;
+            // string nsfw = Program.Subreddit.NSFW.ToString();
+            // string sub = string.Format("{0:#,###0}", Program.Subreddit.Subscribers);
+            // string image = Program.Subreddit.HeaderImage;
+            // string desc = Program.Subreddit.Description.Split('\n')[0];
+            //
+            // EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Subreddit: {input}", "Details of a subreddit", Color.Orange);
+            // embed.ThumbnailUrl = image;
+            // embed.Fields = new List<EmbedFieldBuilder>
+            // {
+            //     new()
+            //     {
+            //         Name = "First line of Description",
+            //         Value = desc,
+            //         IsInline = false
+            //     },
+            //     new()
+            //     {
+            //         Name = "Subscriber Count",
+            //         Value = sub,
+            //         IsInline = true
+            //     },
+            //     new()
+            //     {
+            //         Name = "Display Name",
+            //         Value = display,
+            //         IsInline = true
+            //     },
+            //     new()
+            //     {
+            //         Name = "Internal Name",
+            //         Value = fullname,
+            //         IsInline = true
+            //     },
+            //     new()
+            //     {
+            //         Name = "NSFW?",
+            //         Value = nsfw,
+            //         IsInline = true
+            //     },
+            //     new()
+            //     {
+            //         Name = "Link",
+            //         Value = "https://reddit.com/r/"+input,
+            //         IsInline = true
+            //     }
+            // };
+            //
+            // await ReplyAsync("", false, embed.Build());
         }
 
         [Command("reddit?wiki", RunMode = RunMode.Async), Summary("Returns the wiki pages for a subreddit.")]
@@ -119,26 +119,26 @@ namespace xubot.Commands.Connections
             if (!Program.RedditEnabled)
             {
                 await Context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
-                return;
+                // return;
             }
 
-            Program.Subreddit = await Program.Reddit.GetSubredditAsync(input);
-
-            string image = Program.Subreddit.HeaderImage;
-
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Subreddit: {input}", "Subreddit Wiki Pages", Color.Orange);
-            embed.ThumbnailUrl = image;
-            embed.Fields = new List<EmbedFieldBuilder>
-            {
-                new()
-                {
-                    Name = "Wiki",
-                    Value = Program.Subreddit.GetWiki.GetPageNamesAsync(),
-                    IsInline = false
-                }
-            };
-
-            await ReplyAsync("", false, embed.Build());
+            // Program.Subreddit = await Program.Reddit.GetSubredditAsync(input);
+            //
+            // string image = Program.Subreddit.HeaderImage;
+            //
+            // EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Subreddit: {input}", "Subreddit Wiki Pages", Color.Orange);
+            // embed.ThumbnailUrl = image;
+            // embed.Fields = new List<EmbedFieldBuilder>
+            // {
+            //     new()
+            //     {
+            //         Name = "Wiki",
+            //         Value = Program.Subreddit.GetWiki.GetPageNamesAsync(),
+            //         IsInline = false
+            //     }
+            // };
+            //
+            // await ReplyAsync("", false, embed.Build());
         }
 
         [NsfwPossibility("Anything probably"), Example("aww dog")]
@@ -188,36 +188,36 @@ namespace xubot.Commands.Connections
             if (!Program.RedditEnabled)
             {
                 await context.Channel.SendMessageAsync("Reddit is disabled. Try again when it's back on.");
-                return;
+                // return;
             }
 
-            using WorkingBlock wb = new WorkingBlock(context);
-            try
-            {
-                Program.Subreddit = await Program.Reddit.GetSubredditAsync(subreddit);
-                Random rnd = Globals.Rng;
-
-                Listing<Post> contents = Program.Subreddit.GetPosts(RedditTools.ParseSorting.FromIntSort(sorting));
-                int contentsCount = await contents.CountAsync();
-
-                if (contentsCount < 10) contents = Program.Subreddit.GetPosts();
-                //Console.WriteLine(contents.Count);
-                var post = await contents.ElementAtAsync(rnd.Next(contentsCount));
-                //EmbedBuilder embedd;
-
-                bool isNsfw = await IsChannelNsfw(context);
-
-                string postMessage = $"**{post.Title}**\nPosted on *{post.CreatedUTC.ToShortDateString()}* by **{post.AuthorName}**\n\n{ReturnCharOnTrue(hide, "<")}{post.Url.AbsoluteUri}{ReturnCharOnTrue(hide, ">")}\n<https://www.reddit.com{post.Permalink}>";
-
-                if ((post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL")) && !isNsfw)
-                    postMessage = "The random post that was selected is NSFW or the subreddit is NSFW.Try again for another random post, with another subreddit, or move to a NSFW channel(needs nsfw in the name).";
-
-                await ReplyAsync(postMessage);
-            }
-            catch (Exception e)
-            {
-                await Error.BuildError(e, context);
-            }
+            // using WorkingBlock wb = new WorkingBlock(context);
+            // try
+            // {
+            //     Program.Subreddit = await Program.Reddit.GetSubredditAsync(subreddit);
+            //     Random rnd = Globals.Rng;
+            //
+            //     Listing<Post> contents = Program.Subreddit.GetPosts(RedditTools.ParseSorting.FromIntSort(sorting));
+            //     int contentsCount = await contents.CountAsync();
+            //
+            //     if (contentsCount < 10) contents = Program.Subreddit.GetPosts();
+            //     //Console.WriteLine(contents.Count);
+            //     var post = await contents.ElementAtAsync(rnd.Next(contentsCount));
+            //     //EmbedBuilder embedd;
+            //
+            //     bool isNsfw = await IsChannelNsfw(context);
+            //
+            //     string postMessage = $"**{post.Title}**\nPosted on *{post.CreatedUTC.ToShortDateString()}* by **{post.AuthorName}**\n\n{ReturnCharOnTrue(hide, "<")}{post.Url.AbsoluteUri}{ReturnCharOnTrue(hide, ">")}\n<https://www.reddit.com{post.Permalink}>";
+            //
+            //     if ((post.NSFW || post.Title.Contains("NSFW") || post.Title.Contains("NSFL")) && !isNsfw)
+            //         postMessage = "The random post that was selected is NSFW or the subreddit is NSFW.Try again for another random post, with another subreddit, or move to a NSFW channel(needs nsfw in the name).";
+            //
+            //     await ReplyAsync(postMessage);
+            // }
+            // catch (Exception e)
+            // {
+            //     await Error.BuildError(e, context);
+            // }
         }
 
         public string ReturnCharOnTrue(bool hide, string input)
