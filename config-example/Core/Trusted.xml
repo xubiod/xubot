@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xubotTrusted>
-  <!-- these must be added before or during execution -->
-  <!-- these are to replace "RequireOwner" -->
-  <!-- use "GeneralTools.UserTrusted(Context)" to read and use this file -->
-  <trust id="[user id]" />
-</xubotTrusted>

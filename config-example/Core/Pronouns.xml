@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xubotPronouns>
-  <!--- these are added automagically --->
-  <!--- editting manually doesn't seem to work for some retarded reason --->
-  <pronoun id="[user id]" preferred="[pronoun]" />
-</xubotPronouns>
