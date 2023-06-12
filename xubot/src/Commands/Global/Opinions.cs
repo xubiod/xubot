@@ -22,7 +22,9 @@ namespace xubot.Commands.Global
                 case 0: reply = "I don't have an opinion on that yet."; break;
                 case 1: reply = "I got no opinion on that yet."; break;
                 case 2: reply = "I either don't know what that is, or I just don't have an opinion."; break;
-                case 3: reply = "No opinion for this yet."; break;
+                case 3:
+                default:
+                    reply = "No opinion for this yet."; break;
             }
 
             reply = (Program.JsonKeys["opinion"].Contents as JObject).Value<string>(input) ?? reply;

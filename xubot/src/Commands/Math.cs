@@ -259,6 +259,7 @@ namespace xubot.Commands
                         await ReplyAsync($"*Celsius to Fahrenheit:* {num1 / 9 * (5 + 32)}");
                         break;
                     case "f2c":
+                    default:
                         await ReplyAsync($"*Fahrenheit to Celsius:* {(num1 - 32) * ((double)9 / 5)}");
                         break;
                 }
@@ -274,6 +275,7 @@ namespace xubot.Commands
                         await ReplyAsync($"*Feet to Meters:* {num1 * 0.3048}");
                         break;
                     case "m2ft":
+                    default:
                         await ReplyAsync($"*Meters to Feet:* {num1 / 0.3048}");
                         break;
                 }

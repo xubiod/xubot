@@ -34,11 +34,7 @@ namespace xubot.Commands.Global
             double mood = MoodTools.ReadMood(Context.Message.Author);
 
             switch (mood)
-            {
-                case >= -16 and <= 16:
-                    await ReplyAsync(MoodTools.RandomResponse("Ok...", "Thanks... I guess...", "!", "*flinches a bit, but not a lot*", "Okay then..."));
-                    break;
-                case <= -16:
+            {case <= -16:
                     await ReplyAsync(MoodTools.RandomResponse(
                         "*hiss*",
                         "Can you not?",
@@ -54,6 +50,11 @@ namespace xubot.Commands.Global
                         "*quiet, happy chuckle*"
                     ));
                     break;
+                case >= -16 and <= 16:
+                default:
+                    await ReplyAsync(MoodTools.RandomResponse("Ok...", "Thanks... I guess...", "!", "*flinches a bit, but not a lot*", "Okay then..."));
+                    break;
+
             }
 
             MoodTools.AdjustMood(Context.Message.Author, 0.2);
@@ -68,13 +69,6 @@ namespace xubot.Commands.Global
 
             switch (mood)
             {
-                case >= -16 and <= 16:
-                    await ReplyAsync(MoodTools.RandomResponse(
-                        "*stunned*",
-                        "!",
-                        "I... wasn't expecting that."
-                    ));
-                    break;
                 case <= -16:
                     await ReplyAsync(MoodTools.RandomResponse(
                         "I don't want a hug.",
@@ -89,6 +83,14 @@ namespace xubot.Commands.Global
                         "*accepts the embrace*",
                         "*it's faint, but there is some non-differentiable sound*",
                         "*hugs back*"
+                    ));
+                    break;
+                case >= -16 and <= 16:
+                default:
+                    await ReplyAsync(MoodTools.RandomResponse(
+                        "*stunned*",
+                        "!",
+                        "I... wasn't expecting that."
                     ));
                     break;
             }
@@ -112,13 +114,6 @@ namespace xubot.Commands.Global
 
             switch (mood)
             {
-                case >= -16 and <= 16:
-                    await ReplyAsync(MoodTools.RandomResponse(
-                        "Oh... um... alright...",
-                        "*surprised*",
-                        "We shall not coexist on the same bed.")
-                    );
-                    break;
                 case <= -16:
                     await ReplyAsync(MoodTools.RandomResponse(
                         "I don't want to cuddle with you.",
@@ -133,6 +128,14 @@ namespace xubot.Commands.Global
                         "uwu",
                         "*accepts cuddles*",
                         "*you hear a barely audible noise*")
+                    );
+                    break;
+                case >= -16 and <= 16:
+                default:
+                    await ReplyAsync(MoodTools.RandomResponse(
+                        "Oh... um... alright...",
+                        "*surprised*",
+                        "We shall not coexist on the same bed.")
                     );
                     break;
             }

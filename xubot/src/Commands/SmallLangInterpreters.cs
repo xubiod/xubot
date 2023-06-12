@@ -35,6 +35,9 @@
                         case 'o':
                             _output += _cell.ToString();
                             break;
+                        default:
+                            // ignore
+                            break;
                     }
 
                     if (_cell == -1 || _cell == 256)
@@ -142,6 +145,10 @@
                         {
                             while (_actions[_actionPointer] != '[') _actionPointer--;
                         }
+                        break;
+                    
+                    default:
+                        // ignore
                         break;
                 }
             }

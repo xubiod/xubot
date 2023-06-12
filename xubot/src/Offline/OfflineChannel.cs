@@ -59,6 +59,7 @@ namespace xubot.Offline
                     index = Math.Max(0, index - limit);
                     break;
                 case Direction.Around:
+                default:
                     index = Math.Max(0, index - limit / 2);
                     break;
             }
