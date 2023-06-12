@@ -253,6 +253,7 @@ namespace xubot.Commands
             [Command("temperature"), Alias("temp"), Summary("Converts Celsius or Fahrenheit to the other using `c2f` and `f2c`.")]
             public async Task Temp([Summary("double 1")] double num1, string fromTo)
             {
+                /// TODO: actually add a case for nothing, don't assume
                 switch (fromTo)
                 {
                     case "c2f":
@@ -269,6 +270,7 @@ namespace xubot.Commands
             [Command("length"), Alias("height"), Summary("Converts feet to meters to the other using `ft2m` and `m2ft`.")]
             public async Task Length([Summary("double 1")] double num1, string fromTo)
             {
+                /// TODO: actually add a case for nothing, don't assume
                 switch (fromTo)
                 {
                     case "ft2m":
