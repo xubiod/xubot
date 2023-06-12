@@ -50,7 +50,7 @@ namespace xubot.Commands.Global
                         "*quiet, happy chuckle*"
                     ));
                     break;
-                case >= -16 and <= 16:
+                // case >= -16 and <= 16:
                 default:
                     await ReplyAsync(MoodTools.RandomResponse("Ok...", "Thanks... I guess...", "!", "*flinches a bit, but not a lot*", "Okay then..."));
                     break;
@@ -85,7 +85,7 @@ namespace xubot.Commands.Global
                         "*hugs back*"
                     ));
                     break;
-                case >= -16 and <= 16:
+                // case >= -16 and <= 16:
                 default:
                     await ReplyAsync(MoodTools.RandomResponse(
                         "*stunned*",
@@ -130,7 +130,7 @@ namespace xubot.Commands.Global
                         "*you hear a barely audible noise*")
                     );
                     break;
-                case >= -16 and <= 16:
+                // case >= -16 and <= 16:
                 default:
                     await ReplyAsync(MoodTools.RandomResponse(
                         "Oh... um... alright...",
