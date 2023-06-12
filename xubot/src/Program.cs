@@ -28,7 +28,7 @@ namespace xubot
         public static Reddit Reddit { get; private set; }
         public static Subreddit Subreddit { get; set; }
 
-        public static readonly bool RedditEnabled = false;
+        public const bool RedditEnabled = false;
 
         public static readonly Dictionary<string, Util.Json.Entry> JsonKeys = new();
 

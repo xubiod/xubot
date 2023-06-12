@@ -355,7 +355,7 @@ namespace xubot
             public static readonly Emoji Working = new(Global.Default.WorkingReaction);
             public static readonly Emoji Completed = new(Global.Default.WorkCompletedReaction);
             public static readonly Emoji LongerThanExpected = new(Global.Default.WorkTakingLongerReaction);
-            public static readonly string EmbedFooter = "xubot :p";
+            public const string EmbedFooter = "xubot";
         }
 
         public class WorkingBlock : IDisposable
