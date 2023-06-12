@@ -41,8 +41,8 @@ namespace xubot.Commands.Connections
                 string mostWeekIn = "";
                 decimal mostWeek = 0;
 
-                EmbedFieldBuilder mostWeekField = new EmbedFieldBuilder { Name = "Most Playtime (2 wks)", Value = "Has not played in last 2 weeks.", IsInline = true };
-                EmbedFieldBuilder mostTimeField = new EmbedFieldBuilder { Name = "Most Playtime (forever)", Value = "Has not played since account creation (Wha...?)", IsInline = true };
+                EmbedFieldBuilder mostWeekField = new() { Name = "Most Playtime (2 wks)", Value = "Has not played in last 2 weeks.", IsInline = true };
+                EmbedFieldBuilder mostTimeField = new() { Name = "Most Playtime (forever)", Value = "Has not played since account creation (Wha...?)", IsInline = true };
 
                 foreach (KeyValue game in ownedGames["games"].Children)
                 {
@@ -184,7 +184,7 @@ namespace xubot.Commands.Connections
 
                 for (int i = 0; i < amount; i++)
                 {
-                    Uri articleUri = new Uri(news.Children[i]["url"].AsString() ?? string.Empty);
+                    Uri articleUri = new(news.Children[i]["url"].AsString() ?? string.Empty);
 
                     string label = "";
                     if (news.Children[i]["feedlabel"].AsString() != "Community Announcements") label = "\n*(" + news.Children[i]["feedlabel"].AsString() + ")*";
