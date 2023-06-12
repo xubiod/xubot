@@ -30,8 +30,8 @@
 [![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
 </details>
 
-## Building (.NET Core)
-*Use xubot-core to build with .NET Core. You need .NET Core 3.1 on the target machine.*
+## Building (.NET)
+*Use xubot-core to build with .NET. You need .NET 7.0 on the target machine.*
 
 In the project directory, run this to compile to DLLs for various platforms:
 ```
@@ -49,7 +49,7 @@ The binary depends on certain files within its directory. These can be found in 
 
 For a full runtime ID list, use [Microsoft's catalog.](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog)
 
-**Confirmed working on:** Windows 10 x64, Ubuntu LTS, Debian (published as `linux-x64`)
+**Confirmed working on:** Windows 10 x64, macOS 13.4 (Apple Silicon), Ubuntu LTS, Debian (published as `linux-x64`)
 
 ## License
 The source code provided here on GitHub is licensed under **AGPLv3**. You can look at the license [here.](LICENSE)
