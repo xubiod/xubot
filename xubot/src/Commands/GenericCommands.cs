@@ -1,19 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
-using Newtonsoft.Json.Linq;
 using Tweetinvi;
 using Tweetinvi.Models;
 using xubot.Attributes;
 using Color = Discord.Color;
-using IUser = Discord.IUser;
 
 namespace xubot.Commands
 {

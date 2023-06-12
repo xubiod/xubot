@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
 using Discord;
 using Discord.Commands;
 using xubot.Attributes;

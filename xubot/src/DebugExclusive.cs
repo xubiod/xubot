@@ -7,15 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using xubot.Commands.Global;
 using static xubot.JokeException;
 using SLImage = SixLabors.ImageSharp.Image;
 using Color = Discord.Color;
 
-namespace xubot.src
-{
+namespace xubot {
 #if (DEBUG)
 
     [Group("debug"), Summary("A group of debug commands for quick debug work. Cannot be used by anyone except owner, and don't have examples given."), RequireOwner]

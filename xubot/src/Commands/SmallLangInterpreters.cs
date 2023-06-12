@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace xubot.Commands
+﻿namespace xubot.Commands
 {
     public static class SmallLangInterpreters
     {
