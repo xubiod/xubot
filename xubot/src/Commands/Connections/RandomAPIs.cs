@@ -84,7 +84,7 @@ namespace xubot.Commands.Connections
             string link = "https://www.validator.pizza/email/" + email;
 
             string text;
-            using (var httpClient = new HttpClient())
+            using (httpClient)
             {
                 var request = await httpClient.GetAsync(link);
                 // request.ContentType = "application/json; charset=utf-8";
@@ -223,7 +223,7 @@ namespace xubot.Commands.Connections
 
                 string textJ;
 
-                using (HttpClient httpClient = new())
+                using (httpClient)
                 {
                     textJ = await httpClient.GetStringAsync(link);
                 }
