@@ -22,15 +22,13 @@ namespace xubot
         public static readonly CommandService XuCommand = new();
         public static readonly DiscordSocketClient XuClient = new(new DiscordSocketConfig { LogLevel = LogSeverity.Warning });
 
-        public static bool IsOffline { get; private set; }
-
         public static string Prefix = Global.Default.DefaultPrefix;
 
         public static BotWebAgent WebAgent { get; private set; }
         public static Reddit Reddit { get; private set; }
         public static Subreddit Subreddit { get; set; }
 
-        public static bool RedditEnabled;
+        public static readonly bool RedditEnabled = false;
 
         public static readonly Dictionary<string, Util.Json.Entry> JsonKeys = new();
 
@@ -61,7 +59,6 @@ namespace xubot
             }
             else
             {
-                IsOffline = true;
                 if (Global.Default.ResetOfflineSettingOnNextLaunch)
                 {
                     Global.Default.ForceOfflineOnNextLaunch = false;
@@ -196,7 +193,7 @@ namespace xubot
             {
                 try
                 {
-                    RedditEnabled = true;
+                    // RedditEnabled = true;
                     WebAgent = new BotWebAgent(
                         JsonKeys["keys"].Contents.reddit.user.ToString(),
                         JsonKeys["keys"].Contents.reddit.pass.ToString(),
