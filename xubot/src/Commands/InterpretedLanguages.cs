@@ -151,7 +151,7 @@ namespace xubot.Commands
             public async Task Brainfuck(string input, string asciiInput = "")
             {
                 string embedInput;
-                if (asciiInput != "")
+                if (string.IsNullOrEmpty(asciiInput))
                 {
                     embedInput = $"Code: {input.Replace("\n", String.Empty)}\n\nASCII Input: {asciiInput}";
                 }

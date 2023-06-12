@@ -39,7 +39,7 @@ namespace xubot.Commands
             public async Task Direct(string parameter, string optional = "")
             {
                 DirectUtils.InterpretParameters(parameter);
-                if (optional != "") DirectUtils.InterpretOptionalParameters(optional);
+                if (!string.IsNullOrWhiteSpace(optional)) DirectUtils.InterpretOptionalParameters(optional);
 
                 await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "text-overlay", true);
                 string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
@@ -51,7 +51,7 @@ namespace xubot.Commands
                 {
                     container.Mutate(mut => mut.DrawImage(img, new Point(img.Width * 2, img.Height * 2), PixelColorBlendingMode.Normal, 1.0F));
 
-                    if (optional != "")
+                    if (!string.IsNullOrWhiteSpace(optional))
                     {
                         container.Mutate(mut => mut.DrawText(Text, font, new Rgba32(R / 255, G / 255, B / 255), new PointF(img.Width * 2 + X, img.Height * 2 + Y)));
                     }
@@ -76,7 +76,7 @@ namespace xubot.Commands
             public async Task Header(string parameter, string optional = "")
             {
                 HeaderUtils.InterpretParameters(parameter);
-                if (optional != "") HeaderUtils.InterpretOptionalParameters(optional);
+                if (!string.IsNullOrWhiteSpace(optional)) HeaderUtils.InterpretOptionalParameters(optional);
 
                 await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "text-overlay", true);
                 string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
@@ -94,7 +94,7 @@ namespace xubot.Commands
                     container.Mutate(mut => mut.Fill(Rgba32.ParseHex("FFFFFF")));
 
                     container.Mutate(mut => mut.DrawImage(img, new Point(0, HeaderHeight), PixelColorBlendingMode.Normal, 1.0F));
-                    if (optional != "")
+                    if (!string.IsNullOrWhiteSpace(optional))
                     {
                         container.Mutate(mut => mut.DrawText(Text, font, new Rgba32(R / 255, G / 255, B / 255), new PointF(X, Y)));
                     }

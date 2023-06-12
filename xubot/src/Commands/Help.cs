@@ -75,7 +75,7 @@ namespace xubot.Commands
                 items += parentForm + commList[index].Name + "\n";
             }
 
-            if (items == "") items = "There's nothing here, I think you went out of bounds.";
+            if (string.IsNullOrWhiteSpace(items)) items = "There's nothing here, I think you went out of bounds.";
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"Showing page #{page} out of {System.Math.Ceiling((float)commList.Count / itemsPerPage)} pages.\nShowing a few of the **{commList.Count}** cmds.", Color.Magenta);
             embed.Fields = new List<EmbedFieldBuilder>
@@ -130,7 +130,7 @@ namespace xubot.Commands
 
                 cmds += GetAllGroups(compatibles[index].Module) + compatibles[index].Name + "\n";
             }
-            if (cmds == "") cmds = "I don't think any command called that exists...";
+            if (string.IsNullOrWhiteSpace(cmds)) cmds = "I don't think any command called that exists...";
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help - Search", $"Showing page #{page} out of {System.Math.Ceiling((float)compatibles.Count / itemsPerPage)} pages.\nShowing a few of the **{compatibles.Count}** cmds with the lookup.", Color.Magenta);
             embed.Fields = new List<EmbedFieldBuilder>
@@ -231,7 +231,7 @@ namespace xubot.Commands
                 if (comm.Attributes.Any(x => x is ExampleAttribute))
                 {
                     ExampleAttribute ex = comm.Attributes.First(x => x is ExampleAttribute) as ExampleAttribute;
-                    if (ex.ExampleParameters != "") examplePara = ex.ExampleParameters;
+                    if (!string.IsNullOrWhiteSpace(ex.ExampleParameters)) examplePara = ex.ExampleParameters;
                     examplePara += ex.AttachmentNeeded ? "\n\n[You need to upload a file to use this.]" : "";
                 }
 
@@ -279,7 +279,7 @@ namespace xubot.Commands
                     IsInline = true
                 });
 
-                if (nsfwPossibility != "") embed.Fields.Add(new EmbedFieldBuilder
+                if (!string.IsNullOrEmpty(nsfwPossibility)) embed.Fields.Add(new EmbedFieldBuilder
                 {
                     Name = "NSFW Possibility",
                     Value = $"This can show NSFW content. NSFW content is restricted to NSFW channels.\n**{nsfwPossibility}**",

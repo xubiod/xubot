@@ -27,7 +27,7 @@ namespace xubot.Commands
                 string verifyLvl = Context.Guild.VerificationLevel.ToString();
                 string afkChannelId = Context.Guild.AFKChannelId.ToString();
 
-                if (afkChannelId == "") { afkChannelId = "No AFK Channel"; }
+                if (string.IsNullOrEmpty(afkChannelId)) { afkChannelId = "No AFK Channel"; }
 
                 verifyLvl = verifyLvl switch
                 {

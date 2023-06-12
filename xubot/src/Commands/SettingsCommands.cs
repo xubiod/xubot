@@ -94,7 +94,7 @@ namespace xubot.Commands
                 items += $"{collection[index].Name}: ({Util.String.SimplifyTypes(Util.Settings.Get(collection[index].Name).GetType().ToString())}) {Util.Settings.Get(collection[index].Name)}\n";
             }
 
-            if (items == "") items = "There's nothing here, I think you went out of bounds.";
+            if (string.IsNullOrWhiteSpace(items)) items = "There's nothing here, I think you went out of bounds.";
 
             EmbedBuilder embed = Util.Embed.GetDefaultEmbed(
                 Context, "Settings list", $"Showing page #{page} out of {System.Math.Ceiling((float)collection.Length / itemsPerPage)} pages.\n" +

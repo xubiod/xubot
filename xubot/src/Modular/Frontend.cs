@@ -49,7 +49,7 @@ namespace xubot.Modular
                 string list = "";
 
                 foreach (ICommandModule cmd in ModularSystem.Modules[module].commandInstances)
-                    foreach (MethodInfo item in cmd.GetType().GetMethods().Where(x => (x.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name != ""))
+                    foreach (MethodInfo item in cmd.GetType().GetMethods().Where(x => string.IsNullOrEmpty((x.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name)))
                         list += item.GetCustomAttribute<CmdNameAttribute>().Name + " - " + (item.GetCustomAttribute<CmdSummaryAttribute>() != null ? item.GetCustomAttribute<CmdSummaryAttribute>().Summary : "Not set in module") + "\n";
                 //list += cmd.GetType().getM + " - " + "NotImplement" + "\n";
 

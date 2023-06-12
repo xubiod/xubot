@@ -62,12 +62,12 @@ namespace xubot.Commands.Connections
                     }
                 }
 
-                if (mostWeekIn != "")
+                if (!string.IsNullOrEmpty(mostWeekIn))
                 {
                     mostWeekField.Value = $"In App\n**__{mostWeekIn}__**: {mostWeek:#,###} minutes\n{mostWeek / 60:#,###0.0} hours";
                 }
 
-                if (mostTimeIn != "")
+                if (!string.IsNullOrEmpty(mostTimeIn))
                 {
                     mostTimeField.Value = $"In App\n**__{mostTimeIn}__**: {mostTime:#,###} minutes\n{mostTime / 60:#,###0.0} hours";
                 }
