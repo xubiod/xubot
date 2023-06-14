@@ -30,6 +30,7 @@ namespace xubot.Offline
         public IMessageChannel Channel => OfflineHandlers.DefaultOfflineChannel;
 
         public IUser Author => OfflineHandlers.DefaultOfflineUser;
+        public IThreadChannel Thread { get; }
 
         public IReadOnlyCollection<IAttachment> Attachments => throw new NotImplementedException();
 
@@ -68,6 +69,7 @@ namespace xubot.Offline
         IReadOnlyCollection<IStickerItem> IMessage.Stickers => throw new NotImplementedException();
 
         public IMessageInteraction Interaction => throw new NotImplementedException();
+        public MessageRoleSubscriptionData RoleSubscriptionData { get; }
 
         public OfflineMessage()
         {

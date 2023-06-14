@@ -19,6 +19,12 @@ namespace xubot.Offline
             throw new NotImplementedException();
         }
 
+        public Task<IReadOnlyCollection<IApplicationCommand>> GetGlobalApplicationCommandsAsync(bool withLocalizations = false, string locale = null,
+            RequestOptions options = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IApplicationCommand> CreateGlobalApplicationCommand(ApplicationCommandProperties properties, RequestOptions options = null)
         {
             throw new NotImplementedException();

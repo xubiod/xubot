@@ -6,7 +6,7 @@ using BooruSharp.Booru;
 using BooruSharp.Search.Post;
 using Discord.Commands;
 using xubot.Attributes;
-using SearchResult = BooruSharp.Search.Post.SearchResult;
+using SearchResult = BooruSharp.Search.Post.PostSearchResult;
 
 namespace xubot.Commands.Connections
 {
