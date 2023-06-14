@@ -211,8 +211,6 @@ namespace xubot.Commands.Connections
             }
         }
 
-
-
         [Example("\"New York City\"")]
         [Command("timezone", RunMode = RunMode.Async), Summary("Returns the timezone from a given string.")]
         public async Task Timezone(string loc)
