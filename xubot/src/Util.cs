@@ -16,7 +16,7 @@ namespace xubot
 {
     public static class Util
     {
-        public class Error //(SocketMessage messageParameters)
+        public static class Error //(SocketMessage messageParameters)
         {
             private static EmbedBuilder GetErrorBoilerplate()
             {
@@ -177,20 +177,15 @@ namespace xubot
             }
         }
 
-        public class Json
+        public static class Json
         {
-            public class Entry
+            public class Entry(string filename, dynamic contents)
             {
-                public string Filename { get; }
-                public dynamic Contents { get; set; }
-
-                public Entry(string filename, dynamic contents)
-                {
-                    Filename = filename; Contents = contents;
-                }
+                public string Filename { get; } = filename;
+                public dynamic Contents { get; set; } = contents;
             }
 
-            public async static void ProcessFile(string key, string jsonFile)
+            public static async void ProcessFile(string key, string jsonFile)
             {
                 if (!System.IO.File.Exists(jsonFile))
                 {
@@ -221,7 +216,7 @@ namespace xubot
             }
         }
 
-        public class CmdLine
+        public static class CmdLine
         {
             public static void SetColor(ConsoleColor foreground = ConsoleColor.White, ConsoleColor background = ConsoleColor.Black)
             {
@@ -230,7 +225,7 @@ namespace xubot
             }
         }
 
-        public class String
+        public static class String
         {
             private static readonly Dictionary<string, string> TypeToString = new() {
                 { "System.Boolean", "bool"},
@@ -283,7 +278,7 @@ namespace xubot
             }
         }
 
-        public class File
+        public static class File
         {
             public static string ReturnLastAttachmentUrl(ICommandContext context)
             {
@@ -325,7 +320,7 @@ namespace xubot
             }
         }
 
-        public class Log
+        public static class Log
         {
             public static async Task QuickLogAsync(string message, ICommandContext context = null)
             {
@@ -348,7 +343,7 @@ namespace xubot
             }
         }
 
-        public class Globals
+        public static class Globals
         {
             public static readonly Random Rng = new();
             public static readonly char[] HexadecimalChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
@@ -414,7 +409,7 @@ namespace xubot
             }
         }
 
-        public class Settings
+        public static class Settings
         {
             public static object Get(string key)
             {
@@ -429,7 +424,7 @@ namespace xubot
             }
         }
 
-        public class Embed
+        public static class Embed
         {
             public static EmbedBuilder GetDefaultEmbed(ICommandContext context, string title = "", string description = "", Color? color = null)
             {
