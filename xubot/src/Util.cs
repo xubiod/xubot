@@ -41,21 +41,22 @@ namespace xubot
                 var error = result.Error;
                 if (error == null) return;
 
-                embed.Fields = new List<EmbedFieldBuilder>
-                {
-                    new()
+                embed.Fields =
+                [
+                    new EmbedFieldBuilder
                     {
                         Name = "Error Reason",
                         Value = "```" + result.ErrorReason + "```",
                         IsInline = false
                     },
-                    new()
+
+                    new EmbedFieldBuilder
                     {
                         Name = "What it is",
                         Value = "```" + error.GetType() + "```",
                         IsInline = false
                     }
-                };
+                ];
 
                 await context.Channel.SendMessageAsync("", false, embed.Build());
             }
@@ -64,15 +65,15 @@ namespace xubot
             {
                 EmbedBuilder embed = GetErrorBoilerplate();
 
-                embed.Fields = new List<EmbedFieldBuilder>
-                {
-                    new()
+                embed.Fields =
+                [
+                    new EmbedFieldBuilder
                     {
                         Name = "CommandError Error",
                         Value = "```" + err + "```",
                         IsInline = false
                     }
-                };
+                ];
 
                 await context.Channel.SendMessageAsync("", false, embed.Build());
             }
@@ -102,33 +103,36 @@ namespace xubot
                 EmbedBuilder embed = GetErrorBoilerplate();
 
                 embed.Description = $"It's a ***{exp.GetType()}***.";
-                embed.Fields = new List<EmbedFieldBuilder>
-                {
-                    new()
+                embed.Fields =
+                [
+                    new EmbedFieldBuilder
                     {
                         Name = "Source",
                         Value = $"```{exp.Source}```",
                         IsInline = false
                     },
-                    new()
+
+                    new EmbedFieldBuilder
                     {
                         Name = "Message",
                         Value = $"```{exp.Message}```",
                         IsInline = false
                     },
-                    new()
+
+                    new EmbedFieldBuilder
                     {
                         Name = "Target Site",
                         Value = $"```{exp.TargetSite}```",
                         IsInline = false
                     },
-                    new()
+
+                    new EmbedFieldBuilder
                     {
                         Name = "Stack Trace",
                         Value = $"```{stack}```",
                         IsInline = false
                     }
-                };
+                ];
 
                 await context.Channel.SendMessageAsync("", false, embed.Build());
                 if (stacktraceToFile && Global.Default.SendBigStacktraceOnError)
@@ -140,15 +144,15 @@ namespace xubot
             public static async Task BuildErrorAsync(string problem, ICommandContext context)
             {
                 EmbedBuilder embed = GetErrorBoilerplate();
-                embed.Fields = new List<EmbedFieldBuilder>
-                {
-                    new()
+                embed.Fields =
+                [
+                    new EmbedFieldBuilder
                     {
                         Name = "Details",
                         Value = "```" + problem + "```",
                         IsInline = false
                     }
-                };
+                ];
 
                 await context.Channel.SendMessageAsync("", false, embed.Build());
             }
@@ -158,15 +162,15 @@ namespace xubot
                 EmbedBuilder embed = GetErrorBoilerplate();
 
                 embed.Description = "It's a dedicated ***" + problem.GetType() + "*** issue.";
-                embed.Fields = new List<EmbedFieldBuilder>
-                {
-                    new()
+                embed.Fields =
+                [
+                    new EmbedFieldBuilder
                     {
                         Name = "Details",
                         Value = $"```{problem}```",
                         IsInline = false
                     }
-                };
+                ];
 
                 await context.Channel.SendMessageAsync("", false, embed.Build());
             }
@@ -182,7 +186,7 @@ namespace xubot
             public class Entry(string filename, dynamic contents)
             {
                 public string Filename { get; } = filename;
-                public dynamic Contents { get; set; } = contents;
+                public dynamic Contents { get; } = contents;
             }
 
             public static async void ProcessFile(string key, string jsonFile)
