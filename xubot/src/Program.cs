@@ -91,7 +91,7 @@ namespace xubot
         {
             AppStart = DateTime.Now;
 
-            string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? ".";
 
             Util.Json.ProcessFile("keys", Path.Combine(currentDir, "Keys.json"));
             Util.Json.ProcessFile("apis", Path.Combine(currentDir, "API.json"));
@@ -148,7 +148,7 @@ namespace xubot
         {
             AppStart = DateTime.Now;
 
-            string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? ".";
 
             Util.Json.ProcessFile("keys", Path.Combine(currentDir, "Keys.json"));
             Util.Json.ProcessFile("apis", Path.Combine(currentDir, "API.json"));
