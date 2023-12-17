@@ -239,7 +239,7 @@ namespace xubot.Commands.Connections
             return app?["name"].AsString();
         }
 
-        public async static Task<int> ReturnAppId(string appName, ICommandContext context)
+        public static async Task<int> ReturnAppId(string appName, ICommandContext context)
         {
             try
             {
