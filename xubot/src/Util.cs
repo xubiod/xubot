@@ -289,7 +289,7 @@ namespace xubot
                 return ReturnAttachmentUrls(context).Last();
             }
 
-            public static List<string> ReturnAttachmentUrls(ICommandContext context)
+            public static IEnumerable<string> ReturnAttachmentUrls(ICommandContext context)
             {
                 var attach = context.Message.Attachments;
                 List<string> results = new();
