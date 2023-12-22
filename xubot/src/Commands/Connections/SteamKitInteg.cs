@@ -89,8 +89,8 @@ namespace xubot.Commands.Connections
 
                 if (playerSummaries["communityvisibilitystate"].AsInteger(1) == 3 /* public, don't ask why */)
                 {
-                    embed.Fields = new List<EmbedFieldBuilder>
-                    {
+                    embed.Fields =
+                    [
                         new()
                         {
                             Name = "Current Stats",
@@ -101,27 +101,32 @@ namespace xubot.Commands.Connections
                                     $"{playing}",
                             IsInline = true
                         },
+
                         new()
                         {
                             Name = "Playtime (2 wks)",
                             Value = $"{twoWeeks:#,##0} minutes\n{twoWeeks / 60:#,###0.0} hours",
                             IsInline = true
                         },
+
                         new()
                         {
                             Name = "Playtime (forever)",
-                            Value = $"{forever:#,##0} minutes\n{forever / 60:#,###0.0} hours\n{forever / 1440:#,###0.00} days",
+                            Value =
+                                $"{forever:#,##0} minutes\n{forever / 60:#,###0.0} hours\n{forever / 1440:#,###0.00} days",
                             IsInline = true
                         },
+
                         mostWeekField,
                         mostTimeField,
                         new()
                         {
                             Name = "Last Logoff",
                             Value = $"{lastLogOff.ToShortDateString()} {lastLogOff.ToShortTimeString()}\n(" +
-                                    $"{System.Math.Round(lastLogOffToNow.TotalHours*100/100).ToString(CultureInfo.CurrentCulture)} hours)",
+                                    $"{System.Math.Round(lastLogOffToNow.TotalHours * 100 / 100).ToString(CultureInfo.CurrentCulture)} hours)",
                             IsInline = true
                         },
+
                         new()
                         {
                             Name = "Time Created",
@@ -129,26 +134,28 @@ namespace xubot.Commands.Connections
                                     $"{createdToNow.TotalDays / 365:#,###.00} years)",
                             IsInline = true
                         }
-                    };
+                    ];
                 }
                 else
                 {
-                    embed.Fields = new List<EmbedFieldBuilder>
-                    {
+                    embed.Fields =
+                    [
                         new()
                         {
                             Name = "Current Stats",
-                            Value = $"**This user's profile is private.**\nCurrently __{GetStatus(playerSummaries["personastate"].AsInteger())}__",
+                            Value =
+                                $"**This user's profile is private.**\nCurrently __{GetStatus(playerSummaries["personastate"].AsInteger())}__",
                             IsInline = false
                         },
+
                         new()
                         {
                             Name = "Last Logoff",
                             Value = $"{lastLogOff.ToShortDateString()} {lastLogOff.ToShortTimeString()}\n(" +
-                                    $"{System.Math.Round(lastLogOffToNow.TotalHours*100/100).ToString(CultureInfo.CurrentCulture)} hours)",
+                                    $"{System.Math.Round(lastLogOffToNow.TotalHours * 100 / 100).ToString(CultureInfo.CurrentCulture)} hours)",
                             IsInline = false
                         }
-                    };
+                    ];
                 }
 
                 await ReplyAsync("", false, embed.Build());

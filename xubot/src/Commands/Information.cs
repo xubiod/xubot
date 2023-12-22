@@ -43,45 +43,52 @@ namespace xubot.Commands
 
                 var embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + Context.Guild.Name, "Server information details", Color.Red);
                 embed.ThumbnailUrl = Context.Guild.IconUrl;
-                embed.Fields = new List<EmbedFieldBuilder>
-                {
+                embed.Fields =
+                [
                     new()
                     {
                         Name = "Name",
                         Value = $"**{Context.Guild.Name}**\n({Context.Guild.Id})",
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Owner",
-                        Value = $"{(await Context.Guild.GetUserAsync(Context.Guild.OwnerId)).Username}#{(await Context.Guild.GetUserAsync(Context.Guild.OwnerId)).Discriminator}\n<@{Context.Guild.OwnerId}>",
+                        Value =
+                            $"{(await Context.Guild.GetUserAsync(Context.Guild.OwnerId)).Username}#{(await Context.Guild.GetUserAsync(Context.Guild.OwnerId)).Discriminator}\n<@{Context.Guild.OwnerId}>",
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Verification Level",
                         Value = verifyLvl,
                         IsInline = false
                     },
+
                     new()
                     {
                         Name = "Created",
                         Value = Context.Guild.CreatedAt,
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "AFK",
                         Value = $"ID: {afkChannelId}\nTimeout: {Context.Guild.AFKTimeout} seconds",
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Miscellaneous",
-                        Value = $"# of Roles: {Context.Guild.Roles.Count}\n# of Emotes: {Context.Guild.Emotes.Count}\nWelcomes go to: <#{welcomeChannel.Id}>\nDefault MSG Notifications.: {Context.Guild.DefaultMessageNotifications}",
+                        Value =
+                            $"# of Roles: {Context.Guild.Roles.Count}\n# of Emotes: {Context.Guild.Emotes.Count}\nWelcomes go to: <#{welcomeChannel.Id}>\nDefault MSG Notifications.: {Context.Guild.DefaultMessageNotifications}",
                         IsInline = false
                     }
-                };
+                ];
 
                 await ReplyAsync("", false, embed.Build());
             }
@@ -91,39 +98,43 @@ namespace xubot.Commands
             {
                 var embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + Context.Channel.Name, "Channel information details", Color.Red);
                 embed.ThumbnailUrl = Context.Guild.IconUrl;
-                embed.Fields = new List<EmbedFieldBuilder>
-                {
+                embed.Fields =
+                [
                     new()
                     {
                         Name = "ID",
                         Value = Context.Channel.Id,
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Name",
                         Value = Context.Channel.Name,
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Created on",
                         Value = Context.Channel.CreatedAt,
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Amount of Pinned Messages",
                         Value = $"{(await Context.Channel.GetPinnedMessagesAsync()).Count}/50",
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "NSFW?",
                         Value = await Util.IsChannelNsfwAsync(Context),
                         IsInline = true
                     }
-                };
+                ];
 
                 await ReplyAsync("", false, embed.Build());
             }
@@ -146,45 +157,54 @@ namespace xubot.Commands
 
                     var embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + user0, "User information details", Color.Red);
                     embed.ThumbnailUrl = user0.GetAvatarUrl();
-                    embed.Fields = new List<EmbedFieldBuilder>
-                    {
+                    embed.Fields =
+                    [
                         new()
                         {
                             Name = "ID",
                             Value = user0.Id,
                             IsInline = true
                         },
+
                         new()
                         {
                             Name = "Status",
                             Value = user0.Status,
                             IsInline = true
                         },
+
                         new()
                         {
                             Name = "Automation",
-                            Value = user0.Id != 198146693672337409 ? user0.IsBot || user0.IsWebhook ? "Yes (" + (user0.IsBot ? "bot" : "") + (user0.IsWebhook ? "webhook" : "") + ")" : "No (Human probably)" : "Indeterminate",
+                            Value = user0.Id != 198146693672337409
+                                ? user0.IsBot || user0.IsWebhook
+                                    ? "Yes (" + (user0.IsBot ? "bot" : "") + (user0.IsWebhook ? "webhook" : "") + ")"
+                                    : "No (Human probably)"
+                                : "Indeterminate",
                             IsInline = true
                         },
+
                         new()
                         {
                             Name = "Current Activity",
                             Value = act,
                             IsInline = true
                         },
+
                         new()
                         {
                             Name = "Created on",
                             Value = user0.CreatedAt,
                             IsInline = true
                         },
+
                         new()
                         {
                             Name = "Random Fact(s)",
                             Value = "Default Icon Color: **" + DiscordColor[user0.DiscriminatorValue % 5] + "**",
                             IsInline = true
                         }
-                    };
+                    ];
 
                     if (Context.Guild != null)
                     {
@@ -270,27 +290,29 @@ namespace xubot.Commands
             public async Task HostMachine()
             {
                 var embed = Util.Embed.GetDefaultEmbed(Context, "Runtime Information", "Details of the bot and OS", new Color(194, 24, 91));
-                embed.Fields = new List<EmbedFieldBuilder>
-                {
+                embed.Fields =
+                [
                     new()
                     {
                         Name = ".NET Installation",
                         Value = RuntimeInformation.FrameworkDescription + "\n" + RuntimeInformation.ProcessArchitecture,
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "OS Description",
                         Value = RuntimeInformation.OSDescription + "\n" + RuntimeInformation.OSArchitecture,
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Runtime Environment Version",
                         Value = RuntimeEnvironment.GetSystemVersion(),
                         IsInline = true
                     }
-                };
+                ];
 
                 await ReplyAsync("", false, embed.Build());
             }
@@ -301,15 +323,15 @@ namespace xubot.Commands
         public async Task About()
         {
             var embed = Util.Embed.GetDefaultEmbed(Context, "About Xubot", $"Version {ThisAssembly.Git.BaseTag}", Color.Orange);
-            embed.Fields = new List<EmbedFieldBuilder>
-            {
+            embed.Fields =
+            [
                 new()
                 {
                     Name = "APIs",
                     Value = String.Join("", Program.JsonKeys["apis"].Contents.apis),
                     IsInline = false
                 }
-            };
+            ];
 
             await ReplyAsync("", false, embed.Build());
         }
@@ -318,15 +340,15 @@ namespace xubot.Commands
         public async Task Credits()
         {
             var embed = Util.Embed.GetDefaultEmbed(Context, "Xubot Development Credits", $"Version {ThisAssembly.Git.BaseTag}", Color.Orange);
-            embed.Fields = new List<EmbedFieldBuilder>
-            {
+            embed.Fields =
+            [
                 new()
                 {
                     Name = "Credits",
                     Value = String.Join("", Program.JsonKeys["apis"].Contents.credits),
                     IsInline = false
                 }
-            };
+            ];
 
             await ReplyAsync("", false, embed.Build());
         }
@@ -335,27 +357,30 @@ namespace xubot.Commands
         public async Task VersionCmd()
         {
             var embed = Util.Embed.GetDefaultEmbed(Context, "Xubot Version", "The specifics.", Color.Orange);
-            embed.Fields = new List<EmbedFieldBuilder>
-            {
+            embed.Fields =
+            [
                 new()
                 {
                     Name = "Version",
                     Value = $"**{ThisAssembly.Git.BaseTag}**\n{ThisAssembly.Git.Tag}",
                     IsInline = true
                 },
+
                 new()
                 {
                     Name = "Build Commit",
-                    Value = $"On {ThisAssembly.Git.Branch}:\n{ThisAssembly.Git.Sha}\n\nCommitted at {ThisAssembly.Git.CommitDate}",
+                    Value =
+                        $"On {ThisAssembly.Git.Branch}:\n{ThisAssembly.Git.Sha}\n\nCommitted at {ThisAssembly.Git.CommitDate}",
                     IsInline = false
                 },
+
                 new()
                 {
                     Name = "Remote Repository",
                     Value = $"{ThisAssembly.Git.RepositoryUrl}",
                     IsInline = true
                 }
-            };
+            ];
 
             await ReplyAsync("", false, embed.Build());
         }

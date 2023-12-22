@@ -32,7 +32,7 @@ namespace xubot.Offline
 
         public UserStatus Status => UserStatus.Online;
 
-        public List<ClientType> DefaultClients = new() { ClientType.Desktop };
+        public List<ClientType> DefaultClients = [ClientType.Desktop];
         public IImmutableSet<ClientType> ActiveClients => (IImmutableSet<ClientType>)DefaultClients;
 
         public List<IActivity> DefaultActivities = null;

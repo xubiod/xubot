@@ -127,15 +127,15 @@ namespace xubot.Commands
                 n += "]`";
 
                 var embed = Util.Embed.GetDefaultEmbed(Context, "List of Insults", "To add something to any list, use `[>insult add [LIST LETTER in BOLD] [STRING]`.", Color.Orange);
-                embed.Fields = new List<EmbedFieldBuilder>
-                {
+                embed.Fields =
+                [
                     new()
                     {
                         Name = "Lists",
                         Value = $"{v}\n\n{a}\n\n{n}",
                         IsInline = false
                     }
-                };
+                ];
 
                 await ReplyAsync("", false, embed.Build());
             }

@@ -78,15 +78,15 @@ namespace xubot.Commands
             if (string.IsNullOrWhiteSpace(items)) items = "There's nothing here, I think you went out of bounds.";
 
             var embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"Showing page #{page} out of {System.Math.Ceiling((float)commList.Count / itemsPerPage)} pages.\nShowing a few of the **{commList.Count}** cmds.", Color.Magenta);
-            embed.Fields = new List<EmbedFieldBuilder>
-            {
+            embed.Fields =
+            [
                 new()
                 {
                     Name = "List",
-                    Value = $"```\n{items}```" ,
+                    Value = $"```\n{items}```",
                     IsInline = true
                 }
-            };
+            ];
 
             await ReplyAsync("", false, embed.Build());
         }
@@ -133,15 +133,15 @@ namespace xubot.Commands
             if (string.IsNullOrWhiteSpace(cmds)) cmds = "I don't think any command called that exists...";
 
             var embed = Util.Embed.GetDefaultEmbed(Context, "Help - Search", $"Showing page #{page} out of {System.Math.Ceiling((float)compatibles.Count / itemsPerPage)} pages.\nShowing a few of the **{compatibles.Count}** cmds with the lookup.", Color.Magenta);
-            embed.Fields = new List<EmbedFieldBuilder>
-            {
+            embed.Fields =
+            [
                 new()
                 {
                     Name = "Search Results",
-                    Value = $"```\n{cmds}```" ,
+                    Value = $"```\n{cmds}```",
                     IsInline = true
                 }
-            };
+            ];
 
             await ReplyAsync("", false, embed.Build());
         }
@@ -159,7 +159,7 @@ namespace xubot.Commands
 
                 if (exact)
                 {
-                    commList = new List<CommandInfo>();
+                    commList = [];
                     foreach (var item in commListE)
                     {
                         foreach (var alias in item.Aliases)
@@ -238,39 +238,43 @@ namespace xubot.Commands
                 var exampleUsage = $"{Program.Prefix}{trueName} " + examplePara;
 
                 var embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"The newer *better* help. Showing result #{index} out of {allMatches} match(s).", Color.Magenta);
-                embed.Fields = new List<EmbedFieldBuilder>
-                {
+                embed.Fields =
+                [
                     new()
                     {
                         Name = "Command Name",
-                        Value = $"`{trueName}`" ,
+                        Value = $"`{trueName}`",
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Summary",
                         Value = trueSummary,
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Known Aliases",
                         Value = $"```\n{allAlias}```",
                         IsInline = false
                     },
+
                     new()
                     {
                         Name = "Parameters",
                         Value = $"```cs\n{allPara}```",
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Example Usage",
                         Value = $"`{exampleUsage}`",
                         IsInline = false
                     }
-                };
+                ];
 
                 if (dep) embed.Fields.Add(new EmbedFieldBuilder
                 {
@@ -362,33 +366,36 @@ namespace xubot.Commands
                 var nsfwPossibility = group.Attributes.Contains(new NsfwPossibilityAttribute()) ? (group.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute ?? new NsfwPossibilityAttribute()).Warnings : null;
 
                 var embed = Util.Embed.GetDefaultEmbed(Context, "Help", "The newer *better* help. For more specifics, combine the group and command.", Color.Magenta);
-                embed.Fields = new List<EmbedFieldBuilder>
-                {
+                embed.Fields =
+                [
                     new()
                     {
                         Name = "Module Name and Summary",
                         Value = $"`{trueName}`\n*{trueSummary}*",
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Known Aliases",
                         Value = $"```\n{allAlias}```",
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Subgroups in Group",
                         Value = $"```\n{subgroup}```",
                         IsInline = true
                     },
+
                     new()
                     {
                         Name = "Commands in Group",
                         Value = $"```\n{commands}```",
                         IsInline = false
                     }
-                };
+                ];
 
                 if (dep) embed.Fields.Add(new EmbedFieldBuilder
                 {

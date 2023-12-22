@@ -240,33 +240,36 @@ namespace xubot.Commands
                 {
                     var embed = Util.Embed.GetDefaultEmbed(Context, "Colourblind Filter List",
                         "All the filters for the colourblindness emulation.", Color.Magenta);
-                    embed.Fields = new List<EmbedFieldBuilder>
-                    {
+                    embed.Fields =
+                    [
                         new()
                         {
                             Name = "Total Colour Blindness",
                             Value = "**Achromatomaly** (part-mono)\n**Achromatopsia** (mono)",
                             IsInline = true
                         },
+
                         new()
                         {
                             Name = "Red-Green Colour Deficiency (Low/No Green Cones)",
                             Value = "**Deuteranomaly** (weak-green)\n**Deuteranopia** (blind-green)",
                             IsInline = true
                         },
+
                         new()
                         {
                             Name = "Red-Green Colour Deficiency (Low/No Red Cones)",
                             Value = "**Protanomaly** (weak-red)\n**Protanopia** (blind-red)",
                             IsInline = true
                         },
+
                         new()
                         {
                             Name = "Blue-Yellow Colour Deficiency (Low/No Blue Cones)",
                             Value = "**Tritanomaly** (weak-blue)\n**Tritanopia** (blind-blue)",
                             IsInline = true
                         }
-                    };
+                    ];
 
                     await ReplyAsync("", false, embed.Build());
                 }
@@ -445,15 +448,15 @@ namespace xubot.Commands
                         Text = Util.Globals.EmbedFooter
                     },
                     Timestamp = DateTime.UtcNow,
-                    Fields = new List<EmbedFieldBuilder>
-                    {
+                    Fields =
+                    [
                         new()
                         {
                             Name = name,
                             Value = "```" + list + "```",
                             IsInline = false
                         }
-                    }
+                    ]
                 };
             }
         }
@@ -469,14 +472,15 @@ namespace xubot.Commands
 
                 var embed = Util.Embed.GetDefaultEmbed(Context, "Color", "Colors!",
                     new Color(colour.R, colour.G, colour.B));
-                embed.Fields = new List<EmbedFieldBuilder>
-                {
+                embed.Fields =
+                [
                     new()
                     {
                         Name = "RGB",
                         Value = $"{colour.R}, {colour.G}, {colour.B} ({colour.R:X}{colour.G:X}{colour.B:X})",
                         IsInline = false
                     },
+
                     new()
                     {
                         Name = "RGBA",
@@ -484,13 +488,14 @@ namespace xubot.Commands
                             $"{colour.R}, {colour.G}, {colour.B}, {colour.A} ({colour.R:X}{colour.G:X}{colour.B:X}{colour.A:X})",
                         IsInline = false
                     },
+
                     new()
                     {
                         Name = "Unpacked RGBA",
                         Value = $"{colour.Rgba} ({colour.Rgba:X})",
                         IsInline = false
                     }
-                };
+                ];
 
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
             }

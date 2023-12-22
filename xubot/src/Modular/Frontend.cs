@@ -86,14 +86,14 @@ namespace xubot.Modular
                         IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
                     },
                     Timestamp = DateTime.Now,
-                    Fields = new List<EmbedFieldBuilder>
-                    {
+                    Fields =
+                    [
                         new()
                         {
                             Name = "Listing",
                             Value = $"```{listing}```"
                         }
-                    }
+                    ]
                 };
             }
         }

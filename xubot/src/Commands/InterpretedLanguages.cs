@@ -13,21 +13,22 @@ namespace xubot.Commands
         public static Embed BuildEmbed(ICommandContext context, string language, string description, string syntaxHighlighting, string input, string result)
         {
             var embed = Util.Embed.GetDefaultEmbed(context, "**Language:** `" + language + "`", description, Color.Orange);
-            embed.Fields = new List<EmbedFieldBuilder>
-            {
+            embed.Fields =
+            [
                 new()
                 {
                     Name = "Input",
                     Value = "```" + syntaxHighlighting + "\n" + input + "```",
                     IsInline = false
                 },
+
                 new()
                 {
                     Name = "Result",
                     Value = "```\n" + result + "```",
                     IsInline = false
                 }
-            };
+            ];
 
             return embed.Build();
             //await ReplyAsync("", false, embed);

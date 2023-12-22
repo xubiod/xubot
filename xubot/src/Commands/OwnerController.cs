@@ -27,15 +27,15 @@ namespace xubot.Commands
             }
 
             var embed = Util.Embed.GetDefaultEmbed(Context, "Superuser - Directory", where, Color.DarkOrange);
-            embed.Fields = new List<EmbedFieldBuilder>
-            {
+            embed.Fields =
+            [
                 new()
                 {
                     Name = "Result",
                     Value = $"```{result}```",
                     IsInline = true
                 }
-            };
+            ];
             await ReplyAsync("", false, embed.Build());
         }
 

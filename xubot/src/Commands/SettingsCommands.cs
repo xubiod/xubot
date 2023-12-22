@@ -101,15 +101,15 @@ namespace xubot.Commands
                 $"Showing a few of the **{collection.Length}** settings.\n**Note: Only the bot owner can set these.**", Color.DarkBlue
             );
 
-            embed.Fields = new List<EmbedFieldBuilder>
-            {
+            embed.Fields =
+            [
                 new()
                 {
                     Name = "List",
-                    Value = $"```\n{items}```" ,
+                    Value = $"```\n{items}```",
                     IsInline = true
                 }
-            };
+            ];
 
             await ReplyAsync("", false, embed.Build());
         }

@@ -95,33 +95,36 @@ namespace xubot.Commands.Connections
             dynamic parsedTxt = JObject.Parse(text);
 
             var embed = Util.Embed.GetDefaultEmbed(Context, "Validator.pizza Email Validator", $"**{parsedTxt.remaining_requests}** requests left for the hour", Color.Orange);
-            embed.Fields = new List<EmbedFieldBuilder>
-            {
+            embed.Fields =
+            [
                 new()
                 {
                     Name = "Input",
                     Value = parsedTxt.email,
                     IsInline = false
                 },
+
                 new()
                 {
                     Name = "MX Records?",
                     Value = parsedTxt.mx.ToString(),
                     IsInline = false
                 },
+
                 new()
                 {
                     Name = "Disposable domain?",
                     Value = parsedTxt.disposable.ToString(),
                     IsInline = false
                 },
+
                 new()
                 {
                     Name = "Alias?",
                     Value = parsedTxt.alias.ToString(),
                     IsInline = false
                 }
-            };
+            ];
 
             await ReplyAsync("", false, embed.Build());
         }
@@ -237,15 +240,15 @@ namespace xubot.Commands.Connections
                 {
                     var embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", "Error!", Color.Red);
                     embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
-                    embed.Fields = new List<EmbedFieldBuilder>
-                    {
+                    embed.Fields =
+                    [
                         new()
                         {
                             Name = "The API returned: ",
                             Value = $"**{keys.error_message}**",
                             IsInline = false
                         }
-                    };
+                    ];
 
                     await ReplyAsync("", false, embed.Build());
                 }
@@ -253,21 +256,22 @@ namespace xubot.Commands.Connections
                 {
                     var embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", $"Timezone and time for {loc}", Color.Red);
                     embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
-                    embed.Fields = new List<EmbedFieldBuilder>
-                    {
+                    embed.Fields =
+                    [
                         new()
                         {
-                                Name = "Timezone: ",
-                                Value = $"**{keys.timezone}**",
-                                IsInline = true
-                            },
-                            new()
-                            {
-                                Name = "Current Time: ",
-                                Value = $"**{keys.time}**",
-                                IsInline = true
-                            }
-                    };
+                            Name = "Timezone: ",
+                            Value = $"**{keys.timezone}**",
+                            IsInline = true
+                        },
+
+                        new()
+                        {
+                            Name = "Current Time: ",
+                            Value = $"**{keys.time}**",
+                            IsInline = true
+                        }
+                    ];
 
                     await ReplyAsync("", false, embed.Build());
                 }
