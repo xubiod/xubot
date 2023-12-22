@@ -359,7 +359,7 @@ namespace xubot.Commands
                 if (group.Summary != null) trueSummary = group.Summary;
 
                 bool dep = group.Attributes.Contains(new DeprecatedAttribute());
-                string nsfwPossibility = group.Attributes.Contains(new NsfwPossibilityAttribute()) ? (group.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : null;
+                string nsfwPossibility = group.Attributes.Contains(new NsfwPossibilityAttribute()) ? (group.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute ?? new NsfwPossibilityAttribute()).Warnings : null;
 
                 EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", "The newer *better* help. For more specifics, combine the group and command.", Color.Magenta);
                 embed.Fields = new List<EmbedFieldBuilder>
