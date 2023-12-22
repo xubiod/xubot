@@ -23,7 +23,7 @@ namespace xubot.Commands.Connections
             [Command("trivia", RunMode = RunMode.Async)]
             public async Task Trivia(int number)
             {
-                byte[] trivia = await httpClient.GetByteArrayAsync($"http://numbersapi.com/{number}/trivia");
+                var trivia = await httpClient.GetByteArrayAsync($"http://numbersapi.com/{number}/trivia");
                 var final = Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
@@ -32,7 +32,7 @@ namespace xubot.Commands.Connections
             [Command("trivia", RunMode = RunMode.Async)]
             public async Task Trivia()
             {
-                byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/trivia");
+                var trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/trivia");
                 var final = Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
@@ -42,7 +42,7 @@ namespace xubot.Commands.Connections
             [Command("year", RunMode = RunMode.Async)]
             public async Task Year(int number)
             {
-                byte[] trivia = await httpClient.GetByteArrayAsync($"http://numbersapi.com/{number}/year");
+                var trivia = await httpClient.GetByteArrayAsync($"http://numbersapi.com/{number}/year");
                 var final = Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
@@ -51,7 +51,7 @@ namespace xubot.Commands.Connections
             [Command("year", RunMode = RunMode.Async)]
             public async Task Year()
             {
-                byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/year");
+                var trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/year");
                 var final = Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
@@ -61,7 +61,7 @@ namespace xubot.Commands.Connections
             [Command("math", RunMode = RunMode.Async)]
             public async Task Math(int number)
             {
-                byte[] trivia = await httpClient.GetByteArrayAsync($"http://numbersapi.com/{number}/math");
+                var trivia = await httpClient.GetByteArrayAsync($"http://numbersapi.com/{number}/math");
                 var final = Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
@@ -70,7 +70,7 @@ namespace xubot.Commands.Connections
             [Command("math", RunMode = RunMode.Async)]
             public async Task Math()
             {
-                byte[] trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/math");
+                var trivia = await httpClient.GetByteArrayAsync("http://numbersapi.com/random/math");
                 var final = Encoding.Default.GetString(trivia);
 
                 await ReplyAsync(final);
@@ -81,7 +81,7 @@ namespace xubot.Commands.Connections
         [Command("email-check", RunMode = RunMode.Async), Summary("Uses API to check if email is a temporary one for sCaMs OoOoOoO")]
         public async Task ValidEmail(string email)
         {
-            string link = "https://www.validator.pizza/email/" + email;
+            var link = "https://www.validator.pizza/email/" + email;
 
             string text;
             using (httpClient)
@@ -94,7 +94,7 @@ namespace xubot.Commands.Connections
 
             dynamic parsedTxt = JObject.Parse(text);
 
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Validator.pizza Email Validator", $"**{parsedTxt.remaining_requests}** requests left for the hour", Color.Orange);
+            var embed = Util.Embed.GetDefaultEmbed(Context, "Validator.pizza Email Validator", $"**{parsedTxt.remaining_requests}** requests left for the hour", Color.Orange);
             embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
@@ -134,8 +134,8 @@ namespace xubot.Commands.Connections
                 Async = true
             };
             */
-            string final = "";
-            string link = "http://thecatapi.com/api/images/get?api_key=" + $"{Program.JsonKeys["keys"].Contents.cat}&format=xml";
+            var final = "";
+            var link = "http://thecatapi.com/api/images/get?api_key=" + $"{Program.JsonKeys["keys"].Contents.cat}&format=xml";
 
             var xDocument = XDocument.Load(link);
 
@@ -217,7 +217,7 @@ namespace xubot.Commands.Connections
         {
             try
             {
-                string link = $"https://www.amdoren.com/api/timezone.php?api_key={Program.JsonKeys["keys"].Contents.amdoren}&loc={loc}";
+                var link = $"https://www.amdoren.com/api/timezone.php?api_key={Program.JsonKeys["keys"].Contents.amdoren}&loc={loc}";
 
                 string textJ;
 
@@ -235,7 +235,7 @@ namespace xubot.Commands.Connections
 
                 if (keys.error_message.ToString() != "-")
                 {
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", "Error!", Color.Red);
+                    var embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", "Error!", Color.Red);
                     embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
                     embed.Fields = new List<EmbedFieldBuilder>
                     {
@@ -251,7 +251,7 @@ namespace xubot.Commands.Connections
                 }
                 else
                 {
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", $"Timezone and time for {loc}", Color.Red);
+                    var embed = Util.Embed.GetDefaultEmbed(Context, "Timezone Location", $"Timezone and time for {loc}", Color.Red);
                     embed.Footer.Text = $"The API requires free users to link to the API, so here it is:\n https://www.amdoren.com/time-zone-api/ \n{embed.Footer.Text}";
                     embed.Fields = new List<EmbedFieldBuilder>
                     {

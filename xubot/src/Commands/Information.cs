@@ -24,8 +24,8 @@ namespace xubot.Commands
             [Command("server"), Alias("server-info", "si"), Summary("Gets information about the server.")]
             public async Task ServerInfo()
             {
-                string verifyLvl = Context.Guild.VerificationLevel.ToString();
-                string afkChannelId = Context.Guild.AFKChannelId.ToString();
+                var verifyLvl = Context.Guild.VerificationLevel.ToString();
+                var afkChannelId = Context.Guild.AFKChannelId.ToString();
 
                 if (string.IsNullOrEmpty(afkChannelId)) { afkChannelId = "No AFK Channel"; }
 
@@ -39,9 +39,9 @@ namespace xubot.Commands
                     _ => "Inconclusive"
                 };
 
-                IGuildChannel welcomeChannel = await Context.Guild.GetChannelAsync(Context.Guild.SystemChannelId ?? 0);
+                var welcomeChannel = await Context.Guild.GetChannelAsync(Context.Guild.SystemChannelId ?? 0);
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + Context.Guild.Name, "Server information details", Color.Red);
+                var embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + Context.Guild.Name, "Server information details", Color.Red);
                 embed.ThumbnailUrl = Context.Guild.IconUrl;
                 embed.Fields = new List<EmbedFieldBuilder>
                 {
@@ -89,7 +89,7 @@ namespace xubot.Commands
             [Command("channel"), Alias("channel-info", "ci"), Summary("Gets information about the current channel")]
             public async Task ChannelInfo()
             {
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + Context.Channel.Name, "Channel information details", Color.Red);
+                var embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + Context.Channel.Name, "Channel information details", Color.Red);
                 embed.ThumbnailUrl = Context.Guild.IconUrl;
                 embed.Fields = new List<EmbedFieldBuilder>
                 {
@@ -136,15 +136,15 @@ namespace xubot.Commands
                 {
                     //throw new SpecialException.IHaveNoFuckingIdeaException();
 
-                    IUser user0 = Context.Message.Author;
+                    var user0 = Context.Message.Author;
 
                     if (id != ulong.MaxValue) { user0 = Program.XuClient.GetUser(id); }
 
                     if (user0 == null) { await ReplyAsync("You either messed up the ID, or I don't share a server with this person."); return; }
 
-                    string act = user0.Activities == null ? "Nothing." : user0.Activities.First().Type + " " + user0.Activities.First().Name + " " + user0.Activities.First().Details;
+                    var act = user0.Activities == null ? "Nothing." : user0.Activities.First().Type + " " + user0.Activities.First().Name + " " + user0.Activities.First().Details;
 
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + user0, "User information details", Color.Red);
+                    var embed = Util.Embed.GetDefaultEmbed(Context, "Information about: " + user0, "User information details", Color.Red);
                     embed.ThumbnailUrl = user0.GetAvatarUrl();
                     embed.Fields = new List<EmbedFieldBuilder>
                     {
@@ -188,13 +188,13 @@ namespace xubot.Commands
 
                     if (Context.Guild != null)
                     {
-                        IGuildUser user1 = await Context.Guild.GetUserAsync(user0.Id);
+                        var user1 = await Context.Guild.GetUserAsync(user0.Id);
 
-                        string roleList = "";
+                        var roleList = "";
 
                         foreach (var role in user1.RoleIds) { roleList += Context.Guild.GetRole(role).Mention + " "; }
 
-                        List<EmbedFieldBuilder> guildData = new List<EmbedFieldBuilder>
+                        var guildData = new List<EmbedFieldBuilder>
                         {
                             new()
                             {
@@ -228,7 +228,7 @@ namespace xubot.Commands
                             },
                         };
 
-                        foreach (EmbedFieldBuilder item in guildData) { embed.Fields.Add(item); }
+                        foreach (var item in guildData) { embed.Fields.Add(item); }
 
                         guildData.Clear();
                     }
@@ -245,8 +245,8 @@ namespace xubot.Commands
             [Command("user", RunMode = RunMode.Async), Alias("user-info", "ui"), Summary("Gets information about the user that sent the command.")]
             public async Task User(params string[] username)
             {
-                string complete = username.Length == 1 ? username[0] : "";
-                if (username.Length > 1) foreach (string part in username) { complete += part + (username.Last() != part ? " " : ""); }
+                var complete = username.Length == 1 ? username[0] : "";
+                if (username.Length > 1) foreach (var part in username) { complete += part + (username.Last() != part ? " " : ""); }
 
                 if (Regex.Match(complete, DiscordRegex).Success)
                 {
@@ -269,7 +269,7 @@ namespace xubot.Commands
             [Command("host"), Summary("Gets data about the machine running xubot, and xubot itself.")]
             public async Task HostMachine()
             {
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Runtime Information", "Details of the bot and OS", new Color(194, 24, 91));
+                var embed = Util.Embed.GetDefaultEmbed(Context, "Runtime Information", "Details of the bot and OS", new Color(194, 24, 91));
                 embed.Fields = new List<EmbedFieldBuilder>
                 {
                     new()
@@ -300,7 +300,7 @@ namespace xubot.Commands
         [Command("about"), Summary("Returns data about the bot.")]
         public async Task About()
         {
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "About Xubot", $"Version {ThisAssembly.Git.BaseTag}", Color.Orange);
+            var embed = Util.Embed.GetDefaultEmbed(Context, "About Xubot", $"Version {ThisAssembly.Git.BaseTag}", Color.Orange);
             embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
@@ -317,7 +317,7 @@ namespace xubot.Commands
         [Command("credits"), Summary("Returns people that inspired or helped produce this bot.")]
         public async Task Credits()
         {
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Xubot Development Credits", $"Version {ThisAssembly.Git.BaseTag}", Color.Orange);
+            var embed = Util.Embed.GetDefaultEmbed(Context, "Xubot Development Credits", $"Version {ThisAssembly.Git.BaseTag}", Color.Orange);
             embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
@@ -334,7 +334,7 @@ namespace xubot.Commands
         [Command("version"), Summary("Returns the current build via the latest commit.")]
         public async Task VersionCmd()
         {
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Xubot Version", "The specifics.", Color.Orange);
+            var embed = Util.Embed.GetDefaultEmbed(Context, "Xubot Version", "The specifics.", Color.Orange);
             embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()

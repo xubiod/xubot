@@ -41,7 +41,7 @@ namespace xubot.Commands.Connections
         [Command("reddit?random", RunMode = RunMode.Async), Alias("reddit?r"), Summary("Gets a random post from a random subreddit in a predetermined list.")]
         public async Task GetFromRandomSubreddit()
         {
-            Random rnd = Globals.Rng;
+            var rnd = Globals.Rng;
 
             _previousSub = RandomSubs[rnd.Next(RandomSubs.Length)];
 

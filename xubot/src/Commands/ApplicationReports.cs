@@ -172,8 +172,8 @@ namespace xubot.Commands
             [Command, Summary("Gets working set memory for xubot in MB.")]
             public async Task BasicMemory()
             {
-                Process currentProcess = Process.GetCurrentProcess();
-                long used = currentProcess.WorkingSet64;
+                var currentProcess = Process.GetCurrentProcess();
+                var used = currentProcess.WorkingSet64;
 
                 await ReplyAsync($"Memory used (MB): **{used / 1000000 }**");
             }
@@ -181,15 +181,15 @@ namespace xubot.Commands
             [Command("report"), Summary("Gets working set memory, virtual memory, paged memory, and their peaks for xubot.")]
             public async Task Report()
             {
-                Process currentProcess = Process.GetCurrentProcess();
-                double ws = (double)currentProcess.WorkingSet64 / 1000000;
-                double pws = (double)currentProcess.PeakWorkingSet64 / 1000000;
+                var currentProcess = Process.GetCurrentProcess();
+                var ws = (double)currentProcess.WorkingSet64 / 1000000;
+                var pws = (double)currentProcess.PeakWorkingSet64 / 1000000;
 
-                double vms = (double)currentProcess.VirtualMemorySize64 / 1000000;
-                double pvms = (double)currentProcess.PeakVirtualMemorySize64 / 1000000;
+                var vms = (double)currentProcess.VirtualMemorySize64 / 1000000;
+                var pvms = (double)currentProcess.PeakVirtualMemorySize64 / 1000000;
 
-                double pm = (double)currentProcess.PagedMemorySize64 / 1000000;
-                double ppm = (double)currentProcess.PeakPagedMemorySize64 / 1000000;
+                var pm = (double)currentProcess.PagedMemorySize64 / 1000000;
+                var ppm = (double)currentProcess.PeakPagedMemorySize64 / 1000000;
 
                 await BuildReport(Context, new List<EmbedFieldBuilder>
                     {
@@ -218,7 +218,7 @@ namespace xubot.Commands
 
         public static async Task BuildReport(ICommandContext context, List<EmbedFieldBuilder> fields)
         {
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(context, "Up-time Report", $"Report from {DateTime.Now}", Color.Red);
+            var embed = Util.Embed.GetDefaultEmbed(context, "Up-time Report", $"Report from {DateTime.Now}", Color.Red);
             embed.Fields = fields;
 
             await context.Channel.SendMessageAsync("", false, embed.Build());

@@ -16,7 +16,7 @@
                 _output = "";
                 _cell = 0;
 
-                foreach (char c in input)
+                foreach (var c in input)
                 {
                     switch (c)
                     {
@@ -28,7 +28,7 @@
                             break;
                         case 's':
                         {
-                            int i = _cell * _cell;
+                            var i = _cell * _cell;
                             _cell = i;
                             break;
                         }

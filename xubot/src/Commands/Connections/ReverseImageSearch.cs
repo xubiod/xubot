@@ -45,8 +45,8 @@ namespace xubot.Commands.Connections
                     return;
                 }
 
-                using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-                string assembledUrl = SingleResultUrl + ApiKey + HttpUtility.UrlEncode(url);
+                using var wb = new Util.WorkingBlock(Context);
+                var assembledUrl = SingleResultUrl + ApiKey + HttpUtility.UrlEncode(url);
                 dynamic keys = JObject.Parse(await Client.GetStringAsync(assembledUrl));
 
                 if (keys.header.status != 0)
@@ -90,8 +90,8 @@ namespace xubot.Commands.Connections
                     return;
                 }
 
-                using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-                string assembledUrl = TopResultUrl + amount + ApiKey + HttpUtility.UrlEncode(url);
+                using var wb = new Util.WorkingBlock(Context);
+                var assembledUrl = TopResultUrl + amount + ApiKey + HttpUtility.UrlEncode(url);
                 dynamic keys = JObject.Parse(await Client.GetStringAsync(assembledUrl));
 
                 if (keys.header.status != 0)
@@ -103,11 +103,11 @@ namespace xubot.Commands.Connections
                 JArray extUrls;
 
                 string similarity, src;
-                string extraData = "";
+                var extraData = "";
 
-                List<EmbedFieldBuilder> embedFields = new List<EmbedFieldBuilder>();
+                var embedFields = new List<EmbedFieldBuilder>();
 
-                for (int i = 0; i < amount; i++)
+                for (var i = 0; i < amount; i++)
                 {
                     similarity = (keys.results[i].header.similarity ?? "No similarity given").ToString();
                     src = (keys.results[i].data.source ?? "").ToString();
@@ -152,8 +152,8 @@ namespace xubot.Commands.Connections
                     return;
                 }
 
-                using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
-                string assembledUrl = SingleResultUrl + ApiKey + HttpUtility.UrlEncode(url);
+                using var wb = new Util.WorkingBlock(Context);
+                var assembledUrl = SingleResultUrl + ApiKey + HttpUtility.UrlEncode(url);
                 dynamic keys = JObject.Parse(await Client.GetStringAsync(assembledUrl));
 
                 if (keys.header.status != 0)
@@ -171,7 +171,7 @@ namespace xubot.Commands.Connections
                     return;
                 }
 
-                List<EmbedFieldBuilder> embedFields = new List<EmbedFieldBuilder>
+                var embedFields = new List<EmbedFieldBuilder>
                 {
                     new() { Name = "Similarity", IsInline = true, Value = (keys.results[0].header.similarity ?? "Not given").ToString() },
                     new() { Name = "Source", IsInline = true, Value = (keys.results[0].data.source ?? "Not given").ToString() },
@@ -203,8 +203,8 @@ namespace xubot.Commands.Connections
 
             private string GetRequestsLeft(dynamic keys, RequestsLeftType type)
             {
-                int shortRemain = ((JObject)keys.header).Value<int>("short_remaining");
-                int longRemain =  ((JObject)keys.header).Value<int>("long_remaining");
+                var shortRemain = ((JObject)keys.header).Value<int>("short_remaining");
+                var longRemain =  ((JObject)keys.header).Value<int>("long_remaining");
 
                 switch (type)
                 {

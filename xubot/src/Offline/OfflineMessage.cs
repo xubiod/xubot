@@ -99,7 +99,7 @@ namespace xubot.Offline
 
         public Task ModifyAsync(Action<MessageProperties> func, RequestOptions options = null)
         {
-            MessageProperties messageProperties = new MessageProperties
+            var messageProperties = new MessageProperties
             {
                 Content = Content
             };
@@ -146,15 +146,15 @@ namespace xubot.Offline
 
         public string Resolve(TagHandling userHandling = TagHandling.Name, TagHandling channelHandling = TagHandling.Name, TagHandling roleHandling = TagHandling.Name, TagHandling everyoneHandling = TagHandling.Ignore, TagHandling emojiHandling = TagHandling.Name)
         {
-            string emit = Content;
+            var emit = Content;
 
-            foreach (IEmbed embed in Embeds)
+            foreach (var embed in Embeds)
             {
                 if (embed != null)
                 {
                     emit += $"[RESP.]\n--- {embed.Title} ---\n{embed.Description}\n";
 
-                    foreach (EmbedField field in embed.Fields)
+                    foreach (var field in embed.Fields)
                     {
                         emit += $"\n- {field.Name} -\n{field.Value}";
                     }

@@ -42,7 +42,7 @@ namespace xubot.Commands
                 if (!string.IsNullOrWhiteSpace(optional)) DirectUtils.InterpretOptionalParameters(optional);
 
                 await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "text-overlay", true);
-                string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
+                var type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
 
                 font = new Font(fontCollect.Get("Roboto"), Size);
 
@@ -79,7 +79,7 @@ namespace xubot.Commands
                 if (!string.IsNullOrWhiteSpace(optional)) HeaderUtils.InterpretOptionalParameters(optional);
 
                 await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "text-overlay", true);
-                string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
+                var type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
 
                 font = new Font(fontCollect.Get("Roboto"), Size);
 
@@ -112,7 +112,7 @@ namespace xubot.Commands
             {
                 public static void InterpretParameters(string input)
                 {
-                    string[] split = input.Split(",");
+                    var split = input.Split(",");
 
                     X = int.Parse(split[0]);
                     Y = int.Parse(split[1]);
@@ -122,7 +122,7 @@ namespace xubot.Commands
 
                 public static void InterpretOptionalParameters(string input)
                 {
-                    string[] split = input.Split(",");
+                    var split = input.Split(",");
 
                     R = int.Parse(split[0]);
                     G = int.Parse(split[1]);
@@ -134,7 +134,7 @@ namespace xubot.Commands
             {
                 public static void InterpretParameters(string input)
                 {
-                    string[] split = input.Split(",");
+                    var split = input.Split(",");
 
                     HeaderHeight = int.Parse(split[0]);
                     lrMargin = int.Parse(split[1]);
@@ -145,7 +145,7 @@ namespace xubot.Commands
 
                 public static void InterpretOptionalParameters(string input)
                 {
-                    string[] split = input.Split(",");
+                    var split = input.Split(",");
 
                     Wraparound = int.Parse(split[0]);
                     R = int.Parse(split[1]);

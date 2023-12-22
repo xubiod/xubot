@@ -13,9 +13,9 @@ namespace xubot.Commands.Global
         public async Task GetMoodCmd()
         {
             MoodTools.AddOrRefreshMood(Context.Message.Author);
-            double mood = MoodTools.ReadMood(Context.Message.Author);
+            var mood = MoodTools.ReadMood(Context.Message.Author);
 
-            string moodAsStr = mood switch
+            var moodAsStr = mood switch
             {
                 >= -16 and <= 16 => "neutral",
                 <= -16 => "negative",
@@ -31,7 +31,7 @@ namespace xubot.Commands.Global
         {
             MoodTools.AddOrRefreshMood(Context.Message.Author);
 
-            double mood = MoodTools.ReadMood(Context.Message.Author);
+            var mood = MoodTools.ReadMood(Context.Message.Author);
 
             switch (mood)
             {case <= -16:
@@ -65,7 +65,7 @@ namespace xubot.Commands.Global
         {
             MoodTools.AddOrRefreshMood(Context.Message.Author);
 
-            double mood = MoodTools.ReadMood(Context.Message.Author);
+            var mood = MoodTools.ReadMood(Context.Message.Author);
 
             switch (mood)
             {
@@ -110,7 +110,7 @@ namespace xubot.Commands.Global
         {
             MoodTools.AddOrRefreshMood(Context.Message.Author);
 
-            double mood = MoodTools.ReadMood(Context.Message.Author);
+            var mood = MoodTools.ReadMood(Context.Message.Author);
 
             switch (mood)
             {

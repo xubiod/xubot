@@ -15,7 +15,7 @@ namespace xubot.Commands
         [Command("add"), Alias("plus"), Summary("Adds the floats given.")]
         public async Task Add(params float[] inputs)
         {
-            float result = inputs.Sum();
+            var result = inputs.Sum();
 
             await ReplyAsync($"The result is: {result}");
         }
@@ -24,7 +24,7 @@ namespace xubot.Commands
         [Command("sub"), Alias("subtract"), Summary("Subtracts the floats given.")]
         public async Task Sub(params float[] inputs)
         {
-            float result = inputs.Aggregate<float, float>(0, (current, num) => current - num);
+            var result = inputs.Aggregate<float, float>(0, (current, num) => current - num);
 
             await ReplyAsync($"The result is: {result}");
         }
@@ -33,7 +33,7 @@ namespace xubot.Commands
         [Command("multi"), Alias("multiply"), Summary("Multiplies the floats given.")]
         public async Task Multi(params float[] inputs)
         {
-            float result = inputs.Aggregate<float, float>(0, (current, num) => current * num);
+            var result = inputs.Aggregate<float, float>(0, (current, num) => current * num);
 
             await ReplyAsync($"The result is: {result}");
         }
@@ -42,7 +42,7 @@ namespace xubot.Commands
         [Command("divide"), Alias("division"), Summary("Divides the floats given.")]
         public async Task Divide(params float[] inputs)
         {
-            float result = inputs.Aggregate<float, float>(0, (current, num) => current / num);
+            var result = inputs.Aggregate<float, float>(0, (current, num) => current / num);
 
             await ReplyAsync($"The result is: {result}");
         }
@@ -51,7 +51,7 @@ namespace xubot.Commands
         [Command("mod"), Alias("modulo"), Summary("Modulus the floats given.")]
         public async Task Mod(float input, float modBy)
         {
-            float result = input % modBy;
+            var result = input % modBy;
 
             await ReplyAsync($"The result is: {result}");
         }
@@ -60,7 +60,7 @@ namespace xubot.Commands
         [Command("pow"), Alias("power"), Summary("Takes a number to another number as the power.")]
         public async Task Pow([Summary("double 1")] double num1, [Summary("double 2")] double num2)
         {
-            double result = System.Math.Pow(num1, num2);
+            var result = System.Math.Pow(num1, num2);
 
             if (!Double.IsInfinity(result))
             {
@@ -76,7 +76,7 @@ namespace xubot.Commands
         [Command("sqrt"), Alias("squareroot"), Summary("Square roots a number.")]
         public async Task Sqrt([Summary("double 1")] double num1)
         {
-            double result = System.Math.Sqrt(num1);
+            var result = System.Math.Sqrt(num1);
 
             if (!Double.IsInfinity(result))
             {
@@ -93,7 +93,7 @@ namespace xubot.Commands
         [Command("sin"), Alias("sine"), Summary("Returns the sine of a number.")]
         public async Task Sine([Summary("double")] double num)
         {
-            double result = System.Math.Sin(num);
+            var result = System.Math.Sin(num);
 
             if (!Double.IsInfinity(result))
             {
@@ -109,7 +109,7 @@ namespace xubot.Commands
         [Command("sinh"), Alias("sineh"), Summary("Returns the hyperbolic sine of a number.")]
         public async Task HyperbolicSine([Summary("double")] double num)
         {
-            double result = System.Math.Sinh(num);
+            var result = System.Math.Sinh(num);
 
             if (!Double.IsInfinity(result))
             {
@@ -125,7 +125,7 @@ namespace xubot.Commands
         [Command("asin"), Summary("Gets the asin of a number and returns an angle.")]
         public async Task Asin([Summary("double")] double num)
         {
-            double result = System.Math.Asin(num);
+            var result = System.Math.Asin(num);
 
             if (!Double.IsInfinity(result))
             {
@@ -141,7 +141,7 @@ namespace xubot.Commands
         [Command("cos"), Alias("cosine"), Summary("Returns the cosine of a number.")]
         public async Task Cosine([Summary("double")] double num)
         {
-            double result = System.Math.Cos(num);
+            var result = System.Math.Cos(num);
 
             if (!Double.IsInfinity(result))
             {
@@ -157,7 +157,7 @@ namespace xubot.Commands
         [Command("cosh"), Alias("hyperbolic-cosine"), Summary("Returns the hyperbolic cosine of a number.")]
         public async Task HyperbolicCosine([Summary("double")] double num)
         {
-            double result = System.Math.Cosh(num);
+            var result = System.Math.Cosh(num);
 
             if (!Double.IsInfinity(result))
             {
@@ -173,7 +173,7 @@ namespace xubot.Commands
         [Command("acos"), Alias("acos"), Summary("Gets the acos of a number and returns an angle.")]
         public async Task Acos([Summary("double")] double num)
         {
-            double result = System.Math.Acos(num);
+            var result = System.Math.Acos(num);
 
             if (!Double.IsInfinity(result))
             {
@@ -189,7 +189,7 @@ namespace xubot.Commands
         [Command("tan"), Alias("tangent"), Summary("Returns the tangent of a number.")]
         public async Task Tangent([Summary("double")] double num)
         {
-            double result = System.Math.Sin(num);
+            var result = System.Math.Sin(num);
 
             if (!Double.IsInfinity(result))
             {
@@ -205,7 +205,7 @@ namespace xubot.Commands
         [Command("tanh"), Alias("hyperbolic-tan"), Summary("Gets the hyperbolic tangent of a number.")]
         public async Task HyperbolicTangent([Summary("double")] double num)
         {
-            double result = System.Math.Tanh(num);
+            var result = System.Math.Tanh(num);
 
             if (!Double.IsInfinity(result))
             {
@@ -221,7 +221,7 @@ namespace xubot.Commands
         [Command("atan"), Summary("Gets the atan of a number and returns an angle.")]
         public async Task Atan([Summary("double")] double num)
         {
-            double result = System.Math.Atan(num);
+            var result = System.Math.Atan(num);
 
             if (!Double.IsInfinity(result))
             {
@@ -238,11 +238,11 @@ namespace xubot.Commands
         [Command("quick-eval"), Alias("eval", "quick-do", "do"), Summary("Does quick math operations with integers.")]
         public async Task Evaluate([Summary("eval input")] string input)
         {
-            DataTable table = new DataTable();
+            var table = new DataTable();
             table.Columns.Add("expression", string.Empty.GetType(), input);
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             table.Rows.Add(row);
-            int result = int.Parse((string)row["expression"]);
+            var result = int.Parse((string)row["expression"]);
             await ReplyAsync($"The equation was evaluated and returned **{result}**.");
         }
 

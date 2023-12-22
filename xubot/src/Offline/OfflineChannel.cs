@@ -51,7 +51,7 @@ namespace xubot.Offline
 
         public IAsyncEnumerable<IReadOnlyCollection<IMessage>> GetMessagesAsync(ulong fromMessageId, Direction dir, int limit = 100, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
         {
-            int index = Messages.FindIndex(x => x.Id == fromMessageId);
+            var index = Messages.FindIndex(x => x.Id == fromMessageId);
 
             switch (dir)
             {
@@ -100,7 +100,7 @@ namespace xubot.Offline
 
         public Task<IUserMessage> SendMessageAsync(string text = null, bool isTts = false, Embed embed = null, RequestOptions options = null, AllowedMentions allowedMentions = null, MessageReference messageReference = null)
         {
-            OfflineMessage newMsg = new OfflineMessage
+            var newMsg = new OfflineMessage
             {
                 Content = text
             };

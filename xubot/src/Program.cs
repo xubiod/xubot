@@ -91,7 +91,7 @@ namespace xubot
         {
             AppStart = DateTime.Now;
 
-            string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? ".";
+            var currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? ".";
 
             Util.Json.ProcessFile("keys", Path.Combine(currentDir, "Keys.json"));
             Util.Json.ProcessFile("apis", Path.Combine(currentDir, "API.json"));
@@ -148,7 +148,7 @@ namespace xubot
         {
             AppStart = DateTime.Now;
 
-            string currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? ".";
+            var currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? ".";
 
             Util.Json.ProcessFile("keys", Path.Combine(currentDir, "Keys.json"));
             Util.Json.ProcessFile("apis", Path.Combine(currentDir, "API.json"));
@@ -183,7 +183,7 @@ namespace xubot
 
         public static async Task ReadyReddit(ICommandContext context = null)
         {
-            IUserMessage log = Util.Log.PersistLogAsync("setting up bot web agent for reddit use", context).Result;
+            var log = Util.Log.PersistLogAsync("setting up bot web agent for reddit use", context).Result;
 
             if (JsonKeys["keys"].Contents.reddit.user.ToString() == "" && JsonKeys["keys"].Contents.reddit.pass.ToString() == "")
             {
@@ -292,14 +292,14 @@ namespace xubot
         {
             if (messageParameters is not SocketUserMessage message) return;
 
-            int argumentPosition = 0;
+            var argumentPosition = 0;
 
             if (!(message.HasStringPrefix(Prefix, ref argumentPosition) || message.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || message.HasStringPrefix(Global.Default.HardcodedPrefix, ref argumentPosition)))
                 return;
 
             CommandContext context = new(XuClient, message);
 
-            IResult result = await XuCommand.ExecuteAsync(context, argumentPosition, null);
+            var result = await XuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)
             {
                 await Util.Error.BuildErrorAsync(result, context);
@@ -313,14 +313,14 @@ namespace xubot
                 Content = message
             };
 
-            int argumentPosition = 0;
+            var argumentPosition = 0;
 
             if (!(msg.HasStringPrefix(Prefix, ref argumentPosition) || msg.HasMentionPrefix(XuClient.CurrentUser, ref argumentPosition) || msg.HasStringPrefix(Global.Default.HardcodedPrefix, ref argumentPosition)))
                 return;
 
             CommandContext context = new(OfflineHandlers.DefaultOfflineClient, msg);
 
-            IResult result = await XuCommand.ExecuteAsync(context, argumentPosition, null);
+            var result = await XuCommand.ExecuteAsync(context, argumentPosition, null);
             if (!result.IsSuccess)
             {
                 await Util.Error.BuildErrorAsync(result, context);

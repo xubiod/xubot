@@ -238,7 +238,7 @@ namespace xubot.Commands
                  Summary("Lists the colourblindness filters.")]
                 public async Task ColourblindnessList()
                 {
-                    EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Colourblind Filter List",
+                    var embed = Util.Embed.GetDefaultEmbed(Context, "Colourblind Filter List",
                         "All the filters for the colourblindness emulation.", Color.Magenta);
                     embed.Fields = new List<EmbedFieldBuilder>
                     {
@@ -334,9 +334,9 @@ namespace xubot.Commands
                 [Command("quantize", RunMode = RunMode.Async), Summary("Returns all valid inputs to quantize.")]
                 public async Task QuantizeListing()
                 {
-                    string list = "";
+                    var list = "";
 
-                    foreach (string item in AllQuantizer.Keys)
+                    foreach (var item in AllQuantizer.Keys)
                         list += item + "\n";
 
                     await Context.Channel.SendMessageAsync("", false,
@@ -379,8 +379,8 @@ namespace xubot.Commands
                      "Applies a dithering effect to an image. 13 are available, accessible with its name (use `pic manip dithering-pattern` to get all valid names). The full palette is RGBA32 colors as hexadecimal strings.")]
                 public async Task Dither(string name, params string[] palette)
                 {
-                    SixLabors.ImageSharp.Color[] colours = new SixLabors.ImageSharp.Color[palette.Length];
-                    for (int i = 0; i < palette.Length; i++)
+                    var colours = new SixLabors.ImageSharp.Color[palette.Length];
+                    for (var i = 0; i < palette.Length; i++)
                         colours[i] = new SixLabors.ImageSharp.Color(Tools.ColorFromHexString(palette[i]));
 
                     ReadOnlyMemory<SixLabors.ImageSharp.Color> romPalette = colours;
@@ -397,9 +397,9 @@ namespace xubot.Commands
                 [Command("dithering-pattern", RunMode = RunMode.Async), Summary("Returns all dithering pattern names.")]
                 public async Task DitherListing()
                 {
-                    string list = "";
+                    var list = "";
 
-                    foreach (string item in AllDithering.Keys)
+                    foreach (var item in AllDithering.Keys)
                         list += item + "\n";
 
                     await Context.Channel.SendMessageAsync("", false,
@@ -409,7 +409,7 @@ namespace xubot.Commands
 
             private static string ApplyFilter(string load, string type, Action<IImageProcessingContext> mutation)
             {
-                string filename = Util.String.RandomTempFilename() + type;
+                var filename = Util.String.RandomTempFilename() + type;
 
                 using var img = SLImage.Load(load + type);
                 img.Mutate(mutation);
@@ -421,13 +421,13 @@ namespace xubot.Commands
             private static async Task<IUserMessage> HandleFilter(ICommandContext context,
                 Action<IImageProcessingContext> mutation)
             {
-                using Util.WorkingBlock wb = new Util.WorkingBlock(context);
-                string loadAs = Path.GetTempPath() + "manip";
+                using var wb = new Util.WorkingBlock(context);
+                var loadAs = Path.GetTempPath() + "manip";
 
                 await Util.File.DownloadLastAttachmentAsync(context, loadAs, true);
-                string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(context));
+                var type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(context));
 
-                string filename = ApplyFilter(loadAs, type, mutation);
+                var filename = ApplyFilter(loadAs, type, mutation);
 
                 return await context.Channel.SendFileAsync(filename);
             }
@@ -465,9 +465,9 @@ namespace xubot.Commands
             [Command("rgba"), Summary("Gets RGBA elements from a hex string representing an RGBA32 value.")]
             public async Task GetComponents(string hex)
             {
-                Rgba32 colour = ColorFromHexString(hex);
+                var colour = ColorFromHexString(hex);
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Color", "Colors!",
+                var embed = Util.Embed.GetDefaultEmbed(Context, "Color", "Colors!",
                     new Color(colour.R, colour.G, colour.B));
                 embed.Fields = new List<EmbedFieldBuilder>
                 {

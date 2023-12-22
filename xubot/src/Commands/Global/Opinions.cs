@@ -13,9 +13,9 @@ namespace xubot.Commands.Global
         [Command(""), Alias("get"), Summary("Gets the bot's opinion on something. Was funny but now has been forgotten.")]
         public async Task OpinionGet(string input)
         {
-            Random replyDecide = Util.Globals.Rng;
+            var replyDecide = Util.Globals.Rng;
 
-            string reply = "";
+            var reply = "";
 
             switch (replyDecide.Next(3))
             {

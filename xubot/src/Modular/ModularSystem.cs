@@ -70,7 +70,7 @@ namespace xubot.Modular
 
             public async Task<string> Unload()
             {
-                string msg = startInstance != null ? (startInstance.Unload() ?? "No unload message").ToString() : "No startInstance";
+                var msg = startInstance != null ? (startInstance.Unload() ?? "No unload message").ToString() : "No startInstance";
 
                 await Util.Log.QuickLogAsync($"Module unloading: {id}\nUnload msg: {msg}");
 
@@ -98,7 +98,7 @@ namespace xubot.Modular
                 if (startInstance != null) await Unload();
 
                 Initialize();
-                string msg = startInstance.Reload().ToString();
+                var msg = startInstance.Reload().ToString();
                 await Util.Log.QuickLogAsync($"Module reloaded: {id}\nReload msg: {msg}");
                 return msg;
             }
@@ -117,7 +117,7 @@ namespace xubot.Modular
             if (!File.Exists(filename)) throw new FileNotFoundException("File does not exist");
             if (Path.GetExtension(filename).ToLower() != ".dll") return;
 
-            string name = Path.GetFileNameWithoutExtension(filename).ToLower();
+            var name = Path.GetFileNameWithoutExtension(filename).ToLower();
             //Assembly newModule = Assembly.LoadFrom(filename);
 
             Modules.Add(name, new ModuleEntry(filename, name));
@@ -140,10 +140,10 @@ namespace xubot.Modular
                 return;
             }
 
-            foreach (string filename in Directory.GetDirectories((isFull ? "" : Directory.GetCurrentDirectory()) + directory))
+            foreach (var filename in Directory.GetDirectories((isFull ? "" : Directory.GetCurrentDirectory()) + directory))
                 LoadFromDirectory(filename, true);
 
-            foreach (string filename in Directory.GetFiles((isFull ? "" : Directory.GetCurrentDirectory()) + directory))
+            foreach (var filename in Directory.GetFiles((isFull ? "" : Directory.GetCurrentDirectory()) + directory))
                 LoadFromFile(filename);
         }
 

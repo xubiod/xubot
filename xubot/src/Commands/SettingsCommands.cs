@@ -13,7 +13,7 @@ namespace xubot.Commands
         [Command("get"), Alias("return")]
         public async Task Get(string key)
         {
-            object value = Util.Settings.Get(key);
+            var value = Util.Settings.Get(key);
 
             await ReplyAsync($"`{key}` is currently set to `{value}`.");
         }
@@ -28,8 +28,8 @@ namespace xubot.Commands
         [Command("set"), RequireOwner]
         public async Task Set(string key, params string[] newValue)
         {
-            string all = "";
-            foreach (string _ in newValue)
+            var all = "";
+            foreach (var _ in newValue)
                 all += _ + (_ != newValue.Last() ? " " : "");
 
             await SetOperation(key, all);
@@ -75,17 +75,17 @@ namespace xubot.Commands
         public async Task List(int page = 1)
         {
             if (page < 1) page = 1;
-            int itemsPerPage = src.BotSettings.Global.Default.EmbedListMaxLength;
+            var itemsPerPage = src.BotSettings.Global.Default.EmbedListMaxLength;
 
-            SettingsProperty[] collection = new SettingsProperty[src.BotSettings.Global.Default.Properties.Count];
+            var collection = new SettingsProperty[src.BotSettings.Global.Default.Properties.Count];
             src.BotSettings.Global.Default.Properties.CopyTo(collection, 0);
 
-            string items = "";
+            var items = "";
 
-            int limit = System.Math.Min(collection.Length - (page - 1) * itemsPerPage, itemsPerPage);
+            var limit = System.Math.Min(collection.Length - (page - 1) * itemsPerPage, itemsPerPage);
 
             int index;
-            for (int i = 0; i < limit; i++)
+            for (var i = 0; i < limit; i++)
             {
                 index = i + itemsPerPage * (page - 1);
 
@@ -96,7 +96,7 @@ namespace xubot.Commands
 
             if (string.IsNullOrWhiteSpace(items)) items = "There's nothing here, I think you went out of bounds.";
 
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(
+            var embed = Util.Embed.GetDefaultEmbed(
                 Context, "Settings list", $"Showing page #{page} out of {System.Math.Ceiling((float)collection.Length / itemsPerPage)} pages.\n" +
                 $"Showing a few of the **{collection.Length}** settings.\n**Note: Only the bot owner can set these.**", Color.DarkBlue
             );

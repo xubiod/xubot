@@ -46,14 +46,14 @@ namespace xubot.Modular
             [Command("list", RunMode = RunMode.Async), Alias("l"), Summary("Lists commands in a module.")]
             public async Task List(string module)
             {
-                string list = "";
+                var list = "";
 
-                foreach (ICommandModule cmd in ModularSystem.Modules[module].commandInstances)
-                    foreach (MethodInfo item in cmd.GetType().GetMethods().Where(x => string.IsNullOrEmpty((x.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name)))
+                foreach (var cmd in ModularSystem.Modules[module].commandInstances)
+                    foreach (var item in cmd.GetType().GetMethods().Where(x => string.IsNullOrEmpty((x.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name)))
                         list += item.GetCustomAttribute<CmdNameAttribute>().Name + " - " + (item.GetCustomAttribute<CmdSummaryAttribute>() != null ? item.GetCustomAttribute<CmdSummaryAttribute>().Summary : "Not set in module") + "\n";
                 //list += cmd.GetType().getM + " - " + "NotImplement" + "\n";
 
-                EmbedBuilder embed = GetTemplate("Module Command Listing", $"For module **\"{module.ToLower()}\"**", list);
+                var embed = GetTemplate("Module Command Listing", $"For module **\"{module.ToLower()}\"**", list);
 
                 await ReplyAsync("", false, embed.Build());
             }
@@ -61,12 +61,12 @@ namespace xubot.Modular
             [Command("list-all", RunMode = RunMode.Async), Alias("la"), Summary("Lists all modules.")]
             public async Task ListAll()
             {
-                string list = "";
+                var list = "";
 
-                foreach (KeyValuePair<string, ModularSystem.ModuleEntry> mod in ModularSystem.Modules)
+                foreach (var mod in ModularSystem.Modules)
                     list += $"{mod.Key} - { (mod.Value.commandInstances.Count > 0 ? mod.Value.commandInstances.Count + " cmds" : "Not loaded/no cmds")}\n";
 
-                EmbedBuilder embed = GetTemplate("Module Listing", "Note: *some of these might not be loaded*", list);
+                var embed = GetTemplate("Module Listing", "Note: *some of these might not be loaded*", list);
 
                 await ReplyAsync("", false, embed.Build());
             }

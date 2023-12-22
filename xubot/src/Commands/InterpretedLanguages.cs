@@ -12,7 +12,7 @@ namespace xubot.Commands
     {
         public static Embed BuildEmbed(ICommandContext context, string language, string description, string syntaxHighlighting, string input, string result)
         {
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(context, "**Language:** `" + language + "`", description, Color.Orange);
+            var embed = Util.Embed.GetDefaultEmbed(context, "**Language:** `" + language + "`", description, Color.Orange);
             embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
@@ -141,7 +141,7 @@ namespace xubot.Commands
             [Command("deadfish", RunMode = RunMode.Async), Summary("Interprets Deadfish and outputs the results.")]
             public async Task Deadfish(string input)
             {
-                string result = SmallLangInterpreters.Deadfish.Execute(input);
+                var result = SmallLangInterpreters.Deadfish.Execute(input);
                 await ReplyAsync("", false, BuildEmbed(Context, "Deadfish", "using a built-in interpreter (adapted from https://esolangs.org)", "", input, result));
             }
 
@@ -159,7 +159,7 @@ namespace xubot.Commands
                 {
                     embedInput = $"Code: {input.Replace("\n", String.Empty)}";
                 }
-                string result = SmallLangInterpreters.Brainfuck.Execute(input, asciiInput);
+                var result = SmallLangInterpreters.Brainfuck.Execute(input, asciiInput);
 
                 await ReplyAsync("", false, BuildEmbed(Context, "Brainfuck", "using a built-in interpreter (adapted from https://github.com/james1345-1/Brainfuck/)", "bf", embedInput, result));
             }

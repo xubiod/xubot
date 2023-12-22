@@ -22,7 +22,7 @@ namespace xubot.Commands
         [Command("get", RunMode = RunMode.Async), Alias(""), Summary("Lists data for one command.")]
         public async Task HelpCmd(params string[] lookupAsAll)
         {
-            string all = "";
+            var all = "";
             var count = lookupAsAll.Length;
 
             if (Int32.TryParse(lookupAsAll[count - 1], out var page))
@@ -30,7 +30,7 @@ namespace xubot.Commands
             else
                 page = 1;
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
                 all += lookupAsAll[i] + (i == count - 1 ? "" : " ");
 
             if (lookupAsAll[0].ToLower() == "search")
@@ -53,31 +53,31 @@ namespace xubot.Commands
         public async Task HelpCmd(int page = 1)
         {
             if (page < 1) page = 1;
-            int itemsPerPage = src.BotSettings.Global.Default.EmbedListMaxLength;
+            var itemsPerPage = src.BotSettings.Global.Default.EmbedListMaxLength;
 
-            List<CommandInfo> commList = Program.XuCommand.Commands.ToList();
+            var commList = Program.XuCommand.Commands.ToList();
 
-            string items = "";
+            var items = "";
 
-            int limit = System.Math.Min(commList.Count - (page - 1) * itemsPerPage, itemsPerPage);
+            var limit = System.Math.Min(commList.Count - (page - 1) * itemsPerPage, itemsPerPage);
             //await ReplyAsync((limit).ToString());
 
             int index;
 
-            for (int i = 0; i < limit; i++)
+            for (var i = 0; i < limit; i++)
             {
                 index = i + itemsPerPage * (page - 1);
 
                 if (index > commList.Count - 1) { break; }
 
-                string parentForm = GetAllGroups(commList[index].Module);
+                var parentForm = GetAllGroups(commList[index].Module);
 
                 items += parentForm + commList[index].Name + "\n";
             }
 
             if (string.IsNullOrWhiteSpace(items)) items = "There's nothing here, I think you went out of bounds.";
 
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"Showing page #{page} out of {System.Math.Ceiling((float)commList.Count / itemsPerPage)} pages.\nShowing a few of the **{commList.Count}** cmds.", Color.Magenta);
+            var embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"Showing page #{page} out of {System.Math.Ceiling((float)commList.Count / itemsPerPage)} pages.\nShowing a few of the **{commList.Count}** cmds.", Color.Magenta);
             embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
@@ -95,15 +95,15 @@ namespace xubot.Commands
         [Command("search", RunMode = RunMode.Async), Summary("Searches all commands with a search term. Deep enables searching the aliases as well, but this takes longer.")]
         public async Task Search(string lookup, bool deep = true, int page = 1)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
+            using var wb = new Util.WorkingBlock(Context);
             if (page < 1) page = 1;
-            int itemsPerPage = src.BotSettings.Global.Default.EmbedListMaxLength;
+            var itemsPerPage = src.BotSettings.Global.Default.EmbedListMaxLength;
 
-            List<CommandInfo> commList = Program.XuCommand.Commands.ToList();
-            List<CommandInfo> compatibles = new List<CommandInfo>();
+            var commList = Program.XuCommand.Commands.ToList();
+            var compatibles = new List<CommandInfo>();
 
             bool add;
-            foreach (CommandInfo cmd in commList)
+            foreach (var cmd in commList)
             {
                 add = false;
 
@@ -111,18 +111,18 @@ namespace xubot.Commands
 
                 if (cmd.Aliases != null && deep)
                 {
-                    foreach (string alias in cmd.Aliases)
+                    foreach (var alias in cmd.Aliases)
                         add |= alias.Contains(lookup);
                 }
 
                 if (add) compatibles.Add(cmd);
             }
 
-            int limit = System.Math.Min(commList.Count - (page - 1) * itemsPerPage, itemsPerPage);
+            var limit = System.Math.Min(commList.Count - (page - 1) * itemsPerPage, itemsPerPage);
             int index;
 
-            string cmds = "";
-            for (int i = 0; i < limit; i++)
+            var cmds = "";
+            for (var i = 0; i < limit; i++)
             {
                 index = i + itemsPerPage * (page - 1);
 
@@ -132,7 +132,7 @@ namespace xubot.Commands
             }
             if (string.IsNullOrWhiteSpace(cmds)) cmds = "I don't think any command called that exists...";
 
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help - Search", $"Showing page #{page} out of {System.Math.Ceiling((float)compatibles.Count / itemsPerPage)} pages.\nShowing a few of the **{compatibles.Count}** cmds with the lookup.", Color.Magenta);
+            var embed = Util.Embed.GetDefaultEmbed(Context, "Help - Search", $"Showing page #{page} out of {System.Math.Ceiling((float)compatibles.Count / itemsPerPage)} pages.\nShowing a few of the **{compatibles.Count}** cmds with the lookup.", Color.Magenta);
             embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()
@@ -150,12 +150,12 @@ namespace xubot.Commands
         {
             try
             {
-                List<CommandInfo> commListE = Program.XuCommand.Commands.ToList();
+                var commListE = Program.XuCommand.Commands.ToList();
                 // List<ModuleInfo> moduleListE = Program.XuCommand.Modules.ToList();
 
                 commListE = commListE.FindAll(ci => ci.Name == lookup.Split(' ').Last());
 
-                List<CommandInfo> commList = commListE;
+                var commList = commListE;
 
                 if (exact)
                 {
@@ -173,7 +173,7 @@ namespace xubot.Commands
                     }
                 }
 
-                int allMatches = commList.Count;
+                var allMatches = commList.Count;
 
                 CommandInfo comm;
 
@@ -188,10 +188,10 @@ namespace xubot.Commands
                     return;
                 }
 
-                string allAlias = "";
-                IReadOnlyList<string> aliases = comm.Aliases ?? new List<string>();
+                var allAlias = "";
+                var aliases = comm.Aliases ?? new List<string>();
 
-                string trueName = comm.Name;
+                var trueName = comm.Name;
 
                 if (aliases.ToList().Find(al => al == lookup) == lookup)
                 {
@@ -200,14 +200,14 @@ namespace xubot.Commands
 
                 if (aliases.Count != 0)
                 {
-                    foreach (string alias in comm.Aliases)
+                    foreach (var alias in comm.Aliases)
                     {
                         allAlias += alias + "\n";
                     }
                 }
 
-                string allPara = "No parameters.";
-                string examplePara = "";
+                var allPara = "No parameters.";
+                var examplePara = "";
                 IReadOnlyList<ParameterInfo> @params = comm.Parameters.ToList();
 
                 if (@params.Count != 0)
@@ -220,24 +220,24 @@ namespace xubot.Commands
                     }
                 }
 
-                string trueSummary = "No summary given.";
+                var trueSummary = "No summary given.";
                 if (comm.Summary != null) trueSummary = comm.Summary;
 
-                bool dep = comm.Attributes.Contains(new DeprecatedAttribute()) || comm.Module.Attributes.Contains(new DeprecatedAttribute());
+                var dep = comm.Attributes.Contains(new DeprecatedAttribute()) || comm.Module.Attributes.Contains(new DeprecatedAttribute());
 
-                string nsfwPossibility = comm.Attributes.Any(x => x is NsfwPossibilityAttribute) ? (comm.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
+                var nsfwPossibility = comm.Attributes.Any(x => x is NsfwPossibilityAttribute) ? (comm.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
                 nsfwPossibility += comm.Module.Attributes.Any(x => x is NsfwPossibilityAttribute) ? "Group-wide:\n\n" + (comm.Module.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute).Warnings : "";
 
                 if (comm.Attributes.Any(x => x is ExampleAttribute))
                 {
-                    ExampleAttribute ex = comm.Attributes.First(x => x is ExampleAttribute) as ExampleAttribute;
+                    var ex = comm.Attributes.First(x => x is ExampleAttribute) as ExampleAttribute;
                     if (!string.IsNullOrWhiteSpace(ex.ExampleParameters)) examplePara = ex.ExampleParameters;
                     examplePara += ex.AttachmentNeeded ? "\n\n[You need to upload a file to use this.]" : "";
                 }
 
-                string exampleUsage = $"{Program.Prefix}{trueName} " + examplePara;
+                var exampleUsage = $"{Program.Prefix}{trueName} " + examplePara;
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"The newer *better* help. Showing result #{index} out of {allMatches} match(s).", Color.Magenta);
+                var embed = Util.Embed.GetDefaultEmbed(Context, "Help", $"The newer *better* help. Showing result #{index} out of {allMatches} match(s).", Color.Magenta);
                 embed.Fields = new List<EmbedFieldBuilder>
                 {
                     new()
@@ -298,7 +298,7 @@ namespace xubot.Commands
         {
             try
             {
-                List<ModuleInfo> moduList = Program.XuCommand.Modules.ToList().FindAll(ci => ci.Group == lookup.Split(' ').Last());
+                var moduList = Program.XuCommand.Modules.ToList().FindAll(ci => ci.Group == lookup.Split(' ').Last());
 
                 // int allMatchs = moduList.Count;
 
@@ -315,10 +315,10 @@ namespace xubot.Commands
                     return;
                 }
 
-                string allAlias = "";
-                IReadOnlyList<string> aliases = group.Aliases ?? new List<string>();
+                var allAlias = "";
+                var aliases = group.Aliases ?? new List<string>();
 
-                string trueName = group.Name;
+                var trueName = group.Name;
 
                 if (aliases.ToList().Find(al => al == lookup) == lookup)
                 {
@@ -327,13 +327,13 @@ namespace xubot.Commands
 
                 if (aliases.Count != 0)
                 {
-                    foreach (string alias in group.Aliases)
+                    foreach (var alias in group.Aliases)
                     {
                         allAlias += alias + "\n";
                     }
                 }
 
-                string commands = "None";
+                var commands = "None";
                 string str;
                 if (group.Commands.Count != 0)
                 {
@@ -345,7 +345,7 @@ namespace xubot.Commands
                     }
                 }
 
-                string subgroup = "None";
+                var subgroup = "None";
                 if (group.Submodules.Count != 0)
                 {
                     subgroup = "";
@@ -355,13 +355,13 @@ namespace xubot.Commands
                     }
                 }
 
-                string trueSummary = "No summary given.";
+                var trueSummary = "No summary given.";
                 if (group.Summary != null) trueSummary = group.Summary;
 
-                bool dep = group.Attributes.Contains(new DeprecatedAttribute());
-                string nsfwPossibility = group.Attributes.Contains(new NsfwPossibilityAttribute()) ? (group.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute ?? new NsfwPossibilityAttribute()).Warnings : null;
+                var dep = group.Attributes.Contains(new DeprecatedAttribute());
+                var nsfwPossibility = group.Attributes.Contains(new NsfwPossibilityAttribute()) ? (group.Attributes.First(x => x is NsfwPossibilityAttribute) as NsfwPossibilityAttribute ?? new NsfwPossibilityAttribute()).Warnings : null;
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Help", "The newer *better* help. For more specifics, combine the group and command.", Color.Magenta);
+                var embed = Util.Embed.GetDefaultEmbed(Context, "Help", "The newer *better* help. For more specifics, combine the group and command.", Color.Magenta);
                 embed.Fields = new List<EmbedFieldBuilder>
                 {
                     new()
@@ -417,8 +417,8 @@ namespace xubot.Commands
             if (module == null) return "";
             if (module.Group == null) return "";
 
-            string output = "";
-            ModuleInfo check = module;
+            var output = "";
+            var check = module;
 
             do
             {

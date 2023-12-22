@@ -44,9 +44,9 @@ namespace xubot.Commands
             [Command("repeat"), Alias("r"), Summary("Repeats a string a given amount of times."), RequireUserPermission(ChannelPermission.ManageMessages)]
             public async Task Repeat(string message, int loop, string sep)
             {
-                string echoRes = "";
+                var echoRes = "";
 
-                for (int i = 0; i <= loop; i++)
+                for (var i = 0; i <= loop; i++)
                 {
                     echoRes += message + sep;
                 }
@@ -89,8 +89,8 @@ namespace xubot.Commands
             [Command("list"), Summary("Displays the insult arrays' contents.")]
             public async Task List()
             {
-                string v = "**V**(itim): `[";
-                for (int i = 0; i < insultVictimIndex; i++)
+                var v = "**V**(itim): `[";
+                for (var i = 0; i < insultVictimIndex; i++)
                 {
                     v += insultVictim[i];
 
@@ -102,8 +102,8 @@ namespace xubot.Commands
                 v += "]`";
 
                 // ReSharper disable once StringLiteralTypo
-                string a = "**A**(djective): `[";
-                for (int i = 0; i < insultAdjectiveIndex; i++)
+                var a = "**A**(djective): `[";
+                for (var i = 0; i < insultAdjectiveIndex; i++)
                 {
                     a += insultAdjective[i];
 
@@ -114,8 +114,8 @@ namespace xubot.Commands
                 }
                 a += "]`";
 
-                string n = "**N**(oun): `[";
-                for (int i = 0; i < insultNounIndex; i++)
+                var n = "**N**(oun): `[";
+                for (var i = 0; i < insultNounIndex; i++)
                 {
                     n += insultNoun[i];
 
@@ -126,7 +126,7 @@ namespace xubot.Commands
                 }
                 n += "]`";
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "List of Insults", "To add something to any list, use `[>insult add [LIST LETTER in BOLD] [STRING]`.", Color.Orange);
+                var embed = Util.Embed.GetDefaultEmbed(Context, "List of Insults", "To add something to any list, use `[>insult add [LIST LETTER in BOLD] [STRING]`.", Color.Orange);
                 embed.Fields = new List<EmbedFieldBuilder>
                 {
                     new()
@@ -180,10 +180,10 @@ namespace xubot.Commands
             [Command("generate"), Summary("Generates an insult.")]
             public async Task Gen()
             {
-                Random rnd = Util.Globals.Rng;
-                int insultVUse = rnd.Next(insultVictimIndex);
-                int insultAUse = rnd.Next(insultAdjectiveIndex);
-                int insultNUse = rnd.Next(insultNounIndex);
+                var rnd = Util.Globals.Rng;
+                var insultVUse = rnd.Next(insultVictimIndex);
+                var insultAUse = rnd.Next(insultAdjectiveIndex);
+                var insultNUse = rnd.Next(insultNounIndex);
 
                 await ReplyAsync(insultVictim[insultVUse] + insultAdjective[insultAUse] + insultNoun[insultNUse]);
             }
@@ -196,7 +196,7 @@ namespace xubot.Commands
             [Command("generate"), Summary("Generates a premade pattern using a search term.")]
             public async Task GeneratePreset(string searchqueue, string emo1, string emo2)
             {
-                for (int i = 0; i < pattern.Length; i++)
+                for (var i = 0; i < pattern.Length; i++)
                 {
                     pattern[i] = PatternPresets.ReturnQuery(searchqueue, 1).Replace("0", emo1).Replace("1", emo2);
                 }
@@ -235,11 +235,11 @@ namespace xubot.Commands
             [Command("twitter"), Alias("t", "twit"), Summary("Attempts to post a thing to Twitter. Substitute `@` and `#` with [A] and [H] prospectively.")]
             public async Task TweetPost(string content)
             {
-                string result = content.Replace("[A]", "@").Replace("[H]", "#");
+                var result = content.Replace("[A]", "@").Replace("[H]", "#");
 
                 if ((Context.Message.Author.Username + "#" + Context.Message.Author.Discriminator + ": " + result).Length < 280)
                 {
-                    ITweet twt = await Twitter.Tweets.PublishTweetAsync($"{Context.Message.Author.Username}#{Context.Message.Author.Discriminator}: {result}");
+                    var twt = await Twitter.Tweets.PublishTweetAsync($"{Context.Message.Author.Username}#{Context.Message.Author.Discriminator}: {result}");
 
                     await ReplyAsync(twt.Url);
                 }
@@ -403,7 +403,7 @@ namespace xubot.Commands
             [Command("gen"), Summary("Makes a random integer with the number given as maximum.")]
             public async Task RndDefault(int max)
             {
-                Random rnd = Util.Globals.Rng;
+                var rnd = Util.Globals.Rng;
 
                 await ReplyAsync($"Random number generated: **{rnd.Next(max)}**");
             }

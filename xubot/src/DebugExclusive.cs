@@ -53,9 +53,9 @@ namespace xubot {
         public async Task Test003(ulong id)
         {
             MoodTools.AddOrRefreshMood(Program.XuClient.GetUser(id));
-            double mood = MoodTools.ReadMood(Program.XuClient.GetUser(id));
+            var mood = MoodTools.ReadMood(Program.XuClient.GetUser(id));
 
-            string moodAsStr = mood switch
+            var moodAsStr = mood switch
             {
                 >= -16 and <= 16 => "neutral",
                 <= -16 => "negative",
@@ -102,8 +102,8 @@ namespace xubot {
         [Command("li")]
         public async Task Test006()
         {
-            List<SocketGuild> guildList = Program.XuClient.Guilds.ToList();
-            string all = "";
+            var guildList = Program.XuClient.Guilds.ToList();
+            var all = "";
 
             foreach (var item in guildList)
             {
@@ -116,7 +116,7 @@ namespace xubot {
         [Command("attachment data")]
         public async Task Test007()
         {
-            string all = $"c: {Context.Message.Attachments.Count}\nl: <{Util.File.ReturnLastAttachmentUrl(Context)}>\nf:";
+            var all = $"c: {Context.Message.Attachments.Count}\nl: <{Util.File.ReturnLastAttachmentUrl(Context)}>\nf:";
 
             await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "/download_success.data");
 
@@ -130,7 +130,7 @@ namespace xubot {
             {
                 await Util.File.DownloadLastAttachmentAsync(Context, Path.GetTempPath() + "manip", true);
                 await ReplyAsync("past download");
-                string type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
+                var type = Path.GetExtension(Util.File.ReturnLastAttachmentUrl(Context));
                 await ReplyAsync("type retrieved");
 
                 await ReplyAsync("going into the `using (var img = SLImage.Load(Path.GetTempPath() + \"manip\" + type))` block");
@@ -157,7 +157,7 @@ namespace xubot {
         {
             try
             {
-                IDMChannel ifDm = await Context.Message.Author.CreateDMChannelAsync();
+                var ifDm = await Context.Message.Author.CreateDMChannelAsync();
                 // ITextChannel dMtoTxt = ifDm as ITextChannel;
                 // ITextChannel sTtoTxt = Context.Channel as ITextChannel;
 

@@ -29,7 +29,7 @@ namespace xubot
 
         public static string ReturnQuery(string searchTerm, int patternId)
         {
-            int index = (patternId - 1) % 5;
+            var index = (patternId - 1) % 5;
             return Patterns.ContainsKey(searchTerm) ? Patterns[searchTerm][index] : "FAILURE";
         }
     }

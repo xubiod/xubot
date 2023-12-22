@@ -12,11 +12,11 @@ namespace xubot.Commands
         [Command("list-directory")]
         public async Task ListDirectory(string where)
         {
-            string[] files = Directory.GetFiles(where);
+            var files = Directory.GetFiles(where);
 
-            string result = "";
+            var result = "";
 
-            foreach (string file in files)
+            foreach (var file in files)
             {
                 result += file + "\n";
             }
@@ -26,7 +26,7 @@ namespace xubot.Commands
                 result = result.Substring(0, 1015) + "...";
             }
 
-            EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, "Superuser - Directory", where, Color.DarkOrange);
+            var embed = Util.Embed.GetDefaultEmbed(Context, "Superuser - Directory", where, Color.DarkOrange);
             embed.Fields = new List<EmbedFieldBuilder>
             {
                 new()

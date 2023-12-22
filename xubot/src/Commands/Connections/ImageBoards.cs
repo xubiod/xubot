@@ -45,7 +45,7 @@ namespace xubot.Commands.Connections
         {
             try
             {
-                string lastInput = inputs.Last();
+                var lastInput = inputs.Last();
 
                 if (bool.TryParse(lastInput, out var hide))
                 {
@@ -56,7 +56,7 @@ namespace xubot.Commands.Connections
                     hide = false;
                 }
 
-                SearchResult post = await booru.GetRandomPostAsync(inputs);
+                var post = await booru.GetRandomPostAsync(inputs);
 
                 await PostNsfwMessage(context, $"{(hide ? "|| " : "")}{post.FileUrl.AbsoluteUri}{(hide ? " ||" : "")}", post.Rating != Rating.Safe);
             }
@@ -76,7 +76,7 @@ namespace xubot.Commands.Connections
 
             if (forceFail && !await Util.IsChannelNsfwAsync(context))
             {
-                string retrieveKey = Util.String.RandomHexadecimal(8);
+                var retrieveKey = Util.String.RandomHexadecimal(8);
 
                 await ReplyAsync($"The bot got a post deemed questionable or explicit. Try again in a NSFW channel.\nYou (the requester) can retrieve this image *once* appropriate later with the key `{Program.Prefix}booru-get {retrieveKey}` on **this server only**.\n" +
                                   "The server limitation is here to keep in line Discord's age gating.");
@@ -202,7 +202,7 @@ namespace xubot.Commands.Connections
 
             try
             {
-                Entry exists = CaughtFromBeingSent.First(x => x.Key.UserId == Context.Message.Author.Id && x.Key.GuildId == Context.Guild.Id && x.Key.Key == key).Key;
+                var exists = CaughtFromBeingSent.First(x => x.Key.UserId == Context.Message.Author.Id && x.Key.GuildId == Context.Guild.Id && x.Key.Key == key).Key;
 
                 if (exists != null)
                 {

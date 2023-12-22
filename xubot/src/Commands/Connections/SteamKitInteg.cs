@@ -23,7 +23,7 @@ namespace xubot.Commands.Connections
         [Command("user", RunMode = RunMode.Async), Summary("Gets information about a Steam user based on their ID.")]
         public async Task User(ulong id)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
+            using var wb = new Util.WorkingBlock(Context);
             try
             {
                 KeyValue ownedGames = PlayerServiceInterface.GetOwnedGames(steamid: id, include_appinfo: 1);
@@ -35,16 +35,16 @@ namespace xubot.Commands.Connections
                 decimal twoWeeks = 0;
                 decimal forever = 0;
 
-                string mostTimeIn = "";
+                var mostTimeIn = "";
                 decimal mostTime = 0;
 
-                string mostWeekIn = "";
+                var mostWeekIn = "";
                 decimal mostWeek = 0;
 
                 EmbedFieldBuilder mostWeekField = new() { Name = "Most Playtime (2 wks)", Value = "Has not played in last 2 weeks.", IsInline = true };
                 EmbedFieldBuilder mostTimeField = new() { Name = "Most Playtime (forever)", Value = "Has not played since account creation (Wha...?)", IsInline = true };
 
-                foreach (KeyValue game in ownedGames["games"].Children)
+                foreach (var game in ownedGames["games"].Children)
                 {
                     forever += game["playtime_forever"].AsInteger();
                     twoWeeks += game["playtime_2weeks"].AsInteger();
@@ -72,19 +72,19 @@ namespace xubot.Commands.Connections
                     mostTimeField.Value = $"In App\n**__{mostTimeIn}__**: {mostTime:#,###} minutes\n{mostTime / 60:#,###0.0} hours";
                 }
 
-                ulong lastLogOffUnsigned = playerSummaries["lastlogoff"].AsUnsignedLong();
-                DateTime lastLogOff = Util.UnixTimeStampToDateTime(lastLogOffUnsigned);
+                var lastLogOffUnsigned = playerSummaries["lastlogoff"].AsUnsignedLong();
+                var lastLogOff = Util.UnixTimeStampToDateTime(lastLogOffUnsigned);
 
-                ulong timeCreatedUnsigned = playerSummaries["timecreated"].AsUnsignedLong();
-                DateTime timeCreated = Util.UnixTimeStampToDateTime(timeCreatedUnsigned);
+                var timeCreatedUnsigned = playerSummaries["timecreated"].AsUnsignedLong();
+                var timeCreated = Util.UnixTimeStampToDateTime(timeCreatedUnsigned);
 
-                TimeSpan lastLogOffToNow = DateTime.Now - lastLogOff;
-                TimeSpan createdToNow = DateTime.Now - timeCreated;
+                var lastLogOffToNow = DateTime.Now - lastLogOff;
+                var createdToNow = DateTime.Now - timeCreated;
 
-                string playing = "";
+                var playing = "";
                 if (playerSummaries["gameid"].AsInteger() != 0) playing = $"Currently playing **{ReturnAppName(playerSummaries["gameid"].AsInteger())}**";
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Steam User: {playerSummaries["personaname"].AsString()} ({id.ToString()})", "Data obtained Steam WebAPI using SteamKit2", Color.DarkBlue);
+                var embed = Util.Embed.GetDefaultEmbed(Context, $"Steam User: {playerSummaries["personaname"].AsString()} ({id.ToString()})", "Data obtained Steam WebAPI using SteamKit2", Color.DarkBlue);
                 embed.ThumbnailUrl = playerSummaries["avatarfull"].AsString();
 
                 if (playerSummaries["communityvisibilitystate"].AsInteger(1) == 3 /* public, don't ask why */)
@@ -172,21 +172,21 @@ namespace xubot.Commands.Connections
         [Command("news", RunMode = RunMode.Async), Summary("Gets news for a game via it's ID.")]
         public async Task News(int appid, int cap = 5)
         {
-            using Util.WorkingBlock wb = new Util.WorkingBlock(Context);
+            using var wb = new Util.WorkingBlock(Context);
             try
             {
                 KeyValue news = SteamNewsInterface.GetNewsForApp0002(appid: appid);
 
                 news = news["newsitems"];
-                int amount = System.Math.Min(System.Math.Min(news.Children.Count, cap), 5);
+                var amount = System.Math.Min(System.Math.Min(news.Children.Count, cap), 5);
 
-                List<EmbedFieldBuilder> articleDetails = new List<EmbedFieldBuilder>();
+                var articleDetails = new List<EmbedFieldBuilder>();
 
-                for (int i = 0; i < amount; i++)
+                for (var i = 0; i < amount; i++)
                 {
                     Uri articleUri = new(news.Children[i]["url"].AsString() ?? string.Empty);
 
-                    string label = "";
+                    var label = "";
                     if (news.Children[i]["feedlabel"].AsString() != "Community Announcements") label = "\n*(" + news.Children[i]["feedlabel"].AsString() + ")*";
 
                     articleDetails.Add(new EmbedFieldBuilder
@@ -197,7 +197,7 @@ namespace xubot.Commands.Connections
                     });
                 }
 
-                EmbedBuilder embed = Util.Embed.GetDefaultEmbed(Context, $"Latest {amount} news articles for the app: {ReturnAppName(appid)}", "Data obtained Steam WebAPI using SteamKit2", Color.DarkBlue);
+                var embed = Util.Embed.GetDefaultEmbed(Context, $"Latest {amount} news articles for the app: {ReturnAppName(appid)}", "Data obtained Steam WebAPI using SteamKit2", Color.DarkBlue);
                 embed.Fields = articleDetails;
 
                 await ReplyAsync("", false, embed.Build());
@@ -212,7 +212,7 @@ namespace xubot.Commands.Connections
         [Command("news", RunMode = RunMode.Async), Summary("Gets news for a game via it's name on Steam. (HAS TO BE EXACT)")]
         public async Task News(params string[] args)
         {
-            string name = "";
+            var name = "";
             // int lastStringIndex = args.Length - 2;
 
             if (!int.TryParse(args.Last(), out var cap))
@@ -234,7 +234,7 @@ namespace xubot.Commands.Connections
         {
             KeyValue appList = SteamAppsInterface.GetAppList2()["apps"];
 
-            KeyValue app = appList.Children.Find(x => x["appid"].AsInteger() == appId);
+            var app = appList.Children.Find(x => x["appid"].AsInteger() == appId);
 
             return app?["name"].AsString();
         }
@@ -244,7 +244,7 @@ namespace xubot.Commands.Connections
             try
             {
                 KeyValue appList = SteamAppsInterface.GetAppList2()["apps"];
-                KeyValue app = appList.Children.Find(x => x["name"].AsString() == appName);
+                var app = appList.Children.Find(x => x["name"].AsString() == appName);
 
                 return app != null ? app["appid"].AsInteger() : 0;
             }

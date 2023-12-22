@@ -14,7 +14,7 @@ namespace xubot.Modular
         {
             if (from == null) return null;
 
-            EmbedBuilder to = new EmbedBuilder
+            var to = new EmbedBuilder
             {
                 Title = from.Title,
                 Description = from.Description,

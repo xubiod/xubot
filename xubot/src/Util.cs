@@ -36,7 +36,7 @@ namespace xubot
 
             public static async Task BuildErrorAsync(IResult result, CommandContext context)
             {
-                EmbedBuilder embed = GetErrorBoilerplate();
+                var embed = GetErrorBoilerplate();
 
                 var error = result.Error;
                 if (error == null) return;
@@ -63,7 +63,7 @@ namespace xubot
 
             public static async Task BuildErrorAsync(CommandError err, CommandContext context)
             {
-                EmbedBuilder embed = GetErrorBoilerplate();
+                var embed = GetErrorBoilerplate();
 
                 embed.Fields =
                 [
@@ -80,12 +80,12 @@ namespace xubot
 
             public static async Task BuildErrorAsync(Exception exp, ICommandContext context)
             {
-                string stack = exp.StackTrace;
+                var stack = exp.StackTrace;
                 if (stack == null) return;
 
-                string file = Environment.CurrentDirectory + Global.Default.ExceptionLogLocation + DateTime.UtcNow.ToLongTimeString().Replace(':', '_') + ".nonfatal.txt";
+                var file = Environment.CurrentDirectory + Global.Default.ExceptionLogLocation + DateTime.UtcNow.ToLongTimeString().Replace(':', '_') + ".nonfatal.txt";
 
-                bool stacktraceToFile = stack.Length > 512;
+                var stacktraceToFile = stack.Length > 512;
 
                 Directory.CreateDirectory(Environment.CurrentDirectory + Global.Default.ExceptionLogLocation);
                 await System.IO.File.WriteAllTextAsync(file, stack);
@@ -100,7 +100,7 @@ namespace xubot
                     stack = "Settings prevent the sending of any stack trace. Check exception logs for a *.nonfatal.txt file.";
                 }
 
-                EmbedBuilder embed = GetErrorBoilerplate();
+                var embed = GetErrorBoilerplate();
 
                 embed.Description = $"It's a ***{exp.GetType()}***.";
                 embed.Fields =
@@ -143,7 +143,7 @@ namespace xubot
 
             public static async Task BuildErrorAsync(string problem, ICommandContext context)
             {
-                EmbedBuilder embed = GetErrorBoilerplate();
+                var embed = GetErrorBoilerplate();
                 embed.Fields =
                 [
                     new EmbedFieldBuilder
@@ -159,7 +159,7 @@ namespace xubot
 
             public static async Task BuildErrorAsync(object problem, ICommandContext context)
             {
-                EmbedBuilder embed = GetErrorBoilerplate();
+                var embed = GetErrorBoilerplate();
 
                 embed.Description = "It's a dedicated ***" + problem.GetType() + "*** issue.";
                 embed.Fields =
@@ -270,8 +270,8 @@ namespace xubot
 
             public static string RandomHexadecimal(int length = 32)
             {
-                string output = "";
-                for (int i = 0; i < length; i++) output += Globals.HexadecimalChars[Globals.Rng.Next(Globals.HexadecimalChars.Length)];
+                var output = "";
+                for (var i = 0; i < length; i++) output += Globals.HexadecimalChars[Globals.Rng.Next(Globals.HexadecimalChars.Length)];
 
                 return output;
             }
@@ -294,7 +294,7 @@ namespace xubot
                 var attach = context.Message.Attachments;
                 List<string> results = new();
 
-                foreach (IAttachment att in attach)
+                foreach (var att in attach)
                 {
                     results.Add(att.Url);
                 }
@@ -310,15 +310,15 @@ namespace xubot
             public static async Task DownloadFromUrlAsync(string localUrl, string url, bool autoApplyFileType = false)
             {
                 using HttpClient client = new();
-                using HttpResponseMessage response = await client.GetAsync(url);
-                using HttpContent content = response.Content;
+                using var response = await client.GetAsync(url);
+                using var content = response.Content;
                 if (!autoApplyFileType)
                 {
                     await System.IO.File.WriteAllBytesAsync(localUrl, await content.ReadAsByteArrayAsync());
                 }
                 else
                 {
-                    string type = Path.GetExtension(url);
+                    var type = Path.GetExtension(url);
                     await System.IO.File.WriteAllBytesAsync(localUrl + type, await content.ReadAsByteArrayAsync());
                 }
             }
@@ -333,7 +333,7 @@ namespace xubot
 
             public static async Task<IUserMessage> PersistLogAsync(string message, ICommandContext context)
             {
-                string logAs = $"{DateTime.Now.ToLongTimeString()}]: {message}";
+                var logAs = $"{DateTime.Now.ToLongTimeString()}]: {message}";
                 Console.WriteLine(logAs);
                 if (context != null) return await context.Channel.SendMessageAsync($"`{logAs}`");
                 return null;
@@ -341,7 +341,7 @@ namespace xubot
 
             public static async Task PersistLogAsync(string message, IUserMessage append)
             {
-                string logAs = $"[{DateTime.Now.ToLongTimeString()}]: {message}";
+                var logAs = $"[{DateTime.Now.ToLongTimeString()}]: {message}";
                 Console.WriteLine(logAs);
                 if (append != null) await append.ModifyAsync(x => x.Content = $"{append.Content}\n`{logAs}`");
             }
@@ -386,7 +386,7 @@ namespace xubot
 
                 _untilLonger = Task.Factory.StartNew(() =>
                 {
-                    for (int i = 0; i < _delay / _taskPollLength; i++) {
+                    for (var i = 0; i < _delay / _taskPollLength; i++) {
                         Thread.Sleep(_taskPollLength);
                         if (_cancelToken.IsCancellationRequested)
                             return;
@@ -460,13 +460,13 @@ namespace xubot
 
             if (await IsDmChannelAsync(context)) return Global.Default.DMsAlwaysNSFW;
 
-            ITextChannel c = context.Channel as ITextChannel;
+            var c = context.Channel as ITextChannel;
             return c?.IsNsfw ?? false;
         }
 
         public static async Task<bool> IsDmChannelAsync(ICommandContext context)
         {
-            IDMChannel ifDm = await context.Message.Author.CreateDMChannelAsync();
+            var ifDm = await context.Message.Author.CreateDMChannelAsync();
 
             return ifDm.Id == context.Channel.Id;
         }
