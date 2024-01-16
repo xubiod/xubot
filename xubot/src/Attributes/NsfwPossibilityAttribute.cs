@@ -1,25 +1,19 @@
 ﻿using System;
 
-namespace xubot.Attributes
+namespace xubot.Attributes;
+
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = false)]
+public class NsfwPossibilityAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = false)]
-    public class NsfwPossibilityAttribute : Attribute
+    public string Warnings { get; }
+
+    public NsfwPossibilityAttribute()
     {
-        public string Warnings { get; }
+        Warnings = "Unspecified";
+    }
 
-        public NsfwPossibilityAttribute()
-        {
-            Warnings = "Unspecified";
-        }
-
-        public NsfwPossibilityAttribute(string warnings)
-        {
-            Warnings = warnings;
-        }
-
-        public string GetWarnings()
-        {
-            return Warnings;
-        }
+    public NsfwPossibilityAttribute(string warnings)
+    {
+        Warnings = warnings;
     }
 }

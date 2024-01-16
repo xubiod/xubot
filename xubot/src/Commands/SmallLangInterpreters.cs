@@ -1,156 +1,155 @@
-﻿namespace xubot.Commands
+﻿namespace xubot.Commands;
+
+public static class SmallLangInterpreters
 {
-    public static class SmallLangInterpreters
+    //adapted from https://esolangs.org/wiki/Deadfish#C.23
+    public class Deadfish
     {
-        //adapted from https://esolangs.org/wiki/Deadfish#C.23
-        public class Deadfish
+        private static string _output = "";
+
+        private static int _cell;
+
+        public static string Execute(string input)
         {
-            private static string _output = "";
+            input = input.Replace(((char)13).ToString(), "");
 
-            private static int _cell;
+            _output = "";
+            _cell = 0;
 
-            public static string Execute(string input)
+            foreach (var c in input)
             {
-                input = input.Replace(((char)13).ToString(), "");
-
-                _output = "";
-                _cell = 0;
-
-                foreach (var c in input)
+                switch (c)
                 {
-                    switch (c)
+                    case 'i':
+                        _cell++;
+                        break;
+                    case 'd':
+                        _cell--;
+                        break;
+                    case 's':
                     {
-                        case 'i':
-                            _cell++;
-                            break;
-                        case 'd':
-                            _cell--;
-                            break;
-                        case 's':
-                        {
-                            var i = _cell * _cell;
-                            _cell = i;
-                            break;
-                        }
-                        case 'o':
-                            _output += _cell.ToString();
-                            break;
-                        default:
-                            // ignore
-                            break;
+                        var i = _cell * _cell;
+                        _cell = i;
+                        break;
                     }
-
-                    if (_cell == -1 || _cell == 256)
-                    {
-                        _cell = 0;
-                    }
-                }
-
-                return _output;
-            }
-        }
-
-        // adapted from https://github.com/james1345-1/Brainfuck/blob/master/C%23/Brainfuck.cs
-        public class Brainfuck
-        {
-            private static char[] _memory;
-            private static int _memoryPointer;
-
-            private static char[] _actions;
-            private static int _actionPointer;
-
-            private static char[] _inputs;
-            private static int _inputPointer;
-
-            private static char _;
-            private static string _output;
-
-            public static string Execute(string input, string asciiInput = "a")
-            {
-                // initialize/reset variables
-                _memory = new char[10000];
-                _memoryPointer = 0;
-
-                _actions = input.ToCharArray();
-                _actionPointer = 0;
-
-                _inputs = asciiInput.ToCharArray();
-                _inputPointer = 0;
-
-                _output = "";
-
-                while (_actionPointer < _actions.Length)
-                {
-                    _ = _actions[_actionPointer];
-
-                    DoInstruction(_);
-
-                    // increment instruction mp
-                    _actionPointer++;
-                }
-
-                return _output;
-            }
-
-            private static void DoInstruction(char instruction)
-            {
-                switch (instruction)
-                {
-                    case '>':
-                        {
-                            _memoryPointer++;
-                            break;
-                        }
-                    case '<':
-                        {
-                            _memoryPointer--;
-                            break;
-                        }
-                    case '+':
-                        {
-                            _memory[_memoryPointer]++;
-                            break;
-                        }
-                    case '-':
-                        {
-                            _memory[_memoryPointer]--;
-                            break;
-                        }
-                    case '.':
-                        {
-                            _output += _memory[_memoryPointer];
-                            break;
-                        }
-                    case ',':
-                        try
-                        {
-                            _memory[_memoryPointer] = _inputs[_inputPointer];
-                            _inputPointer++;
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-
+                    case 'o':
+                        _output += _cell.ToString();
                         break;
-                    case '[':
-                        if (_memory[_memoryPointer] == 0)
-                        {
-                            while (_actions[_actionPointer] != ']') _actionPointer++;
-                        }
-                        break;
-
-                    case ']':
-                        if (_memory[_memoryPointer] != 0)
-                        {
-                            while (_actions[_actionPointer] != '[') _actionPointer--;
-                        }
-                        break;
-                    
                     default:
                         // ignore
                         break;
                 }
+
+                if (_cell == -1 || _cell == 256)
+                {
+                    _cell = 0;
+                }
+            }
+
+            return _output;
+        }
+    }
+
+    // adapted from https://github.com/james1345-1/Brainfuck/blob/master/C%23/Brainfuck.cs
+    public class Brainfuck
+    {
+        private static char[] _memory;
+        private static int _memoryPointer;
+
+        private static char[] _actions;
+        private static int _actionPointer;
+
+        private static char[] _inputs;
+        private static int _inputPointer;
+
+        private static char _;
+        private static string _output;
+
+        public static string Execute(string input, string asciiInput = "a")
+        {
+            // initialize/reset variables
+            _memory = new char[10000];
+            _memoryPointer = 0;
+
+            _actions = input.ToCharArray();
+            _actionPointer = 0;
+
+            _inputs = asciiInput.ToCharArray();
+            _inputPointer = 0;
+
+            _output = "";
+
+            while (_actionPointer < _actions.Length)
+            {
+                _ = _actions[_actionPointer];
+
+                DoInstruction(_);
+
+                // increment instruction mp
+                _actionPointer++;
+            }
+
+            return _output;
+        }
+
+        private static void DoInstruction(char instruction)
+        {
+            switch (instruction)
+            {
+                case '>':
+                {
+                    _memoryPointer++;
+                    break;
+                }
+                case '<':
+                {
+                    _memoryPointer--;
+                    break;
+                }
+                case '+':
+                {
+                    _memory[_memoryPointer]++;
+                    break;
+                }
+                case '-':
+                {
+                    _memory[_memoryPointer]--;
+                    break;
+                }
+                case '.':
+                {
+                    _output += _memory[_memoryPointer];
+                    break;
+                }
+                case ',':
+                    try
+                    {
+                        _memory[_memoryPointer] = _inputs[_inputPointer];
+                        _inputPointer++;
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+
+                    break;
+                case '[':
+                    if (_memory[_memoryPointer] == 0)
+                    {
+                        while (_actions[_actionPointer] != ']') _actionPointer++;
+                    }
+                    break;
+
+                case ']':
+                    if (_memory[_memoryPointer] != 0)
+                    {
+                        while (_actions[_actionPointer] != '[') _actionPointer--;
+                    }
+                    break;
+                    
+                default:
+                    // ignore
+                    break;
             }
         }
     }
