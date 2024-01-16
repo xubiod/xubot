@@ -9,6 +9,12 @@ internal class OfflineMessage : IUserMessage
 {
     public IUserMessage ReferencedMessage { get; set; }
 
+    public IAsyncEnumerable<IReadOnlyCollection<IUser>> GetReactionUsersAsync(IEmote emoji, int limit, RequestOptions options = null,
+        ReactionType type = ReactionType.Normal)
+    {
+        throw new NotImplementedException();
+    }
+
     public MessageType Type { get; set; }
 
     public MessageSource Source { get; set; }
@@ -164,6 +170,8 @@ internal class OfflineMessage : IUserMessage
 
         return emit;
     }
+
+    public MessageResolvedData ResolvedData { get; }
 
     public Task UnpinAsync(RequestOptions options = null)
     {

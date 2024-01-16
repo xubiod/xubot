@@ -8,6 +8,11 @@ namespace xubot.Offline;
 
 internal class OfflineUser : ISelfUser
 {
+    public string GetAvatarDecorationUrl()
+    {
+        throw new NotImplementedException();
+    }
+
     public string AvatarId => null;
 
     public string Discriminator => "0000";
@@ -21,6 +26,9 @@ internal class OfflineUser : ISelfUser
     public string Username => "OfflineUser";
 
     public UserProperties? PublicFlags => null;
+    public string GlobalName { get; }
+    public string AvatarDecorationHash { get; }
+    public ulong? AvatarDecorationSkuId { get; }
 
     public DateTimeOffset CreatedAt => DateTimeOffset.MinValue;
 
@@ -62,6 +70,11 @@ internal class OfflineUser : ISelfUser
     public string GetDefaultAvatarUrl()
     {
         return "";
+    }
+
+    public string GetDisplayAvatarUrl(ImageFormat format = ImageFormat.Auto, ushort size = 128)
+    {
+        throw new NotImplementedException();
     }
 
     public Task<IDMChannel> GetOrCreateDMChannelAsync(RequestOptions options = null)
