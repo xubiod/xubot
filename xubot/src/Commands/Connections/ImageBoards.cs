@@ -12,18 +12,11 @@ namespace xubot.Commands.Connections;
 
 public class ImageBoards : ModuleBase
 {
-    private class Entry
+    private class Entry(ulong userId, ulong guildId, string key)
     {
-        public ulong UserId { get; }
-        public ulong GuildId { get; }
-        public string Key { get; }
-
-        public Entry(ulong userId, ulong guildId, string key)
-        {
-            UserId = userId;
-            GuildId = guildId;
-            Key = key;
-        }
+        public ulong UserId { get; } = userId;
+        public ulong GuildId { get; } = guildId;
+        public string Key { get; } = key;
     }
 
     private static readonly ABooru Danbooru =       new DanbooruDonmai();
