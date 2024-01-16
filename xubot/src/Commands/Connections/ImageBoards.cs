@@ -19,18 +19,22 @@ public class ImageBoards : ModuleBase
         public string Key { get; } = key;
     }
 
-    private static readonly ABooru Danbooru =       new DanbooruDonmai();
-    private static readonly ABooru E621 =           new E621();
-    private static readonly ABooru Rule34 =         new Rule34();
-    private static readonly ABooru Gelbooru =       new Gelbooru();
-    private static readonly ABooru Yandere =        new Yandere();
-    private static readonly ABooru E926 =           new E926();
-    private static readonly ABooru Safebooru =      new Safebooru();
-    private static readonly ABooru Konachan =       new Konachan();
     private static readonly ABooru Allthefallen =   new Atfbooru();
-    private static readonly ABooru Sankakucomplex = new SankakuComplex();
-    private static readonly ABooru Sakugabooru =    new Sakugabooru();
+    private static readonly ABooru Danbooru =       new DanbooruDonmai();
+    private static readonly ABooru Derpibooru =     new Derpibooru();
+    private static readonly ABooru E621 =           new E621();
+    private static readonly ABooru E926 =           new E926();
+    private static readonly ABooru Gelbooru =       new Gelbooru();
+    private static readonly ABooru Konachan =       new Konachan();
+    private static readonly ABooru Ponybooru =      new Ponybooru();
     private static readonly ABooru Realbooru =      new Realbooru();
+    private static readonly ABooru Rule34 =         new Rule34();
+    private static readonly ABooru Safebooru =      new Safebooru();
+    private static readonly ABooru Sakugabooru =    new Sakugabooru();
+    private static readonly ABooru Sankakucomplex = new SankakuComplex();
+    private static readonly ABooru Twibooru =       new Twibooru();
+    private static readonly ABooru Xbooru =         new Xbooru();
+    private static readonly ABooru Yandere =        new Yandere();
 
     private static readonly Dictionary<Entry, string> CaughtFromBeingSent = new();
 
@@ -151,6 +155,8 @@ public class ImageBoards : ModuleBase
         await GetRandomPostFrom(Context, Konachan, inputs);
     }
 
+    // TODO: unfuck up these attributes below and give some fucking examples, cannot be arsed to make the website urls right atm
+
     [NsfwPossibility("Is a possibility (although not guaranteed).")]
     [Command("atfbooru", RunMode = RunMode.Async), Summary("Retrieves a post from booru.allthefallen.moe. If the last input is a boolean, it counts as a spoiler toggle.")]
     public async Task AtfBooruTask(params string[] inputs)
@@ -181,6 +187,38 @@ public class ImageBoards : ModuleBase
     {
         using Util.WorkingBlock wb = new(Context);
         await GetRandomPostFrom(Context, Realbooru, inputs);
+    }
+
+    [NsfwPossibility("Is a possibility (although not guaranteed).")]
+    [Command("derpibooru", RunMode = RunMode.Async), Summary("Retrieves a post from sakugabooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
+    public async Task DerpibooruTask(params string[] inputs)
+    {
+        using Util.WorkingBlock wb = new(Context);
+        await GetRandomPostFrom(Context, Derpibooru, inputs);
+    }
+
+    [NsfwPossibility("Is a possibility (although not guaranteed).")]
+    [Command("ponybooru", RunMode = RunMode.Async), Summary("Retrieves a post from sakugabooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
+    public async Task PonybooruTask(params string[] inputs)
+    {
+        using Util.WorkingBlock wb = new(Context);
+        await GetRandomPostFrom(Context, Ponybooru, inputs);
+    }
+
+    [NsfwPossibility("Is a possibility (although not guaranteed).")]
+    [Command("twibooru", RunMode = RunMode.Async), Summary("Retrieves a post from sakugabooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
+    public async Task TwibooruTask(params string[] inputs)
+    {
+        using Util.WorkingBlock wb = new(Context);
+        await GetRandomPostFrom(Context, Twibooru, inputs);
+    }
+
+    [NsfwPossibility("Is a possibility (although not guaranteed).")]
+    [Command("xbooru", RunMode = RunMode.Async), Summary("Retrieves a post from sakugabooru.com. If the last input is a boolean, it counts as a spoiler toggle.")]
+    public async Task XbooruTask(params string[] inputs)
+    {
+        using Util.WorkingBlock wb = new(Context);
+        await GetRandomPostFrom(Context, Xbooru, inputs);
     }
 
     [Example("00000000")]
