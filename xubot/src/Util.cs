@@ -446,11 +446,6 @@ namespace xubot
             }
         }
 
-        public static bool IsUserTrusted(ICommandContext context)
-        {
-            return false;
-        }
-
         public static async Task<bool> IsChannelNsfwAsync(ICommandContext context)
         {
             if (!Global.Default.BotwideNSFWEnabled) return false;
