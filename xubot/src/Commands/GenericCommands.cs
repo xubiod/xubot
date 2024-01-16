@@ -21,7 +21,7 @@ namespace xubot.Commands
         private static readonly string[] insultNoun = new string[128];
         private static int insultNounIndex;
 
-        private static readonly string[] pattern = { "01110", "11011", "10001", "11011", "01110" };
+        private static readonly string[] pattern = ["01110", "11011", "10001", "11011", "01110"];
 
         private static readonly TwitterClient Twitter = new(
             new TwitterCredentials(

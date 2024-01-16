@@ -65,7 +65,8 @@ namespace xubot.Modular
                 this.context = context;
 
                 var temp = commandInstances.First(x => x.GetType().GetMethods().Any(y => (y.GetCustomAttribute<CmdNameAttribute>() ?? new CmdNameAttribute("")).Name == command));
-                temp.GetType().GetMethods().First(x => x.GetCustomAttributes<CmdNameAttribute>().First().Name == command).Invoke(temp, new object[] { parameters }); //.Where(x => x is CmdNameAttribute).First() as CmdNameAttribute).name == command) //.GetMethods("Execute").Invoke(temp, new object[]{ parameters });
+                temp.GetType().GetMethods().First(x => x.GetCustomAttributes<CmdNameAttribute>().First().Name == command).Invoke(temp,
+                    [parameters]); //.Where(x => x is CmdNameAttribute).First() as CmdNameAttribute).name == command) //.GetMethods("Execute").Invoke(temp, new object[]{ parameters });
             }
 
             public async Task<string> Unload()

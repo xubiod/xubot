@@ -14,7 +14,7 @@ namespace xubot.Commands
 {
     public class Information : ModuleBase
     {
-        private static readonly string[] DiscordColor = { "Blue", "Grey", "Green", "Yellow", "Red" };
+        private static readonly string[] DiscordColor = ["Blue", "Grey", "Green", "Yellow", "Red"];
         private const string DiscordRegex = "(.+[^#])*(#{1}([0-9]{4})){1}";
 
         //INFORMATION ABOUT SERVER/CHANNEL/USER

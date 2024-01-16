@@ -21,8 +21,11 @@ namespace xubot.Commands.Connections
         private static int _previousSorting = src.BotSettings.Global.Default.StartingRedditSorting;
         private static bool _previousHide = src.BotSettings.Global.Default.StartingRedditHideOutput;
 
-        private static readonly string[] RandomSubs = { "adviceanimals", "askreddit", "aww", "bestof", "books", "earthporn", "explainlikeimfive", "funny", "gaming", "gifs", "iama", "movies", "music",
-                                               "news", "pics", "science", "technology", "television", "todayilearned", "videos", "worldnews", "wtf" };
+        private static readonly string[] RandomSubs =
+        [
+            "adviceanimals", "askreddit", "aww", "bestof", "books", "earthporn", "explainlikeimfive", "funny", "gaming", "gifs", "iama", "movies", "music",
+                                               "news", "pics", "science", "technology", "television", "todayilearned", "videos", "worldnews", "wtf"
+        ];
 
         [Command("reddit?last", RunMode = RunMode.Async), Alias("reddit?l"), Summary("Gets a post from the last subreddit entered."), NsfwPossibility("Anything probably")]
         public async Task DoLastSubreddit()

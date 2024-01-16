@@ -292,12 +292,8 @@ namespace xubot
             public static IEnumerable<string> ReturnAttachmentUrls(ICommandContext context)
             {
                 var attach = context.Message.Attachments;
-                List<string> results = new();
-
-                foreach (var att in attach)
-                {
-                    results.Add(att.Url);
-                }
+                List<string> results = [];
+                results.AddRange(attach.Select(att => att.Url));
 
                 return results;
             }
@@ -350,7 +346,8 @@ namespace xubot
         public static class Globals
         {
             public static readonly Random Rng = new();
-            public static readonly char[] HexadecimalChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+            public static readonly char[] HexadecimalChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+            ];
             public static readonly Emoji Working = new(Global.Default.WorkingReaction);
             public static readonly Emoji Completed = new(Global.Default.WorkCompletedReaction);
             public static readonly Emoji LongerThanExpected = new(Global.Default.WorkTakingLongerReaction);
@@ -370,7 +367,7 @@ namespace xubot
             private readonly int _taskPollLength = Global.Default.TaskPollLength;
             private readonly CancellationTokenSource _cancelToken = new();
 
-            private static readonly IEmote[] RemoveEmotesOnDispose = { Globals.Working, Globals.LongerThanExpected };
+            private static readonly IEmote[] RemoveEmotesOnDispose = [Globals.Working, Globals.LongerThanExpected];
 
             public WorkingBlock(ICommandContext ctx)
             {
