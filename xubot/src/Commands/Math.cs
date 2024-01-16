@@ -272,15 +272,17 @@ public class Math : ModuleBase
         [Command("length"), Alias("height"), Summary("Converts feet to meters to the other using `ft2m` and `m2ft`.")]
         public async Task Length([Summary("double 1")] double num1, string fromTo)
         {
-            /// TODO: actually add a case for nothing, don't assume
             switch (fromTo)
             {
                 case "ft2m":
                     await ReplyAsync($"*Feet to Meters:* {num1 * 0.3048}");
                     break;
-                // case "m2ft":
-                default:
+                case "m2ft":
                     await ReplyAsync($"*Meters to Feet:* {num1 / 0.3048}");
+                    break;
+
+                default:
+                    await ReplyAsync($"*Feet to Meters:* {num1 * 0.3048}\n*Meters to Feet:* {num1 / 0.3048}");
                     break;
             }
         }
