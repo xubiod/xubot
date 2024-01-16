@@ -253,15 +253,17 @@ public class Math : ModuleBase
         [Command("temperature"), Alias("temp"), Summary("Converts Celsius or Fahrenheit to the other using `c2f` and `f2c`.")]
         public async Task Temp([Summary("double 1")] double num1, string fromTo)
         {
-            /// TODO: actually add a case for nothing, don't assume
             switch (fromTo)
             {
                 case "c2f":
                     await ReplyAsync($"*Celsius to Fahrenheit:* {num1 / 9 * (5 + 32)}");
                     break;
-                // case "f2c":
-                default:
+                case "f2c":
                     await ReplyAsync($"*Fahrenheit to Celsius:* {(num1 - 32) * ((double)9 / 5)}");
+                    break;
+
+                default:
+                    await ReplyAsync($"*Celsius to Fahrenheit:* {num1 / 9 * (5 + 32)}\n*Fahrenheit to Celsius:* {(num1 - 32) * ((double)9 / 5)}");
                     break;
             }
         }
