@@ -3,32 +3,16 @@
 namespace xubot.Attributes;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-public class ExampleAttribute : Attribute
+public class ExampleAttribute(string exampleParams, bool attachmentNeeded) : Attribute
 {
-    public string ExampleParameters { get; }
-    public bool AttachmentNeeded { get; }
+    public string ExampleParameters { get; } = exampleParams;
+    public bool AttachmentNeeded { get; } = attachmentNeeded;
 
-    public ExampleAttribute()
+    public ExampleAttribute(string exampleParams = "") : this(exampleParams, false)
     {
-        ExampleParameters = "";
-        AttachmentNeeded = false;
     }
 
-    public ExampleAttribute(string exampleParams)
+    public ExampleAttribute(bool attachmentNeeded) : this("", attachmentNeeded)
     {
-        ExampleParameters = exampleParams;
-        AttachmentNeeded = false;
-    }
-
-    public ExampleAttribute(bool attachmentNeeded)
-    {
-        ExampleParameters = "";
-        AttachmentNeeded = attachmentNeeded;
-    }
-
-    public ExampleAttribute(string exampleParams, bool attachmentNeeded)
-    {
-        ExampleParameters = exampleParams;
-        AttachmentNeeded = attachmentNeeded;
     }
 }
